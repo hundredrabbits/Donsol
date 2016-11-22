@@ -1,3 +1,9 @@
+
+const HEART = 1;
+const DIAMOND = 2;
+const CLOVE = 3;
+const SPADE = 4;
+
 function Donsol()
 {
   this.game = new Game();

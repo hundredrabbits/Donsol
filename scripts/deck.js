@@ -1,16 +1,22 @@
 function Deck()
 {
-  this.cards = [];
-  this.draw_pile = [];
+  this.cards = [
+    new Card(1,HEART),
+    new Card(2,DIAMOND),
+    new Card(3,CLOVE),
+    new Card(4,SPADE),
+  ];
+  
+  var draw_pile = [];
   
   this.start = function()
   {
-    this.draw_pile = shuffle(this.cards);
+    draw_pile = shuffle(this.cards);
   }
   
   this.draw_card = function()
   {
-    return this.draw_pile.splice();
+    return draw_pile.splice(0,1)[0];
   }
   
   function shuffle(array) {

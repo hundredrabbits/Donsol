@@ -1,4 +1,4 @@
 body { background:black;}
 
-#board { display:block; background:red; width:600px; height:300px; margin:100px auto;}
-card { display:block; background:blue;}
+#board { display:block; width:70%; height:300px; margin:100px auto;}
+card { display: inline-block;background: white;height: 300px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px;}
