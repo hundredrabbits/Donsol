@@ -1,8 +1,8 @@
 
-const HEART = 1;
-const DIAMOND = 2;
-const CLOVE = 3;
-const SPADE = 4;
+const HEART   = 10;
+const DIAMOND = 20;
+const CLOVE   = 30;
+const SPADE   = 40;
 
 function Donsol()
 {
