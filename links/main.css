@@ -1,4 +1,5 @@
-body { background:black;}
+body { background:black; font-family:monospace;}
 
 #board { display:block; width:70%; height:300px; margin:100px auto;}
 card { display: inline-block;background: white;height: 300px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px;}
+card .value { padding:10px; display:block;}

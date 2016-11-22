@@ -7,7 +7,7 @@ function Card(value)
     var e = document.createElement("card");
     
     var value = document.createElement("span");
-    value.class = "value";
+    value.setAttribute("class","value");
     value.innerHTML = this.value;
     
     e.appendChild(value);
