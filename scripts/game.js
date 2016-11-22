@@ -1,7 +1,3 @@
-function Deck()
+function Game()
 {
-  this.install()
-  {
-    
-  }
 }

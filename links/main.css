@@ -1,1 +1,3 @@
 body { background:black;}
+
+#board { display:block; background:red; width:600px; height:300px; margin:100px auto;}
