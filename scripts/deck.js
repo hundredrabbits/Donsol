@@ -1,10 +1,10 @@
 function Deck()
 {
   this.cards = [
-    new Card(1,HEART),
-    new Card(2,DIAMOND),
-    new Card(3,CLOVE),
-    new Card(4,SPADE),
+    new Card_Potion(1,HEART),
+    new Card_Shield(2,DIAMOND),
+    new Card_Monster(3,CLOVE),
+    new Card_Monster(4,SPADE),
   ];
   
   var draw_pile = [];
