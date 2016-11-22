@@ -1,0 +1,7 @@
+function Deck()
+{
+  this.install()
+  {
+    
+  }
+}
