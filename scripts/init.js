@@ -4,3 +4,5 @@ donsol.board.element = document.getElementById('board');
 
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen(event); };
+
+donsol.start();
