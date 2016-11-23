@@ -17,7 +17,7 @@ function Keyboard()
   this.listen = function(event)
   {
     if(this.is_locked === true){ return; }
-  
+    
     switch (event.key) {
       case "Enter": this.key_enter(); break;
       case " " : this.key_space(); break;
@@ -29,6 +29,10 @@ function Keyboard()
       //not sure if this one needed anymore
       case ";": if (event.shiftKey) this.key_colon(); break;
       case "Escape": this.key_escape(); break;
+      case "1": donsol.board.room[0].touch(); break;
+      case "2": donsol.board.room[1].touch(); break;
+      case "3": donsol.board.room[2].touch(); break;
+      case "4": donsol.board.room[3].touch(); break;
     }
   };
 

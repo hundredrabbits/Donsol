@@ -8,7 +8,7 @@ function Icon(type)
       case HEART:
         return this.heart();
       case DIAMOND:
-        return this.heart();
+        return this.diamond();
       case CLOVE:
         return this.clove();
       case SPADE:

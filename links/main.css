@@ -6,7 +6,8 @@ body { background:black; font-family:monospace;}
 #player .gage .name { font-weight:bold; display:block;}
 #player .gage .value { display:block;}
 #board { display:block; margin:0px auto;}
-card { display: inline-block;background: white;height: 300px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden;}
+card { display: inline-block;background: white;height: 300px;width: calc(25% - 17px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:1px solid white;}
+card.flipped { background:black;}
 card .value { display:block; position:absolute; width:30px; height:30px; left:0px; top:0px;}
 card .badge { display:block; position:absolute; width:100px; height:100px; left:calc(50% - 50px); top:calc(50% - 50px); text-align:center}
 card .icon  { display:block; position:absolute; width:30px; height:30px; left:0px; top:30px; }

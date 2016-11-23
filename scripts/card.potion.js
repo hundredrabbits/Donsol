@@ -4,6 +4,8 @@ function Card_Potion(value,type)
   
   this.touch = function()
   {
-    console.log("Potion");
+    if(this.is_flipped == true){ console.log("Card is already flipped"); return; }
+    this.flip();
+    donsol.player.heal(this.value);
   }
 }

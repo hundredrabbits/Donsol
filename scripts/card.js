@@ -2,11 +2,8 @@ function Card(value,type)
 {
   this.value = value;
   this.type  = type;
-  
-  function whatClicked()
-  {
-    console.log(this.value);
-  }
+  this.element = null;
+  this.is_flipped = false;
     
   this.install = function()
   {
@@ -32,6 +29,8 @@ function Card(value,type)
     
     addClickHandler(e,this,this.value);
     
+    this.element = e;
+    
     return e;
   }
   
@@ -42,6 +41,12 @@ function Card(value,type)
   
   this.touch = function()
   {
-    console.log("??");
+    console.log("??")
+  }
+  
+  this.flip = function()
+  {
+    this.is_flipped = true;
+    this.element.setAttribute("class","flipped");
   }
 }

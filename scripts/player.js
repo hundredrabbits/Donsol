@@ -19,4 +19,9 @@ function Player()
     // Experience
     this.element.appendChild(this.experience.install());
   }
+  
+  this.heal = function(value)
+  {
+    console.log("Healing value:"+value);
+  }
 }
