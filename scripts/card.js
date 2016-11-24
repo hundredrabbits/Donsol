@@ -9,23 +9,41 @@ function Card(value,type)
   {
     var e = document.createElement("card");
     
+    // Face
+    var face = document.createElement("div");
+    face.setAttribute("class","face");
+    e.appendChild(face);
+    
+    var face_frame = document.createElement("div");
+    face_frame.setAttribute("class","frame");
+    face.appendChild(face_frame);
+    
     // Value
     var value = document.createElement("span");
     value.setAttribute("class","value");
     value.innerHTML = this.value;
-    e.appendChild(value);
+    face.appendChild(value);
     
     // Badge
     var badge = document.createElement("span");
     badge.setAttribute("class","badge");
     badge.innerHTML = new Badge(this.value,this.type).install();
-    e.appendChild(badge);
+    face.appendChild(badge);
     
     // Icon
     var icon = document.createElement("span");
     icon.setAttribute("class","icon");
     icon.innerHTML = new Icon(this.type).install();
-    e.appendChild(icon);
+    face.appendChild(icon);
+    
+    // Verso
+    var verso = document.createElement("div");
+    verso.setAttribute("class","verso");
+    e.appendChild(verso);
+    
+    var verso_frame = document.createElement("div");
+    verso_frame.setAttribute("class","frame");
+    verso.appendChild(verso_frame);
     
     addClickHandler(e,this,this.value);
     

@@ -4,6 +4,8 @@ function Card_Monster(value,type)
   
   this.touch = function()
   {
-    console.log("Enemy");
+    if(this.is_flipped == true){ console.log("Card is already flipped"); return; }
+    this.flip();
+    donsol.player.attack(this.value);
   }
 }

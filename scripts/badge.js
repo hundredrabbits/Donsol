@@ -5,6 +5,6 @@ function Badge(value,type)
   
   this.install = function()
   {
-    return "?";
+    return this.type+"."+this.value+".svg";
   }
 }

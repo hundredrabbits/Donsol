@@ -1,9 +1,9 @@
 function Player()
 {
   this.element = null;
-  this.health = new Gage("Health");
-  this.shield = new Gage("Shield");
-  this.experience = new Gage("Experience");
+  this.health = new Gage("Health",21);
+  this.shield = new Gage("Shield",11);
+  this.experience = new Gage("Experience",52);
   
   this.start = function()
   {
@@ -23,5 +23,10 @@ function Player()
   this.heal = function(value)
   {
     console.log("Healing value:"+value);
+  }
+  
+  this.attack = function(value)
+  {
+    console.log("Attack value:"+value);
   }
 }
