@@ -18,3 +18,6 @@ body { background:black; font-family:monospace;}
 #board card .face .value   { display: block;position: absolute;width: 30px;height: 30px;left: 20px;top: 20px;font-size: 20px;}
 #board card .face .badge   { display:block; position:absolute; width:100px; height:100px; left:calc(50% - 50px); top:calc(50% - 50px); text-align:center}
 #board card .face .icon    { display: block;position: absolute;width: 30px;height: 30px;left: 20px;top: 40px;font-size: 11px; }
+
+#board card.heart .face { color:red;}
+#board card.diamond .face { color:red;}

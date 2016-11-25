@@ -3,7 +3,7 @@ function Player()
   this.element = null;
   this.health = new Gage("Health",21);
   this.shield = new Gage("Shield",0);
-  this.experience = new Gage("Experience",52);
+  this.experience = new Gage("Experience",0);
   
   this.start = function()
   {

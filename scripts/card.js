@@ -8,6 +8,7 @@ function Card(value,type)
   this.install = function()
   {
     var e = document.createElement("card");
+    e.setAttribute("class",this.type);
     
     // Face
     var face = document.createElement("div");
