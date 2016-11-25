@@ -4,6 +4,8 @@ function Card_Shield(value,type)
   
   this.touch = function()
   {
-    console.log("shield");
+    if(this.is_flipped == true){ console.log("Card is already flipped"); return; }
+    this.flip();
+    donsol.player.equip_shield(this.value);
   }
 }

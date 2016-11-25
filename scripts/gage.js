@@ -25,7 +25,10 @@ function Radial_Progress()
 function Gage(name,limit)
 {
   this.name = name;
+  this.name_element = null;
   this.limit = limit;
+  this.value = limit;
+  this.value_element = null;
   this.element = null;
   this.progress = new Radial_Progress();
   
@@ -39,10 +42,26 @@ function Gage(name,limit)
     var e = document.createElement("div");
     e.setAttribute("class","gage");
     
-    e.innerHTML = "<span class='name'>"+this.name+"</span><span class='value'>"+this.limit+"/"+this.limit+"</span>";
+    this.name_element = document.createElement("span");
+    this.name_element.setAttribute("class","name");
+    this.name_element.innerHTML = this.name;
+    e.appendChild(this.name_element);
+    
+    this.value_element = document.createElement("span");
+    this.value_element.setAttribute("class","value");
+    this.value_element.innerHTML = this.value+"/"+this.limit;
+    e.appendChild(this.value_element);
     
     e.appendChild(this.progress.install());
     
     return e
+  }
+  
+  this.update = function(value)
+  {
+    this.value = value ? value : this.value;
+    if(this.value > this.limit){this.value = this.limit;}
+    if(this.value < 0){this.value = 0;}
+    this.value_element.innerHTML = this.value+"/"+this.limit;
   }
 }

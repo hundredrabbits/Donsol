@@ -8,6 +8,8 @@ function Player()
   this.start = function()
   {
     this.install();
+    this.health.update(21);
+    this.shield.update(0);
   }
   
   this.install = function()
@@ -20,13 +22,45 @@ function Player()
     this.element.appendChild(this.experience.install());
   }
   
-  this.heal = function(value)
+  this.drink_potion = function(potion_value)
   {
-    console.log("Healing value:"+value);
+    var new_health = this.health.value + potion_value;
+    this.health.update(new_health);
   }
   
-  this.attack = function(value)
+  this.attack = function(attack_value)
   {
-    console.log("Attack value:"+value);
+    var original_attack_value = attack_value;
+    var original_health_value = this.health.value;
+    var original_shield_value = this.shield.value;
+    
+    if(this.shield.value > 0){
+      // Shield Break
+      if(attack_value > this.shield.value  && this.shield.value != this.shield.limit){
+        this.shield.value = 0;
+        this.shield.limit = 0;
+      }
+      else{
+        attack_value -= this.shield.value;
+        this.shield.value -= attack_value;
+      }
+    }
+    
+    // Damages went through
+    if(attack_value > 0){
+      this.health.value -= attack_value;
+    }
+    this.shield.update();
+    this.health.update();
+    
+    if(this.shield.value === 0){
+      this.shield.limit = 0;
+    }
+  }
+  
+  this.equip_shield = function(shield_value)
+  {
+    this.shield.limit = shield_value;
+    this.shield.update(shield_value);
   }
 }
