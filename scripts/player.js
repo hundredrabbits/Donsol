@@ -10,6 +10,7 @@ function Player()
     this.install();
     this.health.update(21);
     this.shield.update(0);
+    this.experience.limit = 52;
   }
   
   this.install = function()

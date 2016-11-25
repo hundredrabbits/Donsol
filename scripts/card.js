@@ -67,5 +67,11 @@ function Card(value,type)
   {
     this.is_flipped = true;
     this.element.setAttribute("class","flipped");
+    
+    donsol.player.experience.value += 1;
+    console.log(donsol.player.experience.value);
+    donsol.player.experience.update();
+    
+    console.log(donsol.player.experience.value);
   }
 }

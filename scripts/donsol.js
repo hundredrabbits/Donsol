@@ -3,6 +3,7 @@ const HEART   = "heart";
 const DIAMOND = "diamond";
 const CLOVE   = "clove";
 const SPADE   = "spade";
+const JOKER   = "joker";
 
 function Donsol()
 {
