@@ -5,6 +5,8 @@ function Player()
   this.shield = new Gage("Shield",0);
   this.experience = new Gage("Experience",0);
   
+  this.can_drink = true;
+  
   this.start = function()
   {
     this.install();

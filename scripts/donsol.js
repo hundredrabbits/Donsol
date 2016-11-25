@@ -7,7 +7,6 @@ const JOKER   = "joker";
 
 function Donsol()
 {
-  this.game = new Game();
   this.deck = new Deck();
   this.board = new Board();
   this.player = new Player();
@@ -18,6 +17,6 @@ function Donsol()
     this.player.start();
     this.board.start();
     
-    this.board.draw();
+    this.board.enter_room();
   }
 }

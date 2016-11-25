@@ -65,13 +65,17 @@ function Card(value,type)
   
   this.flip = function()
   {
+    var target_element = this.element;
+  
     this.is_flipped = true;
-    this.element.setAttribute("class","flipped");
-    
     donsol.player.experience.value += 1;
-    console.log(donsol.player.experience.value);
     donsol.player.experience.update();
     
-    console.log(donsol.player.experience.value);
+    $(target_element).animate({ opacity: 0.01, top: "-10" }, 100, function() {
+      
+      target_element.setAttribute("class","flipped");
+      // $(target_element).animate({ opacity: 1, top: "0" }, 200);
+    });
   }
+  
 }
