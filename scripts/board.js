@@ -28,6 +28,32 @@ function Board(element)
     this.add_card(3,donsol.deck.draw_card());
   }
   
+  this.skip = function()
+  {
+    var flipped = 0;
+    if(this.room[0].is_flipped){ flipped += 1; }
+    if(this.room[1].is_flipped){ flipped += 1; }
+    if(this.room[2].is_flipped){ flipped += 1; }
+    if(this.room[3].is_flipped){ flipped += 1; }
+    
+    if(flipped < 3){
+      console.log("Cannot escape");
+      return;
+    }
+    this.escape();
+  }
+  
+  this.escape = function()
+  {
+    if(!this.room[0].is_flipped){ donsol.deck.return_card(this.room[0]); }
+    if(!this.room[1].is_flipped){ donsol.deck.return_card(this.room[1]); }
+    if(!this.room[2].is_flipped){ donsol.deck.return_card(this.room[2]); }
+    if(!this.room[3].is_flipped){ donsol.deck.return_card(this.room[3]); }
+    
+    this.draw();
+    console.log("Escaped!");
+  }
+  
   this.update = function()
   {
     if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){

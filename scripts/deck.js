@@ -72,6 +72,12 @@ function Deck()
     return draw_pile.splice(0,1)[0];
   }
   
+  this.return_card = function(card)
+  {
+    draw_pile.push(card);
+    draw_pile = shuffle(draw_pile);
+  }
+  
   function shuffle(array) {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));

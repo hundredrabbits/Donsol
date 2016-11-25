@@ -47,6 +47,7 @@ function Keyboard()
 
   this.key_space = function()
   {
+    donsol.board.skip();
   }
 
   this.key_arrow_up = function()
