@@ -11,7 +11,7 @@ function Radial_Progress()
     c.setAttribute("cx","15px");
     c.setAttribute("cy","15px");
     c.setAttribute("r","15px");
-    c.setAttribute("stroke-dasharray","15px");
+    c.setAttribute("stroke-dasharray","600px");
     c.setAttribute("stroke-dashoffset","15px");
     c.setAttribute("stroke-width","3px");
     c.setAttribute("stroke","red");
@@ -19,6 +19,11 @@ function Radial_Progress()
     e.appendChild(c);
     
     return e
+  }
+  
+  this.update = function(value,limit)
+  {
+    console.log("gage:"+value+"/"+limit);
   }
 }
 
@@ -63,5 +68,6 @@ function Gage(name,limit)
     if(this.value > this.limit){this.value = this.limit;}
     if(this.value < 0){this.value = 0;}
     this.value_element.innerHTML = this.value+"/"+this.limit;
+    this.progress.update(this.value,this.limit);
   }
 }

@@ -6,6 +6,7 @@ function Player()
   this.experience = new Gage("Experience",0);
   
   this.can_drink = true;
+  this.has_escaped = false;
   
   this.start = function()
   {

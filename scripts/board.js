@@ -35,24 +35,13 @@ function Board(element)
     this.room = [];
     this.element.innerHTML = '';
   }
-  
-  this.skip = function()
-  {
-    var flipped = 0;
-    if(this.room[0].is_flipped){ flipped += 1; }
-    if(this.room[1].is_flipped){ flipped += 1; }
-    if(this.room[2].is_flipped){ flipped += 1; }
-    if(this.room[3].is_flipped){ flipped += 1; }
-    
-    if(flipped < 3){
-      console.log("Cannot escape");
-      return;
-    }
-    this.escape();
-  }
-  
+
   this.escape = function()
   {
+    if(this.can_escape() !== true){ console.log("Cannot escape"); return; }
+    
+    donsol.player.has_escaped = true;
+    
     if(!this.room[0].is_flipped){ donsol.deck.return_card(this.room[0]); }
     if(!this.room[1].is_flipped){ donsol.deck.return_card(this.room[1]); }
     if(!this.room[2].is_flipped){ donsol.deck.return_card(this.room[2]); }
@@ -65,7 +54,32 @@ function Board(element)
   this.update = function()
   {
     if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){
-      this.enter_room();
+      this.room_complete();
     }
+  }
+  
+  this.room_complete = function()
+  {
+    donsol.player.has_escaped = false;
+    this.enter_room();
+  }
+  
+  this.cards_flipped = function()
+  {
+    var a = [];
+    if(this.room[0].is_flipped){ a.push(this.room[0]); }
+    if(this.room[1].is_flipped){ a.push(this.room[1]); }
+    if(this.room[2].is_flipped){ a.push(this.room[2]); }
+    if(this.room[3].is_flipped){ a.push(this.room[3]); }
+    return a;
+  }
+  
+  this.can_escape = function()
+  {
+    if(donsol.player.experience.value === 0){ console.log("New game skip"); return true; }
+    if(this.cards_flipped().length == 3){ console.log("almost clear room"); return true; }
+    if(this.cards_flipped().length >= 0 && donsol.player.has_escaped === true){ console.log("Cannot escape, Room already started"); return false; }
+    if(donsol.player.has_escaped === false){ return true; }
+    return false;
   }
 }

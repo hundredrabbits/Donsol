@@ -1,6 +1,6 @@
 body { background:black; font-family:monospace;}
 
-#wrapper { display:block; width:900px; height:300px; margin:100px auto;}
+#wrapper { display:block; width:900px; height:300px; margin:50px auto;}
 #player { }
 #player .gage { width: 15%;display: inline-block;color: white;margin-bottom: 20px;line-height: 20px; padding-bottom:15px; position:relative; padding-left:50px;}
 #player .gage .name { font-weight:bold; display:block;}
