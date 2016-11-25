@@ -7,5 +7,6 @@ function Card_Shield(value,type)
     if(this.is_flipped == true){ console.log("Card is already flipped"); return; }
     this.flip();
     donsol.player.equip_shield(this.value);
+    donsol.board.update();
   }
 }

@@ -2,9 +2,29 @@ function Deck()
 {
   this.cards = [
     new Card_Potion(1,HEART),
+    new Card_Potion(2,HEART),
+    new Card_Potion(3,HEART),
+    new Card_Potion(4,HEART),
+    new Card_Potion(5,HEART),
+    new Card_Potion(6,HEART),
+    new Card_Shield(1,DIAMOND),
     new Card_Shield(2,DIAMOND),
+    new Card_Shield(3,DIAMOND),
+    new Card_Shield(4,DIAMOND),
+    new Card_Shield(5,DIAMOND),
+    new Card_Shield(6,DIAMOND),
+    new Card_Monster(1,CLOVE),
+    new Card_Monster(2,CLOVE),
     new Card_Monster(3,CLOVE),
+    new Card_Monster(4,CLOVE),
+    new Card_Monster(5,CLOVE),
+    new Card_Monster(6,CLOVE),
+    new Card_Monster(1,SPADE),
+    new Card_Monster(2,SPADE),
+    new Card_Monster(3,SPADE),
     new Card_Monster(4,SPADE),
+    new Card_Monster(5,SPADE),
+    new Card_Monster(6,SPADE),
   ];
   
   var draw_pile = [];

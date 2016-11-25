@@ -2,7 +2,7 @@ function Player()
 {
   this.element = null;
   this.health = new Gage("Health",21);
-  this.shield = new Gage("Shield",11);
+  this.shield = new Gage("Shield",0);
   this.experience = new Gage("Experience",52);
   
   this.start = function()
@@ -30,19 +30,26 @@ function Player()
   
   this.attack = function(attack_value)
   {
-    var original_attack_value = attack_value;
-    var original_health_value = this.health.value;
-    var original_shield_value = this.shield.value;
-    
+    // Shield
+    console.log("Attack:"+attack_value);
     if(this.shield.value > 0){
+      console.log("Shield:"+this.shield.value);
       // Shield Break
       if(attack_value > this.shield.value  && this.shield.value != this.shield.limit){
+        console.log("Shield: Break!");
         this.shield.value = 0;
         this.shield.limit = 0;
       }
+      else if(attack_value <= this.shield.value){
+        this.shield.value = attack_value;
+        attack_value = Math.abs(attack_value- this.shield.value);
+        console.log("Shield Damaged:"+this.shield.value);
+      }
       else{
-        attack_value -= this.shield.value;
-        this.shield.value -= attack_value;
+        attack_value = Math.abs(attack_value- this.shield.value);
+        this.shield.value = 0;
+        this.shield.limit = 0;
+        console.log("Shield Broke, Attack:"+attack_value);
       }
     }
     
@@ -52,10 +59,6 @@ function Player()
     }
     this.shield.update();
     this.health.update();
-    
-    if(this.shield.value === 0){
-      this.shield.limit = 0;
-    }
   }
   
   this.equip_shield = function(shield_value)

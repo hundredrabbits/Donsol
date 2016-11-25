@@ -2,31 +2,36 @@ function Board(element)
 {
   this.element = element;
   this.room = [];
-  this.slots = [];
   
   this.start = function()
   {
-    var slot1 = document.createElement("div");
-    slot1.setAttribute("class","slot");
-    this.slots.push(slot1);
-    this.element.appendChild(slot1);
-    var slot2 = document.createElement("div");
-    slot2.setAttribute("class","slot");
-    this.slots.push(slot2);
-    this.element.appendChild(slot2);
-    var slot3 = document.createElement("div");
-    slot3.setAttribute("class","slot");
-    this.slots.push(slot3);
-    this.element.appendChild(slot3);
-    var slot4 = document.createElement("div");
-    slot4.setAttribute("class","slot");
-    this.slots.push(slot4);
-    this.element.appendChild(slot4);
   }
   
   this.add_card = function(index,card)
   {
-    this.slots[index].appendChild(card.install());
+    this.element.appendChild(card.install());
     this.room.push(card);
+  }
+  
+  this.remove_cards = function()
+  {
+    this.room = [];
+    this.element.innerHTML = '';
+  }
+  
+  this.draw = function()
+  {
+    this.remove_cards();
+    this.add_card(0,donsol.deck.draw_card());
+    this.add_card(1,donsol.deck.draw_card());
+    this.add_card(2,donsol.deck.draw_card());
+    this.add_card(3,donsol.deck.draw_card());
+  }
+  
+  this.update = function()
+  {
+    if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){
+      this.draw();
+    }
   }
 }
