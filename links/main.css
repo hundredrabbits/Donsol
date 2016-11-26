@@ -1,26 +1,44 @@
-body { background:black; font-family:monospace;}
+*           { margin:0;padding:0;border:0;outline:0;text-decoration:none;font-weight:inherit;font-style:inherit;color:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;list-style:none;border-collapse:collapse;border-spacing:0; -webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;}
 
-#wrapper { display:block; width:900px; height:300px; margin:50px auto;}
-#player { }
-#player .gage { width: 15%;display: inline-block;color: white;margin-bottom: 20px;line-height: 20px; padding-bottom:15px; position:relative; padding-left:50px;}
-#player .gage .name { font-weight:bold; display:block;}
-#player .gage .name .notification { display:inline-block; margin-left:10px;}
-#player .gage .value { display:block;}
-#player .gage svg { display:block; width:30px; height:30px; padding:5px; position:absolute; left:0px; top:0px;}
-#player .gage svg circle { }
-#board { display:block; margin:0px auto;}
-#board card { display: inline-block;background: white;height: 300px;width: 200px;margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:1px solid white;}
-#board card { top:10px; opacity:0.01;}
+body { background:black; font-family: monospace;}
+
+#wrapper { display:block; width:900px; height:400px; margin:calc(50vh - 200px) auto; position:relative;}
+#player { display: block;margin: 0px auto;position: absolute;top: 0px;left: 0px;width: 860px; z-index:900;}
+#player .gage { width: 150px;display: block;color: white;line-height: 20px;position: relative; font-weight:bold; float:left;}
+#player .gage .value { display:block; position:absolute; top:0px; line-height:24px; left:95px;}
+#player .gage .progress { display:block !important; height:14px; width:80px; border:2px solid blue; border-radius:30px; margin-top:3px;}
+#player .gage .progress .bar{ width: 14px;height: 8px;margin-left: 3px;border-radius: 30px;margin-top: 3px; display:block !important;}
+
+#board, #table { display:block; margin:0px auto; position: absolute;top: 40px;left: 0px; width:860px;}
+#board card, #table card { display: inline-block !important;background: white;height: 300px;width: 200px;margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:1px solid white;}
+#board card { top:10px; opacity:0.01; z-index:900;}
 #board card:hover { cursor:pointer;}
-#board card.flipped { background:white;}
-#board card .verso { display:none;}
 #board card .face { display:block;width: 100%;background: white;height: calc(100% - 5px);border-radius: 7px;}
-#board card .frame { display: block;width: calc(100% - 20px);height: calc(100% - 20px);margin: 0px auto;position: relative;top: 10px;border: 1px solid #999;border-radius: 4px; }
-#board card.flipped .verso { display:block;width: 100%;background: black;height: calc(100% - 5px);border-radius: 7px; border-bottom:1px solid #fff;}
-#board card.flipped .face  { display:none;}
-#board card .face .value   { display: block;position: absolute;width: 30px;height: 30px;left: 20px;top: 20px;font-size: 20px;}
+#board card .face .value   { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 60px;font-size: 12px;text-align: center;}
 #board card .face .badge   { display:block; position:absolute; width:100px; height:100px; left:calc(50% - 50px); top:calc(50% - 50px); text-align:center}
-#board card .face .icon    { display: block;position: absolute;width: 30px;height: 30px;left: 20px;top: 40px;font-size: 11px; }
+#board card .face .icon    { display: block;position: absolute;width: 300px;height: 300px;left: 15px;top: 15px;font-size: 11px; }
 
 #board card.heart .face { color:red;}
 #board card.diamond .face { color:red;}
+
+#table card { background: black;border: 2px solid #333;margin: 5px;width: 190px;height: 290px;}
+
+#board card:nth-child(2), #table card:nth-child(2) { position:absolute; left:25%;}
+#board card:nth-child(3), #table card:nth-child(3) { position:absolute; left:50%;}
+#board card:nth-child(4), #table card:nth-child(4) { position:absolute; left:75%;}
+
+#timeline { display: block;margin: 0px auto;position: absolute;right: 0px;width: 400px;color:white; top:5px;}
+
+span.health { background: red;padding: 4px 9px;color: black;font-weight: bold;border-radius: 3px;}
+span.health:after { content:"HP"; }
+span.shield { background: #72dec2;padding: 4px 9px;color: black;font-weight: bold;border-radius: 3px;}
+span.shield:after { content:"DP";}
+span.experience { background: #ffffff;padding: 4px 9px;color: black;font-weight: bold;border-radius: 3px;}
+span.experience:after { content:"XP";}
+
+span.plus:before { content:"+";}
+span.minus:before { content:"-";}
+
+
+span.health.minus { background: black;border: 2px solid red;color: red;padding: 2px 5px;}
+span.health.minus:after { color:#ff0000;}

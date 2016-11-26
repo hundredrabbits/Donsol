@@ -12,9 +12,9 @@ function Deck()
     new Card_Potion(9,HEART),
     new Card_Potion(10,HEART),
     new Card_Potion(11,HEART),
-    new Card_Potion(11,HEART),
-    new Card_Potion(11,HEART),
-    new Card_Potion(11,HEART),
+    new Card_Potion(12,HEART),
+    new Card_Potion(13,HEART),
+    new Card_Potion(14,HEART),
     new Card_Shield(1,DIAMOND),
     new Card_Shield(2,DIAMOND),
     new Card_Shield(3,DIAMOND),
@@ -26,9 +26,9 @@ function Deck()
     new Card_Shield(9,DIAMOND),
     new Card_Shield(10,DIAMOND),
     new Card_Shield(11,DIAMOND),
-    new Card_Shield(11,DIAMOND),
-    new Card_Shield(11,DIAMOND),
-    new Card_Shield(11,DIAMOND),
+    new Card_Shield(12,DIAMOND),
+    new Card_Shield(13,DIAMOND),
+    new Card_Shield(14,DIAMOND),
     new Card_Monster(1,CLOVE),
     new Card_Monster(2,CLOVE),
     new Card_Monster(3,CLOVE),
@@ -40,9 +40,9 @@ function Deck()
     new Card_Monster(9,CLOVE),
     new Card_Monster(10,CLOVE),
     new Card_Monster(11,CLOVE),
+    new Card_Monster(12,CLOVE),
     new Card_Monster(13,CLOVE),
-    new Card_Monster(15,CLOVE),
-    new Card_Monster(17,CLOVE),
+    new Card_Monster(14,CLOVE),
     new Card_Monster(1,SPADE),
     new Card_Monster(2,SPADE),
     new Card_Monster(3,SPADE),
@@ -56,6 +56,7 @@ function Deck()
     new Card_Monster(11,SPADE),
     new Card_Monster(12,SPADE),
     new Card_Monster(13,SPADE),
+    new Card_Monster(14,SPADE),
     new Card_Shield(21,JOKER),
     new Card_Shield(21,JOKER),
   ];
@@ -64,12 +65,29 @@ function Deck()
   
   this.start = function()
   {
+    draw_pile = this.cards;
+  }
+  
+  this.shuffle = function()
+  {
     draw_pile = shuffle(this.cards);
   }
   
-  this.draw_card = function()
+  this.draw_card = function(type)
   {
-    return draw_pile.splice(0,1)[0];
+    var i = 0;
+    switch(type) {
+      case HEART:
+        i = Math.floor((Math.random() * 10) + 0); break;
+      case DIAMOND:
+        i = Math.floor((Math.random() * 10) + 14); break;
+      case CLOVE:
+        i = Math.floor((Math.random() * 10) + 28); break;
+      case SPADE:
+        i = Math.floor((Math.random() * 10) + 42); break;
+    }
+    
+    return draw_pile.splice(i,1)[0];
   }
   
   this.return_card = function(card)

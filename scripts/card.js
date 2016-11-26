@@ -15,10 +15,6 @@ function Card(value,type)
     face.setAttribute("class","face");
     e.appendChild(face);
     
-    var face_frame = document.createElement("div");
-    face_frame.setAttribute("class","frame");
-    face.appendChild(face_frame);
-    
     // Value
     var value = document.createElement("span");
     value.setAttribute("class","value");
@@ -32,19 +28,7 @@ function Card(value,type)
     face.appendChild(badge);
     
     // Icon
-    var icon = document.createElement("span");
-    icon.setAttribute("class","icon");
-    icon.innerHTML = new Icon(this.type).install();
-    face.appendChild(icon);
-    
-    // Verso
-    var verso = document.createElement("div");
-    verso.setAttribute("class","verso");
-    e.appendChild(verso);
-    
-    var verso_frame = document.createElement("div");
-    verso_frame.setAttribute("class","frame");
-    verso.appendChild(verso_frame);
+    face.appendChild(new Icon(this.type).install());
     
     addClickHandler(e,this,this.value);
     
@@ -69,7 +53,6 @@ function Card(value,type)
   
     this.is_flipped = true;
     donsol.player.experience.value += 1;
-    donsol.player.experience.add_notification("+1xp","#72dec2");
     donsol.player.experience.update();
     
     $(target_element).animate({ opacity: 0.01, top: "-10" }, 100, function() {

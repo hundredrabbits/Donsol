@@ -10,13 +10,12 @@ function Donsol()
   this.deck = new Deck();
   this.board = new Board();
   this.player = new Player();
+  this.timeline = new Timeline();
   
   this.start = function()
   {
     this.deck.start();
     this.player.start();
     this.board.start();
-    
-    this.board.enter_room();
   }
 }

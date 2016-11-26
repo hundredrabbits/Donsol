@@ -5,6 +5,21 @@ function Board(element)
   
   this.start = function()
   {
+    console.log("Starting room");
+    this.remove_cards();
+    donsol.player.can_drink = true;
+    
+    this.add_card(0,donsol.deck.draw_card(DIAMOND));
+    this.add_card(1,donsol.deck.draw_card(CLOVE));
+    this.add_card(2,donsol.deck.draw_card(HEART));
+    this.add_card(3,donsol.deck.draw_card(SPADE));
+    
+    donsol.deck.shuffle();
+    
+    $(this.room[0].element).delay(200).animate({ opacity: 1, top: "0" }, 200);
+    $(this.room[1].element).delay(250).animate({ opacity: 1, top: "0" }, 200);
+    $(this.room[2].element).delay(300).animate({ opacity: 1, top: "0" }, 200);
+    $(this.room[3].element).delay(350).animate({ opacity: 1, top: "0" }, 200);
   }
   
   this.enter_room = function()
@@ -55,6 +70,8 @@ function Board(element)
   {
     if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){
       this.room_complete();
+      // Use this here to delay switching room
+      // setTimeout(function(){ alert("Hello"); }, 3000);
     }
   }
   
