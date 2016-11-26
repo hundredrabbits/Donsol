@@ -1,6 +1,6 @@
-function Card_Monster(value,type)
+function Card_Monster(sym,value,type,name = "Unknown")
 {
-  Card.call(this,value,type);
+  Card.call(this,sym,value,type,name);
   
   this.touch = function()
   {

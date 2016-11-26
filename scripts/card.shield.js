@@ -1,6 +1,6 @@
-function Card_Shield(value,type)
+function Card_Shield(sym,value,type,name = "Unknown")
 {
-  Card.call(this,value,type);
+  Card.call(this,sym,value,type,name);
   
   this.touch = function()
   {

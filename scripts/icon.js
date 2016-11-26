@@ -13,6 +13,8 @@ function Icon(type)
         return this.clove();
       case SPADE:
         return this.spade();
+      case JOKER:
+        return this.joker();
     }
   }
   
@@ -93,6 +95,21 @@ function Icon(type)
     
     e.appendChild(s);
     e.appendChild(s2);
+    return e;
+  }
+  
+  this.joker = function()
+  {
+    var e = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    e.setAttribute("class","icon");
+    
+    var s = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    s.setAttribute("cx","15px");
+    s.setAttribute("cy","15px");
+    s.setAttribute("r","15px");
+    s.setAttribute("fill","black");
+    e.appendChild(s);
+    
     return e;
   }
 }

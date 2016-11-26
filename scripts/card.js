@@ -1,7 +1,10 @@
-function Card(value,type)
+function Card(sym,value,type,name = "Unknown")
 {
+  this.symbol = sym;
   this.value = value;
   this.type  = type;
+  this.name = name;
+  
   this.element = null;
   this.is_flipped = false;
     
@@ -18,7 +21,7 @@ function Card(value,type)
     // Value
     var value = document.createElement("span");
     value.setAttribute("class","value");
-    value.innerHTML = this.value;
+    value.innerHTML = this.symbol;
     face.appendChild(value);
     
     // Badge
@@ -27,7 +30,14 @@ function Card(value,type)
     badge.innerHTML = new Badge(this.value,this.type).install();
     face.appendChild(badge);
     
+    // Name
+    var name_element = document.createElement("span");
+    name_element.setAttribute("class","name");
+    name_element.innerHTML = this.name+" "+this.value;
+    face.appendChild(name_element);
+    
     // Icon
+    console.log(this.type);
     face.appendChild(new Icon(this.type).install());
     
     addClickHandler(e,this,this.value);

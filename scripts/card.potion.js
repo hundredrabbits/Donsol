@@ -1,6 +1,6 @@
-function Card_Potion(value,type)
+function Card_Potion(sym,value,type,name = "Unknown")
 {
-  Card.call(this,value,type);
+  Card.call(this,sym,value,type,name);
   
   this.touch = function()
   {
