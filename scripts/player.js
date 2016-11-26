@@ -63,7 +63,7 @@ function Player()
   {
     this.shield.limit = 25;
     this.shield.update(shield_value);
-    donsol.timeline.add_event("<span class='shield plus'>"+shield_value+"</span> <span class='experience plus'>1</span> Equiped shield.");
+    donsol.timeline.add_event("<span class='shield plus'>"+shield_value+"</span> <span class='experience plus'>1</span> Equipped shield.");
   }
   
   this.drink_potion = function(potion_value)

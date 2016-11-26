@@ -1,3 +1,5 @@
-<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200px" height="300px">
-  
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50,150 L100,100 L150,150 L100,200" fill="red"></path>
+  <path d="M60,150 L100,110 L140,150 L100,190" fill="white"></path>
+  <path d="M70,150 L100,120 L130,150 L100,180" fill="red"></path>
 </svg>

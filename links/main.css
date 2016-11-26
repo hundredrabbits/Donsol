@@ -15,8 +15,8 @@ body { background:black; font-family: monospace;}
 #board card:hover { cursor:pointer;}
 #board card .face { display:block;width: 100%;background: white;height: calc(100% - 5px);border-radius: 7px;}
 #board card .face .value   { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 60px;font-size: 12px;text-align: center;}
-#board card .face .badge   { display:block; position:absolute; width:100px; height:100px; left:calc(50% - 50px); top:calc(50% - 50px); text-align:center}
-#board card .face .icon    { display: block;position: absolute;width: 300px;height: 300px;left: 15px;top: 15px;font-size: 11px; }
+#board card .face .badge   { display: block;position: absolute;width: 200px;height: 300px;left: 0px;top: 0px;text-align: center;}
+#board card .face .icon    { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 15px;font-size: 11px; z-index:900;}
 #board card .face .name    { display: block;position: absolute;bottom: 20px;text-align: center;font-size: 11px;width: 200px;}
 #board card.heart .face { color:red;}
 #board card.diamond .face { color:red;}

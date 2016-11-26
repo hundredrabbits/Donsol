@@ -1,2 +1,4 @@
 <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50,150 L100,100 L150,150 L100,200" fill="red"/>
+  <line x1="75" y1="125" x2="125" y2="175" stroke-width="2" stroke="white"/>
 </svg>
