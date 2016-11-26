@@ -42,47 +42,40 @@ function Player()
   
   this.attack = function(attack_value)
   {
+    var damages = attack_value;
     // Shield
     console.log("Attack:"+attack_value);
     if(this.shield.value > 0){
       console.log("Shield:"+this.shield.value);
-      // Shield Break
-      if(attack_value > this.shield.value  && this.shield.value != this.shield.limit){
-        console.log("Shield: Break!");
+      // Damaged shield
+      if(attack_value >= this.shield.limit){
+        this.shield.add_notification("Broke!","red");
         this.shield.value = 0;
         this.shield.limit = 0;
-        this.shield.add_notification("Broke!","red");
       }
-      else if(attack_value <= this.shield.value){
-        this.shield.value = attack_value;
-        attack_value = Math.abs(attack_value- this.shield.value);
-        console.log("Shield Damaged:"+this.shield.value);
-        this.shield.add_notification("Dammaged","red");
+      else
+      {
+        this.shield.add_notification("Damaged","red");
+        this.shield.limit = attack_value;
+        damages = attack_value > this.shield.value ? Math.abs(attack_value - this.shield.value) : 0;
       }
-      else{
-        attack_value = Math.abs(attack_value- this.shield.value);
-        this.shield.value = 0;
-        this.shield.limit = 0;
-        console.log("Shield Broke, Attack:"+attack_value);
-        this.shield.add_notification("Broke!","red");
-      }
+    }
+  
+    // Damages went through
+    if(damages > 0){
+      this.health.value -= damages;
+      this.health.add_notification("-"+damages+"hp","red");
     }
     
-    // Damages went through
-    if(attack_value > 0){
-      this.health.value -= attack_value;
-      this.health.add_notification("-"+attack_value+"hp","red");
-    }
     this.shield.update();
     this.health.update();
     
-    this.shield.status.update(this.shield.value,11);
   }
   
   this.equip_shield = function(shield_value)
   {
-    this.shield.limit = shield_value;
+    this.shield.limit = 100;
     this.shield.update(shield_value);
-    this.shield.status.update(shield_value,11);
+    this.shield.status.update(100,100);
   }
 }

@@ -11,6 +11,7 @@ body { background:black; font-family:monospace;}
 #board { display:block; margin:0px auto;}
 #board card { display: inline-block;background: white;height: 300px;width: 200px;margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:1px solid white;}
 #board card { top:10px; opacity:0.01;}
+#board card:hover { cursor:pointer;}
 #board card.flipped { background:white;}
 #board card .verso { display:none;}
 #board card .face { display:block;width: 100%;background: white;height: calc(100% - 5px);border-radius: 7px;}
