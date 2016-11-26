@@ -25,9 +25,10 @@ function Card(sym,value,type,name = "Unknown")
     face.appendChild(value);
     
     // Badge
-    var badge = document.createElement("span");
+    var badge = document.createElement("img");
+    // badge.setAttribute("src","media/"+this.type+"/"+this.symbol+".svg");
+    badge.setAttribute("src","media/diamond/A.svg");
     badge.setAttribute("class","badge");
-    badge.innerHTML = new Badge(this.value,this.type).install();
     face.appendChild(badge);
     
     // Name
