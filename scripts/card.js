@@ -69,12 +69,11 @@ function Card(value,type)
   
     this.is_flipped = true;
     donsol.player.experience.value += 1;
+    donsol.player.experience.add_notification("+1xp","#72dec2");
     donsol.player.experience.update();
     
     $(target_element).animate({ opacity: 0.01, top: "-10" }, 100, function() {
-      
       target_element.setAttribute("class","flipped");
-      // $(target_element).animate({ opacity: 1, top: "0" }, 200);
     });
   }
   

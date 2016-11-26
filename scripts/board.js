@@ -78,7 +78,7 @@ function Board(element)
   {
     if(donsol.player.experience.value === 0){ console.log("New game skip"); return true; }
     if(this.cards_flipped().length == 3){ console.log("almost clear room"); return true; }
-    if(this.cards_flipped().length >= 0 && donsol.player.has_escaped === true){ console.log("Cannot escape, Room already started"); return false; }
+    if(this.cards_flipped().length >= 0){ console.log("Cannot escape, Room already started"); return false; }
     if(donsol.player.has_escaped === false){ return true; }
     return false;
   }

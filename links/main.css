@@ -4,6 +4,7 @@ body { background:black; font-family:monospace;}
 #player { }
 #player .gage { width: 15%;display: inline-block;color: white;margin-bottom: 20px;line-height: 20px; padding-bottom:15px; position:relative; padding-left:50px;}
 #player .gage .name { font-weight:bold; display:block;}
+#player .gage .name .notification { display:inline-block; margin-left:10px;}
 #player .gage .value { display:block;}
 #player .gage svg { display:block; width:30px; height:30px; padding:5px; position:absolute; left:0px; top:0px;}
 #player .gage svg circle { }
