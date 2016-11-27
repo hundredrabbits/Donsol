@@ -38,7 +38,7 @@ function Deck()
     new Card_Monster("9",9,CLOVE,"Medusa"),
     new Card_Monster("10",10,CLOVE,"Demon"),
     new Card_Monster("V",11,CLOVE,"Banshee"),
-    new Card_Monster("Q",12,CLOVE,"Vampire Queena"),
+    new Card_Monster("Q",12,CLOVE,"Vampire Queen"),
     new Card_Monster("K",13,CLOVE,"Lich King"),
     new Card_Monster("A",14,SPADE,"Fallen II"),
     new Card_Monster("2",2,SPADE,"Slime"),
