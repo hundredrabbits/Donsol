@@ -1,6 +1,6 @@
 <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
-  <circle cx="75" cy="150" r="15" fill="black"/>
-  <circle cx="125" cy="150" r="15" fill="black"/>
-  <circle cx="100" cy="175" r="15" fill="black"/>
-  <circle cx="100" cy="125" r="15" fill="black"/>
+  <circle cx="75" cy="200" r="25" fill="black"/>
+  <circle cx="125" cy="200" r="25" fill="black"/>
+  <circle cx="75" cy="150" r="25" fill="black"/>
+  <circle cx="125" cy="150" r="25" fill="black"/>
 </svg>
