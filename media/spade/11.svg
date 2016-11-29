@@ -1,7 +1,7 @@
 <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
   
   <!-- Head -->
-  <path d="M100,75 l-75,75 a15,15 0 1,0 75,0 a15,15 0 1,0 75,0" fill="red"></path>
+  <path d="M100,70 l-80,80 a15,15 0 1,0 80,0 a15,15 0 1,0 80,0" fill="red"></path>
   <!-- Body -->
   <path d="M20,310 l0,-50 a25,25 0 0,1 15,-15 l25,0 a25,25 0 0,0 25,-25 l0,-50 l30,0 l0,50 a25,25 0 0,0 25,25 l25,0 a15,15 0 0,1 15,15 l0,50" fill="black"></path>
   <line x1="0" y1="210" x2="300" y2="210" stroke-width="2px" stroke="white" stroke-linecap="round"/>
