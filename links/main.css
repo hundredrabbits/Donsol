@@ -39,6 +39,7 @@ span.experience:after { content:"XP";}
 span.plus:before { content:"+";}
 span.minus:before { content:"-";}
 
-
 span.health.minus { background: black;border: 2px solid red;color: red;padding: 2px 5px;}
 span.health.minus:after { color:#ff0000;}
+
+.card_11 .face .name,.card_12 .face .name,.card_13 .face .name { color:white;}

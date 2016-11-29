@@ -11,7 +11,7 @@ function Card(sym,value,type,name = "Unknown")
   this.install = function()
   {
     var e = document.createElement("card");
-    e.setAttribute("class",this.type);
+    e.setAttribute("class",this.type+" card_"+this.value);
     
     // Face
     var face = document.createElement("div");
@@ -26,8 +26,8 @@ function Card(sym,value,type,name = "Unknown")
     
     // Badge
     var badge = document.createElement("img");
-    badge.setAttribute("src","media/"+this.type+"/"+this.symbol+".svg");
-    badge.setAttribute("src","media/diamond/V.svg");
+    // badge.setAttribute("src","media/"+this.type+"/"+this.value+".svg");
+    badge.setAttribute("src","media/spade/11.svg");
     // badge.setAttribute("class","badge");
     face.appendChild(badge);
     
