@@ -1,7 +1,7 @@
 function Deck()
 {
   this.cards = [
-    new Card_Potion("A",14,HEART,"White Mage"),
+    new Card_Potion("A",11,HEART,"White Mage"),
     new Card_Potion("2",2,HEART,"Small Potion"),
     new Card_Potion("3",3,HEART,"Small Potion"),
     new Card_Potion("4",4,HEART,"Medium Potion"),
@@ -27,7 +27,7 @@ function Deck()
     new Card_Shield("V",11,DIAMOND,"Red Mage"),
     new Card_Shield("Q",11,DIAMOND,"Red Mage"),
     new Card_Shield("K",11,DIAMOND,"Red Mage"),
-    new Card_Monster("A",17,CLOVE,"Fallen"),
+    new Card_Monster("A",17,CLOVE,"Empresss"),
     new Card_Monster("2",2,CLOVE,"Rat"),
     new Card_Monster("3",3,CLOVE,"Bat"),
     new Card_Monster("4",4,CLOVE,"Imp"),
@@ -40,7 +40,7 @@ function Deck()
     new Card_Monster("V",11,CLOVE,"Consort"),
     new Card_Monster("Q",13,CLOVE,"Queen"),
     new Card_Monster("K",15,CLOVE,"Regnant"),
-    new Card_Monster("A",17,SPADE,"Fallen"),
+    new Card_Monster("A",17,SPADE,"Empress"),
     new Card_Monster("2",2,SPADE,"Slime"),
     new Card_Monster("3",3,SPADE,"Tunneler"),
     new Card_Monster("4",4,SPADE,"Fiend"),
@@ -50,9 +50,9 @@ function Deck()
     new Card_Monster("8",8,SPADE,"Elemental"),
     new Card_Monster("9",9,SPADE,"Witch"),
     new Card_Monster("10",10,SPADE,"Familiar"),
-    new Card_Monster("V",11,SPADE,"Dragon Rider"),
-    new Card_Monster("Q",13,SPADE,"Merfolk Queen"),
-    new Card_Monster("K",15,SPADE,"Undead King"),
+    new Card_Monster("V",11,SPADE,"Consort"),
+    new Card_Monster("Q",13,SPADE,"Queen"),
+    new Card_Monster("K",15,SPADE,"Regnant"),
     new Card_Shield("J",21,JOKER,"Red Donsol"),
     new Card_Shield("J",21,JOKER,"Black Donsol"),
   ];

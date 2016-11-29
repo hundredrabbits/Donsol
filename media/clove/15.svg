@@ -20,7 +20,7 @@
   <!-- nose -->
   <path d="M95,170 a5,5 0 1,0 10,0" stroke-width="0px" stroke="#ccc" stroke-linecap="round" fill="#ccc"></path>
   <!-- mouth -->
-  <line x1="95" y1="180" x2="105" y2="180" stroke-width="2px" stroke="black" stroke-linecap="round"/>
+  <path d="M95,185 a5,5 0 0,1 10,0" stroke-width="0px" stroke="black" stroke-linecap="butt" fill="black"></path>
   <!-- dot -->
   <circle cx="100" cy="100" r="5" fill="white"/>
 </svg>
