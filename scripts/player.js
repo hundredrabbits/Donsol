@@ -26,8 +26,10 @@ function Player()
     this.element.appendChild(this.experience.install());
   }
   
-  this.attack = function(attack_value)
+  this.attack = function(card)
   {
+    var attack_value = card.value;
+    
     var damages = attack_value;
     // Shield
     console.log("Attack:"+attack_value);
@@ -52,7 +54,7 @@ function Player()
     
     // Timeline
     if(damages > 0){
-      donsol.timeline.add_event("<span class='health minus'>"+damages+"</span> <span class='experience plus'>1</span> Battled monster.");
+      donsol.timeline.add_event("<span class='health minus'>"+damages+"</span> <span class='experience plus'>1</span> Battled the "+card.name+".");
     }
     
     this.shield.update();

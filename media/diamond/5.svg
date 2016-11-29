@@ -1,4 +1,4 @@
-<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg">
+<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
   <path d="M75,225 l25,25 l25,-25 l-25,-25" fill="red"/>
   <path d="M75,175 l25,25 l25,-25 l-25,-25" fill="red"/>
   <path d="M25,175 l25,25 l25,-25 l-25,-25" fill="red"/>

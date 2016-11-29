@@ -87,14 +87,10 @@ function Icon(type)
     
     var s = document.createElementNS("http://www.w3.org/2000/svg", "path");
     // s.setAttribute("d","M15 0 L30,30 l-10,0 l-5,-10 l-5,10 L0,30 L15,0");
-    s.setAttribute("d","M15,0 L0,15 L5,20 L20,5");
+    s.setAttribute("d","M15,0 L0,15 a15,15 0 0,1 15,15 a15,15 0 0,1 15,-15");
     s.setAttribute("fill","black");
-    var s2 = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    s2.setAttribute("d","M15,30 L30,15 L25,10 L10,25");
-    s2.setAttribute("fill","black");
     
     e.appendChild(s);
-    e.appendChild(s2);
     return e;
   }
   
