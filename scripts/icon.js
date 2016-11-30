@@ -86,7 +86,6 @@ function Icon(type)
     e.setAttribute("class","icon");
     
     var s = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    // s.setAttribute("d","M15 0 L30,30 l-10,0 l-5,-10 l-5,10 L0,30 L15,0");
     s.setAttribute("d","M15,0 L0,15 a15,15 0 0,1 15,15 a15,15 0 0,1 15,-15");
     s.setAttribute("fill","black");
     

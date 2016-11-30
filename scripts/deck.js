@@ -57,6 +57,13 @@ function Deck()
     new Card_Shield("J",21,JOKER,"Black Donsol"),
   ];
   
+  this.cards = [
+    new Card_Potion("2",10,HEART,"Small Potion"),
+    new Card_Potion("2",10,DIAMOND,"Small Potion"),
+    new Card_Potion("2",10,SPADE,"Small Potion"),
+    new Card_Potion("2",10,CLOVE,"Small Potion"),
+  ];
+  
   var draw_pile = [];
   
   this.start = function()
@@ -72,16 +79,16 @@ function Deck()
   this.draw_card = function(type)
   {
     var i = 0;
-    switch(type) {
-      case HEART:
-        i = Math.floor((Math.random() * 10) + 0); break;
-      case DIAMOND:
-        i = Math.floor((Math.random() * 10) + 13); break;
-      case CLOVE:
-        i = Math.floor((Math.random() * 10) + 26); break;
-      case SPADE:
-        i = Math.floor((Math.random() * 10) + 36); break;
-    }
+    // switch(type) {
+    //   case HEART:
+    //     i = Math.floor((Math.random() * 10) + 0); break;
+    //   case DIAMOND:
+    //     i = Math.floor((Math.random() * 10) + 13); break;
+    //   case CLOVE:
+    //     i = Math.floor((Math.random() * 10) + 26); break;
+    //   case SPADE:
+    //     i = Math.floor((Math.random() * 10) + 36); break;
+    // }
     
     return draw_pile.splice(i,1)[0];
   }
