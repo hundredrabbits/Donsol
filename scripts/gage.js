@@ -31,7 +31,7 @@ function Gage(name,limit,color)
   
   this.update = function(value)
   {
-    this.value = value ? value : this.value;
+    this.value = typeof value === "number" ? value : this.value;
     if(this.value > this.limit){this.value = this.limit;}
     if(this.value < 0){this.value = 0;}
     this.value_element.innerHTML = this.show_limit ? this.value+"/"+this.limit : this.value+this.units;
