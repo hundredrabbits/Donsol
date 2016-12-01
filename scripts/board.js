@@ -3,40 +3,31 @@ function Board(element)
   this.element = element;
   this.room = [];
   
-  this.start = function()
-  {
-    console.log("Starting room");
-    this.remove_cards();
-    donsol.player.can_drink = true;
-    
-    this.add_card(0,donsol.deck.draw_card(DIAMOND));
-    this.add_card(1,donsol.deck.draw_card(CLOVE));
-    this.add_card(2,donsol.deck.draw_card(HEART));
-    this.add_card(3,donsol.deck.draw_card(SPADE));
-    
-    donsol.deck.shuffle();
-    
-    $(this.room[0].element).delay(200).animate({ opacity: 1, top: "0" }, 200);
-    $(this.room[1].element).delay(250).animate({ opacity: 1, top: "0" }, 200);
-    $(this.room[2].element).delay(300).animate({ opacity: 1, top: "0" }, 200);
-    $(this.room[3].element).delay(350).animate({ opacity: 1, top: "0" }, 200);
-  }
-  
-  this.enter_room = function()
+  this.enter_room = function(starting_hand = null)
   {
     console.log("Entering room");
     donsol.player.can_drink = true;
     
     this.remove_cards();
-    this.add_card(0,donsol.deck.draw_card());
-    this.add_card(1,donsol.deck.draw_card());
-    this.add_card(2,donsol.deck.draw_card());
-    this.add_card(3,donsol.deck.draw_card());
+  
+    if(donsol.deck.cards.length > 0){
+      this.add_card(0,donsol.deck.draw_card(starting_hand ? DIAMOND : null));
+      $(this.room[0].element).delay(200).animate({ opacity: 1, top: "0" }, 200);
+    }
+    if(donsol.deck.cards.length > 0){
+      this.add_card(1,donsol.deck.draw_card(starting_hand ? CLOVE : null));
+      $(this.room[1].element).delay(250).animate({ opacity: 1, top: "0" }, 200);
+    }
+    if(donsol.deck.cards.length > 0){
+      this.add_card(2,donsol.deck.draw_card(starting_hand ? HEART : null));
+      $(this.room[2].element).delay(300).animate({ opacity: 1, top: "0" }, 200);
+    }
+    if(donsol.deck.cards.length > 0){
+      this.add_card(3,donsol.deck.draw_card(starting_hand ? SPADE : null));
+      $(this.room[3].element).delay(350).animate({ opacity: 1, top: "0" }, 200);
+    }
     
-    $(this.room[0].element).delay(200).animate({ opacity: 1, top: "0" }, 200);
-    $(this.room[1].element).delay(250).animate({ opacity: 1, top: "0" }, 200);
-    $(this.room[2].element).delay(300).animate({ opacity: 1, top: "0" }, 200);
-    $(this.room[3].element).delay(350).animate({ opacity: 1, top: "0" }, 200);
+    donsol.player.update();
   }
   
   this.add_card = function(index,card)
@@ -53,7 +44,7 @@ function Board(element)
 
   this.escape = function()
   {
-    if(this.can_escape() !== true){ console.log("Cannot escape"); return; }
+    if(donsol.player.can_escape() !== true){ console.log("Cannot escape"); return; }
     
     donsol.player.has_escaped = true;
     
@@ -64,10 +55,15 @@ function Board(element)
     
     this.enter_room();
     console.log("Escaped!");
+    this.update();
   }
   
   this.update = function()
   {
+    if( (!this.room[0] || this.room[0].is_flipped) && (!this.room[1] || this.room[1].is_flipped) && (!this.room[2] || this.room[2].is_flipped) && (!this.room[3] || this.room[3].is_flipped) && donsol.deck.cards.length < 1){
+      this.dungeon_complete();
+      return;
+    }
     if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){
       this.room_complete();
       // Use this here to delay switching room
@@ -91,12 +87,9 @@ function Board(element)
     return a;
   }
   
-  this.can_escape = function()
+  this.dungeon_complete = function()
   {
-    if(donsol.player.experience.value === 0){ console.log("New game skip"); return true; }
-    if(this.cards_flipped().length == 3){ console.log("almost clear room"); return true; }
-    if(this.cards_flipped().length >= 0){ console.log("Cannot escape, Room already started"); return false; }
-    if(donsol.player.has_escaped === false){ return true; }
-    return false;
+    donsol.player.gain_level();
+    console.log("Completed dungeon!");
   }
 }

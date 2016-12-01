@@ -3,11 +3,15 @@
 body { background:black; font-family: monospace;}
 
 #wrapper { display:block; width:900px; height:400px; margin:calc(50vh - 200px) auto; position:relative;}
-#player { display: block;margin: 0px auto;position: absolute;top: 0px;left: 0px;width: 860px; z-index:900;}
-#player .gage { width: 150px;display: block;color: white;line-height: 20px;position: relative; font-weight:bold; float:left;}
-#player .gage .value { display:block; position:absolute; top:0px; line-height:24px; left:95px;}
+
+#player { display: block;margin: 0px auto;position: absolute;top: 0px;left: 0px;width: 850px; z-index:900; font-size:12px;}
+#player .gage { width: 150px;display: block;color: white;line-height: 20px;position: relative; font-weight:bold; float:right;}
+#player .gage .value { display: block;position: absolute;top: 0px;line-height: 24px;left: 85px;width: 60px;text-align: center;}
 #player .gage .progress { display:block !important; height:14px; width:80px; border:2px solid blue; border-radius:30px; margin-top:3px;}
 #player .gage .progress .bar{ width: 14px;height: 8px;margin-left: 3px;border-radius: 30px;margin-top: 3px; display:block !important;}
+#player a.escape { background:#777; padding:4px 9px; border-radius:20px; display:inline-block; margin-right:10px; }
+#player div.timeline { display: inline-block;color:white;}
+#player div.timeline span:last-child { border-right: 2px solid #333;padding-right: 15px;margin-right: 10px;}
 
 #board, #table { display:block; margin:0px auto; position: absolute;top: 40px;left: 0px; width:860px;}
 #board card, #table card { display: inline-block !important;background: white;height: 300px;width: 200px;margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:1px solid white;}
@@ -27,14 +31,14 @@ body { background:black; font-family: monospace;}
 #board card:nth-child(3), #table card:nth-child(3) { position:absolute; left:50%;}
 #board card:nth-child(4), #table card:nth-child(4) { position:absolute; left:75%;}
 
-#timeline { display: block;margin: 0px auto;position: absolute;right: 0px;width: 400px;color:white; top:5px;}
-
-span.health { background: red;padding: 4px 9px;color: black;font-weight: bold;border-radius: 3px;}
+span.health { color: red;padding: 4px 2px;font-weight: bold;border-radius: 3px;}
 span.health:after { content:"HP"; }
-span.shield { background: #72dec2;padding: 4px 9px;color: black;font-weight: bold;border-radius: 3px;}
+span.shield { color: #72dec2;padding: 4px 2px;font-weight: bold;border-radius: 3px;}
 span.shield:after { content:"DP";}
-span.experience { background: #ffffff;padding: 4px 9px;color: black;font-weight: bold;border-radius: 3px;}
+span.experience { color: #ffffff;padding: 4px 2px;font-weight: bold;border-radius: 3px;}
 span.experience:after { content:"XP";}
+span.level { color: #777;padding: 4px 2px;font-weight: bold;border-radius: 3px;}
+span.level:after { content:"LVL"; }
 
 span.plus:before { content:"+";}
 span.minus:before { content:"-";}

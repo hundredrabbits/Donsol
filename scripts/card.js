@@ -68,6 +68,8 @@ function Card(sym,value,type,name = "Unknown")
     $(target_element).animate({ opacity: 0.01, top: "-10" }, 100, function() {
       target_element.setAttribute("class","flipped");
     });
+    
+    donsol.player.update();
   }
   
 }

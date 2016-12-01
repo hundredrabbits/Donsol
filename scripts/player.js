@@ -7,6 +7,8 @@ function Player()
   
   this.can_drink = true;
   this.has_escaped = false;
+  this.escape_button = document.createElement("a");
+  this.timeline_element = document.createElement("div");
   
   this.start = function()
   {
@@ -18,6 +20,8 @@ function Player()
     this.shield.update(0);
     this.experience.limit = 52;
     this.experience.update(0);
+    
+    this.update();
   }
   
   this.install = function()
@@ -25,6 +29,13 @@ function Player()
     this.element.appendChild(this.health.install());
     this.element.appendChild(this.shield.install());
     this.element.appendChild(this.experience.install());
+    
+    this.escape_button.setAttribute("class","escape");
+    this.escape_button.innerHTML = "Escape";
+    this.element.appendChild(this.escape_button);
+    this.timeline_element.setAttribute("class","timeline");
+    this.timeline_element.innerHTML = "Escape";
+    this.element.appendChild(this.timeline_element);
   }
   
   this.attack = function(card)
@@ -72,12 +83,36 @@ function Player()
   this.drink_potion = function(potion_value)
   {
     if(this.can_drink === false){
-      donsol.timeline.add_event("Wasted potion! Cannot drink two potions in a row.");
+      donsol.timeline.add_event("Wasted potion!");
       return;
     }
     var new_health = this.health.value + potion_value;
     this.health.update(new_health);
-    donsol.timeline.add_event("<span class='health'>"+potion_value+"</span> <span class='experience plus'>1</span> Drank potion.");
+    donsol.timeline.add_event("<span class='health plus'>"+potion_value+"</span> <span class='experience plus'>1</span> Drank potion.");
     this.can_drink = false;
+  }
+  
+  this.gain_level = function()
+  {
+    donsol.timeline.add_event("<span class='level plus'>"+1+"</span> Level up!");
+  }
+  
+  this.update = function()
+  {
+    if(this.can_escape() === true){
+      this.escape_button.innerHTML = "Run";
+    }
+    else{
+      this.escape_button.innerHTML = "Locked";
+    }
+  }
+  
+  this.can_escape = function()
+  {
+    if(this.experience.value === 0){ console.log("New game skip"); return true; }
+    if(donsol.board.cards_flipped().length == 3 && this.has_escaped === false){ console.log("almost clear room"); return true; }
+    if(donsol.board.cards_flipped().length >= 0){ console.log("Cannot escape, Room already started"); return false; }
+    if(this.has_escaped === false){ return true; }
+    return false;
   }
 }

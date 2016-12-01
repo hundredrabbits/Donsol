@@ -16,6 +16,8 @@ function Donsol()
   {
     this.deck.start();
     this.player.start();
-    this.board.start();
+    
+    this.board.enter_room(true);
+    donsol.deck.shuffle();
   }
 }
