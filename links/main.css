@@ -10,6 +10,7 @@ body { background:black; font-family: monospace;}
 #player .gage .progress { display:block !important; height:14px; width:80px; border:2px solid blue; border-radius:30px; margin-top:3px;}
 #player .gage .progress .bar{ width: 14px;height: 8px;margin-left: 3px;border-radius: 30px;margin-top: 3px; display:block !important;}
 #player a.escape { background:#777; padding:4px 9px; border-radius:20px; display:inline-block; margin-right:10px; }
+#player a.escape:hover { cursor:pointer; background:white;}
 #player div.timeline { display: inline-block;color:white;}
 #player div.timeline span:last-child { border-right: 2px solid #333;padding-right: 15px;margin-right: 10px;}
 
@@ -26,6 +27,7 @@ body { background:black; font-family: monospace;}
 #board card.diamond .face { color:red;}
 
 #table card { background: black;border: 2px solid #333;margin: 5px;width: 190px;height: 290px;}
+#table card .shortcut { position:absolute; right:20px; bottom:15px; color:#555;}
 
 #board card:nth-child(2), #table card:nth-child(2) { position:absolute; left:25%;}
 #board card:nth-child(3), #table card:nth-child(3) { position:absolute; left:50%;}

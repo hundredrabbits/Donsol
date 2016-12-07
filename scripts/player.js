@@ -34,7 +34,7 @@ function Player()
     this.escape_button.innerHTML = "Escape";
     this.element.appendChild(this.escape_button);
     this.timeline_element.setAttribute("class","timeline");
-    this.timeline_element.innerHTML = "Escape";
+    this.timeline_element.innerHTML = "";
     this.element.appendChild(this.timeline_element);
   }
   
@@ -92,6 +92,20 @@ function Player()
     this.can_drink = false;
   }
   
+  this.escape_room = function()
+  {
+    if(this.can_escape() !== true){
+      donsol.timeline.add_event("Cannot escape the room!");
+      return;
+    }
+    
+    this.has_escaped = true;
+    
+    donsol.board.return_cards();
+    donsol.board.enter_room();
+    donsol.timeline.add_event("Escaped the room!");
+  }
+  
   this.gain_level = function()
   {
     donsol.timeline.add_event("<span class='level plus'>"+1+"</span> Level up!");
@@ -111,7 +125,7 @@ function Player()
   {
     if(this.experience.value === 0){ console.log("New game skip"); return true; }
     if(donsol.board.cards_flipped().length == 3 && this.has_escaped === false){ console.log("almost clear room"); return true; }
-    if(donsol.board.cards_flipped().length >= 0){ console.log("Cannot escape, Room already started"); return false; }
+    if(donsol.board.cards_flipped().length > 0){ console.log("Cannot escape, Room already started"); return false; }
     if(this.has_escaped === false){ return true; }
     return false;
   }

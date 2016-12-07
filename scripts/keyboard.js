@@ -47,7 +47,7 @@ function Keyboard()
 
   this.key_space = function()
   {
-    donsol.board.escape();
+    donsol.player.escape_room();
   }
 
   this.key_arrow_up = function()

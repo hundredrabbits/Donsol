@@ -28,6 +28,7 @@ function Board(element)
     }
     
     donsol.player.update();
+    this.update();
   }
   
   this.add_card = function(index,card)
@@ -41,23 +42,15 @@ function Board(element)
     this.room = [];
     this.element.innerHTML = '';
   }
-
-  this.escape = function()
+  
+  this.return_cards = function()
   {
-    if(donsol.player.can_escape() !== true){ console.log("Cannot escape"); return; }
-    
-    donsol.player.has_escaped = true;
-    
     if(!this.room[0].is_flipped){ donsol.deck.return_card(this.room[0]); }
     if(!this.room[1].is_flipped){ donsol.deck.return_card(this.room[1]); }
     if(!this.room[2].is_flipped){ donsol.deck.return_card(this.room[2]); }
     if(!this.room[3].is_flipped){ donsol.deck.return_card(this.room[3]); }
-    
-    this.enter_room();
-    console.log("Escaped!");
-    this.update();
   }
-  
+
   this.update = function()
   {
     if( (!this.room[0] || this.room[0].is_flipped) && (!this.room[1] || this.room[1].is_flipped) && (!this.room[2] || this.room[2].is_flipped) && (!this.room[3] || this.room[3].is_flipped) && donsol.deck.cards.length < 1){
