@@ -9,13 +9,16 @@ function Player()
   this.has_escaped = false;
   this.escape_button = document.createElement("a");
   this.timeline_element = document.createElement("div");
-  
+	
+  $(this.escape_button).on( "click", function() {
+    donsol.player.escape_room();
+	});
+  	
   this.start = function()
   {
     this.health.show_limit = false;
     this.health.units = "HP";
     
-    this.install();
     this.health.update(21);
     this.shield.update(0);
     this.experience.limit = 52;

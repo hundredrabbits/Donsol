@@ -72,5 +72,6 @@ function Keyboard()
 
   this.key_escape = function()
   {
+    donsol.new_game();
   }
 }
