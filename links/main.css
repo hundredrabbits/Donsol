@@ -15,7 +15,6 @@ body { background:black; font-family: 'pt_mono',monospace;}
 
 #player.locked a.escape { display:none;}
 
-
 #board, #table { display:block; margin:0px auto; position: absolute;top: 40px;left: 0px; width:860px;}
 #board card, #table card { display: inline-block !important;background: white;height: 300px;width: 200px;margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:2px solid white;}
 #board card { top:10px; opacity:0.01; z-index:900;}
@@ -36,3 +35,6 @@ body { background:black; font-family: 'pt_mono',monospace;}
 #board card:nth-child(4), #table card:nth-child(4) { position:absolute; left:75%;}
 
 .card_11 .face .name,.card_13 .face .name,.card_15 .face .name,.card_17 .face .name { color:white;}
+
+#tips { color:#555; position:absolute; bottom:20px; font-size:12px; width:850px;}
+#tips .key { color:#999; }

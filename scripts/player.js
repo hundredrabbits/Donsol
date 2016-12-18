@@ -11,7 +11,7 @@ function Player()
   this.timeline_element = document.createElement("div");
 	
   $(this.escape_button).on( "click", function() {
-    donsol.player.escape_room();
+    this.escape_room();
 	});
   	
   this.start = function()
@@ -79,9 +79,10 @@ function Player()
     }
     else if(damages > 0){
       donsol.player.health.add_event("-"+damages);
-      donsol.player.experience.add_event("+1");
       donsol.timeline.add_event("Battled the "+card.name+".");
     }
+    
+    donsol.player.experience.add_event("+1");
     
     this.shield.update();
     this.health.update();
@@ -112,6 +113,10 @@ function Player()
   
   this.escape_room = function()
   {
+    if(this.health.value < 1){
+      donsol.new_game();
+      return;
+    }
     if(this.can_escape() !== true){
       donsol.timeline.add_event("Cannot escape the room!");
       return;

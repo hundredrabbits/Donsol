@@ -46,15 +46,15 @@ function Deck()
     new Card_Monster("4",4,SPADE,"Fiend"),
     new Card_Monster("5",5,SPADE,"Drake"),
     new Card_Monster("6",6,SPADE,"Specter"),
-    new Card_Monster("7",7,SPADE,"Ghost Knight"),
+    new Card_Monster("7",7,SPADE,"Ghost"),
     new Card_Monster("8",8,SPADE,"Elemental"),
     new Card_Monster("9",9,SPADE,"Witch"),
     new Card_Monster("10",10,SPADE,"Familiar"),
     new Card_Monster("V",11,SPADE,"Consort"),
     new Card_Monster("Q",13,SPADE,"Queen"),
     new Card_Monster("K",15,SPADE,"Regnant"),
-    new Card_Shield("J",21,JOKER,"Red Donsol"),
-    new Card_Shield("J",21,JOKER,"Black Donsol"),
+    new Card_Monster("J",21,JOKER,"First Donsol"),
+    new Card_Monster("J",21,JOKER,"Second Donsol"),
   ];
   
   var draw_pile = [];
