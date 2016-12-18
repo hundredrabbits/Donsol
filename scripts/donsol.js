@@ -12,6 +12,8 @@ function Donsol()
   this.player = new Player();
   this.timeline = new Timeline();
   
+  this.is_complete = false;
+  
   this.start = function()
   {
     this.deck.start();

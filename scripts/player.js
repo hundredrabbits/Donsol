@@ -11,7 +11,7 @@ function Player()
   this.timeline_element = document.createElement("div");
 	
   $(this.escape_button).on( "click", function() {
-    this.escape_room();
+    donsol.player.escape_room();
 	});
   	
   this.start = function()
@@ -86,6 +86,7 @@ function Player()
     
     this.shield.update();
     this.health.update();
+    this.can_drink = true;
   }
   
   this.equip_shield = function(shield_value)
@@ -95,6 +96,7 @@ function Player()
     donsol.player.experience.add_event("+1");
     donsol.player.shield.add_event("+"+shield_value);
     donsol.timeline.add_event("Equipped shield.");
+    this.can_drink = true;
   }
   
   this.drink_potion = function(potion_value)
@@ -113,7 +115,7 @@ function Player()
   
   this.escape_room = function()
   {
-    if(this.health.value < 1){
+    if(this.health.value < 1 || donsol.is_complete === true){
       donsol.new_game();
       return;
     }
@@ -123,15 +125,11 @@ function Player()
     }
     
     this.has_escaped = true;
+    this.can_drink = true;
     
     donsol.board.return_cards();
     donsol.board.enter_room();
     donsol.timeline.add_event("Escaped the room!");
-  }
-  
-  this.gain_level = function()
-  {
-    donsol.timeline.add_event("<span class='level plus'>"+1+"</span> Level up!");
   }
   
   this.update = function()

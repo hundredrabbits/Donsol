@@ -6,7 +6,6 @@ function Board(element)
   this.enter_room = function(starting_hand = null)
   {
     console.log("Entering room");
-    donsol.player.can_drink = true;
     
     this.remove_cards();
   
@@ -73,17 +72,19 @@ function Board(element)
   this.cards_flipped = function()
   {
     var a = [];
-    if(this.room[0].is_flipped){ a.push(this.room[0]); }
-    if(this.room[1].is_flipped){ a.push(this.room[1]); }
-    if(this.room[2].is_flipped){ a.push(this.room[2]); }
-    if(this.room[3].is_flipped){ a.push(this.room[3]); }
+    if(this.room[0] && this.room[0].is_flipped){ a.push(this.room[0]); }
+    if(this.room[1] && this.room[1].is_flipped){ a.push(this.room[1]); }
+    if(this.room[2] && this.room[2].is_flipped){ a.push(this.room[2]); }
+    if(this.room[3] && this.room[3].is_flipped){ a.push(this.room[3]); }
     return a;
   }
   
   this.dungeon_complete = function()
   {
-    donsol.player.gain_level();
-    console.log("Completed dungeon!");
+    donsol.is_complete = true;
+    donsol.player.escape_button.innerHTML = "Restart";
+    donsol.player.element.setAttribute("class","done");
+    donsol.timeline.add_event("Completed dungeon!");
   }
   
   this.dungeon_failed = function()

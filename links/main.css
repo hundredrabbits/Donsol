@@ -38,3 +38,4 @@ body { background:black; font-family: 'pt_mono',monospace;}
 
 #tips { color:#555; position:absolute; bottom:20px; font-size:12px; width:850px;}
 #tips .key { color:#999; }
+#tips a:hover { color:white;}
