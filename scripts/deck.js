@@ -62,11 +62,13 @@ function Deck()
   this.start = function()
   {
     draw_pile = this.cards;
+    donsol.timeline.add_event("Entered Donsol.");
   }
   
   this.shuffle = function()
   {
     draw_pile = shuffle(this.cards);
+    donsol.timeline.add_event("Entered Donsol.");
   }
   
   this.draw_card = function(type)

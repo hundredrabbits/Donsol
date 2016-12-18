@@ -85,4 +85,8 @@ function Board(element)
     donsol.player.gain_level();
     console.log("Completed dungeon!");
   }
+  
+  this.dungeon_failed = function()
+  {
+  }
 }

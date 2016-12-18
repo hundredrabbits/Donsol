@@ -24,7 +24,6 @@ function Donsol()
   
   this.new_game = function()
   {
-    donsol.timeline.add_event("Entered a new dungeon.");
     this.deck = new Deck();
     this.deck.start();
     

@@ -18,6 +18,9 @@ function Player()
   {
     this.health.show_limit = false;
     this.health.units = "HP";
+    this.shield.units = "DP";
+    this.experience.units = "XP";
+    this.experience.show_limit = false;
     
     this.health.update(21);
     this.shield.update(0);
@@ -29,9 +32,9 @@ function Player()
   
   this.install = function()
   {
-    this.element.appendChild(this.health.install());
-    this.element.appendChild(this.shield.install());
     this.element.appendChild(this.experience.install());
+    this.element.appendChild(this.shield.install());
+    this.element.appendChild(this.health.install());
     
     this.escape_button.setAttribute("class","escape");
     this.escape_button.innerHTML = "Escape";
@@ -54,6 +57,7 @@ function Player()
       if(attack_value >= this.shield.limit){
         this.shield.value = 0;
         this.shield.limit = 0;
+        donsol.player.shield.add_event("<span style='color:red'>Broke!</span>");
       }
       else
       {
@@ -68,8 +72,15 @@ function Player()
     }
     
     // Timeline
-    if(damages > 0){
-      donsol.timeline.add_event("<span class='health minus'>"+damages+"</span> <span class='experience plus'>1</span> Battled the "+card.name+".");
+    if(this.health.value < 1){
+      donsol.player.health.add_event("-"+damages);
+      donsol.timeline.add_event("<span style='color:red'>The "+card.name+" killed you!</span>");
+      donsol.board.dungeon_failed();
+    }
+    else if(damages > 0){
+      donsol.player.health.add_event("-"+damages);
+      donsol.player.experience.add_event("+1");
+      donsol.timeline.add_event("Battled the "+card.name+".");
     }
     
     this.shield.update();
@@ -80,7 +91,9 @@ function Player()
   {
     this.shield.limit = 25;
     this.shield.update(shield_value);
-    donsol.timeline.add_event("<span class='shield plus'>"+shield_value+"</span> <span class='experience plus'>1</span> Equipped shield.");
+    donsol.player.experience.add_event("+1");
+    donsol.player.shield.add_event("+"+shield_value);
+    donsol.timeline.add_event("Equipped shield.");
   }
   
   this.drink_potion = function(potion_value)
@@ -91,7 +104,9 @@ function Player()
     }
     var new_health = this.health.value + potion_value;
     this.health.update(new_health);
-    donsol.timeline.add_event("<span class='health plus'>"+potion_value+"</span> <span class='experience plus'>1</span> Drank potion.");
+    donsol.player.experience.add_event("+1");
+    donsol.player.health.add_event("+"+potion_value);
+    donsol.timeline.add_event("Drank potion.");
     this.can_drink = false;
   }
   
@@ -116,12 +131,22 @@ function Player()
   
   this.update = function()
   {
-    if(this.can_escape() === true){
+    if(this.health.value < 1){
+      this.escape_button.innerHTML = "Restart";
+      this.element.setAttribute("class","death");
+    }
+    else if(this.can_escape() === true){
       this.escape_button.innerHTML = "Run";
+      this.element.setAttribute("class","unlocked");
     }
     else{
       this.escape_button.innerHTML = "Locked";
+      this.element.setAttribute("class","locked");
     }
+    
+    this.health.clear_event();
+    this.shield.clear_event();
+    this.experience.clear_event();
   }
   
   this.can_escape = function()

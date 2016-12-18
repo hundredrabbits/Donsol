@@ -1,0 +1,8 @@
+/* DIN */
+
+@font-face {
+    font-family: 'pt_mono';
+    src: url('../media/fonts/pt_mono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

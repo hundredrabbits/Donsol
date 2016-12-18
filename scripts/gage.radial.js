@@ -25,8 +25,8 @@ function Progress(radius = 15,color = "#ff0000")
   this.update = function(value,limit = 0)
   {
     if(limit === 0){ value = 0; limit = 1;}
-    var min = 8;
-    var max = 65;
+    var min = 0;
+    var max = 130;
     
     var pixels = Math.floor(((value/limit) * max) + min);
     
