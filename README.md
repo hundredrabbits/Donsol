@@ -1,7 +1,3 @@
 # Donsol
 
-- Menu
-- Sounds
-- Levels
-- Responsive
-- New Game plus
+./node_modules/.bin/electron .
