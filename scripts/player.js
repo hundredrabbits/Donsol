@@ -27,6 +27,9 @@ function Player()
     this.experience.limit = 52;
     this.experience.update(0);
     
+    this.can_drink = true;
+    this.has_escaped = false;
+    
     this.update();
   }
   
