@@ -7,26 +7,13 @@ donsol.timeline.element = donsol.player.timeline_element;
 var keyboard = new Keyboard();
 document.onkeyup = function myFunction(){ keyboard.listen(event); };
 
-donsol.start();
+// Splash
 
-// Resize
+var logo = new Logo(document.getElementById("logo"));
 
-$(document).ready(function()
-{
-  scale();
-});
+logo.install();
 
-$(window).resize(function()
-{
-  scale();
-});
+$("#logo").delay(5500).animate({ opacity: 0 }, 1000);
+$("#splash").delay(7000).animate({ opacity: 0 }, 200);
 
-function scale()
-{
-  if( $( window ).width() < 900 ){
-    $("html").addClass("mobile");
-  }
-  else{
-    $("html").removeClass("mobile");
-  }
-}
+setTimeout(function(){ $("#splash").remove(); donsol.start(); }, 7500);
