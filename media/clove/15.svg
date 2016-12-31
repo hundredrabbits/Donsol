@@ -4,7 +4,7 @@
   <circle cx="100" cy="100" r="50" fill="black"/>
   <!-- Head -->
   <!-- Body -->
-  <path d="M20,310 l0,-50 a25,25 0 0,1 15,-15 l25,0 a25,25 0 0,0 25,-25 l0,-50 l30,0 l0,50 a25,25 0 0,0 25,25 l25,0 a15,15 0 0,1 15,15 l0,50" fill="black"></path>
+  <path d="M20,310 l0,-50 a15,15 0 0,1 15,-15 l25,0 a25,25 0 0,0 25,-25 l0,-50 l30,0 l0,50 a25,25 0 0,0 25,25 l25,0 a15,15 0 0,1 15,15 l0,50" fill="black"></path>
   <line x1="0" y1="210" x2="300" y2="210" stroke-width="2px" stroke="white" stroke-linecap="round"/>
   <line x1="0" y1="220" x2="300" y2="220" stroke-width="2px" stroke="white" stroke-linecap="round"/>
   <path d="M95,220 a5,5 0 0,1 10,0" stroke-width="0px" stroke="#ccc" stroke-linecap="round" fill="white"></path>

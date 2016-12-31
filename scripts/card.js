@@ -26,8 +26,8 @@ function Card(sym,value,type,name = "Unknown")
     
     // Badge
     var badge = document.createElement("img");
-    badge.setAttribute("src","media/"+this.type+"/"+this.value+".svg");
-    // badge.setAttribute("src","media/joker/21.svg");
+    // badge.setAttribute("src","media/"+this.type+"/"+this.value+".svg");
+    badge.setAttribute("src","media/clove/11.svg");
     face.appendChild(badge);
     
     // Name
