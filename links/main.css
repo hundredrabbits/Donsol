@@ -1,8 +1,8 @@
 body { background:black; font-family: 'pt_mono',monospace;}
 
-#wrapper { display:block; width:900px; height:400px; margin:calc(50vh - 200px) auto; position:relative;}
+#wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:50px auto;position: relative;width: calc(100% - 60px)}
 
-#player { display: block;margin: 0px auto;position: absolute;top: -20px;left: 0px;width: 850px; z-index:900; font-size:16px; border-bottom:1px solid #333; height:40px; line-height:24px;}
+#player { display: block; font-size:16px; border-bottom:1px solid #333; height:40px; line-height:24px;}
 #player .gage { width: 140px;display: block;color: white;height:40px;position: relative; float:right;}
 #player .gage .value { display: inline-block;line-height:24px;}
 #player .gage .value .unit { color:#999; padding-left:5px;}
@@ -15,19 +15,20 @@ body { background:black; font-family: 'pt_mono',monospace;}
 
 #player.locked a.escape { display:none;}
 
-#board, #table { display:block; margin:0px auto; position: absolute;top: 40px;left: 0px; width:860px;}
-#board card, #table card { display: inline-block !important;background: white;height: 300px;width: 200px;margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:2px solid white;}
+#board, #table { display:block; position: absolute; margin-top: 15px; width: calc(100% + 15px)}
+#board card, #table card { display: inline-block !important;background: white;height: calc(25vw * 1.25);max-height:300px;max-width:200px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:2px solid white;}
 #board card { top:10px; opacity:0.01; z-index:900;}
 #board card:hover { cursor:pointer;}
 #board card .face { display:block;width: 100%;background: white;height: calc(100% - 5px);border-radius: 7px;}
+#board card .face img { width:100%; position: absolute;bottom:0px; }
 #board card .face .value   { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 60px;font-size: 12px;text-align: center;}
 #board card .face .badge   { display: block;position: absolute;width: 200px;height: 300px;left: 0px;top: 0px;text-align: center;}
 #board card .face .icon    { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 15px;font-size: 11px; z-index:900;}
-#board card .face .name    { display: block;position: absolute;bottom: 20px;text-align: center;font-size: 11px;width: 200px;}
+#board card .face .name    { display: block;position: absolute;bottom: 20px;text-align: center;font-size: 11px;width: 100%;}
 #board card.heart .face { color:red;}
 #board card.diamond .face { color:red;}
 
-#table card { background: black;border: 2px solid #333;margin: 5px;width: 190px;height: 290px;}
+#table card { background: black;border: 2px solid #333;}
 #table card .shortcut { position:absolute; right:20px; bottom:15px; color:#555;}
 
 #board card:nth-child(2), #table card:nth-child(2) { position:absolute; left:25%;}
@@ -36,6 +37,6 @@ body { background:black; font-family: 'pt_mono',monospace;}
 
 .card_11 .face .name,.card_13 .face .name,.card_15 .face .name,.card_17 .face .name { color:white;}
 
-#tips { color:#555; position:absolute; bottom:20px; font-size:12px; width:850px;}
+#tips { color: #555;position: absolute;bottom:0px;font-size: 12px;}
 #tips .key { color:#999; }
 #tips a:hover { color:white;}
