@@ -78,6 +78,16 @@ function Board(element)
     if(this.room[3] && this.room[3].is_flipped){ a.push(this.room[3]); }
     return a;
   }
+
+  this.cards_monsters = function()
+  {
+    var a = [];
+    if(this.room[0].constructor.name == "Card_Monster" && this.room[0].is_flipped === false){ a.push(this.room[0]); }
+    if(this.room[1].constructor.name == "Card_Monster" && this.room[1].is_flipped === false){ a.push(this.room[1]); }
+    if(this.room[2].constructor.name == "Card_Monster" && this.room[2].is_flipped === false){ a.push(this.room[2]); }
+    if(this.room[3].constructor.name == "Card_Monster" && this.room[3].is_flipped === false){ a.push(this.room[3]); }
+    return a;
+  }
   
   this.dungeon_complete = function()
   {

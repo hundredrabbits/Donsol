@@ -159,7 +159,8 @@ function Player()
   {
     if(this.experience.value === 0){ console.log("New game skip"); return true; }
     if(donsol.board.cards_flipped().length == 3 && this.has_escaped === false){ console.log("almost clear room"); return true; }
-    if(donsol.board.cards_flipped().length > 0){ console.log("Cannot escape, Room already started"); return false; }
+    if(donsol.board.cards_monsters().length > 0 && this.has_escaped === true){ console.log("Cannot escape, Room already started"); return false; }
+    if(donsol.board.cards_monsters().length == 0){ return true; }
     if(this.has_escaped === false){ return true; }
     return false;
   }
