@@ -18,7 +18,7 @@ function Keyboard()
   {
     if(this.is_locked === true){ return; }
     
-    console.log(event.keyCode);
+    // console.log(event.keyCode);
 
     switch (event.key || event.keyCode) {
       case " " : this.key_space(); break;
@@ -35,7 +35,6 @@ function Keyboard()
 
       case 32 : this.key_space(); break;
       case 27: this.key_escape(); break;
-
     }
   };
 
@@ -50,7 +49,12 @@ function Keyboard()
 
   this.key_space = function()
   {
-    donsol.player.escape_room();
+    if(donsol.player.experience.value < 1){
+      donsol.new_game();
+    }
+    else{
+      donsol.player.escape_room();
+    }
   }
 
   this.key_arrow_up = function()
