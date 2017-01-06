@@ -5,5 +5,8 @@
   "start": "",
   "devDependencies": {
     "electron-prebuilt": "^1.4.13"
+  },
+  "dependencies": {
+    "electron-packager": "^8.4.0"
   }
 }

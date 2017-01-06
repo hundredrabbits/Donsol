@@ -1,3 +1,3 @@
 # Donsol
 
-./node_modules/.bin/electron .
+electron-packager . Donsol --all --out ~/Desktop/Donsol --version 0.30.2 --overwrite
