@@ -79,6 +79,7 @@ function Player()
       donsol.player.health.add_event("-"+damages);
       donsol.timeline.add_event("<span style='color:red'>The "+card.name+" killed you!</span>");
       donsol.board.dungeon_failed();
+      this.update();
     }
     else if(damages > 0){
       donsol.player.health.add_event("-"+damages);
@@ -157,6 +158,7 @@ function Player()
   
   this.can_escape = function()
   {
+    if(this.health.value < 1){ console.log("Death restart"); return true; }
     if(this.experience.value === 0){ console.log("New game skip"); return true; }
     if(donsol.board.cards_flipped().length == 3 && this.has_escaped === false){ console.log("almost clear room"); return true; }
     if(donsol.board.cards_monsters().length > 0 && this.has_escaped === true){ console.log("Cannot escape, Room already started"); return false; }
