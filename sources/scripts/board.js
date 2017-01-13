@@ -52,6 +52,11 @@ function Board(element)
 
   this.update = function()
   {
+    // Don't draw if the player is dead
+    if(donsol.player.health.value < 1){
+      return;
+    }
+
     if( (!this.room[0] || this.room[0].is_flipped) && (!this.room[1] || this.room[1].is_flipped) && (!this.room[2] || this.room[2].is_flipped) && (!this.room[3] || this.room[3].is_flipped) && donsol.deck.cards.length < 1){
       this.dungeon_complete();
       return;
