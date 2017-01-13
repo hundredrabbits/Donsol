@@ -1,7 +1,7 @@
 # Donsol
 
-A web based client to play Donsol.
+Donsol is a solitary card game, designed by John Eternal in which you must go through the deck in sequences of 4 cards.
 
 ## Electron Build
 
-```electron-packager . Donsol --all --out ~/Github/Hundred\ Rabbits/Donsol/builds --overwrite --icon=~/Github/Hundred\ Rabbits/Donsol/icon.icn```
+```electron-packager . Donsol --all --out ~/Github/HundredRabbits/Donsol/builds --overwrite --icon=~/Github/HundredRabbits/Donsol/icon.icn```
