@@ -27,7 +27,7 @@ function Deck()
     new Card_Shield("V",11,DIAMOND,"Red Mage"),
     new Card_Shield("Q",11,DIAMOND,"Red Mage"),
     new Card_Shield("K",11,DIAMOND,"Red Mage"),
-    new Card_Monster("A",17,CLOVE,"Empresss"),
+    new Card_Monster("A",17,CLOVE,"Empress"),
     new Card_Monster("2",2,CLOVE,"Rat"),
     new Card_Monster("3",3,CLOVE,"Bat"),
     new Card_Monster("4",4,CLOVE,"Imp"),
