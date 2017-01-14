@@ -80,7 +80,7 @@ function Deck()
       case DIAMOND:
         i = Math.floor((Math.random() * 10) + 13); break;
       case CLOVE:
-        i = Math.floor((Math.random() * 10) + 26); break;
+        i = Math.floor((Math.random() * 10) + 25); break;
       case SPADE:
         i = Math.floor((Math.random() * 10) + 36); break;
     }

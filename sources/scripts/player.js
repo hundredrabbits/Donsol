@@ -119,7 +119,7 @@ function Player()
   
   this.escape_room = function()
   {
-    if(this.health.value < 1 || donsol.is_complete === true){
+    if(this.health.value < 1 || donsol.is_complete === true || this.experience.value == 0){
       donsol.new_game();
       return;
     }
