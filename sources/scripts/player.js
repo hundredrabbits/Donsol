@@ -98,7 +98,7 @@ function Player()
     this.shield.break_limit = null;
 
     this.shield.update();
-    donsol.player.shield.add_event(shield_value);
+    // donsol.player.shield.add_event(shield_value);
     donsol.player.experience.add_event("+1");
     donsol.timeline.add_event("Equipped shield "+shield_value+".");
     this.can_drink = true;
