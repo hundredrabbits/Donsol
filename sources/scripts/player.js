@@ -54,7 +54,6 @@ function Player()
     var damages = attack_value;
 
     // Shield
-    
     if(this.shield.value > 0){
       // Damaged shield
       if(this.shield.is_damaged() === true && attack_value >= this.shield.break_limit){
@@ -86,6 +85,7 @@ function Player()
       donsol.timeline.add_event("Battled the "+card.name+".");
     }
     
+    // Experience
     donsol.player.experience.add_event("+1");
     
     this.can_drink = true;
@@ -171,12 +171,11 @@ function Player()
   
   this.can_escape = function()
   {
-    if(this.health.value < 1){ console.log("Death restart"); return true; }
-    if(this.experience.value === 0){ console.log("New game skip"); return true; }
-    if(donsol.board.cards_flipped().length == 3 && this.has_escaped === false){ console.log("almost clear room"); return true; }
-    if(donsol.board.cards_monsters().length > 0 && this.has_escaped === true){ console.log("Cannot escape, Room already started"); return false; }
-    if(donsol.board.cards_monsters().length == 0){ return true; }
-    if(this.has_escaped === false){ return true; }
+    if(this.health.value < 1){ return true; }                                                   // Death
+    if(this.experience.value === 0){ return true; }                                             // New Game
+    if(donsol.board.cards_monsters().length > 0 && this.has_escaped === true){ return false; }  // Room Started
+    if(donsol.board.cards_monsters().length == 0){ return true; }                               // Monsters in the room
+    if(this.has_escaped === false){ return true; }                                              // Can escape
     return false;
   }
 }

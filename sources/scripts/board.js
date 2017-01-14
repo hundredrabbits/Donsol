@@ -5,7 +5,7 @@ function Board(element)
   
   this.enter_room = function(starting_hand = null)
   {
-    console.log("Entering room");
+    console.log("<room>");
     
     this.remove_cards();
   
@@ -62,9 +62,7 @@ function Board(element)
       return;
     }
     if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){
-      this.room_complete();
-      // Use this here to delay switching room
-      // setTimeout(function(){ alert("Hello"); }, 3000);
+      setTimeout(function(){ donsol.board.room_complete(); }, 1000);
     }
   }
   

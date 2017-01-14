@@ -37,7 +37,6 @@ function Card(sym,value,type,name = "Unknown")
     face.appendChild(name_element);
     
     // Icon
-    console.log(this.type);
     face.appendChild(new Icon(this.type).install());
     
     addClickHandler(e,this,this.value);
