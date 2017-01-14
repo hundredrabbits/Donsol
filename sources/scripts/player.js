@@ -89,6 +89,7 @@ function Player()
     donsol.player.experience.add_event("+1");
     
     this.can_drink = true;
+    donsol.is_complete = false;
     this.shield.update();
     this.health.update();
   }
@@ -104,6 +105,7 @@ function Player()
     donsol.player.experience.add_event("+1");
     donsol.timeline.add_event("Equipped shield "+shield_value+".");
     this.can_drink = true;
+    donsol.is_complete = false;
     this.shield.update();
     this.health.update();
   }
@@ -126,6 +128,7 @@ function Player()
     donsol.player.experience.add_event("+1");
     donsol.timeline.add_event("Drank potion.");
     this.can_drink = false;
+    donsol.is_complete = false;
     this.health.update();
     this.shield.update();
   }
