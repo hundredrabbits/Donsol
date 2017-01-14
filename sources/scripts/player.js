@@ -1,7 +1,7 @@
 function Player()
 {
   this.element = null;
-  this.health = new Gage("Health",21,"#ff0000");
+  this.health = new Gage_Health("Health",21,"#ff0000");
   this.shield = new Gage_Shield("Shield",0,"#72dec2");
   this.experience = new Gage("Experience",0,"#ffffff");
   
@@ -49,11 +49,12 @@ function Player()
   
   this.attack = function(card)
   {
+    console.log("<attack>"+card.value);
     var attack_value = card.value;
-    
     var damages = attack_value;
+
     // Shield
-    console.log("! Attack "+attack_value);
+    
     if(this.shield.value > 0){
       // Damaged shield
       if(this.shield.is_damaged() === true && attack_value >= this.shield.break_limit){
@@ -87,38 +88,46 @@ function Player()
     
     donsol.player.experience.add_event("+1");
     
+    this.can_drink = true;
     this.shield.update();
     this.health.update();
-    this.can_drink = true;
   }
   
   this.equip_shield = function(shield_value)
   {
+    console.log("<shield>"+shield_value);
+
     this.shield.value = shield_value;
     this.shield.break_limit = null;
 
-    this.shield.update();
     // donsol.player.shield.add_event(shield_value);
     donsol.player.experience.add_event("+1");
     donsol.timeline.add_event("Equipped shield "+shield_value+".");
     this.can_drink = true;
+    this.shield.update();
+    this.health.update();
   }
   
   this.drink_potion = function(potion_value)
   {
+    console.log("<potion>"+potion_value);
+
     if(this.can_drink === false){
       donsol.timeline.add_event("Wasted potion!");
+      donsol.player.health.add_event("Wasted");
       return;
     }
     var before_health = this.health.value;
     var new_health = this.health.value + potion_value; new_health = new_health > 21 ? 21 : new_health;
-    this.health.update(new_health);
+    
 
     var mod = new_health - before_health;
     donsol.player.health.add_event(mod > 0 ? "+"+mod : "Wasted");
     donsol.player.experience.add_event("+1");
     donsol.timeline.add_event("Drank potion.");
     this.can_drink = false;
+    this.health.update();
+    this.shield.update();
   }
   
   this.escape_room = function()
