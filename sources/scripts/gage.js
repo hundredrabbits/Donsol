@@ -25,7 +25,7 @@ function Gage(name,limit,color)
     
     this.value_element = document.createElement("span");
     this.value_element.setAttribute("class","value");
-    this.value_element.innerHTML = this.value+"/"+this.limit;
+    this.value_element.innerHTML = this.value+"("+this.limit+")";
     this.element.appendChild(this.value_element);
     
     this.event_element = document.createElement("span");
@@ -50,7 +50,7 @@ function Gage(name,limit,color)
       this.value_element.innerHTML = this.value+"<span class='unit'>DP</span>";
     }
     else{
-      this.value_element.innerHTML = this.show_limit ? this.value+"/"+this.limit+"<span class='unit'>"+this.units+"</span>" : this.value+"<span class='unit'>"+this.units+"</span>";
+      this.value_element.innerHTML = this.show_limit ? this.value+" < "+this.limit+"<span class='unit'>"+this.units+"</span>" : this.value+"<span class='unit'>"+this.units+"</span>";
     }
   }
   

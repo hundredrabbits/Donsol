@@ -1,7 +1,5 @@
 function Progress(radius = 15,color = "#ff0000")
 {
-  this.radius = radius;
-  this.circumference = 2 * Math.PI * this.radius;
   this.color = color;
   
   this.wrapper = null;

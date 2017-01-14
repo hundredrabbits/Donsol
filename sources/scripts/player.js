@@ -2,7 +2,7 @@ function Player()
 {
   this.element = null;
   this.health = new Gage("Health",21,"#ff0000");
-  this.shield = new Gage("Shield",0,"#72dec2");
+  this.shield = new Gage_Shield("Shield",0,"#72dec2");
   this.experience = new Gage("Experience",0,"#ffffff");
   
   this.can_drink = true;
@@ -53,18 +53,17 @@ function Player()
     
     var damages = attack_value;
     // Shield
-    console.log("Attack:"+attack_value);
+    console.log("! Attack "+attack_value);
     if(this.shield.value > 0){
-      console.log("Shield:"+this.shield.value);
       // Damaged shield
-      if(attack_value >= this.shield.limit){
+      if(this.shield.is_damaged() === true && attack_value >= this.shield.break_limit){
         this.shield.value = 0;
-        this.shield.limit = 0;
+        this.shield.break_limit = null;
         donsol.player.shield.add_event("<span style='color:red'>Broke!</span>");
       }
       else
       {
-        this.shield.limit = attack_value;
+        this.shield.break_limit = attack_value;
         damages = attack_value > this.shield.value ? Math.abs(attack_value - this.shield.value) : 0;
       }
     }
@@ -95,11 +94,13 @@ function Player()
   
   this.equip_shield = function(shield_value)
   {
-    this.shield.limit = 25;
-    this.shield.update(shield_value);
+    this.shield.value = shield_value;
+    this.shield.break_limit = null;
+
+    this.shield.update();
+    donsol.player.shield.add_event(shield_value);
     donsol.player.experience.add_event("+1");
-    donsol.player.shield.add_event("+"+shield_value);
-    donsol.timeline.add_event("Equipped shield.");
+    donsol.timeline.add_event("Equipped shield "+shield_value+".");
     this.can_drink = true;
   }
   
@@ -109,10 +110,13 @@ function Player()
       donsol.timeline.add_event("Wasted potion!");
       return;
     }
-    var new_health = this.health.value + potion_value;
+    var before_health = this.health.value;
+    var new_health = this.health.value + potion_value; new_health = new_health > 21 ? 21 : new_health;
     this.health.update(new_health);
+
+    var mod = new_health - before_health;
+    donsol.player.health.add_event(mod > 0 ? "+"+mod : "Wasted");
     donsol.player.experience.add_event("+1");
-    donsol.player.health.add_event("+"+potion_value);
     donsol.timeline.add_event("Drank potion.");
     this.can_drink = false;
   }
