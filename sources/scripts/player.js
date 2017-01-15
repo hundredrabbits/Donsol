@@ -22,10 +22,10 @@ function Player()
     this.experience.units = "XP";
     this.experience.show_limit = false;
     
-    this.health.update(21);
-    this.shield.update(0);
+    this.health.value = 21;
+    this.shield.value = 0;
     this.experience.limit = 54;
-    this.experience.update(0);
+    this.experience.value = 0;
     
     this.can_drink = true;
     this.has_escaped = false;
@@ -122,8 +122,8 @@ function Player()
     var before_health = this.health.value;
     var new_health = this.health.value + potion_value; new_health = new_health > 21 ? 21 : new_health;
     
-
     var mod = new_health - before_health;
+    donsol.player.health.value = new_health;
     donsol.player.health.add_event(mod > 0 ? "+"+mod : "Wasted");
     donsol.player.experience.add_event("+1");
     donsol.timeline.add_event("Drank potion.");

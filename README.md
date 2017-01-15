@@ -4,4 +4,6 @@ Donsol is a solitary card game, designed by John Eternal in which you must go th
 
 ## Electron Build
 
-```electron-packager . Donsol --all --out ~/Desktop/builds --overwrite --icon=~/Github/HundredRabbits/Donsol/icon.icn```
+```
+electron-packager . Donsol --all --out ~/Desktop/builds --overwrite --icon=~/Github/HundredRabbits/Donsol/icon.icn
+```
