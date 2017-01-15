@@ -45,6 +45,7 @@ function Player()
     this.timeline_element.setAttribute("class","timeline");
     this.timeline_element.innerHTML = "";
     this.element.appendChild(this.timeline_element);
+    this.update();
   }
   
   this.attack = function(card)
@@ -170,6 +171,11 @@ function Player()
     this.health.clear_event();
     this.shield.clear_event();
     this.experience.clear_event();
+
+    this.health.update();
+    this.shield.update();
+    this.experience.update();
+
   }
   
   this.can_escape = function()
