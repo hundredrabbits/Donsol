@@ -9,9 +9,9 @@ document.onkeyup = function myFunction(event){ keyboard.listen(event); };
 
 // Splash
 
-var logo = new Logo(document.getElementById("logo"));
+var logo = new Logo(false);
 
-logo.install();
+logo.install(document.getElementById("logo"),120);
 
 $("#logo").delay(5500).animate({ opacity: 0 }, 1000);
 $("#splash").delay(7000).animate({ opacity: 0 }, 200);
