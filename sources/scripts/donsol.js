@@ -7,6 +7,7 @@ const JOKER   = "joker";
 
 function Donsol()
 {
+  this.theme = new Theme();
   this.deck = new Deck();
   this.board = new Board();
   this.player = new Player();
@@ -16,6 +17,7 @@ function Donsol()
   
   this.start = function()
   {
+    this.theme.start();
     this.deck.start();
     this.player.install();
     this.player.start();

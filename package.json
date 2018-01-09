@@ -2,9 +2,25 @@
   "name": "Donsol",
   "version": "0.1.0",
   "main": "main.js",
-  "start": "",
+  "scripts": {
+    "start": "electron .",
+    "clean"        : "rm -r ~/Desktop/Donsol-darwin-x64/ ; rm -r ~/Desktop/Donsol-linux-x64/ ; rm -r ~/Desktop/Donsol-win32-x64/ ; echo 'cleaned build location'",
+    "build_osx"    : "electron-packager . Donsol --platform=darwin --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.icns ; echo 'Built for OSX'",
+    "build_linux"  : "electron-packager . Donsol --platform=linux  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for LINUX'",
+    "build_win"    : "electron-packager . Donsol --platform=win32  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for WIN'",
+    "build"        : "npm run clean ; npm run build_osx ; npm run build_linux ; npm run build_win",
+    "push_osx"     : "~/butler push ~/Desktop/Donsol-darwin-x64/ hundredrabbits/donsol:osx-64",
+    "push_linux"   : "~/butler push ~/Desktop/Donsol-linux-x64/ hundredrabbits/donsol:linux-64",
+    "push_win"     : "~/butler push ~/Desktop/Donsol-win32-x64/ hundredrabbits/donsol:windows-64",
+    "push_status"  : "~/butler status hundredrabbits/donsol",
+    "theme"        : "npm run theme_osx ; npm run theme_linux ; npm run theme_win",
+    "theme_osx"    : "cp -R ~/Github/HundredRabbits/Themes/themes ~/Desktop/Donsol-darwin-x64/",
+    "theme_linux"  : "cp -R ~/Github/HundredRabbits/Themes/themes ~/Desktop/Donsol-linux-x64/",
+    "theme_win"    : "cp -R ~/Github/HundredRabbits/Themes/themes ~/Desktop/Donsol-win32-x64/",
+    "push"         : "npm run build ; npm run theme ; npm run push_osx ; npm run push_linux ; npm run push_win ; npm run clean ; npm run push_status"
+  },
   "devDependencies": {
-    "electron-prebuilt": "^1.4.13"
+    "electron": "^1.8.1"
   },
   "dependencies": {
     "electron-packager": "^8.4.0"

@@ -1,8 +1,15 @@
-/* DIN */
+/* Input */
 
 @font-face {
-    font-family: 'pt_mono';
-    src: url('../media/fonts/pt_mono.ttf') format('truetype');
+    font-family: 'input_mono_regular';
+    src: url('../media/fonts/input_mono_regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'input_mono_medium';
+    src: url('../media/fonts/input_mono_medium.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }

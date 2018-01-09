@@ -23,12 +23,11 @@ function Card(sym,value,type,name = "Unknown")
     value.setAttribute("class","value");
     value.innerHTML = this.symbol;
     face.appendChild(value);
-    
-    // Badge
-    var badge = document.createElement("img");
-    badge.setAttribute("src","media/"+this.type+"/"+this.value+".svg");
-    // badge.setAttribute("src","media/heart/10.svg");
-    face.appendChild(badge);
+
+    var graphic = document.createElement("div");
+    graphic.className = "graphic";
+    graphic.innerHTML = require("fs").readFileSync("sources/media/"+this.type+"/"+this.value+".svg")
+    face.appendChild(graphic);
     
     // Name
     var name_element = document.createElement("span");
@@ -45,7 +44,7 @@ function Card(sym,value,type,name = "Unknown")
     
     return e;
   }
-  
+
   function addClickHandler(elem, object)
   {
     elem.addEventListener('click', function(e) { object.touch(); }, false);

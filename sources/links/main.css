@@ -1,34 +1,32 @@
-body { background:black; font-family: 'pt_mono',monospace; min-width:750px; overflow-y: hidden;}
+body { background:black; font-family: 'input_mono_regular',monospace; min-width:750px; overflow-y: hidden;}
 
 #wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:50px auto;position: relative;width: calc(100% - 60px)}
 
-#player { display: block; font-size:12px; border-bottom:1px solid #333; height:30px; line-height:20px; max-width:890px;}
+#player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px;}
 #player .gage { width: 145px;display: block;color: white;height:30px;position: relative; float:right;}
 #player .gage .value { display: inline-block;line-height:20px;}
 #player .gage .value .unit { color:#999; padding-left:5px;}
 #player .gage .event { display: inline-block;line-height:24px; padding-left:5px;}
 #player .gage .progress { display:block !important; height:1px; width:140px; position:absolute; bottom:-1px;}
 #player .gage .progress .bar{ height:1px; display:block !important;}
-#player a.escape { background: #fff;padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid black; margin-top:-2px;}
+#player a.escape { padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:-2px; color:white;}
 #player a.escape:hover { cursor:pointer; border:2px solid white; padding:0px 8px; background:none; color:white; }
 #player div.timeline { display: inline-block;color:white;}
 
 #player.locked a.escape { display:none;}
 
 #board, #table { display:block; position: absolute; margin-top: 15px; width: calc(100% + 15px)}
-#board card, #table card { display: inline-block !important;background: white;height: calc(25vw * 1.25);max-height:300px;max-width:200px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden; border:2px solid white;}
-#board card { top:10px; opacity:0.01; z-index:900;}
+#board card, #table card { display: inline-block !important;height: calc(25vw * 1.25);max-height:300px;max-width:200px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden;}
+#board card { top:10px; opacity:0.01; z-index:900; min-height: 240px;}
 #board card:hover { cursor:pointer;}
-#board card .face { display:block;width: 100%;background: white;height: calc(100% - 5px);border-radius: 7px;}
+#board card .face { display:block;width: 100%;height: calc(100% - 5px);border-radius: 7px;}
 #board card .face img { width:100%; position: absolute;bottom:0px; }
 #board card .face .value   { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 60px;font-size: 12px;text-align: center;}
-#board card .face .badge   { display: block;position: absolute;width: 200px;height: 300px;left: 0px;top: 0px;text-align: center;}
+#board card .face .graphic svg { display: block;position: absolute;left: calc(50% - 100px);bottom: calc(50% - 150px);}
 #board card .face .icon    { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 15px;font-size: 11px; z-index:900;}
 #board card .face .name    { display: block;position: absolute;bottom: 20px;text-align: center;font-size: 11px;width: 100%;}
-#board card.heart .face { color:red;}
-#board card.diamond .face { color:red;}
 
-#table card { background: black;border: 2px solid #333;}
+#table card { }
 #table card .shortcut { position:absolute; right:20px; bottom:15px; color:#555;}
 
 #board card:nth-child(2), #table card:nth-child(2) { position:absolute; left:25%;}

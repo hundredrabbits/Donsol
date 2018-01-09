@@ -1,4 +1,4 @@
 <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
-  <circle cx="100" cy="200" r="25" fill="black"/>
-  <circle cx="100" cy="150" r="25" fill="black"/>
+  <circle cx="100" cy="200" r="25" class="fill_black"/>
+  <circle cx="100" cy="150" r="25" class="fill_black"/>
 </svg>

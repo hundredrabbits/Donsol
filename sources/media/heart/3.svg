@@ -1,5 +1,5 @@
 <svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
-  <path d="M75,175 a15,15 0 0,1 50,0 l-25,25 l-25,-25" fill="red"></path>
-  <path d="M125,175 a15,15 0 0,1 50,0 l-25,25 l-25,-25" fill="red"></path>
-  <path d="M25,175 a15,15 0 0,1 50,0 l-25,25 l-25,-25" fill="red"></path>
+  <path d="M75,175 a15,15 0 0,1 50,0 l-25,25 l-25,-25" class="fill_red"></path>
+  <path d="M125,175 a15,15 0 0,1 50,0 l-25,25 l-25,-25" class="fill_red"></path>
+  <path d="M25,175 a15,15 0 0,1 50,0 l-25,25 l-25,-25" class="fill_red"></path>
 </svg>
