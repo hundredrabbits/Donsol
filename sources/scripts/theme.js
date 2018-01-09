@@ -65,6 +65,15 @@ svg .fill_black { fill:${theme.b_med} !important }
 
 #table card { background:${theme.b_low} !important}
 #player .gage .value .unit { color:${theme.b_low} !important}
+#player .gage .progress { background:${theme.b_low} !important }
+#tips { color: ${theme.b_low} !important }
+#tips .key { color: ${theme.b_high} !important }
+
+/* EXTRAS*/
+#player .gage.health .progress .bar { background:${theme.b_high} !important  }
+#player .gage.shield .progress .bar { background:${theme.b_med} !important  }
+#player .gage.experience .progress .bar { background:${theme.b_inv} !important  }
+#table card .shortcut { color:${theme.background} !important}
 `;
 
     this.el.innerHTML = html;

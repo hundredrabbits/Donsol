@@ -1,7 +1,5 @@
-function Progress(radius = 15,color = "#ff0000")
-{
-  this.color = color;
-  
+function Progress(radius = 15)
+{  
   this.wrapper = null;
   this.progress_bar = null;
   
@@ -9,11 +7,9 @@ function Progress(radius = 15,color = "#ff0000")
   {
     this.wrapper = document.createElement("div");
     this.wrapper.setAttribute("class","progress");
-    this.wrapper.style.borderColor = this.color;
     
     this.progress_bar = document.createElement("div");
     this.progress_bar.setAttribute("class","bar");
-    this.progress_bar.style.backgroundColor = this.color;
     
     this.wrapper.appendChild(this.progress_bar);
     

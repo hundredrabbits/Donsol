@@ -60,7 +60,7 @@ function Player()
       if(this.shield.is_damaged() === true && attack_value >= this.shield.break_limit){
         this.shield.value = 0;
         this.shield.break_limit = null;
-        donsol.player.shield.add_event("<span style='color:red'>Broke!</span>");
+        donsol.player.shield.add_event("<span>Broke!</span>");
       }
       else
       {
@@ -77,7 +77,7 @@ function Player()
     // Timeline
     if(this.health.value < 1){
       donsol.player.health.add_event("-"+damages);
-      donsol.timeline.add_event("<span style='color:red'>The "+card.name+" killed you!</span>");
+      donsol.timeline.add_event("<span>The "+card.name+" killed you!</span>");
       donsol.board.dungeon_failed();
       this.update();
     }

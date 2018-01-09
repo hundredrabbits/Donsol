@@ -19,7 +19,7 @@ function Gage(name,limit,color)
   
   this.install = function()
   {
-    this.element.setAttribute("class","gage");
+    this.element.setAttribute("class","gage "+this.name.toLowerCase());
     
     this.element.appendChild(this.progress.install());
     
@@ -56,7 +56,7 @@ function Gage(name,limit,color)
   
   this.add_event = function(value)
   {
-    this.event_element.innerHTML = "<span style='color:"+this.color+"'>"+value+"</span>";
+    this.event_element.innerHTML = "<span class='name'>"+value+"</span>";
     this.event_element.style.marginLeft = "0px";
     this.event_element.style.opacity = "0";
     $(this.event_element).animate({ marginLeft: 5, opacity: 1 }, 300);

@@ -5,7 +5,7 @@ function Keyboard()
   this.lock = function()
   {
     this.is_locked = true;
-    interface.actions_panel.style.color = "red";
+    interface.actions_panel.style.color = "white";
   }
 
   this.unlock = function()
