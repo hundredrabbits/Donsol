@@ -58,9 +58,13 @@ svg .fill_red { fill:${theme.b_inv} !important }
 svg .fill_white { fill:${theme.b_high} !important }
 #player a.escape { border:2px solid ${theme.b_high} !important; color: ${theme.b_high}; }
 #board card .face { background:${theme.b_high}}
+.card_11 .face .name,.card_13 .face .name,.card_15 .face .name,.card_17 .face .name { color:${theme.b_high};}
+#player .gage { color:${theme.b_high} }
 
 svg .fill_black { fill:${theme.b_med} !important }
+
 #table card { background:${theme.b_low} !important}
+#player .gage .value .unit { color:${theme.b_low} !important}
 `;
 
     this.el.innerHTML = html;

@@ -3,14 +3,13 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:50px auto;position: relative;width: calc(100% - 60px)}
 
 #player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px;}
-#player .gage { width: 145px;display: block;color: white;height:30px;position: relative; float:right;}
+#player .gage { width: 145px;display: block;height:30px;position: relative; float:right;}
 #player .gage .value { display: inline-block;line-height:20px;}
-#player .gage .value .unit { color:#999; padding-left:5px;}
 #player .gage .event { display: inline-block;line-height:24px; padding-left:5px;}
 #player .gage .progress { display:block !important; height:1px; width:140px; position:absolute; bottom:-1px;}
 #player .gage .progress .bar{ height:1px; display:block !important;}
 #player a.escape { padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:-2px; color:white;}
-#player a.escape:hover { cursor:pointer; border:2px solid white; padding:0px 8px; background:none; color:white; }
+#player a.escape:hover { cursor: pointer }
 #player div.timeline { display: inline-block;color:white;}
 
 #player.locked a.escape { display:none;}
@@ -32,8 +31,6 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #board card:nth-child(2), #table card:nth-child(2) { position:absolute; left:25%;}
 #board card:nth-child(3), #table card:nth-child(3) { position:absolute; left:50%;}
 #board card:nth-child(4), #table card:nth-child(4) { position:absolute; left:75%;}
-
-.card_11 .face .name,.card_13 .face .name,.card_15 .face .name,.card_17 .face .name { color:white;}
 
 #tips { color: #555;position: absolute;bottom:0px;font-size: 12px; width:100%;max-width:900px}
 #tips .key { color:#999; }
