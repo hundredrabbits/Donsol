@@ -3,11 +3,12 @@ function Theme()
   this.el = document.createElement("style");
   this.active = null;
 
-  this.default = { background: "#222", f_high: "#fff", f_med: "#777", f_low: "#444", f_inv: "#000", b_high: "#000", b_med: "#affec7", b_low: "#000", b_inv: "#affec7" }
+  this.default = { background: "#000",f_high: "white",f_med: "#a93232",f_low: "#cccccc",f_inv: "#a93232",b_high: "#ffffff",b_med: "#000000",b_low: "#333333",b_inv: "#a93232"}
 
   this.start = function()
   {
     document.body.appendChild(this.el)
+    
     if(localStorage.theme && is_json(localStorage.theme)){
       console.log("Theme","Found in localStorage")
       this.install(JSON.parse(localStorage.theme));  
@@ -62,6 +63,14 @@ svg .fill_white { fill:${theme.b_high} !important }
 #player .gage { color:${theme.b_high} }
 
 svg .fill_black { fill:${theme.b_med} !important }
+#board card.clove .face { color:${theme.b_med} !important;}
+#board card.spade .face { color:${theme.b_med} !important;}
+#board card.joker .face { color:${theme.b_med} !important;}
+
+svg .stroke_white { stroke:${theme.b_high} !important }
+svg .stroke_black { stroke:${theme.b_med} !important }
+svg .stroke_grey { stroke:${theme.f_low} !important }
+svg .fill_grey { fill:${theme.f_low} !important }
 
 #table card { background:${theme.b_low} !important}
 #player .gage .value .unit { color:${theme.b_low} !important}
@@ -70,10 +79,11 @@ svg .fill_black { fill:${theme.b_med} !important }
 #tips .key { color: ${theme.b_high} !important }
 
 /* EXTRAS*/
-#player .gage.health .progress .bar { background:${theme.b_high} !important  }
-#player .gage.shield .progress .bar { background:${theme.b_med} !important  }
-#player .gage.experience .progress .bar { background:${theme.b_inv} !important  }
+#player .gage.health .progress .bar { background:${theme.b_inv} !important  }
+#player .gage.shield .progress .bar { background:${theme.b_high} !important  }
+#player .gage.experience .progress .bar { background:${theme.b_med} !important  }
 #table card .shortcut { color:${theme.background} !important}
+
 `;
 
     this.el.innerHTML = html;

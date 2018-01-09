@@ -50,7 +50,7 @@ function Gage(name,limit,color)
       this.value_element.innerHTML = this.value+"<span class='unit'>DP</span>";
     }
     else{
-      this.value_element.innerHTML = this.show_limit ? this.value+" < "+this.limit+"<span class='unit'>"+this.units+"</span>" : this.value+"<span class='unit'>"+this.units+"</span>";
+      this.value_element.innerHTML = this.show_limit ? this.value+" < "+this.limit+"<span class='unit'>"+this.units+"</span>" : this.value+" <span class='unit'>"+this.units+"</span>";
     }
   }
   

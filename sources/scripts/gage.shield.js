@@ -15,7 +15,7 @@ function Gage_Shield(name,limit,color)
       this.progress.update(0,11);
     }
     else{
-      this.value_element.innerHTML = "<span style='color:#82dec2'>"+this.value+"</span> <span class='unit'>DP</span>";  
+      this.value_element.innerHTML = "<span>"+this.value+"</span> <span class='unit'>DP</span>";  
       this.progress.update(this.value,11);
     }
   }

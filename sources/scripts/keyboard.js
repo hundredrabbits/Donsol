@@ -17,6 +17,8 @@ function Keyboard()
   this.listen = function(event)
   {
     if(this.is_locked === true){ return; }
+
+    if((event.key == "Backspace" || event.key == "Delete") && (event.ctrlKey || event.metaKey)) { donsol.theme.reset(); event.preventDefault(); return; }
     
     // console.log(event.keyCode);
 
