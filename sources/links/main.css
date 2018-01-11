@@ -2,7 +2,7 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 
 #wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:50px auto;position: relative;width: calc(100% - 60px)}
 
-#player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px;}
+#player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px; -webkit-user-select: none;-webkit-app-region: drag; padding-top: 100px;margin-top: -120px;}
 #player .gage { width: 120px;display: block;height:30px;position: relative; float:right;}
 #player .gage .value { display: inline-block;line-height: 20px;font-family: 'input_mono_medium';padding-left: 5px;}
 #player .gage .event { display: inline-block;position: absolute;top: -20px;left: 0px;}
@@ -15,8 +15,8 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #player.locked a.escape { display:none;}
 
 #board, #table { display:block; position: absolute; margin-top: 15px; width: calc(100% + 15px)}
-#board card, #table card { display: inline-block !important;height: calc(25vw * 1.25);max-height:300px;max-width:200px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden;}
-#board card { top:10px; opacity:0.01; z-index:900; min-height: 240px;}
+#board card, #table card { display: inline-block !important;height: calc(25vw * 1.25);max-height:300px;max-width:200px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden;min-height: 300px;}
+#board card { top:10px; opacity:0.01; z-index:900; }
 #board card:hover { cursor:pointer;}
 #board card .face { display:block;width: 100%;height: calc(100% - 5px);border-radius: 7px;}
 #board card .face img { width:100%; position: absolute;bottom:0px; }
@@ -32,7 +32,7 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #board card:nth-child(3), #table card:nth-child(3) { position:absolute; left:50%;}
 #board card:nth-child(4), #table card:nth-child(4) { position:absolute; left:75%;}
 
-#tips { position: absolute;bottom:0px;font-size: 12px; width:100%;max-width:900px}
+#tips { position: fixed;bottom: 30px;font-size: 12px;width: calc(100% - 70px);max-width: 900px;}
 #tips a:hover { color:white;}
 
 #splash { position:fixed; top:0px; left:0px; width:100%; height:100%; background:black; z-index: 9000 }

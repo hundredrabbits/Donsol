@@ -16,8 +16,8 @@ logo.install(document.getElementById("logo"),120);
 $("#logo").delay(5500).animate({ opacity: 0 }, 1000);
 $("#splash").delay(7000).animate({ opacity: 0 }, 200);
 
-// setTimeout(function(){ $("#splash").remove(); donsol.start(); }, 5500);
-setTimeout(function(){ $("#splash").remove(); donsol.start(); }, 100);
+setTimeout(function(){ $("#splash").remove(); donsol.start(); }, 5500);
+// setTimeout(function(){ $("#splash").remove(); donsol.start(); }, 100);
 
 window.addEventListener('dragover',function(e)
 {

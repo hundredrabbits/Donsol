@@ -1,53 +1,54 @@
-const {app, BrowserWindow, webFrame} = require('electron')
+const {app, BrowserWindow, webFrame, Menu} = require('electron')
 const path = require('path')
 const url = require('url')
+const shell = require('electron').shell;
 
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
 let win
 
-function createWindow () {
-  // Create the browser window.
-  win = new BrowserWindow({width: 960, height: 500, minWidth:750, minHeight:400, backgroundColor: '#000000', resizable:true, autoHideMenuBar: true,icon: __dirname + '/icon.ico'})
+app.on('ready', () => 
+{
+  win = new BrowserWindow({width: 960, height: 500, minWidth:860, minHeight:450, frame:false, autoHideMenuBar: true,backgroundColor: '#000000', resizable:true, autoHideMenuBar: true,icon: __dirname + '/icon.ico'})
 
   win.loadURL(`file://${__dirname}/sources/index.html`)
 
-  // Open the DevTools.
-  // win.webContents.openDevTools()
+  let is_shown = true;
 
-  // Emitted when the window is closed.
+  Menu.setApplicationMenu(Menu.buildFromTemplate([
+    { label: 'File', submenu: [
+        { label: 'Inspector', accelerator: 'CmdOrCtrl+.', click: () => { win.webContents.openDevTools(); }},
+        { label: 'Guide', accelerator: 'CmdOrCtrl+,', click: () => { shell.openExternal('https://github.com/hundredrabbits/Marabu'); }},
+        { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => { force_quit=true; app.exit(); }}
+      ]
+    },
+    { label: 'Window', submenu : [
+        { label: 'Hide', accelerator: 'CmdOrCtrl+H',click: () => { if(is_shown){ win.hide(); } else{ win.show(); }}},
+        { label: 'Minimize', accelerator: 'CmdOrCtrl+M',click: () => { win.minimize(); }},
+        { label: 'Fullscreen', accelerator: 'CmdOrCtrl+Enter',click: () => { win.setFullScreen(win.isFullScreen() ? false : true); }}
+      ]
+    }
+  ]));
+
   win.on('closed', () => {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     win = null
-  })
-}
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
-
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
     app.quit()
-  }
+  })
+
+  win.on('hide',function() {
+    is_shown = false;
+  })
+
+  win.on('show',function() {
+    is_shown = true;
+  })
+})
+
+app.on('window-all-closed', () => 
+{
+  app.quit()
 })
 
 app.on('activate', () => {
-  // On macOS it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow()
   }
-  else{
-    
-  }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
