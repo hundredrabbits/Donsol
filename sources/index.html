@@ -16,11 +16,10 @@
     
     <script type="text/javascript" src="scripts/board.js"></script>
     <script type="text/javascript" src="scripts/donsol.js"></script>
-    <script type="text/javascript" src="scripts/keyboard.js"></script>
     <script type="text/javascript" src="scripts/player.js"></script>
     <script type="text/javascript" src="scripts/timeline.js"></script>
     <script type="text/javascript" src="scripts/theme.js"></script>
-    <script type="text/javascript" src="scripts/logo.js"></script>
+    <script type="text/javascript" src="scripts/controller.js"></script>
     
     <link rel="stylesheet" type="text/css" href="links/reset.css"/>
     <link rel="stylesheet" type="text/css" href="links/fonts.css"/>
@@ -44,9 +43,13 @@
         <span class='key'>1 2 3 4</span> cards <span class='key'>space</span> run <span class='key'>escape</span> restart<span style='float:right'>Donsol <a href='http://wiki.xxiivv.com/Donsol' target='_blank'>Guide</a></span>
       </div>
     </div>
-    <div id='splash'>
-      <canvas id='logo' style='margin:calc(25vh - 50px) auto; display:block; width:300px; height:300px' width='600' height='600'></canvas>
-    </div>
-    <script type="text/javascript" src="scripts/init.js"></script>
+    <script type="text/javascript">
+      const {dialog,app} = require('electron').remote;
+      const fs = require('fs');
+
+      var donsol = new Donsol();
+      donsol.start();
+
+    </script>
   </body>
 </html>

@@ -4,9 +4,10 @@ function Theme()
 
   this.el = document.createElement("style");
   this.el.type = 'text/css';
-  this.default = { background: "#222", f_high: "#fff", f_med: "#777", f_low: "#444", f_inv: "#000", b_high: "#000", b_med: "#affec7", b_low: "#000", b_inv: "#affec7" }
+  this.default = { background: "#000",  f_high: "white",  f_med: "#FF0000",  f_low: "#cccccc",  f_inv: "#a93232",  b_high: "#ffffff",  b_med: "#000000",  b_low: "#333333",  b_inv: "#a93232" }
   this.active = this.default;
 
+  
   this.start = function()
   {
     this.load(localStorage.theme ? localStorage.theme : this.default);
