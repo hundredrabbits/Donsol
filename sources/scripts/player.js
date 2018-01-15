@@ -136,6 +136,7 @@ function Player()
   
   this.escape_room = function()
   {
+    donsol.speaker.play_effect("click2");
     if(this.health.value < 1 || donsol.is_complete === true || this.experience.value == 0){
       donsol.new_game();
       return;
@@ -175,7 +176,6 @@ function Player()
     this.health.update();
     this.shield.update();
     this.experience.update();
-
   }
   
   this.can_escape = function()

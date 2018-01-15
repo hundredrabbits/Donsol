@@ -11,19 +11,19 @@ function Board(element)
   
     if(donsol.deck.cards.length > 0){
       this.add_card(0,donsol.deck.draw_card(starting_hand ? DIAMOND : null));
-      $(this.room[0].element).delay(200).animate({ opacity: 1, top: "0" }, 200);
+      $(this.room[0].element).delay(200).animate({ opacity: 1, top: "0" }, 200,() => { donsol.speaker.play_effect("click2"); });
     }
     if(donsol.deck.cards.length > 0){
       this.add_card(1,donsol.deck.draw_card(starting_hand ? CLOVE : null));
-      $(this.room[1].element).delay(250).animate({ opacity: 1, top: "0" }, 200);
+      $(this.room[1].element).delay(250).animate({ opacity: 1, top: "0" }, 200,() => { donsol.speaker.play_effect("click2"); });
     }
     if(donsol.deck.cards.length > 0){
       this.add_card(2,donsol.deck.draw_card(starting_hand ? HEART : null));
-      $(this.room[2].element).delay(300).animate({ opacity: 1, top: "0" }, 200);
+      $(this.room[2].element).delay(300).animate({ opacity: 1, top: "0" }, 200,() => { donsol.speaker.play_effect("click2"); });
     }
     if(donsol.deck.cards.length > 0){
       this.add_card(3,donsol.deck.draw_card(starting_hand ? SPADE : null));
-      $(this.room[3].element).delay(350).animate({ opacity: 1, top: "0" }, 200);
+      $(this.room[3].element).delay(350).animate({ opacity: 1, top: "0" }, 200,() => { donsol.speaker.play_effect("click2"); });
     }
     
     donsol.player.update();

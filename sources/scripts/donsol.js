@@ -13,6 +13,7 @@ function Donsol()
   this.player = new Player();
   this.timeline = new Timeline();
   this.controller = new Controller();
+  this.speaker = new Speaker();
   
   this.is_complete = false;
   

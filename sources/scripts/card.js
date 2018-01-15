@@ -57,17 +57,18 @@ function Card(sym,value,type,name = "Unknown")
   
   this.flip = function()
   {
+    donsol.speaker.play_effect("flip");
     var target_element = this.element;
   
     this.is_flipped = true;
     donsol.player.experience.value += 1;
     donsol.player.experience.update();
     
-    $(target_element).animate({ opacity: 0.01, top: "-10" }, 100, function() {
+    $(target_element).animate({ opacity: 0.01, top: "-10" }, 250, function() {
       target_element.setAttribute("class","flipped");
+      donsol.speaker.play_effect("click2");
     });
     
     donsol.player.update();
   }
-  
 }
