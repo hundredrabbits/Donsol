@@ -8,7 +8,7 @@ Donsol is a solitary card game, designed by John Eternal in which you must go th
 
 A standard deck, jokers included, is a dungeon. Shuffle the deck and draw 4 cards, display them before you, this is a room. A room ends when all the cards are folded.
 
-### ♥︎ Heats Are Potions
+### ♥︎ Hearts Are Potions
 
 Potion give you health points equal to their value, up to a maximum of 21 health points. Drinking multiple potions in a row will make you sick and result in no extra healing, only the first potion's value will be gained in HP. Potions are equal to their value and face cards (J,Q,K,A) each are equal to 11.
 
