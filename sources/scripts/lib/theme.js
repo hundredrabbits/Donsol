@@ -4,13 +4,12 @@ function Theme()
 
   this.el = document.createElement("style");
   this.el.type = 'text/css';
-  this.default = { background: "#000",  f_high: "white",  f_med: "#FF0000",  f_low: "#cccccc",  f_inv: "#a93232",  b_high: "#ffffff",  b_med: "#000000",  b_low: "#333333",  b_inv: "#a93232" }
+  this.default = { data: { background: "#000",  f_high: "white",  f_med: "#FF0000",  f_low: "#cccccc",  f_inv: "#a93232",  b_high: "#ffffff",  b_med: "#000000",  b_low: "#333333",  b_inv: "#a93232" }}
   this.active = this.default;
 
-  
   this.start = function()
   {
-    this.load(localStorage.theme ? localStorage.theme : this.default);
+    this.load(localStorage.theme && localStorage.theme.background ? localStorage.theme : this.default);
     window.addEventListener('dragover',this.drag_enter);
     window.addEventListener('drop', this.drag);
     document.head.appendChild(this.el)
@@ -18,7 +17,7 @@ function Theme()
 
   this.load = function(t)
   {
-    var theme = is_json(t) ? JSON.parse(t) : t;
+    var theme = is_json(t) ? JSON.parse(t).data : t.data;
 
     if(!theme.background){ return; }
 
