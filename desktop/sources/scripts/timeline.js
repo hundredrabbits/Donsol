@@ -11,6 +11,7 @@ function Timeline()
   this.add_event = function(message)
   {
     this.el.className = "";
-    setTimeout(()=>{ this.el.className = "show"; this.el.innerHTML = message; },10)
+    this.el.style.opacity = "0";
+    setTimeout(()=>{ this.el.style.opacity = 1; this.el.innerHTML = message; },100)
   }
 }

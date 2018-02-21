@@ -9,11 +9,9 @@ function Player()
   this.has_escaped = false;
   this.escape_button = document.createElement("a");
   this.timeline_element = document.createElement("div");
-	
-  $(this.escape_button).on( "click", function() {
-    donsol.player.escape_room();
-	});
-  	
+  
+  this.escape_button.addEventListener('mousedown',()=>{ donsol.player.escape_room(); });
+
   this.start = function()
   {
     this.health.show_limit = false;

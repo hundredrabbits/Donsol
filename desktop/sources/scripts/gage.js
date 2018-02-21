@@ -57,9 +57,12 @@ function Gage(name,limit,color)
   this.add_event = function(value)
   {
     this.event_element.innerHTML = "<span class='name'>"+value+"</span>";
-    this.event_element.style.marginLeft = "0px";
+    this.event_element.style.marginTop = "5px";
     this.event_element.style.opacity = "0";
-    $(this.event_element).animate({ marginLeft: 5, opacity: 1 }, 300);
+    setTimeout(()=>{
+      this.event_element.style.marginTop = "0px";
+      this.event_element.style.opacity = 1;
+    },250);
   }
   
   this.clear_event = function()

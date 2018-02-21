@@ -21,10 +21,8 @@ function Progress(radius = 15)
     if(limit === 0){ value = 0; limit = 1;}
     var min = 0;
     var max = 130;
-    
     var pixels = Math.floor(((value/limit) * max) + min);
-    
-    $(this.progress_bar).animate({ width: pixels }, 300);
+    this.progress_bar.style.width = `${pixels}px`;
   }
   
 }
