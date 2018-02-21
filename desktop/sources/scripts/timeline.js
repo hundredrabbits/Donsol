@@ -1,11 +1,16 @@
 function Timeline()
 {
-  this.element = null;
-  
+  this.el = document.createElement("div");
+  this.el.id = "timeline"
+    
+  this.install = function(host)
+  {
+    host.appendChild(this.el)
+  }
+
   this.add_event = function(message)
   {
-    this.element.innerHTML = message;
-    this.element.style.opacity = 0;
-    $(this.element).animate({ opacity: 1 }, 200);
+    this.el.className = "";
+    setTimeout(()=>{ this.el.className = "show"; this.el.innerHTML = message; },10)
   }
 }

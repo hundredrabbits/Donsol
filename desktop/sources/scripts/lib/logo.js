@@ -11,6 +11,8 @@ function Logo(is_looping = false)
   this.el.style.backgroundColor = "#000";
   this.el.style.zIndex = "9999";
   this.el.style.display = "block";
+  this.el.style.transition = "all 1000ms"
+  this.el.style.opacity = "1"
 
   this.canvas = document.createElement("canvas");
   this.canvas.style.display = "block";
@@ -33,6 +35,8 @@ function Logo(is_looping = false)
     this.canvas.style.height = "300px"
     this.canvas.style.display = "block"
     this.canvas.style.margin = "calc(50vh - 150px) auto"
+    this.canvas.style.transition = "all 1000ms"
+    this.canvas.style.opacity = "1"
 
     this.create_tiles();
     animate();
@@ -42,8 +46,9 @@ function Logo(is_looping = false)
 
   this.remove = function()
   {
-    $(this.canvas).animate({ opacity: 0 }, 1000); 
-    $(this.el).delay(1000).animate({ opacity: 0 }, 1000,() => { $(this.el).remove(); }); 
+    this.canvas.style.opacity = 0;
+    setTimeout(() => { this.el.style.opacity = 0; },500)
+    setTimeout(() => { document.body.removeChild(this.el); },1500)
   }
 
   this.context = function()

@@ -44,7 +44,6 @@ function Player()
     this.element.appendChild(this.escape_button);
     this.timeline_element.setAttribute("class","timeline");
     this.timeline_element.innerHTML = "";
-    this.element.appendChild(this.timeline_element);
     this.update();
   }
   

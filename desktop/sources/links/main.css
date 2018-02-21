@@ -1,5 +1,10 @@
 body { background:black; font-family: 'input_mono_regular',monospace; min-width:750px; overflow-y: hidden;}
 
+@keyframes fade_in {
+  from {opacity: 0;}
+  to {opacity:1;}
+}
+
 #wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:50px auto;position: relative;width: calc(100% - 60px)}
 
 #player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px; -webkit-user-select: none;-webkit-app-region: drag; padding-top: 100px;margin-top: -120px;}
@@ -10,7 +15,8 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #player .gage .progress .bar{ height:5px; display:block !important;}
 #player a.escape { padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:-2px; color:white;}
 #player a.escape:hover { cursor: pointer }
-#player div.timeline { display: inline-block;color:white;}
+#player div#timeline { display: inline-block;color:white; }
+#player div#timeline.show { animation: fade_in 250ms normal forwards ease-in-out !important;  }
 
 #player.locked a.escape { display:none;}
 
@@ -79,4 +85,6 @@ svg .fill_grey { fill:var(--f_low) !important }
 #player .gage.shield .progress .bar { background:var(--b_high) !important  }
 #player .gage.experience .progress .bar { background:var(--b_med) !important  }
 #table card .shortcut { color:var(--background) !important}
+
+
 

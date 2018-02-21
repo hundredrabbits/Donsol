@@ -21,11 +21,12 @@ function Donsol()
   {
     donsol.board.element = document.getElementById('board');
     donsol.player.element = document.getElementById('player');
-    donsol.timeline.element = donsol.player.timeline_element;
+    
     
     this.theme.start();
     this.deck.start();
     this.player.install();
+    donsol.timeline.install(donsol.player.element);
     this.player.start();
 
     this.controller.add("default","*","About",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Donsol'); },"CmdOrCtrl+,");
