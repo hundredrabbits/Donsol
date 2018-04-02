@@ -1,10 +1,10 @@
-function Theme()
+function Theme(default_theme = { background: "#222", f_high: "#fff", f_med: "#777", f_low: "#444", f_inv: "#000", b_high: "#000", b_med: "#affec7", b_low: "#000", b_inv: "#affec7" })
 {
   var app = this;
 
   this.el = document.createElement("style");
   this.el.type = 'text/css';
-  this.default = {meta:{}, data: { background: "#222", f_high: "#fff", f_med: "#777", f_low: "#444", f_inv: "#000", b_high: "#000", b_med: "#affec7", b_low: "#000", b_inv: "#affec7" }}
+  this.default = {meta:{}, data: default_theme}
   this.active = this.default;
 
   this.start = function()
