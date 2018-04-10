@@ -73,7 +73,7 @@ function Board(element)
       return;
     }
 
-    if( (!this.room[0] || this.room[0].is_flipped) && (!this.room[1] || this.room[1].is_flipped) && (!this.room[2] || this.room[2].is_flipped) && (!this.room[3] || this.room[3].is_flipped) && donsol.deck.cards.length < 1){
+    if(donsol.player.experience.value === donsol.player.experience.limit){
       this.dungeon_complete();
       return;
     }
