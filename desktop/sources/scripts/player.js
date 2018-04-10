@@ -22,6 +22,7 @@ function Player()
     
     this.health.value = 21;
     this.shield.value = 0;
+    this.shield.break_limit = null;
     this.experience.limit = 54;
     this.experience.value = 0;
     
