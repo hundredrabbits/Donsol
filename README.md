@@ -24,42 +24,16 @@ Monster cards are equal to their value, and face cards are as follows J is 11, Q
 
 ### File
 - New: `CmdOrCtrl+N`
-- Open: `CmdOrCtrl+O`
-- Save: `CmdOrCtrl+S`
 
-### Edit
-- Insert: `I`
-- Copy: `CmdOrCtrl+C`
-- Paste: `CmdOrCtrl+V`
-- Undo: `CmdOrCtrl+Z`
-- Delete: `Backspace`
-- Move Up: `Up`
-- Move Down: `Down`
-- Move Left: `Left`
-- Move Right: `Right`
-- Deselect: `Esc`
+### Cards
+- Pick 1: `1`
+- Pick 2: `2`
+- Pick 3: `3`
+- Pick 4: `4`
 
-### Stroke
-- Line: `A`
-- Arc: `S`
-- Arc Rev: `D`
-- Bezier: `F`
-- Connect: `Z`
-
-### Effect
-- Thicker: `}`
-- Thinner: `{`
-- Thicker +5: `]`
-- Thinner -5: `[`
-- Linecap: `Y`
-- Mirror: `Space`
-- Fill: `G`
-
-### View
-- Tools: `U`
-- Grid: `H`
-- Control Points: `J`
-- Expert Mode: `:`
+### Room
+- Escape: `Space`
+- Restart: `Esc`
 
 <img src='https://cdn.rawgit.com/hundredrabbits/Donsol/master/LAYOUT.svg?v=1' width="600"/>
 
