@@ -8,7 +8,7 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #player .gage .event { display: inline-block;position: absolute;top: -20px;left: 0px; transition: all 250ms; opacity: 0; margin-left:5px;}
 #player .gage .progress { display: block !important;width: 40px;position: absolute;bottom: 18px;overflow: hidden;height: 4px;border-radius: 20px;right: 5px;}
 #player .gage .progress .bar{ height:5px; display:block !important; transition: width 300ms}
-#player a.escape { padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:-2px; color:white;}
+#player a.escape { -webkit-app-region: no-drag;padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:-2px; color:white;}
 #player a.escape:hover { cursor: pointer }
 #player div#timeline { display: inline-block;color:white; transition: opacity 250ms; opacity: 0 }
 
