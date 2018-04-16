@@ -1,4 +1,4 @@
-body { background:black; font-family: 'input_mono_regular',monospace; min-width:750px; overflow-y: hidden;}
+body { background:black; font-family: 'input_mono_regular',monospace; min-width:750px; overflow-y: hidden; user-select: none; cursor: default; }
 
 #wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:50px auto;position: relative;width: calc(100% - 60px)}
 
