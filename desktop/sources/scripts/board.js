@@ -78,14 +78,26 @@ function Board(element)
       return;
     }
     if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){
-      setTimeout(function(){ donsol.board.room_complete(); }, 1000);
+      setTimeout(function(){ donsol.board.is_complete(); }, 1000);
     }
   }
+
+  // Checks
   
-  this.room_complete = function()
+  this.is_complete = function()
   {
     donsol.player.has_escaped = false;
     this.enter_room();
+  }
+
+  this.is_started = function()
+  {
+    return this.cards_flipped().length > 0
+  }
+
+  this.has_monsters = function()
+  {
+    return this.cards_monsters().length > 0;
   }
   
   this.cards_flipped = function()
@@ -118,5 +130,6 @@ function Board(element)
   
   this.dungeon_failed = function()
   {
+    
   }
 }

@@ -6,10 +6,10 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #player .gage { width: 120px;display: block;height:30px;position: relative; float:right;}
 #player .gage .value { display: inline-block;line-height: 20px;font-family: 'input_mono_medium';padding-left: 5px;}
 #player .gage .event { display: inline-block;position: absolute;top: -20px;left: 0px; transition: all 250ms; opacity: 0; margin-left:5px;}
-#player .gage .progress { display: block !important;width: 40px;position: absolute;bottom: 18px;overflow: hidden;height: 4px;border-radius: 20px;right: 5px;}
+#player .gage .progress { display: inline-block !important;width: 40px;position: relative; top:-3px;overflow: hidden;height: 4px;border-radius: 20px;left:15px;}
 #player .gage .progress .bar{ height:5px; display:block !important; transition: width 300ms}
 #player a.escape { -webkit-app-region: no-drag;padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:-2px; color:white;}
-#player a.escape:hover { cursor: pointer }
+#player a.escape:hover { cursor: pointer; }
 #player div#timeline { display: inline-block;color:white; transition: opacity 250ms; opacity: 0 }
 
 #player.locked a.escape { display:none;}
@@ -17,7 +17,7 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #board, #table { display:block; position: absolute; margin-top: 15px; width: calc(100% + 15px)}
 #board card, #table card { display: inline-block !important;height: calc(25vw * 1.25);max-height:300px;max-width:200px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden;min-height: 300px;}
 #board card { top:10px; opacity:0.01; z-index:900; transition: opacity 250ms, top 150ms }
-#board card:hover { cursor:pointer;}
+#board card:hover { cursor:pointer; top:5px !important;}
 #board card .face { display:block;width: 100%;height: calc(100% - 5px);border-radius: 7px;}
 #board card .face img { width:100%; position: absolute;bottom:0px; }
 #board card .face .value   { display: block;position: absolute;width: 30px;height: 30px;left: 15px;top: 60px;font-size: 12px;text-align: center;}
@@ -54,6 +54,7 @@ svg .fill_red { fill:var(--b_inv) !important }
 
 svg .fill_white { fill:var(--b_high) !important }
 #player a.escape { border:2px solid var(--b_high) !important; color: var(--b_high); }
+#player a.escape:hover { background-color:var(--b_high) !important; color:var(--background); }
 #board card .face { background:var(--b_high)}
 .card_11 .face .name,.card_13 .face .name,.card_15 .face .name,.card_17 .face .name { color:var(--b_high);}
 #player .gage { color:var(--b_high) }
@@ -79,6 +80,11 @@ svg .fill_grey { fill:var(--f_low) !important }
 #player .gage.shield .progress .bar { background:var(--b_high) !important  }
 #player .gage.experience .progress .bar { background:var(--b_med) !important  }
 #table card .shortcut { color:var(--background) !important}
+#difficulty { color:var(--f_high) !important  }
 
+/* DEATH*/
+
+#player.death a.escape { border-color:var(--b_inv) !important;  }
+#player.death a.escape:hover { background-color:var(--b_inv) !important;  }
 
 

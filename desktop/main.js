@@ -34,6 +34,7 @@ app.on('ready', () =>
   app.win = new BrowserWindow({width: 960, height: 450, minWidth:860, minHeight:450, frame:false, autoHideMenuBar: true,backgroundColor: '#000000', resizable:true, autoHideMenuBar: true,icon: __dirname + '/icon.ico'})
 
   app.win.loadURL(`file://${__dirname}/sources/index.html`)
+  // app.win.toggleDevTools();
 
   app.win.on('closed', () => {
     win = null
@@ -57,5 +58,8 @@ app.on('window-all-closed', () =>
 app.on('activate', () => {
   if (app.win === null) {
     createWindow()
+  }
+  else{
+    app.win.show();
   }
 })

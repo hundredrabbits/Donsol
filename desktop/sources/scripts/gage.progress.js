@@ -22,7 +22,9 @@ function Progress(radius = 15)
     var min = 0;
     var max = 130;
     var pixels = Math.floor(((value/limit) * max) + min);
-    this.progress_bar.style.width = `${pixels}px`;
+    var ratio = (value/limit)
+    var perc = ratio * 100;
+    
+    this.progress_bar.style.width = `${perc}%`;
   }
-  
 }

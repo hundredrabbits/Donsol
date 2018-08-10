@@ -16,6 +16,7 @@ function Donsol()
   this.speaker = new Speaker();
   
   this.is_complete = false;
+  this.difficulty = 1;
   
   this.start = function()
   {
@@ -38,6 +39,11 @@ function Donsol()
 
     this.controller.add("default","File","New",() => { donsol.new_game(); },"CmdOrCtrl+N");
 
+    this.controller.add("default","Difficulty","Easy",() => { donsol.set_difficulty(0); },"CmdOrCtrl+1");
+    this.controller.add("default","Difficulty","Normal",() => { donsol.set_difficulty(1); },"CmdOrCtrl+2");
+    this.controller.add("default","Difficulty","Hard",() => { donsol.set_difficulty(2); },"CmdOrCtrl+3");
+    this.controller.add("default","Difficulty","Expert",() => { donsol.set_difficulty(3); },"CmdOrCtrl+4");
+
     this.controller.add("default","Cards","Pick 1",() => { donsol.board.room[0].touch(); },"1");
     this.controller.add("default","Cards","Pick 2",() => { donsol.board.room[1].touch(); },"2");
     this.controller.add("default","Cards","Pick 3",() => { donsol.board.room[2].touch(); },"3");
@@ -50,6 +56,8 @@ function Donsol()
     
     this.board.enter_room(true);
     donsol.deck.shuffle();
+
+    this.update();
   }
   
   this.new_game = function()
@@ -60,6 +68,19 @@ function Donsol()
     this.player.start();
     this.board.enter_room(true);
     donsol.deck.shuffle();
+
+    this.update();
+  }
+
+  this.set_difficulty = function(id)
+  {
+    this.difficulty = id;
+    donsol.new_game();
+  }
+
+  this.update = function()
+  {
+    document.getElementById('difficulty').textContent = this.difficulty == 3 ? "Expert" : this.difficulty == 2 ? "Hard" : this.difficulty == 1 ? "Normal" : "Easy"
   }
 
   this.skip = function()

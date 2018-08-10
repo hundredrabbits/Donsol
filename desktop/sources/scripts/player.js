@@ -178,11 +178,43 @@ function Player()
   
   this.can_escape = function()
   {
+    // Basic Overrides
     if(this.health.value < 1){ return true; }                                                   // Death
     if(this.experience.value === 0){ return true; }                                             // New Game
-    if(donsol.board.cards_monsters().length > 0 && this.has_escaped === true){ return false; }  // Room Started
-    if(donsol.board.cards_monsters().length == 0){ return true; }                               // Monsters in the room
-    if(this.has_escaped === false){ return true; }                                              // Can escape
+
+    // - All monsters have been delt with. (Easy Mode)
+    // - The player has not escaped the previous room. (Normal Mode)
+    // - There is only one card left in the room. (Hard Mode)
+    // - Can never escape. (Expert Mode)
+
+    // Easy
+    if(donsol.difficulty == 0){
+      if(!this.has_escaped){ return true; }
+      if(donsol.board.has_monsters()){ console.warn("Monsters present."); return false; }
+      return true;
+    }
+
+    // Normal
+    if(donsol.difficulty == 1){
+      if(!this.has_escaped){ return true; }      
+      if(donsol.board.has_monsters()){ console.warn("Monsters present."); return false; }
+      return true;
+    }
+
+    // Hard
+    if(donsol.difficulty == 2){
+      if(!this.has_escaped){ return true; }      
+      if(!donsol.board.cards_flipped().length != 3){ console.warn("Cards remain."); return false; }
+      if(donsol.board.has_monsters()){ console.warn("Monsters present."); return false; }
+      return true;
+    }
+
+    // Expert
+    if(donsol.difficulty == 3){
+      console.warn("Cannot escape(expert).");
+      return false;
+    }
+
     return false;
   }
 }

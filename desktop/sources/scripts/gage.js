@@ -21,8 +21,6 @@ function Gage(name,limit,color)
   {
     this.element.setAttribute("class","gage "+this.name.toLowerCase());
     
-    this.element.appendChild(this.progress.install());
-    
     this.value_element = document.createElement("span");
     this.value_element.setAttribute("class","value");
     this.value_element.innerHTML = this.value+"("+this.limit+")";
@@ -31,6 +29,8 @@ function Gage(name,limit,color)
     this.event_element = document.createElement("span");
     this.event_element.setAttribute("class","event");
     this.element.appendChild(this.event_element);
+
+    this.element.appendChild(this.progress.install());
     
     return this.element
   }
