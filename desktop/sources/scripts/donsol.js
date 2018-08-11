@@ -72,6 +72,12 @@ function Donsol()
     this.update();
   }
 
+  this.toggle_difficulty = function()
+  {
+    this.difficulty = this.difficulty < 3 ? this.difficulty+1 : 0;
+    donsol.new_game();
+  }
+
   this.set_difficulty = function(id)
   {
     this.difficulty = id;

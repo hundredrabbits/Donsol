@@ -35,6 +35,8 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #tips { position: fixed;bottom: 30px;font-size: 12px;width: calc(100% - 70px);max-width: 900px;}
 #tips a:hover { color:white;}
 
+#difficulty:hover { text-decoration: underline; cursor: pointer; }
+
 /* THEME */
 
 body { background:var(--background) !important };
