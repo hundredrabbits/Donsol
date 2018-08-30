@@ -1,3 +1,5 @@
+"use strict";
+
 function Speaker()
 {
   this.effect = new Audio();
@@ -16,10 +18,10 @@ function Speaker()
 
   this.fetch_audio = function(name, role, src, loop = false)
   {
-    var audio_id = role + "_" + name;
+    let audio_id = role + "_" + name;
     if (!(audio_id in this.audio_catalog))
     {
-      var audio = new Audio();
+      let audio = new Audio();
       audio.name = name;
       audio.src = src;
       audio.loop = loop;

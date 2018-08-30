@@ -1,3 +1,5 @@
+"use strict";
+
 function Card_Monster(sym,value,type,name = "Unknown")
 {
   Card.call(this,sym,value,type,name);

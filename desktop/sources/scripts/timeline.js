@@ -1,3 +1,5 @@
+"use strict";
+
 function Timeline()
 {
   this.el = document.createElement("div");

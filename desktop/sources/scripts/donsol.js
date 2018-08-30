@@ -1,3 +1,4 @@
+"use strict";
 
 const HEART   = "heart";
 const DIAMOND = "diamond";
@@ -14,6 +15,7 @@ function Donsol()
   this.timeline = new Timeline();
   this.controller = new Controller();
   this.speaker = new Speaker();
+  this.walkthrough = new Walkthrough();
   
   this.is_complete = false;
   this.difficulty = 1;

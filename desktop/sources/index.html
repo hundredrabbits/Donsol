@@ -20,6 +20,8 @@
     <script type="text/javascript" src="scripts/player.js"></script>
     <script type="text/javascript" src="scripts/timeline.js"></script>
     <script type="text/javascript" src="scripts/speaker.js"></script>
+
+    <script type="text/javascript" src="scripts/walkthrough.js"></script>
     
     <link rel="stylesheet" type="text/css" href="links/reset.css"/>
     <link rel="stylesheet" type="text/css" href="links/fonts.css"/>
@@ -48,7 +50,7 @@
       const {dialog,app} = require('electron').remote;
       const fs = require('fs');
 
-      var donsol = new Donsol();
+      let donsol = new Donsol();
       donsol.start();
     </script>
   </body>

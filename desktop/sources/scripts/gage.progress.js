@@ -1,3 +1,5 @@
+"use strict";
+
 function Progress(radius = 15)
 {  
   this.wrapper = null;
@@ -19,11 +21,11 @@ function Progress(radius = 15)
   this.update = function(value,limit = 0)
   {
     if(limit === 0){ value = 0; limit = 1;}
-    var min = 0;
-    var max = 130;
-    var pixels = Math.floor(((value/limit) * max) + min);
-    var ratio = (value/limit)
-    var perc = ratio * 100;
+    let min = 0;
+    let max = 130;
+    let pixels = Math.floor(((value/limit) * max) + min);
+    let ratio = (value/limit)
+    let perc = ratio * 100;
     
     this.progress_bar.style.width = `${perc}%`;
   }

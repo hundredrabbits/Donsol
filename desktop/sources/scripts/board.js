@@ -1,12 +1,12 @@
+"use strict";
+
 function Board(element)
 {
   this.element = element;
   this.room = [];
   
   this.enter_room = function(starting_hand = null)
-  {
-    console.log("<room>");
-    
+  {    
     this.remove_cards();
   
     if(donsol.deck.cards.length > 0){
@@ -78,7 +78,7 @@ function Board(element)
       return;
     }
     if(this.room[0].is_flipped && this.room[1].is_flipped && this.room[2].is_flipped && this.room[3].is_flipped){
-      setTimeout(function(){ donsol.board.is_complete(); }, 1000);
+      setTimeout(function(){ donsol.board.is_complete(); }, 250);
     }
   }
 
@@ -102,7 +102,7 @@ function Board(element)
   
   this.cards_flipped = function()
   {
-    var a = [];
+    let a = [];
     if(this.room[0] && this.room[0].is_flipped){ a.push(this.room[0]); }
     if(this.room[1] && this.room[1].is_flipped){ a.push(this.room[1]); }
     if(this.room[2] && this.room[2].is_flipped){ a.push(this.room[2]); }
@@ -112,7 +112,7 @@ function Board(element)
 
   this.cards_monsters = function()
   {
-    var a = [];
+    let a = [];
     if(this.room[0] && this.room[0].constructor.name == "Card_Monster" && this.room[0].is_flipped === false){ a.push(this.room[0]); }
     if(this.room[1] && this.room[1].constructor.name == "Card_Monster" && this.room[1].is_flipped === false){ a.push(this.room[1]); }
     if(this.room[2] && this.room[2].constructor.name == "Card_Monster" && this.room[2].is_flipped === false){ a.push(this.room[2]); }

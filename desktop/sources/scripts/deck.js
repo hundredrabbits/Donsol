@@ -1,3 +1,5 @@
+"use strict";
+
 function Deck()
 {
   this.cards = [
@@ -57,7 +59,7 @@ function Deck()
     new Card_Monster("J",21,JOKER,"Second Donsol"),
   ];
   
-  var draw_pile = [];
+  let draw_pile = [];
   
   this.start = function()
   {
@@ -73,7 +75,7 @@ function Deck()
   
   this.draw_card = function(type)
   {
-    var i = 0;
+    let i = 0;
     switch(type) {
       case HEART:
         i = Math.floor((Math.random() * 10) + 0); break;
@@ -95,9 +97,9 @@ function Deck()
   }
   
   function shuffle(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = array[i];
       array[i] = array[j];
       array[j] = temp;
     }

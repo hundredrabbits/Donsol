@@ -1,6 +1,8 @@
+"use strict";
+
 function Theme(default_theme = { background: "#222", f_high: "#fff", f_med: "#777", f_low: "#444", f_inv: "#000", b_high: "#000", b_med: "#affec7", b_low: "#000", b_inv: "#affec7" })
 {
-  var app = this;
+  let app = this;
 
   this.el = document.createElement("style");
   this.el.type = 'text/css';
@@ -17,7 +19,7 @@ function Theme(default_theme = { background: "#222", f_high: "#fff", f_med: "#77
 
   this.load = function(t, fall_back)
   {
-    var theme = is_json(t) ? JSON.parse(t).data : t.data;
+    let theme = is_json(t) ? JSON.parse(t).data : t.data;
 
     if(!theme || !theme.background){
       if(fall_back) {
@@ -27,7 +29,7 @@ function Theme(default_theme = { background: "#222", f_high: "#fff", f_med: "#77
       }
     }
 
-    var css = `
+    let css = `
     :root {
       --background: ${theme.background};
       --f_high: ${theme.f_high};
@@ -62,11 +64,11 @@ function Theme(default_theme = { background: "#222", f_high: "#fff", f_med: "#77
     e.preventDefault();
     e.stopPropagation();
 
-    var file = e.dataTransfer.files[0];
+    let file = e.dataTransfer.files[0];
 
     if(!file.name || !file.name.indexOf(".thm") < 0){ console.log("Theme","Not a theme"); return; }
 
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.onload = function(e){
       app.load(e.target.result);
     };

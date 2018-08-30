@@ -1,3 +1,5 @@
+"use strict";
+
 function Gage_Shield(name,limit,color)
 {
   Gage.call(this,name,limit,color);

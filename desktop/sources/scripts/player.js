@@ -1,3 +1,5 @@
+"use strict";
+
 function Player()
 {
   this.element = null;
@@ -49,8 +51,8 @@ function Player()
   this.attack = function(card)
   {
     console.log("<attack>"+card.value);
-    var attack_value = card.value;
-    var damages = attack_value;
+    let attack_value = card.value;
+    let damages = attack_value;
 
     // Shield
     if(this.shield.value > 0){
@@ -118,10 +120,10 @@ function Player()
       donsol.player.health.add_event("Wasted");
       return;
     }
-    var before_health = this.health.value;
-    var new_health = this.health.value + potion_value; new_health = new_health > 21 ? 21 : new_health;
+    let before_health = this.health.value;
+    let new_health = this.health.value + potion_value; new_health = new_health > 21 ? 21 : new_health;
     
-    var mod = new_health - before_health;
+    let mod = new_health - before_health;
     donsol.player.health.value = new_health;
     donsol.player.health.add_event(mod > 0 ? "+"+mod : "Wasted");
     donsol.player.experience.add_event("+1");

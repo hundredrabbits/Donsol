@@ -1,3 +1,5 @@
+"use strict";
+
 function Card(sym,value,type,name = "Unknown")
 {
   this.symbol = sym;
@@ -10,27 +12,27 @@ function Card(sym,value,type,name = "Unknown")
     
   this.install = function()
   {
-    var e = document.createElement("card");
+    let e = document.createElement("card");
     e.setAttribute("class",this.type+" card_"+this.value);
     
     // Face
-    var face = document.createElement("div");
+    let face = document.createElement("div");
     face.setAttribute("class","face");
     e.appendChild(face);
     
     // Value
-    var value = document.createElement("span");
+    let value = document.createElement("span");
     value.setAttribute("class","value");
     value.innerHTML = this.symbol;
     face.appendChild(value);
 
-    var graphic = document.createElement("div");
+    let graphic = document.createElement("div");
     graphic.className = "graphic";
     graphic.innerHTML = require("fs").readFileSync(`${__dirname}/media/${this.type}/${this.value}.svg`)
     face.appendChild(graphic);
     
     // Name
-    var name_element = document.createElement("span");
+    let name_element = document.createElement("span");
     name_element.setAttribute("class","name");
     name_element.innerHTML = this.name+" "+this.value;
     face.appendChild(name_element);
@@ -67,11 +69,6 @@ function Card(sym,value,type,name = "Unknown")
     this.element.style.top = "-5px"
     donsol.speaker.play_effect("click2");
 
-    // setTimeout(()=>{
-      
-    //   this.element.setAttribute("class","flipped");
-    // },500);
-    
     donsol.player.update();
   }
 }

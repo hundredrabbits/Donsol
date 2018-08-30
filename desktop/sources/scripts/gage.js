@@ -1,3 +1,5 @@
+"use strict";
+
 function Gage(name,limit,color)
 {
   this.name = name;

@@ -1,3 +1,5 @@
+"use strict";
+
 function Gage_Health(name,limit,color)
 {
   Gage.call(this,name,limit,color);
