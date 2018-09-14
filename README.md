@@ -1,6 +1,6 @@
 # Donsol
 
-Donsol is a solitary card game, designed by John Eternal in which you must go through the deck in sequences of 4 cards.
+[Donsol](http://wiki.xxiivv.com/Donsol) is a solitary card game, designed by John Eternal in which you must go through the deck in sequences of 4 cards.
 
 <img src='https://raw.githubusercontent.com/hundredrabbits/Donsol/master/PREVIEW.jpg' width="600"/>
 
@@ -19,23 +19,6 @@ Shields absorb the damage difference from a monster's value. Shields can only de
 ### ♣♠ Clubs and Spades are Monster Cards
 
 Monster cards are equal to their value, and face cards are as follows J is 11, Q is 13, K is 15, A is 17; Jokers are both equal to 21. You may escape a room, if you have not escaped the previous one or have handled all the monsters in the current room. When escaping, the remaining cards are shuffled back into the deck.
-
-## Controls
-
-### File
-- New: `CmdOrCtrl+N`
-
-### Cards
-- Pick 1: `1`
-- Pick 2: `2`
-- Pick 3: `3`
-- Pick 4: `4`
-
-### Room
-- Escape: `Space`
-- Restart: `Esc`
-
-<img src='https://cdn.rawgit.com/hundredrabbits/Donsol/master/LAYOUT.svg?v=1' width="600"/>
 
 ## Install
 
