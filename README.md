@@ -37,9 +37,17 @@ Monster cards are equal to their value, and face cards are as follows J is 11, Q
 
 <img src='https://cdn.rawgit.com/hundredrabbits/Donsol/master/LAYOUT.svg?v=1' width="600"/>
 
+## Install
+
+```
+cd desktop
+npm install
+npm start
+```
+
 ## Extras
 
-- Download additional [themes](https://github.com/hundredrabbits/Themes).
+- This application supports the [Ecosystem Theme](https://github.com/hundredrabbits/Themes).
 - Support this project through [Patreon](https://patreon.com/100).
 - See the [License](LICENSE.md) file for license rights and limitations (MIT).
 - Pull Requests are welcome!
