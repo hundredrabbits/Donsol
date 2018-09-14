@@ -4,25 +4,25 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "clean"        : "rm -r ~/Desktop/Donsol-darwin-x64/ ; rm -r ~/Desktop/Donsol-linux-x64/ ; rm -r ~/Desktop/Donsol-win32-x64/ ; rm -r ~/Desktop/Donsol-linux-armv7l/ ; echo 'cleaned build location'",
-    "build_osx"    : "electron-packager . Donsol --platform=darwin --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.icns ; echo 'Built for OSX'",
-    "build_linux"  : "electron-packager . Donsol --platform=linux  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for LINUX'",
-    "build_win"    : "electron-packager . Donsol --platform=win32  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for WIN'",
-    "build_pi"     : "electron-packager . Donsol --platform=linux  --arch=armv7l --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for PI'",
-    "build"        : "npm run clean ; npm run build_osx ; npm run build_linux ; npm run build_win",
-    "push_osx"     : "~/butler push ~/Desktop/Donsol-darwin-x64/ hundredrabbits/donsol:osx-64",
-    "push_linux"   : "~/butler push ~/Desktop/Donsol-linux-x64/ hundredrabbits/donsol:linux-64",
-    "push_win"     : "~/butler push ~/Desktop/Donsol-win32-x64/ hundredrabbits/donsol:windows-64",
-    "push_pi"      : "~/butler push ~/Desktop/Donsol-linux-armv7l/ hundredrabbits/donsol:linux-pi",
-    "push_status"  : "~/butler status hundredrabbits/donsol",
-    "push_theme"   : "~/butler push ~/Github/HundredRabbits/Themes/themes/ hundredrabbits/donsol:themes",
-    "push_status"  : "~/butler status hundredrabbits/donsol",
-    "push"         : "npm run build ; npm run push_theme ; npm run push_osx ; npm run push_linux ; npm run push_win ; npm run clean ; npm run push_status"
+    "clean": "rm -r ~/Desktop/Donsol-darwin-x64/ ; rm -r ~/Desktop/Donsol-linux-x64/ ; rm -r ~/Desktop/Donsol-win32-x64/ ; rm -r ~/Desktop/Donsol-linux-armv7l/ ; echo 'cleaned build location'",
+    "build_osx": "electron-packager . Donsol --platform=darwin --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.icns ; echo 'Built for OSX'",
+    "build_linux": "electron-packager . Donsol --platform=linux  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for LINUX'",
+    "build_win": "electron-packager . Donsol --platform=win32  --arch=x64 --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for WIN'",
+    "build_pi": "electron-packager . Donsol --platform=linux  --arch=armv7l --out ~/Desktop/ --overwrite --icon=icon.ico ; echo 'Built for PI'",
+    "build": "npm run clean ; npm run build_osx ; npm run build_linux ; npm run build_win",
+    "push_osx": "~/butler push ~/Desktop/Donsol-darwin-x64/ hundredrabbits/donsol:osx-64",
+    "push_linux": "~/butler push ~/Desktop/Donsol-linux-x64/ hundredrabbits/donsol:linux-64",
+    "push_win": "~/butler push ~/Desktop/Donsol-win32-x64/ hundredrabbits/donsol:windows-64",
+    "push_pi": "~/butler push ~/Desktop/Donsol-linux-armv7l/ hundredrabbits/donsol:linux-pi",
+    "push_status": "~/butler status hundredrabbits/donsol",
+    "push_theme": "~/butler push ~/Github/HundredRabbits/Themes/themes/ hundredrabbits/donsol:themes",
+    "push": "npm run build ; npm run push_theme ; npm run push_osx ; npm run push_linux ; npm run push_win ; npm run clean ; npm run push_status"
   },
   "devDependencies": {
     "electron": "^1.8.8"
   },
   "dependencies": {
-    "electron-packager": "^12.1.1"
+    "electron-packager": "^12.1.1",
+    "electron-prebuilt": "^1.4.13"
   }
 }
