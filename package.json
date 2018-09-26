@@ -1,0 +1,22 @@
+{
+  "name": "donsol",
+  "version": "1.0.0",
+  "description": "[Donsol](http://wiki.xxiivv.com/Donsol) is a solitary card game, designed by John Eternal in which you must go through the deck in sequences of 4 cards.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hundredrabbits/Donsol.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hundredrabbits/Donsol/issues"
+  },
+  "homepage": "https://github.com/hundredrabbits/Donsol#readme",
+  "dependencies": {
+    "blessed": "^0.1.81"
+  }
+}

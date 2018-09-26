@@ -8,7 +8,18 @@ const JOKER   = "joker";
 
 function Donsol()
 {
-  this.theme = new Theme({background: "#000",f_high: "white",f_med: "#FF0000",f_low: "#cccccc",f_inv: "#a93232",b_high: "#ffffff",b_med: "#000000",b_low: "#333333",b_inv: "#a93232"});
+  this.theme = new Theme({
+    background: "#000",
+    f_high: "white",
+    f_med: "#FF0000",
+    f_low: "#cccccc",
+    f_inv: "#a93232",
+    b_high: "#ffffff",
+    b_med: "#000000",
+    b_low: "#333333",
+    b_inv: "#a93232"
+  });
+  
   this.deck = new Deck();
   this.board = new Board();
   this.player = new Player();
