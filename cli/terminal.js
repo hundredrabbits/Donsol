@@ -5,7 +5,7 @@ const blessed  = require('blessed');
 function Terminal()
 {
   this._screen = blessed.screen();
-  this._body = blessed.box({ top: 1, left: 1, height: '100%-4', width: 54, keys: true, mouse: true });
+  this._body = blessed.box({ top: 2, left: 3, height: '100%-4', width: 54, keys: true, mouse: true });
   this._run = blessed.box({ top: 5, left: 0, height: 1, width: 6, keys: true, mouse: true });
   this._hp = blessed.box({ top: 5, left: 7, height: 1, width: 6, keys: true, mouse: true });
   this._sp = blessed.box({ top: 5, left: 14, height: 1, width: 6, keys: true, mouse: true });
