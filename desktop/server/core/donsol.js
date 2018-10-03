@@ -1,7 +1,6 @@
-"use strict";
+'use strict'
 
-function Donsol()
-{
+function Donsol () {
 
 }
 
