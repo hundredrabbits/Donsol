@@ -28,7 +28,7 @@ svg .fill_black { fill:var(--b_med) !important }
 svg .stroke_white { stroke:var(--b_high) !important }
 svg .stroke_black { stroke:var(--b_med) !important }
 svg .stroke_grey { stroke:var(--f_low) !important }
-svg .fill_grey { fill:var(--f_low) !important }
+svg .fill_grey { opacity:0.25; fill:var(--b_med) !important }
 
 #table card { background:var(--b_low) !important}
 #player .gage .value .unit { color:var(--b_low) !important}
