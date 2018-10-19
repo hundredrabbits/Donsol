@@ -59,7 +59,7 @@ function Walkthrough () {
       }
     }
     if (card.type == 'clove' || card.type == 'spade') {
-      var strongest = this.find_strongest(id)
+      let strongest = this.find_strongest(id)
       if (card.value < strongest.value) {
         rating = -strongest.value - card.value
       } else {
@@ -77,7 +77,7 @@ function Walkthrough () {
   }
 
   this.find_strongest = function () {
-    var strongest = null
+    let strongest = null
 
     for (let id in donsol.board.room) {
       let card = donsol.board.room[id]
