@@ -8,13 +8,13 @@ const JOKER = 'joker'
 
 function Donsol () {
   const defaultTheme = {
-    background: '#000',
-    f_high: 'white',
-    f_med: '#FF0000',
-    f_low: '#cccccc',
-    f_inv: '#a93232',
+    background: '#000000',
+    f_high: '#000000',
+    f_med: '#a93232',
+    f_low: '#aaaaaa',
+    f_inv: '#ffffff',
     b_high: '#ffffff',
-    b_med: '#000000',
+    b_med: '#cccccc',
     b_low: '#333333',
     b_inv: '#a93232'
   }

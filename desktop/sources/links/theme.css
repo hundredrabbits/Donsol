@@ -9,27 +9,34 @@ body { background:var(--background) !important };
 .b_inv { background:var(--b_inv) !important ; fill:var(--b_inv) !important };
 .b { background:var(--background) !important; }
 
-svg .fill_red { fill:var(--b_inv) !important }
-#board card.heart .face { color:var(--b_inv) !important;}
-#board card.diamond .face { color:var(--b_inv) !important;}
+/* Donsol Theme Scheme */
 
+/* Red */
+svg .fill_red { fill:var(--f_med) !important }
+#board card.heart .face { color:var(--f_med) !important;}
+#board card.diamond .face { color:var(--f_med) !important;}
+
+/* Black */
+svg .fill_black { fill:var(--f_high) !important }
+#board card.clove .face { color:var(--f_high) !important;}
+#board card.spade .face { color:var(--f_high) !important;}
+#board card.joker .face { color:var(--f_high) !important;}
+svg .stroke_black { stroke:var(--f_high) !important }
+
+/* Grey */
+svg .stroke_grey { stroke:var(--f_low) !important }
+svg .fill_grey { opacity:0.25; fill:var(--f_low) !important }
+
+/* White */
 svg .fill_white { fill:var(--b_high) !important }
 #player a.escape { border:2px solid var(--b_high) !important; color: var(--b_high); }
 #player a.escape:hover { background-color:var(--b_high) !important; color:var(--background); }
 #board card .face { background:var(--b_high)}
 .card_11 .face .name,.card_13 .face .name,.card_15 .face .name,.card_17 .face .name { color:var(--b_high);}
 #player .gage { color:var(--b_high) }
-
-svg .fill_black { fill:var(--b_med) !important }
-#board card.clove .face { color:var(--b_med) !important;}
-#board card.spade .face { color:var(--b_med) !important;}
-#board card.joker .face { color:var(--b_med) !important;}
-
 svg .stroke_white { stroke:var(--b_high) !important }
-svg .stroke_black { stroke:var(--b_med) !important }
-svg .stroke_grey { stroke:var(--f_low) !important }
-svg .fill_grey { opacity:0.25; fill:var(--b_med) !important }
 
+/* Dark Grey */
 #table card { background:var(--b_low) !important}
 #player .gage .value .unit { color:var(--b_low) !important}
 #player .gage .progress { background:var(--b_low) !important }
