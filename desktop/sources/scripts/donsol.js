@@ -7,7 +7,7 @@ const SPADE = 'spade'
 const JOKER = 'joker'
 
 function Donsol () {
-  this.theme = new Theme({
+  const defaultTheme = {
     background: '#000',
     f_high: 'white',
     f_med: '#FF0000',
@@ -17,7 +17,9 @@ function Donsol () {
     b_med: '#000000',
     b_low: '#333333',
     b_inv: '#a93232'
-  })
+  }
+
+  this.theme = new Theme(defaultTheme)
 
   this.deck = new Deck()
   this.board = new Board()

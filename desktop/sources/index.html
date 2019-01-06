@@ -76,6 +76,10 @@
       donsol.controller.add("default","Room","Escape",() => { donsol.skip(); },"Space");
       donsol.controller.add("default","Room","Restart",() => { donsol.new_game(); },"Esc");
 
+      donsol.controller.add("default","Theme","Open Theme",() => { donsol.theme.open(); },"CmdOrCtrl+Shift+o")
+      donsol.controller.add("default","Theme","Reset Theme",() => { donsol.theme.reset(); },"CmdOrCtrl+Shift+Backspace")
+      donsol.controller.add("default","Theme","Download Themes..",() => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Themes'); })
+
       donsol.controller.commit();
 
       donsol.install(document.body)

@@ -5,6 +5,8 @@ const shell = require('electron').shell
 
 let is_shown = true
 
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
+
 app.on('ready', () => {
   app.win = new BrowserWindow({
     width: 860,
