@@ -13,7 +13,7 @@ int gamestate = GAME_TITLE;
 // Screens
 
 void gameloop() {
-  switch(gamestate) {
+  switch (gamestate) {
     case GAME_TITLE:
       _title();
       break;
@@ -36,7 +36,7 @@ void _title() {
   arduboy.setCursor(0, 16);
   arduboy.print("Press A\n");
 
-  if(arduboy.justPressed(A_BUTTON)) {
+  if (arduboy.justPressed(A_BUTTON)) {
     gamestate = GAME_BOARD;
   }
 }
@@ -45,7 +45,7 @@ void _board() {
   playerinput();
   drawBoard();
 
-  if(arduboy.pressed(A_BUTTON + B_BUTTON)) {
+  if (arduboy.pressed(A_BUTTON + B_BUTTON)) {
     resetGame();
     gamestate = GAME_TITLE;
   }
@@ -57,7 +57,7 @@ void _end() {
   arduboy.setCursor(0, 8);
   arduboy.print("Press A + B Together\n");
 
-  if(arduboy.pressed(A_BUTTON + B_BUTTON)) {
+  if (arduboy.pressed(A_BUTTON + B_BUTTON)) {
     resetGame();
     gamestate = GAME_TITLE;
   }
@@ -111,13 +111,13 @@ void drawworld() {
   const int tileswide = WIDTH / TILE_SIZE + 1;
   const int tilestall = HEIGHT / TILE_SIZE + 1;
 
-  for(int y = 0; y < tilestall; y++) {
-    for(int x = 0; x < tileswide; x++) {
+  for (int y = 0; y < tilestall; y++) {
+    for (int x = 0; x < tileswide; x++) {
       const int tilex = x - mapx / TILE_SIZE;
       const int tiley = y - mapy / TILE_SIZE;
-      if(tilex >= 0 && tiley >= 0 && tilex < WORLD_WIDTH && tiley < WORLD_HEIGHT) {
+      if (tilex >= 0 && tiley >= 0 && tilex < WORLD_WIDTH && tiley < WORLD_HEIGHT) {
         arduboy.drawBitmap(x * TILE_SIZE + mapx % TILE_SIZE, y * TILE_SIZE + mapy % TILE_SIZE, tiles[world[tiley][tilex]], TILE_SIZE, TILE_SIZE, WHITE);
-      }   
+      }
     }
   }
 
@@ -130,15 +130,15 @@ void drawworld() {
 
 // Deck
 
-int getCardType(int id){
+int getCardType(int id) {
   return floor(id / 13);
 }
 
-int getCardValue(int id){
+int getCardValue(int id) {
   return id % 13;
 }
 
-char getCardName(int id){
+char getCardName(int id) {
   switch (id) {
     case 12: return 'K';
     case 11:  return 'Q';
@@ -159,35 +159,48 @@ char getCardName(int id){
 }
 
 void drawBoard() {
-  arduboy.print("Game Board\n");
 
-  arduboy.setCursor(0, 8);
-  arduboy.print(getCardName(13));
+  int maxWidth = 128;
+  int maxHeight = 64;
+
+  int padding = 5;
+  int paddingTop = 14;
+  int cardWidth = (maxWidth - (7 * padding)) / 4;
+  int cardHeight = maxHeight - (padding * 5);
+  int cardPositions[4] = { padding * 2 , (padding * 3) + (cardWidth * 1), (padding * 4) + (cardWidth * 2), (padding * 5) + (cardWidth * 3) };
+
+  arduboy.drawRoundRect(cardPositions[0], paddingTop, cardWidth, cardHeight, 2);
+  arduboy.drawRoundRect(cardPositions[1], paddingTop, cardWidth, cardHeight, 2);
+  arduboy.drawRoundRect(cardPositions[2], paddingTop, cardWidth, cardHeight, 2);
+  arduboy.drawRoundRect(cardPositions[3], paddingTop, cardWidth, cardHeight, 2);
+
+  arduboy.setCursor(padding * 2, 2);
+  arduboy.print("HP 20"); // getCardName(13)
+
   arduboy.print("\n");
 }
 
-
 void playerinput() {
-  if(arduboy.justPressed(A_BUTTON)) {
+  if (arduboy.justPressed(A_BUTTON)) {
     gamestate = GAME_END;
   }
-  if(arduboy.pressed(UP_BUTTON)) {
-    if(mapy < PLAYER_Y_OFFSET) {
+  if (arduboy.pressed(UP_BUTTON)) {
+    if (mapy < PLAYER_Y_OFFSET) {
       mapy += 1;
     }
   }
-  if(arduboy.pressed(DOWN_BUTTON)) {
-    if(PLAYER_Y_OFFSET + PLAYER_SIZE < mapy + TILE_SIZE * WORLD_HEIGHT) {
+  if (arduboy.pressed(DOWN_BUTTON)) {
+    if (PLAYER_Y_OFFSET + PLAYER_SIZE < mapy + TILE_SIZE * WORLD_HEIGHT) {
       mapy -= 1;
     }
   }
-  if(arduboy.pressed(LEFT_BUTTON)) {
-    if(mapx < PLAYER_X_OFFSET) {
+  if (arduboy.pressed(LEFT_BUTTON)) {
+    if (mapx < PLAYER_X_OFFSET) {
       mapx += 1;
     }
   }
-  if(arduboy.pressed(RIGHT_BUTTON)) {
-    if(PLAYER_X_OFFSET + PLAYER_SIZE < mapx + TILE_SIZE * WORLD_WIDTH) {
+  if (arduboy.pressed(RIGHT_BUTTON)) {
+    if (PLAYER_X_OFFSET + PLAYER_SIZE < mapx + TILE_SIZE * WORLD_WIDTH) {
       mapx -= 1;
     }
   }
@@ -205,7 +218,7 @@ void setup() {
 }
 
 void loop() {
-  if(!(arduboy.nextFrame())) {
+  if (!(arduboy.nextFrame())) {
     return;
   }
 
