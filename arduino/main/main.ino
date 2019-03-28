@@ -80,11 +80,25 @@ void resetGame() {
 
 void testInput() {
   if (arduboy.justPressed(RIGHT_BUTTON)) {
-    selection = selection < 3 ? selection+1 : selection;
+    selection = selection < 3 ? selection + 1 : selection;
   }
   if (arduboy.justPressed(LEFT_BUTTON)) {
-    selection = selection > 0 ? selection-1 : selection;
+    selection = selection > 0 ? selection - 1 : selection;
   }
+
+  if (arduboy.justPressed(A_BUTTON)) {
+    selectCard(selection);
+  }
+
+  if (arduboy.justPressed(B_BUTTON)) {
+    runAway();
+  }
+}
+
+void selectCard(int id) {
+}
+
+void runAway() {
 }
 
 // Draw
