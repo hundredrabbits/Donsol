@@ -9,8 +9,16 @@ Arduboy2 arduboy;
 #define GAME_END 2
 #define MAXWIDTH 128
 #define MAXHEIGHT 64
+#define SPACING 4
+#define PADDING 8
+
+// Template
+
+int cardWidth = (MAXWIDTH - (2 * PADDING) - (3 * SPACING)) / 4;
+int cardHeight = MAXHEIGHT - (PADDING * 3) - SPACING;
 
 int gamestate = GAME_BOARD;
+int selection = 0;
 
 // Screens
 
@@ -45,6 +53,7 @@ void _title() {
 
 void _board() {
   drawBoard();
+  testInput();
 
   if (arduboy.pressed(A_BUTTON + B_BUTTON)) {
     resetGame();
@@ -69,44 +78,66 @@ void _end() {
 void resetGame() {
 }
 
+void testInput() {
+  if (arduboy.justPressed(RIGHT_BUTTON)) {
+    selection = selection < 3 ? selection+1 : selection;
+  }
+  if (arduboy.justPressed(LEFT_BUTTON)) {
+    selection = selection > 0 ? selection-1 : selection;
+  }
+}
+
 // Draw
 
 void drawBoard() {
   drawCards();
   drawInterface();
+  drawCursor();
 }
 
 void drawCards() {
-
-  int spacing = 3;
-  int padding = MAXWIDTH / 16;
-  int paddingTop = padding * 2;
-  int cardWidth = (MAXWIDTH - (2 * padding) - (3 * spacing)) / 4;
-  int cardHeight = MAXHEIGHT - (padding * 4);
-  int cardPositions[4] = { padding , padding + cardWidth + spacing, padding + (cardWidth * 2) + (spacing * 2), padding + (cardWidth * 3) + (spacing * 3) };
-
-  arduboy.drawRoundRect(cardPositions[0], paddingTop, cardWidth, cardHeight, 2);
-  arduboy.drawRoundRect(cardPositions[1], paddingTop, cardWidth, cardHeight, 2);
-  arduboy.drawRoundRect(cardPositions[2], paddingTop, cardWidth, cardHeight, 2);
-  arduboy.drawRoundRect(cardPositions[3], paddingTop, cardWidth, cardHeight, 2);
+  drawCard(0, 3);
+  drawCard(1, 35);
+  drawCard(2, 18);
+  drawCard(3, 45);
 }
 
-void drawCard(int id) {
+void drawCard(int pos, int id) {
 
+  int paddingTop = PADDING * 2;
+  int x = PADDING + (cardWidth * pos) + (SPACING * pos);
+
+  arduboy.drawRoundRect(x, paddingTop, cardWidth, cardHeight, 2);
+
+  arduboy.setCursor(x + 10, paddingTop + (cardHeight / 4));
+  arduboy.print(getCardName(id));
+
+  arduboy.setCursor(x + 10, paddingTop + (cardHeight / 2) + 1);
+  arduboy.print(".");
 }
 
 void drawInterface() {
 
-  int padding = MAXWIDTH / 16;
+  //  Serial.print("Hello");
 
-  Serial.print("Hello");
-  arduboy.setCursor(padding * 2, 2);
+  arduboy.setCursor(PADDING, 2);
   arduboy.print("HP20"); // getCardName(13)
 
   arduboy.setCursor(50, 2);
   arduboy.print("SP09"); // getCardName(13)
 
   arduboy.print("\n");
+}
+
+void drawCursor() {
+
+  int paddingTop = PADDING * 2;
+  int x = PADDING + (cardWidth * selection) + (SPACING * selection) + (cardWidth / 2);
+  int y = cardHeight + (PADDING * 2.7);
+  int w = 3;
+
+  arduboy.drawLine(x, y, x + w, y + w);
+  arduboy.drawLine(x, y, x - w, y + w);
 }
 
 
@@ -121,11 +152,11 @@ int getCardValue(int id) {
 }
 
 char getCardName(int id) {
-  switch (id) {
+  switch (id % 13) {
     case 12: return 'K';
     case 11:  return 'Q';
     case 10:  return 'J';
-    case 9:  return '10';
+    case 9:  return 'X';
     case 8:  return '9';
     case 7:  return '8';
     case 6:  return '7';
