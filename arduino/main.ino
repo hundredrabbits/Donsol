@@ -1,12 +1,11 @@
-//DinoSmasher
+// Donsol
 
 #include <Arduboy2.h>
 Arduboy2 arduboy;
 
 #define GAME_TITLE  0
-#define GAME_PLAY 1
+#define GAME_BOARD 1
 #define GAME_OVER 2
-#define GAME_HIGH 3
 int gamestate = GAME_TITLE;
 
 #define PLAYER_SIZE   16
@@ -39,11 +38,13 @@ int world[WORLD_HEIGHT][WORLD_WIDTH] = {
 #define PLAYER_SIZE     16
 #define PLAYER_X_OFFSET   WIDTH / 2 - PLAYER_SIZE / 2
 #define PLAYER_Y_OFFSET   HEIGHT / 2 - PLAYER_SIZE / 2
+
 void drawplayer() {
   arduboy.fillRect(PLAYER_X_OFFSET, PLAYER_Y_OFFSET, PLAYER_SIZE, PLAYER_SIZE, BLACK);
 }
 
 #define TILE_SIZE     16
+
 void drawworld() {
   const int tileswide = WIDTH / TILE_SIZE + 1;
   const int tilestall = HEIGHT / TILE_SIZE + 1;
@@ -65,11 +66,30 @@ void drawworld() {
   arduboy.print(0 - mapy / TILE_SIZE);
 }
 
-void titlescreen() {
+// Screens
+
+void _title() {
   arduboy.setCursor(0, 0);
   arduboy.print("Title Screen\n");
+
+  arduboy.setCursor(0, 8);
+  arduboy.print("Donsol Arduino\n");
+
+  arduboy.setCursor(0, 16);
+  arduboy.print("Press A\n");
+
   if(arduboy.justPressed(A_BUTTON)) {
-    gamestate = GAME_PLAY;
+    gamestate = GAME_BOARD;
+  }
+}
+
+void _board() {
+  playerinput();
+  drawworld();
+  drawplayer();
+
+  if(arduboy.justPressed(A_BUTTON)) {
+    gamestate = GAME_OVER;
   }
 }
 
@@ -96,60 +116,34 @@ void playerinput() {
   }
 }
 
-void gameplay() {
-  playerinput();
-  drawworld();
-  drawplayer();
-
-  if(arduboy.justPressed(A_BUTTON)) {
-    gamestate = GAME_OVER;
-  }
-}
-
 void gameoverscreen() {
   arduboy.setCursor(0, 0);
   arduboy.print("Game Over Screen\n");
-  if(arduboy.justPressed(A_BUTTON)) {
-    gamestate = GAME_HIGH;
-  }
-}
-
-void highscorescreen() {
-  arduboy.setCursor(0, 0);
-  arduboy.print("High Score Screen\n");
-  if(arduboy.justPressed(A_BUTTON)) {
-    gamestate = GAME_TITLE;
-  }
 }
 
 void gameloop() {
   switch(gamestate) {
     case GAME_TITLE:
-      titlescreen();
+      _title();
       break;
 
-    case GAME_PLAY:
-      gameplay();
+    case GAME_BOARD:
+      _board();
       break;
 
     case GAME_OVER:
       gameoverscreen();
       break;
-
-    case GAME_HIGH:
-      highscorescreen();
-      break;
   }
 }
 
+// Generics
 
 void setup() {
   arduboy.begin();
-  arduboy.setFrameRate(45);
+  arduboy.setFrameRate(30);
   arduboy.display();
-
   arduboy.initRandomSeed();
-  
   arduboy.clear();
 }
 
@@ -159,7 +153,6 @@ void loop() {
   }
 
   arduboy.pollButtons();
-
   arduboy.clear();
 
   gameloop();
