@@ -1,14 +1,30 @@
 // Donsol
 
 #include <Arduboy2.h>
+
 Arduboy2 arduboy;
 
 #define GAME_TITLE  0
 #define GAME_BOARD 1
 #define GAME_END 2
+
 int gamestate = GAME_TITLE;
 
 // Screens
+
+void gameloop() {
+  switch(gamestate) {
+    case GAME_TITLE:
+      _title();
+      break;
+    case GAME_BOARD:
+      _board();
+      break;
+    case GAME_END:
+      _end();
+      break;
+  }
+}
 
 void _title() {
   arduboy.setCursor(0, 0);
@@ -49,18 +65,7 @@ void _end() {
 
 // Board Controls
 
-void gameloop() {
-  switch(gamestate) {
-    case GAME_TITLE:
-      _title();
-      break;
-    case GAME_BOARD:
-      _board();
-      break;
-    case GAME_END:
-      _end();
-      break;
-  }
+void resetGame() {
 }
 
 // Draw
@@ -102,10 +107,6 @@ void drawplayer() {
 
 #define TILE_SIZE     16
 
-void resetGame() {
-
-}
-
 void drawworld() {
   const int tileswide = WIDTH / TILE_SIZE + 1;
   const int tilestall = HEIGHT / TILE_SIZE + 1;
@@ -127,9 +128,33 @@ void drawworld() {
   arduboy.print(0 - mapy / TILE_SIZE);
 }
 
+// Deck
+
+int getCardType(int id){
+  return id / 13;
+}
+
+int getCardValue(int id){
+  return id % 13;
+}
+
+char getCardName(int id){
+  switch (id) {
+    case 13: return 'K';
+    case 12: return 'Q';
+    default: return '?';
+  }
+  return id;
+}
+
 void drawBoard() {
   arduboy.print("Game Board\n");
+
+  arduboy.setCursor(0, 8);
+  arduboy.print(getCardName(13));
+  arduboy.print("\n");
 }
+
 
 void playerinput() {
   if(arduboy.justPressed(A_BUTTON)) {
@@ -165,6 +190,7 @@ void setup() {
   arduboy.display();
   arduboy.initRandomSeed();
   arduboy.clear();
+  resetGame();
 }
 
 void loop() {
