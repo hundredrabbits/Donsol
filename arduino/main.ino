@@ -5,8 +5,65 @@ Arduboy2 arduboy;
 
 #define GAME_TITLE  0
 #define GAME_BOARD 1
-#define GAME_OVER 2
+#define GAME_END 2
 int gamestate = GAME_TITLE;
+
+// Screens
+
+void _title() {
+  arduboy.setCursor(0, 0);
+  arduboy.print("Title Screen\n");
+
+  arduboy.setCursor(0, 8);
+  arduboy.print("Donsol Arduino\n");
+
+  arduboy.setCursor(0, 16);
+  arduboy.print("Press A\n");
+
+  if(arduboy.justPressed(A_BUTTON)) {
+    gamestate = GAME_BOARD;
+  }
+}
+
+void _board() {
+  playerinput();
+  drawBoard();
+
+  if(arduboy.pressed(A_BUTTON + B_BUTTON)) {
+    resetGame();
+    gamestate = GAME_TITLE;
+  }
+}
+
+void _end() {
+  arduboy.setCursor(0, 0);
+  arduboy.print("Game End Screen\n");
+  arduboy.setCursor(0, 8);
+  arduboy.print("Press A + B Together\n");
+
+  if(arduboy.pressed(A_BUTTON + B_BUTTON)) {
+    resetGame();
+    gamestate = GAME_TITLE;
+  }
+}
+
+// Board Controls
+
+void gameloop() {
+  switch(gamestate) {
+    case GAME_TITLE:
+      _title();
+      break;
+    case GAME_BOARD:
+      _board();
+      break;
+    case GAME_END:
+      _end();
+      break;
+  }
+}
+
+// Draw
 
 #define PLAYER_SIZE   16
 int mapx = 0;
@@ -45,6 +102,10 @@ void drawplayer() {
 
 #define TILE_SIZE     16
 
+void resetGame() {
+
+}
+
 void drawworld() {
   const int tileswide = WIDTH / TILE_SIZE + 1;
   const int tilestall = HEIGHT / TILE_SIZE + 1;
@@ -66,34 +127,14 @@ void drawworld() {
   arduboy.print(0 - mapy / TILE_SIZE);
 }
 
-// Screens
-
-void _title() {
-  arduboy.setCursor(0, 0);
-  arduboy.print("Title Screen\n");
-
-  arduboy.setCursor(0, 8);
-  arduboy.print("Donsol Arduino\n");
-
-  arduboy.setCursor(0, 16);
-  arduboy.print("Press A\n");
-
-  if(arduboy.justPressed(A_BUTTON)) {
-    gamestate = GAME_BOARD;
-  }
-}
-
-void _board() {
-  playerinput();
-  drawworld();
-  drawplayer();
-
-  if(arduboy.justPressed(A_BUTTON)) {
-    gamestate = GAME_OVER;
-  }
+void drawBoard() {
+  arduboy.print("Game Board\n");
 }
 
 void playerinput() {
+  if(arduboy.justPressed(A_BUTTON)) {
+    gamestate = GAME_END;
+  }
   if(arduboy.pressed(UP_BUTTON)) {
     if(mapy < PLAYER_Y_OFFSET) {
       mapy += 1;
@@ -113,27 +154,6 @@ void playerinput() {
     if(PLAYER_X_OFFSET + PLAYER_SIZE < mapx + TILE_SIZE * WORLD_WIDTH) {
       mapx -= 1;
     }
-  }
-}
-
-void gameoverscreen() {
-  arduboy.setCursor(0, 0);
-  arduboy.print("Game Over Screen\n");
-}
-
-void gameloop() {
-  switch(gamestate) {
-    case GAME_TITLE:
-      _title();
-      break;
-
-    case GAME_BOARD:
-      _board();
-      break;
-
-    case GAME_OVER:
-      gameoverscreen();
-      break;
   }
 }
 
