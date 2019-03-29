@@ -112,7 +112,7 @@ void drawBoard() {
 void drawCards() {
   drawCard(0, 3);
   drawCard(1, 35);
-  drawCard(2, 18);
+  drawCard(2, 24);
   drawCard(3, 45);
 }
 
@@ -121,13 +121,19 @@ void drawCard(int pos, int id) {
   int paddingTop = PADDING * 2;
   int x = PADDING + (cardWidth * pos) + (SPACING * pos);
 
-  arduboy.drawRoundRect(x, paddingTop, cardWidth, cardHeight, 2);
+  arduboy.drawRoundRect(x, paddingTop, cardWidth, cardHeight, 3);
 
-  arduboy.setCursor(x + 10, paddingTop + (cardHeight / 4));
-  arduboy.print(getCardName(id));
+  if (pos == 1) {
+    arduboy.drawRoundRect(x + 4, paddingTop + 4, cardWidth - 8, cardHeight - 8, 2);
+  }
+  else {
+    arduboy.setCursor(x + 10, paddingTop + (cardHeight / 4));
+    arduboy.print(getCardName(id));
 
-  arduboy.setCursor(x + 10, paddingTop + (cardHeight / 2) + 1);
-  arduboy.print(".");
+    arduboy.setCursor(x + 10, paddingTop + (cardHeight / 2) + 1);
+    arduboy.print(".");
+  }
+
 }
 
 void drawInterface() {
@@ -135,10 +141,17 @@ void drawInterface() {
   //  Serial.print("Hello");
 
   arduboy.setCursor(PADDING, 2);
-  arduboy.print("HP20"); // getCardName(13)
+  arduboy.print("HP20");
 
-  arduboy.setCursor(50, 2);
-  arduboy.print("SP09"); // getCardName(13)
+  arduboy.setCursor(PADDING + (cardWidth * 1) + (SPACING * 1), 2);
+  arduboy.print("DP09");
+
+  arduboy.setCursor(PADDING + (cardWidth * 2) + (SPACING * 2), 2);
+  arduboy.print("SP12");
+
+  arduboy.drawRoundRect(PADDING + (cardWidth * 3) + (SPACING * 3), 2, cardWidth, 8, 3);
+
+  arduboy.fillRoundRect(PADDING + (cardWidth * 3) + (SPACING * 3) + 2, 4, cardWidth * 0.6, 4, 2);
 
   arduboy.print("\n");
 }
