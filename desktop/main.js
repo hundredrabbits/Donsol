@@ -3,7 +3,7 @@ const path = require('path')
 const url = require('url')
 const shell = require('electron').shell
 
-let is_shown = true
+let isShown = true
 
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
 
@@ -13,10 +13,13 @@ app.on('ready', () => {
     height: 450,
     minWidth: 860,
     minHeight: 450,
-    frame: false,
-    backgroundColor: '#000000',
-    autoHideMenuBar: true,
-    icon: __dirname + '/icon.ico'
+    backgroundColor: '#000',
+    icon: path.join(__dirname, { darwin: 'icon.icns', linux: 'icon.png', win32: 'icon.ico' }[process.platform] || 'icon.ico'),
+    resizable: true,
+    frame: process.platform !== 'darwin',
+    skipTaskbar: process.platform === 'darwin',
+    autoHideMenuBar: process.platform === 'darwin',
+    webPreferences: { zoomFactor: 1.0, nodeIntegration: true, backgroundThrottling: false }
   })
 
   app.win.loadURL(`file://${__dirname}/sources/index.html`)
@@ -28,11 +31,11 @@ app.on('ready', () => {
   })
 
   app.win.on('hide', function () {
-    is_shown = false
+    isShown = false
   })
 
   app.win.on('show', function () {
-    is_shown = true
+    isShown = true
   })
 
   app.on('window-all-closed', () => {
@@ -60,7 +63,7 @@ app.toggle_visible = function () {
   if (process.platform == 'win32') {
     if (!app.win.isMinimized()) { app.win.minimize() } else { app.win.restore() }
   } else {
-    if (is_shown && !app.win.isFullScreen()) { app.win.hide() } else { app.win.show() }
+    if (isShown && !app.win.isFullScreen()) { app.win.hide() } else { app.win.show() }
   }
 }
 
