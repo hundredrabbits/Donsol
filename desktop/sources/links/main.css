@@ -4,10 +4,10 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 
 #player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px; -webkit-user-select: none;-webkit-app-region: drag; position: fixed; bottom:30px; width:calc(100% - 60px);}
 #player > * { vertical-align: top }
-#player .gage { width: 120px;display: block;height:30px;position: relative; float:right;}
+#player .gage { width: 120px;display: block;height:30px;position: relative; float:right; margin-left:2px;width:70px; padding-right: 50px; text-align: right}
 #player .gage .value { display: inline-block;line-height: 20px;font-family: 'input_mono_medium';padding-left: 5px;}
 #player .gage .event { display: inline-block;position: absolute;top: -20px;left: 0px; transition: all 250ms; opacity: 0; margin-left:5px; display: none}
-#player .gage .progress { display: inline-block !important;width: 40px;position: relative; top:-3px;overflow: hidden;height: 4px;border-radius: 20px;left:15px;}
+#player .gage .progress { display: block;width: 40px;position: absolute; top:7px;overflow: hidden;height: 4px;border-radius: 20px;right:0px;}
 #player .gage .progress .bar{ height:5px; display:block !important; transition: width 300ms}
 #player a.escape { -webkit-app-region: no-drag;padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:0px; color:white;}
 #player a.escape:hover { cursor: pointer; }

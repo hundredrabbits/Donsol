@@ -10,7 +10,7 @@ function Gage_Shield (name, limit, color) {
       this.value_element.innerHTML = `${this.break_limit - 1}/${this.value} <span class='unit'>DP</span>`
       this.progress.update(this.value < this.break_limit ? this.value : this.break_limit - 1, 11)
     } else if (this.value == 0) {
-      this.value_element.innerHTML = "<span class='unit'>--</span>"
+      this.value_element.innerHTML = "0 <span class='unit'>DP</span>"
       this.progress.update(0, 11)
     } else {
       this.value_element.innerHTML = '<span>' + this.value + "</span> <span class='unit'>DP</span>"

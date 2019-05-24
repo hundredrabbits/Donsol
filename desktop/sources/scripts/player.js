@@ -49,6 +49,7 @@ function Player () {
     console.log('<attack>' + card.value)
     let attack_value = card.value
     let damages = attack_value
+    let shield_event = ''
 
     // Shield
     if (this.shield.value > 0) {
@@ -56,8 +57,9 @@ function Player () {
       if (this.shield.is_damaged() === true && attack_value >= this.shield.break_limit) {
         this.shield.value = 0
         this.shield.break_limit = null
-        donsol.player.shield.add_event('<span>Broke!</span>')
+        shield_event = 'your shield broke'
       } else {
+        shield_event = `your shield absorbed ${attack_value > this.shield.value ? this.shield.value : attack_value}`
         this.shield.break_limit = attack_value
         damages = attack_value > this.shield.value ? Math.abs(attack_value - this.shield.value) : 0
       }
@@ -74,9 +76,8 @@ function Player () {
       donsol.timeline.add_event('<span>The ' + card.name + ' killed you!</span>')
       donsol.board.dungeon_failed()
       this.update()
-    } else if (damages > 0) {
-      donsol.player.health.add_event('-' + damages)
-      donsol.timeline.add_event('Battled the ' + card.name + '.')
+    } else {
+      donsol.timeline.add_event(`Battled the ${card.name}${shield_event !== '' ? ', ' + shield_event : ''}.`)
     }
 
     // Experience

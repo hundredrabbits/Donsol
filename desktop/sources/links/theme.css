@@ -1,13 +1,13 @@
-body { background:var(--background) !important };
+body { background-color:var(--background) !important };
 .fh { color:var(--f_high) !important; stroke:var(--f_high) !important };
 .fm { color:var(--f_med) !important ; stroke:var(--f_med) !important };
 .fl { color:var(--f_low) !important ; stroke:var(--f_low) !important };
 .f_inv { color:var(--f_inv) !important ; stroke:var(--f_inv) !important };
-.bh { background:var(--b_high) !important; fill:var(--b_high) !important };
-.bm { background:var(--b_med) !important ; fill:var(--b_med) !important };
-.bl { background:var(--b_low) !important ; fill:var(--b_low) !important };
-.b_inv { background:var(--b_inv) !important ; fill:var(--b_inv) !important };
-.b { background:var(--background) !important; }
+.bh { background-color:var(--b_high) !important; fill:var(--b_high) !important };
+.bm { background-color:var(--b_med) !important ; fill:var(--b_med) !important };
+.bl { background-color:var(--b_low) !important ; fill:var(--b_low) !important };
+.b_inv { background-color:var(--b_inv) !important ; fill:var(--b_inv) !important };
+.b { background-color:var(--background) !important; }
 
 /* Donsol Theme Scheme */
 
@@ -31,20 +31,20 @@ svg .fill_grey { opacity:0.25; fill:var(--f_low) !important }
 svg .fill_white { fill:var(--b_high) !important }
 #player a.escape { border:2px solid var(--b_high) !important; color: var(--b_high); }
 #player a.escape:hover { background-color:var(--b_high) !important; color:var(--background); }
-#board card .face { background:var(--b_high)}
+#board card .face { background-color:var(--b_high)}
 .card_11 .face .name,.card_13 .face .name,.card_15 .face .name,.card_17 .face .name { color:var(--b_high);}
 #player .gage { color:var(--b_high) }
 svg .stroke_white { stroke:var(--b_high) !important }
 
 /* Dark Grey */
-#table card { background:var(--b_low) !important}
+#table card { background-color:var(--b_low) !important}
 #player .gage .value .unit { color:var(--b_low) !important}
-#player .gage .progress { background:var(--b_low) !important }
+#player .gage .progress { background-color:var(--b_low) !important }
 
 /* EXTRAS*/
-#player .gage.health .progress .bar { background:var(--b_inv) !important  }
-#player .gage.shield .progress .bar { background:var(--b_high) !important  }
-#player .gage.experience .progress .bar { background:var(--b_med) !important  }
+#player .gage.health .progress .bar { background-color:var(--b_inv) !important  }
+#player .gage.shield .progress .bar { background-color:var(--b_high) !important  }
+#player .gage.experience .progress .bar { background-color:var(--b_med) !important  }
 #table card .shortcut { color:var(--background) !important}
 #difficulty { color:var(--f_high) !important  }
 
