@@ -12,6 +12,7 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #player a.escape { -webkit-app-region: no-drag;padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:0px; color:white;}
 #player a.escape:hover { cursor: pointer; }
 #player div#timeline { display: inline-block;color:white; transition: opacity 250ms; opacity: 0 }
+#player div#timeline b { font-family: 'input_mono_medium',monospace; }
 
 #player.locked a.escape { display:none;}
 
@@ -34,5 +35,3 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #board card:nth-child(4), #table card:nth-child(4) { position:absolute; left:75%;}
 
 #difficulty:hover { text-decoration: underline; cursor: pointer; }
-
-

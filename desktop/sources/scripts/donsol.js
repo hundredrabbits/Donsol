@@ -73,8 +73,12 @@ function Donsol () {
     donsol.new_game()
   }
 
+  this.get_difficulty = function () {
+    return this.difficulty == 3 ? 'Expert' : this.difficulty == 2 ? 'Hard' : this.difficulty == 1 ? 'Normal' : 'Easy'
+  }
+
   this.update = function () {
-    console.log('Difficulty', this.difficulty == 3 ? 'Expert' : this.difficulty == 2 ? 'Hard' : this.difficulty == 1 ? 'Normal' : 'Easy')
+    console.log('Difficulty', this.get_difficulty())
   }
 
   this.skip = function () {

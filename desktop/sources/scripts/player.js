@@ -59,9 +59,9 @@ function Player () {
         this.shield.break_limit = null
         shield_event = 'your shield broke'
       } else {
-        shield_event = `your shield absorbed ${attack_value > this.shield.value ? this.shield.value : attack_value}`
         this.shield.break_limit = attack_value
         damages = attack_value > this.shield.value ? Math.abs(attack_value - this.shield.value) : 0
+        shield_event = `your shield absorbed ${damages < 1 ? 'everything' : attack_value > this.shield.value ? this.shield.value : attack_value}`
       }
     }
 
@@ -77,7 +77,7 @@ function Player () {
       donsol.board.dungeon_failed()
       this.update()
     } else {
-      donsol.timeline.add_event(`Battled the ${card.name}${shield_event !== '' ? ', ' + shield_event : ''}.`)
+      donsol.timeline.add_event(`${damages > 0 ? 'Battled' : 'Killed'} the ${card.name}${shield_event !== '' ? ', ' + shield_event : ''}.`)
     }
 
     // Experience
