@@ -74,7 +74,7 @@ function Donsol () {
   }
 
   this.update = function () {
-    document.getElementById('difficulty').textContent = this.difficulty == 3 ? 'Expert' : this.difficulty == 2 ? 'Hard' : this.difficulty == 1 ? 'Normal' : 'Easy'
+    console.log('Difficulty', this.difficulty == 3 ? 'Expert' : this.difficulty == 2 ? 'Hard' : this.difficulty == 1 ? 'Normal' : 'Easy')
   }
 
   this.skip = function () {

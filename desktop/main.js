@@ -10,9 +10,9 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
 app.on('ready', () => {
   app.win = new BrowserWindow({
     width: 860,
-    height: 450,
+    height: 420,
     minWidth: 860,
-    minHeight: 450,
+    minHeight: 420,
     backgroundColor: '#000',
     icon: path.join(__dirname, { darwin: 'icon.icns', linux: 'icon.png', win32: 'icon.ico' }[process.platform] || 'icon.ico'),
     resizable: true,

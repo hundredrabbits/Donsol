@@ -1,20 +1,21 @@
-body { background:black; font-family: 'input_mono_regular',monospace; min-width:750px; overflow-y: hidden; user-select: none; cursor: default; }
+body { background:black; font-family: 'input_mono_regular',monospace; min-width:750px; overflow-y: hidden; user-select: none; cursor: default; -webkit-app-region: drag; padding:30px;}
 
-#wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:50px auto;position: relative;width: calc(100% - 60px)}
+#wrapper { display: block;max-width: 900px; height: calc(25vw * 1.25 + 90px);max-height:400px;margin:0px auto;position: relative;width:100%; -webkit-app-region: drag;}
 
-#player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px; -webkit-user-select: none;-webkit-app-region: drag; padding-top: 100px;margin-top: -120px;}
+#player { display: block; font-size:12px; height:30px; line-height:20px; max-width:890px; -webkit-user-select: none;-webkit-app-region: drag; position: fixed; bottom:30px; width:calc(100% - 60px);}
+#player > * { vertical-align: top }
 #player .gage { width: 120px;display: block;height:30px;position: relative; float:right;}
 #player .gage .value { display: inline-block;line-height: 20px;font-family: 'input_mono_medium';padding-left: 5px;}
-#player .gage .event { display: inline-block;position: absolute;top: -20px;left: 0px; transition: all 250ms; opacity: 0; margin-left:5px;}
+#player .gage .event { display: inline-block;position: absolute;top: -20px;left: 0px; transition: all 250ms; opacity: 0; margin-left:5px; display: none}
 #player .gage .progress { display: inline-block !important;width: 40px;position: relative; top:-3px;overflow: hidden;height: 4px;border-radius: 20px;left:15px;}
 #player .gage .progress .bar{ height:5px; display:block !important; transition: width 300ms}
-#player a.escape { -webkit-app-region: no-drag;padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:-2px; color:white;}
+#player a.escape { -webkit-app-region: no-drag;padding: 0px 8px;border-radius: 20px;display: inline-block;margin-right: 10px;line-height: 20px; border:2px solid white; margin-top:0px; color:white;}
 #player a.escape:hover { cursor: pointer; }
 #player div#timeline { display: inline-block;color:white; transition: opacity 250ms; opacity: 0 }
 
 #player.locked a.escape { display:none;}
 
-#board, #table { display:block; position: absolute; margin-top: 15px; width: calc(100% + 15px)}
+#board, #table { display:block; position: absolute; width: calc(100% + 15px)}
 #board card, #table card { display: inline-block !important;height: calc(25vw * 1.25);max-height:300px;max-width:200px;width: calc(25% - 15px);margin-right: 15px;border-radius: 7px; position:relative; overflow:hidden;min-height: 300px;}
 #board card { top:10px; opacity:0.01; z-index:900; transition: opacity 250ms, top 150ms }
 #board card:hover { cursor:pointer; top:5px !important;}
@@ -31,9 +32,6 @@ body { background:black; font-family: 'input_mono_regular',monospace; min-width:
 #board card:nth-child(2), #table card:nth-child(2) { position:absolute; left:25%;}
 #board card:nth-child(3), #table card:nth-child(3) { position:absolute; left:50%;}
 #board card:nth-child(4), #table card:nth-child(4) { position:absolute; left:75%;}
-
-#tips { position: fixed;bottom: 30px;font-size: 12px;width: calc(100% - 70px);max-width: 900px;}
-#tips a:hover { color:white;}
 
 #difficulty:hover { text-decoration: underline; cursor: pointer; }
 
