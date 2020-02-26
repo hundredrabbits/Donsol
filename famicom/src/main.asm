@@ -162,29 +162,6 @@ ReadRightDone:
 
 ; selection
 
-selectCard:
-  LDX ui_selection ; load selection in X
-  LDA card1, x     ; select card on table
-  STA card_last    ; 
-  LDX card_last
-  LDA card_types, x
-  STA card_last_type
-  LDA card_values, x
-  STA card_last_value
-  ; selectCardType
-  LDA card_types, x
-  CMP #$00
-  BEQ selectCardHeart
-  CMP #$01
-  BEQ selectCardDiamond
-  CMP #$02
-  BEQ selectCardSpade
-  CMP #$03
-  BEQ selectCardClub
-  CMP #$04
-  BEQ selectCardJoker
-  RTS
-
 selectNextCard:
   LDA ui_selection
   CMP #$03
@@ -211,32 +188,79 @@ selectPrevDone:
   JSR updateCursor
   RTS
 
+selectCard:
+  ; check if card is flipped
+  LDX ui_selection    ; load selection in X
+  LDA card1, x        ; select card on table
+  CMP #$36            ; if card is $36(flipped)
+  BEQ selectCardDone  ; skip selection
+  ; load card data
+  STA card_last       ; 
+  LDX card_last
+  LDA card_types, x
+  STA card_last_type  ; load type
+  LDA card_values, x
+  STA card_last_value ; load value
+  ; branch types
+  LDA card_types, x
+  CMP #$00
+  BEQ selectCardHeart
+  CMP #$01
+  BEQ selectCardDiamond
+  CMP #$02
+  BEQ selectCardSpade
+  CMP #$03
+  BEQ selectCardClub
+  CMP #$04
+  BEQ selectCardJoker
+selectCardDone:
+  RTS
+
 selectCardHeart:
-  INC $40
+  JSR runPotion
+  JSR flipCard
   RTS
 
 selectCardDiamond:
-  INC $41
+  JSR runShield
+  JSR flipCard
   RTS
 
 selectCardSpade:
-  LDA health
-  SBC card_last_value
-  STA health
+  JSR runAttack
+  JSR flipCard
   RTS
 
 selectCardClub:
-  INC $43
+  JSR runAttack
+  JSR flipCard
   RTS
 
 selectCardJoker:
-  INC $44
+  JSR runAttack
+  JSR flipCard
+  RTS
+
+flipCard:
+  LDX ui_selection
+  LDA #$36            ; $36 is flipped
+  STA card1, x
   RTS
 
 ; turns
 
+runPotion:
+  ; todo
+  RTS
+
+runShield:
+  ; todo
+  RTS
+
 runAttack:
-  ; TODO
+  LDA health
+  SBC card_last_value
+  STA health
   RTS
 
 ; cards
