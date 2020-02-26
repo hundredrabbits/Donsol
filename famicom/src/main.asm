@@ -250,17 +250,53 @@ flipCard:
 ; turns
 
 runPotion:
-  ; todo
+  ; check for potion sickness
+  LDA potion_sickness
+  CMP #$01
+  BEQ runPotionDone
+  ; heal
+  LDA health
+  ADC card_last_value
+  STA health
+  ; specials
+  JSR clampHealth
+  JSR addPotionSickness
+runPotionDone:
   RTS
 
 runShield:
-  ; todo
+  LDA card_last_value
+  STA shield
+  STA shield_max
+  JSR removePotionSickness
   RTS
 
 runAttack:
   LDA health
   SBC card_last_value
   STA health
+  JSR removePotionSickness
+  RTS
+
+; tools
+
+addPotionSickness:
+  LDA #$01
+  STA potion_sickness
+  RTS
+
+removePotionSickness:
+  LDA #$00
+  STA potion_sickness
+  RTS
+
+clampHealth:
+  LDA health
+  CMP #$15
+  BCC clampHealthDone
+  LDA health_max
+  STA health
+clampHealthDone:
   RTS
 
 ; cards
