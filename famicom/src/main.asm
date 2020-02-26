@@ -1,7 +1,17 @@
-  JSR LoadBackground
   JSR LoadPalettes
-  JSR LoadAttributes
   JSR GameStart
+
+DrawCursor:
+  LDA #$88
+  STA $0200        ; set tile.y pos
+  LDA #$05
+  STA $0201        ; set tile.id
+  LDA #$00
+  STA $0202        ; set tile.attribute
+  LDA #$88
+  STA $0203        ; set tile.x pos
+
+  JSR update
 
 EnableSprites:
   LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
@@ -17,32 +27,6 @@ EnableSprites:
 
 Forever:
   JMP Forever     ;jump back to Forever, infinite loop
-
-LoadBackground:
-  LDA $2002
-  LDA #$20
-  STA $2006
-  LDA #$00
-  STA $2006
-
-  LDA #<background ; Loading the #LOW(var) byte in asm6
-  STA pointerBackgroundLowByte
-  LDA #>background ; Loading the #HIGH(var) byte in asm6
-  STA pointerBackgroundHighByte
-
-  LDX #$00
-  LDY #$00
-LoadBackgroundLoop:
-  LDA (pointerBackgroundLowByte), y
-  STA $2007
-  INY
-  CPY #$00
-  BNE LoadBackgroundLoop
-  INC pointerBackgroundHighByte
-  INX
-  CPX #$04
-  BNE LoadBackgroundLoop
-  RTS
 
 LoadPalettes:
   LDA $2002
@@ -60,21 +44,6 @@ LoadPalettesLoop:
   BNE LoadPalettesLoop
   RTS
 
-LoadAttributes:
-  LDA $2002
-  LDA #$23
-  STA $2006
-  LDA #$C0
-  STA $2006
-  LDX #$00
-LoadAttributesLoop:
-  LDA attributes, x
-  STA $2007
-  INX
-  CPX #$40
-  BNE LoadAttributesLoop
-  RTS
-
 GameStart:
   ; reset health(default 21)
   LDA #21
@@ -85,9 +54,14 @@ GameStart:
   LDA #$00
   STA arrow_left_pressed
   STA arrow_right_pressed
+  ; draw cards
+  JSR drawCards
+  JSR updateCursor
   RTS
 
-
+; a -> select
+; left -> select prev
+; right -> select next
 
 NMI:
   LDA #$00
@@ -104,9 +78,18 @@ LatchController:
 ReadA: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
+  BEQ ReadARelease  ; check if button is already pressed
+  LDA a_pressed
+  CMP #$01
   BEQ ReadADone
-  NOP
-ReadADone:        ; handling this button is done
+  JSR selectCard ; record press
+  LDA #$01
+  STA a_pressed 
+  JMP ReadADone
+ReadARelease: ; record release
+  LDA #$00
+  STA a_pressed 
+ReadADone:
   
 ReadB: 
   LDA $4016
@@ -176,8 +159,31 @@ ReadRightRelease: ; record release
 ReadRightDone:
   
   RTI             ; return from interrupt
-  
+
 ; selection
+
+selectCard:
+  LDX ui_selection ; load selection in X
+  LDA card1, x     ; select card on table
+  STA card_last    ; 
+  LDX card_last
+  LDA card_types, x
+  STA card_last_type
+  LDA card_values, x
+  STA card_last_value
+selectCardType:
+  LDA card_types, x
+  CMP #$00
+  BEQ selectCardHeart
+  CMP #$01
+  BEQ selectCardDiamond
+  CMP #$02
+  BEQ selectCardSpade
+  CMP #$03
+  BEQ selectCardClub
+  CMP #$04
+  BEQ selectCardJoker
+  RTS
 
 selectNextCard:
   LDA ui_selection
@@ -189,6 +195,7 @@ selectNextAround:
   LDA #$00
   STA ui_selection
 selectNextDone:
+  JSR updateCursor
   RTS
 
 selectPrevCard:
@@ -201,4 +208,47 @@ selectPrevAround:
   LDA #$03
   STA ui_selection
 selectPrevDone:
+  JSR updateCursor
+  RTS
+
+selectCardHeart:
+  INC $40
+  RTS
+
+selectCardDiamond:
+  INC $41
+  RTS
+
+selectCardSpade:
+  INC $42
+  RTS
+
+selectCardClub:
+  INC $43
+  RTS
+
+selectCardJoker:
+  INC $44
+  RTS
+
+; cards
+
+drawCards:
+  LDA #$03   ; heart 4
+  STA card1
+  LDA #$11   ; diamond 5
+  STA card2
+  LDA #$1f   ; spades 6
+  STA card3
+  LDA #$2d   ; club 7
+  STA card4
+  RTS
+
+; update
+
+update:
+updateCursor:
+  LDX ui_selection
+  LDA cursor_positions, x
+  STA $0203        ; set tile.x pos
   RTS
