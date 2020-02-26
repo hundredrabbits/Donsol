@@ -16,17 +16,16 @@
 
     .enum $0000 ; Zero Page variables
 
-pointerBackgroundLowByte  .dsb 1
-pointerBackgroundHighByte .dsb 1
-
 ; player
 health .dsb 1
 health_max .dsb 1
 shield .dsb 1
 shield_max .dsb 1
-can_run .dsb 1
+experience .dsb 1
 ; flags
+is_dead .dsb 1
 potion_sickness .dsb 1
+can_run .dsb 1
 ; interface
 ui_selection .dsb 1
 ; controls
@@ -38,11 +37,11 @@ card1 .dsb 1
 card2 .dsb 1
 card3 .dsb 1
 card4 .dsb 1
+room_complete .dsb 1
 ; stats
 card_last .dsb 1
 card_last_type .dsb 1
 card_last_value .dsb 1
-turns .dsb 1
 
     .ende
 

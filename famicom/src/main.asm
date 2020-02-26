@@ -1,3 +1,26 @@
+; TODOs
+; Implement run
+; Implement restart
+; Implement dialog tools
+; Implement death
+; Implement sounds
+; Implement menus
+; Implement difficulties (easy/normal/hard)
+; Auto switch room
+; Shuffle deck
+; draw cards
+; draw HP UI
+; draw SP UI
+; draw XP UI
+; draw Run button
+; draw dialog box
+
+; FLOWs
+; flip 4 cards
+; check for room complete
+; start room change timer
+; change room when room timer reaches 0
+
   JSR LoadPalettes
   JSR GameStart
 
@@ -45,8 +68,8 @@ LoadPalettesLoop:
   RTS
 
 GameStart:
-  ; reset health(default 21)
-  LDA #21
+  ; reset health($15 = 21)
+  LDA #$15
   STA health_max
   LDA health_max
   STA health
@@ -54,14 +77,19 @@ GameStart:
   LDA #$00
   STA arrow_left_pressed
   STA arrow_right_pressed
+  STA experience
+  STA is_dead
+  LDA #$01
+  STA can_run
   ; draw cards
   JSR drawCards
   JSR updateCursor
   RTS
 
 ; a -> select
-; left -> select prev
-; right -> select next
+; b -> select run
+; left/right -> select prev/next
+; up/down -< select card/run
 
 NMI:
   LDA #$00
@@ -245,6 +273,34 @@ flipCard:
   LDX ui_selection
   LDA #$36            ; $36 is flipped
   STA card1, x
+  INC experience
+  ; if room is complete, draw
+  JSR checkRoom
+  RTS
+
+checkRoom:
+  LDA #$00
+  STA room_complete
+  LDA card1
+  CMP #$36
+  BNE checkRoomDone
+  LDA card2
+  CMP #$36
+  BNE checkRoomDone
+  LDA card3
+  CMP #$36
+  BNE checkRoomDone
+  LDA card4
+  CMP #$36
+  BNE checkRoomDone
+  LDA #$01
+  STA room_complete ; set room_complete to $01
+checkRoomDone:
+  ; auto change room if all cards are flipped
+  ; TODO: start timer
+  LDA room_complete
+  CMP #$01
+  BEQ drawCards
   RTS
 
 ; turns
@@ -268,6 +324,7 @@ runShield:
   LDA card_last_value
   STA shield
   STA shield_max
+  ; specials
   JSR removePotionSickness
   RTS
 
@@ -275,6 +332,9 @@ runAttack:
   LDA health
   SBC card_last_value
   STA health
+  ; TODO: implement shield malus
+  ; TODO: implement death
+  ; specials
   JSR removePotionSickness
   RTS
 
@@ -292,7 +352,7 @@ removePotionSickness:
 
 clampHealth:
   LDA health
-  CMP #$15
+  CMP health_max
   BCC clampHealthDone
   LDA health_max
   STA health
