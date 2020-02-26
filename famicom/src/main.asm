@@ -171,7 +171,7 @@ selectCard:
   STA card_last_type
   LDA card_values, x
   STA card_last_value
-selectCardType:
+  ; selectCardType
   LDA card_types, x
   CMP #$00
   BEQ selectCardHeart
@@ -220,7 +220,9 @@ selectCardDiamond:
   RTS
 
 selectCardSpade:
-  INC $42
+  LDA health
+  SBC card_last_value
+  STA health
   RTS
 
 selectCardClub:
@@ -229,6 +231,12 @@ selectCardClub:
 
 selectCardJoker:
   INC $44
+  RTS
+
+; turns
+
+runAttack:
+  ; TODO
   RTS
 
 ; cards
