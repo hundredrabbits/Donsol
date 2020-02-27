@@ -45,8 +45,6 @@ DrawCursor:
   LDA #$88
   STA $0207        ; set tile.x pos
 
-  JSR update
-
 EnableSprites:
   LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA $2000
@@ -61,7 +59,6 @@ EnableSprites:
 
 Forever:
   JMP Forever     ;jump back to Forever, infinite loop
-
 
 LoadBackground:
   LDA $2002
@@ -143,6 +140,37 @@ GameStart:
 ; b -> select run
 ; left/right -> select prev/next
 ; up/down -< select card/run
+
+update:
+updateStats:
+  JSR updateHealth
+  JSR updateShield
+  JSR updateExperience
+
+  ; huh, why is that fixing my issue
+
+  LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
+  STA $2000
+  LDA #%00011110   ; enable sprites, enable background, no clipping on left side
+  STA $2001
+  
+  LDA #$00         ; No background scrolling
+  STA $2006
+  STA $2006
+  STA $2005
+  STA $2005
+
+
+  RTS
+
+updateCursor:
+  LDX ui_selection
+  LDA cursor_positions, x
+  STA $0203        ; set tile.x pos
+  CLC
+  ADC #$08
+  STA $0207        ; set tile.x pos
+  RTS
 
 NMI:
   LDA #$00
@@ -295,6 +323,7 @@ selectCard:
   CMP #$04
   BEQ selectCardJoker
 selectCardDone:
+  JSR update
   RTS
 
 selectCardHeart:
@@ -427,12 +456,56 @@ drawCards:
 
 ; update
 
-update:
-updateCursor:
-  LDX ui_selection
-  LDA cursor_positions, x
-  STA $0203        ; set tile.x pos
-  CLC
-  ADC #$08
-  STA $0207        ; set tile.x pos
+updateHealth:
+  LDA $2000 ; read PPU status to reset the high/low latch
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$07
+  STA $2006 ; write the low byte of $2000 address
+  LDA #$a0 ; tile id
+  STA $2007
+
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$08
+  STA $2006 ; write the low byte of $2000 address
+  LDA #$a0 ; tile id
+  STA $2007
+
+  RTS
+
+updateShield:
+  LDA $2000 ; read PPU status to reset the high/low latch
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$0e
+  STA $2006 ; write the low byte of $2000 address
+  LDA #$a0 ; tile id
+  STA $2007
+
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$0f
+  STA $2006 ; write the low byte of $2000 address
+  LDA #$a0 ; tile id
+  STA $2007
+
+  RTS
+
+updateExperience:
+  LDA $2000 ; read PPU status to reset the high/low latch
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$15
+  STA $2006 ; write the low byte of $2000 address
+  LDA #$a0 ; tile id
+  STA $2007
+
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$16
+  STA $2006 ; write the low byte of $2000 address
+  LDA #$a0 ; tile id
+  STA $2007
+
   RTS
