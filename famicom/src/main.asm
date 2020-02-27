@@ -27,7 +27,7 @@
   JSR GameStart
 
 DrawCursor:
-  LDA #$a8
+  LDA #$b0
   STA $0200        ; set tile.y pos
   LDA #$10
   STA $0201        ; set tile.id
@@ -36,7 +36,7 @@ DrawCursor:
   LDA #$88
   STA $0203        ; set tile.x pos
 
-  LDA #$a8
+  LDA #$b0
   STA $0204        ; set tile.y pos
   LDA #$11
   STA $0205        ; set tile.id
