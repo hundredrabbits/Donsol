@@ -1,5 +1,7 @@
 include "src/head.asm"
     
+include "src/setup.asm"
+
 include "src/main.asm"
 
 include "src/tables.asm"

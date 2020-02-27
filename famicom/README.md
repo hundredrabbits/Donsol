@@ -3,6 +3,37 @@
 A standard deck of playing cards consists of 52 Cards in each of the 4 suits of Spades, Hearts, Diamonds, and Clubs. 
 Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
+## TODOs
+
+```
+; Implement run
+; Implement restart
+; Implement dialog tools
+; Implement death
+; Implement sounds
+; Implement menus
+; Implement difficulties (easy/normal/hard)
+; Auto switch room
+; Shuffle deck
+; draw cards
+; draw HP UI
+; draw SP UI
+; draw XP UI
+; draw Run button
+; draw dialog box
+
+; FLOWs
+; flip 4 cards
+; check for room complete
+; start room change timer
+; change room when room timer reaches 0
+
+; a -> select
+; b -> select run
+; left/right -> select prev/next
+; up/down -< select card/run
+```
+
 ## Card IDs
 
 ```

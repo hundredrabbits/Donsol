@@ -1,121 +1,3 @@
-; TODOs
-; Implement run
-; Implement restart
-; Implement dialog tools
-; Implement death
-; Implement sounds
-; Implement menus
-; Implement difficulties (easy/normal/hard)
-; Auto switch room
-; Shuffle deck
-; draw cards
-; draw HP UI
-; draw SP UI
-; draw XP UI
-; draw Run button
-; draw dialog box
-
-; FLOWs
-; flip 4 cards
-; check for room complete
-; start room change timer
-; change room when room timer reaches 0
-
-  JSR LoadBackground
-  JSR LoadPalettes
-  JSR LoadAttributes
-  JSR GameStart
-
-DrawCursor:
-  LDA #$b0
-  STA $0200        ; set tile.y pos
-  LDA #$10
-  STA $0201        ; set tile.id
-  LDA #$00
-  STA $0202        ; set tile.attribute
-  LDA #$88
-  STA $0203        ; set tile.x pos
-
-  LDA #$b0
-  STA $0204        ; set tile.y pos
-  LDA #$11
-  STA $0205        ; set tile.id
-  LDA #$00
-  STA $0206        ; set tile.attribute
-  LDA #$88
-  STA $0207        ; set tile.x pos
-
-EnableSprites:
-  LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
-  STA $2000
-  LDA #%00011110   ; enable sprites, enable background, no clipping on left side
-  STA $2001
-  
-  LDA #$00         ; No background scrolling
-  STA $2006
-  STA $2006
-  STA $2005
-  STA $2005
-
-Forever:
-  JMP Forever     ;jump back to Forever, infinite loop
-
-LoadBackground:
-  LDA $2002
-  LDA #$20
-  STA $2006
-  LDA #$00
-  STA $2006
-
-  LDA #<background ; Loading the #LOW(var) byte in asm6
-  STA pointerBackgroundLowByte
-  LDA #>background ; Loading the #HIGH(var) byte in asm6
-  STA pointerBackgroundHighByte
-
-  LDX #$00
-  LDY #$00
-LoadBackgroundLoop:
-  LDA (pointerBackgroundLowByte), y
-  STA $2007
-  INY
-  CPY #$00
-  BNE LoadBackgroundLoop
-  INC pointerBackgroundHighByte
-  INX
-  CPX #$04
-  BNE LoadBackgroundLoop
-  RTS
-
-LoadPalettes:
-  LDA $2002
-  LDA #$3F
-  STA $2006
-  LDA #$00
-  STA $2006
-
-  LDX #$00
-LoadPalettesLoop:
-  LDA palettes, x
-  STA $2007
-  INX
-  CPX #$20
-  BNE LoadPalettesLoop
-  RTS
-
-LoadAttributes:
-  LDA $2002
-  LDA #$23
-  STA $2006
-  LDA #$C0
-  STA $2006
-  LDX #$00
-LoadAttributesLoop:
-  LDA attributes, x
-  STA $2007
-  INX
-  CPX #$40
-  BNE LoadAttributesLoop
-  RTS
 
 GameStart:
   ; reset health($15 = 21)
@@ -129,38 +11,21 @@ GameStart:
   STA arrow_right_pressed
   STA experience
   STA is_dead
+  STA ui_selection
   LDA #$01
   STA can_run
-  ; draw cards
+
   JSR drawCards
   JSR updateCursor
-  RTS
 
-; a -> select
-; b -> select run
-; left/right -> select prev/next
-; up/down -< select card/run
+Forever:
+  JMP Forever     ; jump back to Forever, infinite loop
 
 update:
 updateStats:
   JSR updateHealth
   JSR updateShield
   JSR updateExperience
-
-  ; huh, why is that fixing my issue
-
-  LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
-  STA $2000
-  LDA #%00011110   ; enable sprites, enable background, no clipping on left side
-  STA $2001
-  
-  LDA #$00         ; No background scrolling
-  STA $2006
-  STA $2006
-  STA $2005
-  STA $2005
-
-
   RTS
 
 updateCursor:
@@ -472,6 +337,12 @@ updateHealth:
   LDA #$a0 ; tile id
   STA $2007
 
+  ; scrolling
+
+  LDA #$00         ; No background scrolling
+  STA $2005
+  STA $2005
+
   RTS
 
 updateShield:
@@ -490,6 +361,12 @@ updateShield:
   LDA #$a0 ; tile id
   STA $2007
 
+  ; scrolling
+
+  LDA #$00         ; No background scrolling
+  STA $2005
+  STA $2005
+
   RTS
 
 updateExperience:
@@ -507,5 +384,11 @@ updateExperience:
   STA $2006 ; write the low byte of $2000 address
   LDA #$a0 ; tile id
   STA $2007
+
+  ; scrolling
+
+  LDA #$00         ; No background scrolling
+  STA $2005
+  STA $2005
 
   RTS
