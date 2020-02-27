@@ -9,7 +9,7 @@ palettes:
   .db $0F,$15,$2D,$30, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F ; sprites
 
 cursor_positions:
-  .db $28,$20,$30,$40
+  .db $28,$60,$98,$d0
 
 card_types:
   .db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00 ; hearts

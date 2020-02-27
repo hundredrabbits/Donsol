@@ -432,6 +432,7 @@ updateCursor:
   LDX ui_selection
   LDA cursor_positions, x
   STA $0203        ; set tile.x pos
+  CLC
   ADC #$08
   STA $0207        ; set tile.x pos
   RTS
