@@ -17,25 +17,10 @@ GameStart:
 
   JSR drawCards
   JSR updateCursor
+  JSR updateStats
 
 Forever:
   JMP Forever     ; jump back to Forever, infinite loop
-
-update:
-updateStats:
-  JSR updateHealth
-  JSR updateShield
-  JSR updateExperience
-  RTS
-
-updateCursor:
-  LDX ui_selection
-  LDA cursor_positions, x
-  STA $0203        ; set tile.x pos
-  CLC
-  ADC #$08
-  STA $0207        ; set tile.x pos
-  RTS
 
 NMI:
   LDA #$00
@@ -188,7 +173,6 @@ selectCard:
   CMP #$04
   BEQ selectCardJoker
 selectCardDone:
-  JSR update
   RTS
 
 selectCardHeart:
@@ -223,6 +207,7 @@ flipCard:
   INC experience
   ; if room is complete, draw
   JSR checkRoom
+  JSR updateStats
   RTS
 
 checkRoom:
@@ -319,25 +304,42 @@ drawCards:
   STA card4
   RTS
 
+; loaders
+
+load00:
+  LDX #$00
+  LDY #$00
+  RTS
+
+load21:
+  LDX #$02
+  LDY #$01
+  RTS
+
 ; update
 
 updateHealth:
   LDA $2000 ; read PPU status to reset the high/low latch
+
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$07
   STA $2006 ; write the low byte of $2000 address
-  LDA #$a0 ; tile id
+  LDX health
+  LDA number_high, x
+  CLC
+  ADC #$a0
   STA $2007
 
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$08
   STA $2006 ; write the low byte of $2000 address
-  LDA #$a0 ; tile id
+  LDX health
+  LDA number_low, x
+  CLC
+  ADC #$a0
   STA $2007
-
-  ; scrolling
 
   LDA #$00         ; No background scrolling
   STA $2005
@@ -347,21 +349,26 @@ updateHealth:
 
 updateShield:
   LDA $2000 ; read PPU status to reset the high/low latch
+
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$0e
   STA $2006 ; write the low byte of $2000 address
-  LDA #$a0 ; tile id
+  LDX shield
+  LDA number_high, x
+  CLC
+  ADC #$a0
   STA $2007
 
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$0f
   STA $2006 ; write the low byte of $2000 address
-  LDA #$a0 ; tile id
+  LDX shield
+  LDA number_low, x
+  CLC
+  ADC #$a0
   STA $2007
-
-  ; scrolling
 
   LDA #$00         ; No background scrolling
   STA $2005
@@ -371,24 +378,44 @@ updateShield:
 
 updateExperience:
   LDA $2000 ; read PPU status to reset the high/low latch
+
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$15
   STA $2006 ; write the low byte of $2000 address
-  LDA #$a0 ; tile id
+  LDX experience
+  LDA number_high, x
+  CLC
+  ADC #$a0
   STA $2007
 
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$16
   STA $2006 ; write the low byte of $2000 address
-  LDA #$a0 ; tile id
+  LDX experience
+  LDA number_low, x
+  CLC
+  ADC #$a0
   STA $2007
-
-  ; scrolling
 
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
 
+  RTS
+
+updateStats:
+  JSR updateHealth
+  JSR updateShield
+  JSR updateExperience
+  RTS
+
+updateCursor:
+  LDX ui_selection
+  LDA cursor_positions, x
+  STA $0203        ; set tile.x pos
+  CLC
+  ADC #$08
+  STA $0207        ; set tile.x pos
   RTS

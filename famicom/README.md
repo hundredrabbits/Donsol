@@ -5,6 +5,11 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Display potion sickness
+- Display shield dammage
+- Display selected card name
+- Toggle run ui, when can run
+
 ```
 ; Implement run
 ; Implement restart
@@ -16,9 +21,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 ; Auto switch room
 ; Shuffle deck
 ; draw cards
-; draw HP UI
-; draw SP UI
-; draw XP UI
 ; draw Run button
 ; draw dialog box
 
