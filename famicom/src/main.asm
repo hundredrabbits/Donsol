@@ -116,7 +116,7 @@ ReadRightRelease: ; record release
   LDA #$00
   STA arrow_right_pressed 
 ReadRightDone:
-  
+
   RTI             ; return from interrupt
 
 ; selection
@@ -244,6 +244,7 @@ runPotion:
   BEQ runPotionDone
   ; heal
   LDA health
+  CLC
   ADC card_last_value
   STA health
   ; specials
@@ -261,7 +262,9 @@ runShield:
   RTS
 
 runAttack:
+  ; TODO: check if hit is killing
   LDA health
+  CLC
   SBC card_last_value
   STA health
   ; TODO: implement shield malus
@@ -320,7 +323,7 @@ load21:
 
 updateHealth:
   LDA $2000 ; read PPU status to reset the high/low latch
-
+updateHealthDigit1:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$07
@@ -330,7 +333,7 @@ updateHealth:
   CLC
   ADC #$a0
   STA $2007
-
+updateHealthDigit2:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$08
@@ -340,7 +343,7 @@ updateHealth:
   CLC
   ADC #$a0
   STA $2007
-
+updateHealthFix:
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
@@ -349,7 +352,7 @@ updateHealth:
 
 updateShield:
   LDA $2000 ; read PPU status to reset the high/low latch
-
+updateShieldDigit1:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$0e
@@ -359,7 +362,7 @@ updateShield:
   CLC
   ADC #$a0
   STA $2007
-
+updateShieldDigit2:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$0f
@@ -369,7 +372,7 @@ updateShield:
   CLC
   ADC #$a0
   STA $2007
-
+updateShieldFix:
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
@@ -378,7 +381,7 @@ updateShield:
 
 updateExperience:
   LDA $2000 ; read PPU status to reset the high/low latch
-
+updateExperienceDigit1:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$15
@@ -388,7 +391,7 @@ updateExperience:
   CLC
   ADC #$a0
   STA $2007
-
+updateExperienceDigit2:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
   LDA #$16
@@ -398,7 +401,7 @@ updateExperience:
   CLC
   ADC #$a0
   STA $2007
-
+updateExperienceFix:
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
