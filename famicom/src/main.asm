@@ -343,7 +343,28 @@ updateHealthFix:
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
+  RTS
 
+updateHealthBar:
+  LDX #$00
+  LDY health
+  LDA healthbarpos, y ; regA has sprite offset
+  TAY                 ; regY has sprite offset
+updateHealthBarLoop:
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA healthbaroffset, x
+  STA $2006           ; write the low byte of $2000 address
+  LDA healthbar, y    ; regA has sprite id
+  INY
+  STA $2007
+  INX
+  CPX #$06
+  BNE updateHealthBarLoop
+updateHealthBarDone:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
   RTS
 
 updateShield:
@@ -368,7 +389,6 @@ updateShieldFix:
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
-
   RTS
 
 updateExperience:
@@ -393,11 +413,11 @@ updateExperienceFix:
   LDA #$00         ; No background scrolling
   STA $2005
   STA $2005
-
   RTS
 
 updateStats:
   JSR updateHealth
+  JSR updateHealthBar
   JSR updateShield
   JSR updateExperience
   RTS

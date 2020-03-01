@@ -9,7 +9,7 @@
   ; $2D -> dark grey
 
 palettes:
-  .db $0F,$15,$2D,$30, $0F,$30,$15,$2D, $13,$14,$15,$16, $11,$12,$13,$14 ; background
+  .db $0F,$15,$2D,$30, $0F,$30,$15,$2D, $13,$14,$15,$16, $11,$12,$30,$14 ; background
   .db $0F,$15,$2D,$30, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F ; sprites
 
 cursor_positions:
@@ -44,6 +44,9 @@ number_low:
   .db $01,$02,$03,$04,$05,$06,$07,$08,$09,$0a
 
 ; Health Bars
+
+healthbaroffset:
+  .db $c3,$c4,$c5,$c6,$c7,$c8,$c9
 
 healthbarpos:
   .db $00,$06,$06,$06,$06,$0c,$0c,$0c,$0c,$12,$12
