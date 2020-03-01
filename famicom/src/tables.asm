@@ -61,6 +61,9 @@ healthbar:
   .db $64,$65,$65,$65,$67,$a1 ; $1E
   .db $64,$65,$65,$65,$65,$66 ; $24
 
+shieldbaroffset:
+  .db $ca,$cb,$cc,$cd,$ce,$cf,$d0
+
 shieldbarpos:
   .db $00,$06,$06,$0c,$0c,$12
   .db $12,$18,$18,$1E,$1E,$24
@@ -73,6 +76,9 @@ shieldbar:
   .db $68,$69,$69,$6b,$63,$a1 ; $18
   .db $68,$69,$69,$69,$6b,$a1 ; $1E
   .db $68,$69,$69,$69,$69,$6a ; $24
+
+experiencebaroffset:
+  .db $d1,$d2,$d3,$d4,$d5,$d6,$d7
 
 experiencebarpos:
   .db $00,$06,$06,$06,$06,$06,$06,$06,$06,$06,$06,$06,$06

@@ -391,6 +391,28 @@ updateShieldFix:
   STA $2005
   RTS
 
+updateShieldBar:
+  LDX #$00
+  LDY shield
+  LDA shieldbarpos, y ; regA has sprite offset
+  TAY                 ; regY has sprite offset
+updateShieldBarLoop:
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA shieldbaroffset, x
+  STA $2006           ; write the low byte of $2000 address
+  LDA shieldbar, y    ; regA has sprite id
+  INY
+  STA $2007
+  INX
+  CPX #$06
+  BNE updateShieldBarLoop
+updateShieldBarDone:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
 updateExperience:
   LDA $2000 ; read PPU status to reset the high/low latch
 updateExperienceDigit1:
@@ -415,11 +437,35 @@ updateExperienceFix:
   STA $2005
   RTS
 
+updateExperienceBar:
+  LDX #$00
+  LDY experience
+  LDA experiencebarpos, y ; regA has sprite offset
+  TAY                 ; regY has sprite offset
+updateExperienceBarLoop:
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA experiencebaroffset, x
+  STA $2006           ; write the low byte of $2000 address
+  LDA experiencebar, y    ; regA has sprite id
+  INY
+  STA $2007
+  INX
+  CPX #$06
+  BNE updateExperienceBarLoop
+updateExperienceBarDone:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
 updateStats:
   JSR updateHealth
   JSR updateHealthBar
   JSR updateShield
+  JSR updateShieldBar
   JSR updateExperience
+  JSR updateExperienceBar
   RTS
 
 updateCursor:
