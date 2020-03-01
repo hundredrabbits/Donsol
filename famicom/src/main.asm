@@ -17,7 +17,7 @@ GameStart:
 
   JSR drawCards
   JSR updateCursor
-  JSR updateStats
+  ; JSR updateStats
 
 Forever:
   JMP Forever     ; jump back to Forever, infinite loop
@@ -323,6 +323,7 @@ load21:
 
 updateHealth:
   LDA $2000 ; read PPU status to reset the high/low latch
+  LDX #$00  ; Not quite sure why this is needed, but breaks otherwise
 updateHealthDigit1:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
@@ -369,6 +370,7 @@ updateHealthBarDone:
 
 updateShield:
   LDA $2000 ; read PPU status to reset the high/low latch
+  LDX #$00  ; Not quite sure why this is needed, but breaks otherwise
 updateShieldDigit1:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address
@@ -415,6 +417,7 @@ updateShieldBarDone:
 
 updateExperience:
   LDA $2000 ; read PPU status to reset the high/low latch
+  LDX #$00  ; Not quite sure why this is needed, but breaks otherwise
 updateExperienceDigit1:
   LDA #$21
   STA $2006 ; write the high byte of $2000 address

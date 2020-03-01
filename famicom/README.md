@@ -6,31 +6,26 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 ## TODOs
 
 - Display potion sickness
-- Display shield dammage/shield max
+  - change color of HP after drinking
+- Display shield damage/shield max
 - Display selected card name
 - Toggle run ui, when can run
-- Implement progress bars
 - Implement deck shuffling
+- Implement run
+- Implement restart
+- Implement dialog box
+- Implement death
+- Implement menus
+- Implement difficulties (easy/medium/hard)
+- Auto switch room timer
+- draw cards
+- Implement sounds
+
+### TODOs(minor)
+
+- Clamp HP so it doesn't go below 0
 
 ```
-; Implement run
-; Implement restart
-; Implement dialog tools
-; Implement death
-; Implement sounds
-; Implement menus
-; Implement difficulties (easy/normal/hard)
-; Auto switch room timer
-; draw cards
-; draw Run button
-; draw dialog box
-
-; FLOWs
-; flip 4 cards
-; check for room complete
-; start room change timer
-; change room when room timer reaches 0
-
 ; a -> select
 ; b -> select run
 ; left/right -> select prev/next
