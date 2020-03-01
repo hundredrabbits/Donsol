@@ -330,8 +330,6 @@ updateHealthDigit1:
   STA $2006 ; write the low byte of $2000 address
   LDX health
   LDA number_high, x
-  CLC
-  ADC #$a0
   STA $2007
 updateHealthDigit2:
   LDA #$21
@@ -340,8 +338,6 @@ updateHealthDigit2:
   STA $2006 ; write the low byte of $2000 address
   LDX health
   LDA number_low, x
-  CLC
-  ADC #$a0
   STA $2007
 updateHealthFix:
   LDA #$00         ; No background scrolling
@@ -359,8 +355,6 @@ updateShieldDigit1:
   STA $2006 ; write the low byte of $2000 address
   LDX shield
   LDA number_high, x
-  CLC
-  ADC #$a0
   STA $2007
 updateShieldDigit2:
   LDA #$21
@@ -369,8 +363,6 @@ updateShieldDigit2:
   STA $2006 ; write the low byte of $2000 address
   LDX shield
   LDA number_low, x
-  CLC
-  ADC #$a0
   STA $2007
 updateShieldFix:
   LDA #$00         ; No background scrolling
@@ -388,8 +380,6 @@ updateExperienceDigit1:
   STA $2006 ; write the low byte of $2000 address
   LDX experience
   LDA number_high, x
-  CLC
-  ADC #$a0
   STA $2007
 updateExperienceDigit2:
   LDA #$21
@@ -398,8 +388,6 @@ updateExperienceDigit2:
   STA $2006 ; write the low byte of $2000 address
   LDX experience
   LDA number_low, x
-  CLC
-  ADC #$a0
   STA $2007
 updateExperienceFix:
   LDA #$00         ; No background scrolling
