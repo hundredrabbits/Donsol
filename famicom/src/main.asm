@@ -14,11 +14,24 @@ GameStart:
   STA ui_selection
   LDA #$01
   STA can_run
+  ; table
+  JSR drawCards
   ; UI
-  JSR drawBaseInterface
   JSR updateStats
   JSR updateCursor
   JSR updateCards
+
+EnableSprites:
+  LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
+  STA $2000
+  LDA #%00011110   ; enable sprites, enable background, no clipping on left side
+  STA $2001
+  
+  LDA #$00         ; No background scrolling
+  STA $2006
+  STA $2006
+  STA $2005
+  STA $2005
 
 Forever:
   JMP Forever     ; jump back to Forever, infinite loop
@@ -263,7 +276,13 @@ runShield:
   RTS
 
 runAttack:
-  ; TODO: check if hit is killing
+  ; check if is killing
+  LDA card_last_value
+  CMP health
+  BCC runAttackContinue
+  JSR runDeath         ; run death if health < card_last_value
+  RTS                  ; stop attack phase
+runAttackContinue:
   LDA health
   CLC
   SBC card_last_value
@@ -272,6 +291,13 @@ runAttack:
   ; TODO: implement death
   ; specials
   JSR removePotionSickness
+  RTS
+
+runDeath:
+  LDA #$00
+  STA health
+  STA shield
+  STA experience
   RTS
 
 ; tools
@@ -306,18 +332,6 @@ drawCards:
   STA card3
   LDA #$2d   ; club 7
   STA card4
-  RTS
-
-; loaders
-
-load00:
-  LDX #$00
-  LDY #$00
-  RTS
-
-load21:
-  LDX #$02
-  LDY #$01
   RTS
 
 ; update
@@ -488,7 +502,7 @@ updateCursor:
   STA $0207        ; set tile.x pos
   RTS
 
-; test
+; to merge into a single routine
 
 drawCard1:
   LDA #$00
@@ -500,7 +514,7 @@ drawCardLoop:
   LDA card1pos_low, x
   STA $2006           ; write the low byte of $2000 address
 
-  LDA spade12, x
+  LDA blank, x
   STA $2007        ; set tile.x pos
 
   INX
@@ -512,7 +526,6 @@ drawCardDone:
   STA $2005
   RTS
 
-
 drawCard2:
   LDA #$00
   LDX #$00
@@ -523,7 +536,7 @@ drawCard2Loop:
   LDA card2pos_low, x
   STA $2006           ; write the low byte of $2000 address
 
-  LDA spade12, x
+  LDA spade1, x
   STA $2007        ; set tile.x pos
 
   INX
@@ -546,7 +559,7 @@ drawCard3Loop:
   LDA card3pos_low, x
   STA $2006           ; write the low byte of $2000 address
 
-  LDA spade12, x
+  LDA diamond11, x
   STA $2007        ; set tile.x pos
 
   INX
@@ -569,7 +582,7 @@ drawCard4Loop:
   LDA card4pos_low, x
   STA $2006           ; write the low byte of $2000 address
 
-  LDA spade12, x
+  LDA heart10, x
   STA $2007        ; set tile.x pos
 
   INX
@@ -579,64 +592,4 @@ drawCard4Done:
   LDA #$00            ; No background scrolling
   STA $2005
   STA $2005
-  RTS
-
-drawBaseInterface:
-
-  LDA $2000 ; read PPU status to reset the high/low latch  
-
-  ; HP
-
-  LDA #$21
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$03
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$12
-  STA $2007  
-
-  LDA #$21
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$04
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$1a
-  STA $2007  
-
-  ; SP
-
-  LDA #$21
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$0a
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$1d
-  STA $2007  
-
-  LDA #$21
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$0b
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$1a
-  STA $2007 
-
-  ; XP
-
-  LDA #$21
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$11
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$22
-  STA $2007  
-
-  LDA #$21
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$12
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$1a
-  STA $2007  
-
-
-  ; fix
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
-
   RTS

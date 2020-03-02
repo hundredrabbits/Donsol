@@ -44,7 +44,6 @@ card_last .dsb 1
 card_last_type .dsb 1
 card_last_value .dsb 1
 
-
 pointerBackgroundLowByte  .dsb 1
 pointerBackgroundHighByte .dsb 1
 
