@@ -14,15 +14,11 @@ GameStart:
   STA ui_selection
   LDA #$01
   STA can_run
-
-  JSR drawCards
+  ; UI
+  JSR drawBaseInterface
+  JSR updateStats
   JSR updateCursor
-  ; JSR updateStats
-
-  ; JSR drawCard1
-  ; JSR drawCard2
-  ; JSR drawCard3
-  ; JSR drawCard1
+  JSR updateCards
 
 Forever:
   JMP Forever     ; jump back to Forever, infinite loop
@@ -474,6 +470,9 @@ updateStats:
   JSR updateShieldBar
   JSR updateExperience
   JSR updateExperienceBar
+  RTS
+
+updateCards:
   JSR drawCard1
   JSR drawCard2
   JSR drawCard3
@@ -580,4 +579,64 @@ drawCard4Done:
   LDA #$00            ; No background scrolling
   STA $2005
   STA $2005
+  RTS
+
+drawBaseInterface:
+
+  LDA $2000 ; read PPU status to reset the high/low latch  
+
+  ; HP
+
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$03
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$12
+  STA $2007  
+
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$04
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$1a
+  STA $2007  
+
+  ; SP
+
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$0a
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$1d
+  STA $2007  
+
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$0b
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$1a
+  STA $2007 
+
+  ; XP
+
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$11
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$22
+  STA $2007  
+
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$12
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$1a
+  STA $2007  
+
+
+  ; fix
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+
   RTS
