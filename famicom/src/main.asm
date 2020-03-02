@@ -222,6 +222,7 @@ flipCard:
   ; if room is complete, draw
   JSR checkRoom
   JSR updateStats
+  JSR updateSickness
   RTS
 
 checkRoom:
@@ -508,15 +509,12 @@ drawCard1:
   LDA #$00
   LDX #$00
 drawCardLoop:
-  
   LDA card1pos_high, x
   STA $2006           ; write the high byte of $2000 address
   LDA card1pos_low, x
   STA $2006           ; write the low byte of $2000 address
-
   LDA blank, x
   STA $2007        ; set tile.x pos
-
   INX
   CPX #$36
   BNE drawCardLoop
@@ -530,15 +528,12 @@ drawCard2:
   LDA #$00
   LDX #$00
 drawCard2Loop:
-  
   LDA card1pos_high, x
   STA $2006           ; write the high byte of $2000 address
   LDA card2pos_low, x
   STA $2006           ; write the low byte of $2000 address
-
   LDA spade1, x
   STA $2007        ; set tile.x pos
-
   INX
   CPX #$36
   BNE drawCard2Loop
@@ -548,20 +543,16 @@ drawCard2Done:
   STA $2005
   RTS
 
-
 drawCard3:
   LDA #$00
   LDX #$00
 drawCard3Loop:
-  
   LDA card3pos_high, x
   STA $2006           ; write the high byte of $2000 address
   LDA card3pos_low, x
   STA $2006           ; write the low byte of $2000 address
-
   LDA diamond11, x
   STA $2007        ; set tile.x pos
-
   INX
   CPX #$36
   BNE drawCard3Loop
@@ -571,24 +562,42 @@ drawCard3Done:
   STA $2005
   RTS
 
-
 drawCard4:
   LDA #$00
   LDX #$00
 drawCard4Loop:
-  
   LDA card3pos_high, x
   STA $2006           ; write the high byte of $2000 address
   LDA card4pos_low, x
   STA $2006           ; write the low byte of $2000 address
-
   LDA heart10, x
   STA $2007        ; set tile.x pos
-
   INX
   CPX #$36
   BNE drawCard4Loop
 drawCard4Done:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+updateSickness:
+  LDA $2000 ; read PPU status to reset the high/low latch
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$05
+  STA $2006           ; write the low byte of $2000 address
+  LDA potion_sickness
+  CMP #$01
+  BNE updateSicknessFalse
+updateSicknessTrue:
+  LDA #$3f
+  STA $2007  
+  JSR updateSicknessDone
+updateSicknessFalse:
+  LDA #$00
+  STA $2007  
+updateSicknessDone:
   LDA #$00            ; No background scrolling
   STA $2005
   STA $2005
