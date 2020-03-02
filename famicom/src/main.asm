@@ -19,6 +19,11 @@ GameStart:
   JSR updateCursor
   ; JSR updateStats
 
+  ; JSR drawCard1
+  ; JSR drawCard2
+  ; JSR drawCard3
+  ; JSR drawCard1
+
 Forever:
   JMP Forever     ; jump back to Forever, infinite loop
 
@@ -469,6 +474,10 @@ updateStats:
   JSR updateShieldBar
   JSR updateExperience
   JSR updateExperienceBar
+  JSR drawCard1
+  JSR drawCard2
+  JSR drawCard3
+  JSR drawCard4
   RTS
 
 updateCursor:
@@ -478,4 +487,97 @@ updateCursor:
   CLC
   ADC #$08
   STA $0207        ; set tile.x pos
+  RTS
+
+; test
+
+drawCard1:
+  LDA #$00
+  LDX #$00
+drawCardLoop:
+  
+  LDA card1pos_high, x
+  STA $2006           ; write the high byte of $2000 address
+  LDA card1pos_low, x
+  STA $2006           ; write the low byte of $2000 address
+
+  LDA spade12, x
+  STA $2007        ; set tile.x pos
+
+  INX
+  CPX #$36
+  BNE drawCardLoop
+drawCardDone:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+
+drawCard2:
+  LDA #$00
+  LDX #$00
+drawCard2Loop:
+  
+  LDA card1pos_high, x
+  STA $2006           ; write the high byte of $2000 address
+  LDA card2pos_low, x
+  STA $2006           ; write the low byte of $2000 address
+
+  LDA spade12, x
+  STA $2007        ; set tile.x pos
+
+  INX
+  CPX #$36
+  BNE drawCard2Loop
+drawCard2Done:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+
+drawCard3:
+  LDA #$00
+  LDX #$00
+drawCard3Loop:
+  
+  LDA card3pos_high, x
+  STA $2006           ; write the high byte of $2000 address
+  LDA card3pos_low, x
+  STA $2006           ; write the low byte of $2000 address
+
+  LDA spade12, x
+  STA $2007        ; set tile.x pos
+
+  INX
+  CPX #$36
+  BNE drawCard3Loop
+drawCard3Done:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+
+drawCard4:
+  LDA #$00
+  LDX #$00
+drawCard4Loop:
+  
+  LDA card3pos_high, x
+  STA $2006           ; write the high byte of $2000 address
+  LDA card4pos_low, x
+  STA $2006           ; write the low byte of $2000 address
+
+  LDA spade12, x
+  STA $2007        ; set tile.x pos
+
+  INX
+  CPX #$36
+  BNE drawCard4Loop
+drawCard4Done:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
   RTS

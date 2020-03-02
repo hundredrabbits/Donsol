@@ -6,6 +6,8 @@ include "src/main.asm"
 
 include "src/tables.asm"
 
+include "src/cards.asm"
+
 include "src/vectors.asm"
 
     .incbin "src/sprite.chr"
