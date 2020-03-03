@@ -8,7 +8,6 @@ GameStart:
   STA arrow_left_pressed
   STA arrow_right_pressed
   STA experience
-  STA is_dead
   STA ui_selection
   LDA #$01
   STA can_run 
@@ -296,20 +295,10 @@ runAttack:
   LDA shield
   CMP #$00
   BNE runAttackBlock
-runAttackUnblocked:
-  ; check if killing
+  ; load damages(unblocked)
   LDA card_last_value
-  CMP health
-  BCC runAttackUnblockedSurvive
-  ; killing
-  JSR runDeath         ; run death if health < card_last_value
-  RTS                  ; stop attack phase
-runAttackUnblockedSurvive:
-  ; remove health
-  LDA health
-  SEC
-  SBC card_last_value
-  STA health
+  STA damages
+  JSR runDamages
   RTS
 runAttackBlock:
   ; check if shield breaking
@@ -320,44 +309,49 @@ runAttackBlock:
   LDA #$00
   STA shield
   STA shield_durability
-  ; remove health
-  LDA health
-  SEC
-  SBC card_last_value
-  STA health
+  ; load damages(unblocked)
+  LDA card_last_value 
+  STA damages
+  JSR runDamages
   RTS
 runAttackShielded:
   ; check for overflow
   LDA card_last_value
   CMP shield
-  BCC runAttackBlockFull
-  ; overflow
+  BCC runAttackShieldedFull
+runAttackShieldedPartial:
+  ; load damages(partial)
   LDA card_last_value
   SEC
   SBC shield ; damages is now stored in A
   STA damages
-  ; remove health
-  LDA health
-  SEC
-  SBC damages
-  STA health
+  JSR runDamages
   ; damage shield
   LDA card_last_value
   STA shield_durability
   RTS
-runAttackBlockFull:
+runAttackShieldedFull:
   ; damage shield
   LDA card_last_value
   STA shield_durability
   RTS
 
-runDeath:
-  LDA #$01
-  STA is_dead
+runDamages:
+  ; check if killing
+  LDA damages
+  CMP health
+  BCC runDamagesSurvive
+runDamagesDeath:
   LDA #$00
   STA health
   STA shield
   STA experience
+  RTS                 ; stop attack phase
+runDamagesSurvive:
+  LDA health
+  SEC
+  SBC damages
+  STA health
   RTS
 
 ; tools

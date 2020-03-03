@@ -6,7 +6,6 @@ resetStats:
   STA shield
   STA shield_durability
   STA experience
-  STA is_dead
   STA potion_sickness
   LDA #$01
   STA can_run
@@ -183,10 +182,6 @@ testAttackDeath:
   LDA health
   CMP #$00            ; health = $00(00)
   BNE testAttackDeathFail
-  ; test death flag
-  LDA is_dead
-  CMP #$01            ; health = $00(00)
-  BNE testAttackDeathFail
   ; pass
 testAttackDeathPass:
   JSR testPass
@@ -276,10 +271,6 @@ testAttackShieldOverflowDeath:
   LDA health
   CMP #$00
   BNE testAttackShieldOverflowDeathFail
-  ; test death flag
-  LDA is_dead
-  CMP #$01            ; health = $00(00)
-  BNE testAttackShieldOverflowDeathFail
   ; shield durability 6
   LDA shield_durability
   CMP #$06
@@ -356,10 +347,6 @@ testAttackShieldBreakDeath:
   ; loose 4hp
   LDA health
   CMP #$00
-  BNE testAttackShieldBreakDeathFail
-  ; test death flag
-  LDA is_dead
-  CMP #$01            ; health = $00(00)
   BNE testAttackShieldBreakDeathFail
   ; shield durability 0
   LDA shield_durability
