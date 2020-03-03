@@ -14,6 +14,12 @@ GameStart:
   STA ui_selection
   LDA #$01
   STA can_run
+
+  ; test
+  JSR testPotion
+  JSR testSickness
+  JSR testShield
+
   ; table
   JSR drawCards
   ; UI
@@ -161,6 +167,8 @@ selectPrevDone:
   JSR updateCursor
   RTS
 
+; TODO: remove, replace with pickCard
+
 selectCard:
   ; check if card is flipped
   LDX ui_selection    ; load selection in X
@@ -187,6 +195,31 @@ selectCard:
   CMP #$04
   BEQ selectCardJoker
 selectCardDone:
+  RTS
+
+pickCard: ; select card in reg Y
+  ; check if card is flipped
+  TYA                 ; transfer from Y to A
+  CMP #$36            ; if card is $36(flipped)
+  BEQ pickCardDone  ; skip selection
+  ; load card data
+  LDA card_types, y
+  STA card_last_type  ; load type
+  LDA card_values, y
+  STA card_last_value ; load value
+  ; branch types
+  LDA card_types, y
+  CMP #$00
+  BEQ selectCardHeart
+  CMP #$01
+  BEQ selectCardDiamond
+  CMP #$02
+  BEQ selectCardSpade
+  CMP #$03
+  BEQ selectCardClub
+  CMP #$04
+  BEQ selectCardJoker
+pickCardDone:
   RTS
 
 selectCardHeart:

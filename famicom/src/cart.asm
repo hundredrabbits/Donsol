@@ -4,6 +4,8 @@ include "src/setup.asm"
 
 include "src/main.asm"
 
+include "src/tests.asm"
+
 include "src/tables.asm"
 
 include "src/cards.asm"

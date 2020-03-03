@@ -5,9 +5,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Implement tests
 - Draw cards
-- Display potion sickness
-  - change color of HP after drinking
 - Display shield damage/shield max
 - Display selected card name
 - Toggle run ui, when can run
