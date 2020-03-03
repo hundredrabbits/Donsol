@@ -12,55 +12,55 @@ GameStart:
   LDA #$01
   STA can_run 
   ; tests
-  JSR runTests
+  ; JSR runTests
   ; table
-  JSR drawCards
+  ; JSR drawCards
   ; UI
-  JSR updateStats
-  JSR updateCursor
+  ; JSR updateStats
+  ; JSR updateCursor
   ; JSR updateCards
 
 EnableSprites:
-  LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
+  LDA #%10010000      ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA $2000
-  LDA #%00011110   ; enable sprites, enable background, no clipping on left side
+  LDA #%00011110      ; enable sprites, enable background, no clipping on left side
   STA $2001
   
-  LDA #$00         ; No background scrolling
+  LDA #$00            ; No background scrolling
   STA $2006
   STA $2006
   STA $2005
   STA $2005
 
 Forever:
-  JMP Forever     ; jump back to Forever, infinite loop
+  JMP Forever         ; jump back to Forever, infinite loop
 
 NMI:
   LDA #$00
-  STA $2003       ; set the low byte (00) of the RAM address
+  STA $2003           ; set the low byte (00) of the RAM address
   LDA #$02
-  STA $4014       ; set the high byte (02) of the RAM address, start the transfer
+  STA $4014           ; set the high byte (02) of the RAM address, start the transfer
 
 LatchController:
   LDA #$01
   STA $4016
   LDA #$00
-  STA $4016       ; tell both the controllers to latch buttons
+  STA $4016           ; tell both the controllers to latch buttons
 
 ReadA: 
   LDA $4016
-  AND #%00000001  ; only look at bit 0
-  BEQ ReadARelease  ; check if button is already pressed
+  AND #%00000001      ; only look at bit 0
+  BEQ ReadARelease    ; check if button is already pressed
   LDA a_pressed
   CMP #$01
   BEQ ReadADone
   LDX ui_selection    ; load selection in X
   LDY card1, x        ; select card on table, from offset of card1
-  JSR pickCard ; record press
+  JSR pickCard        ; record press
   LDA #$01
   STA a_pressed 
   JMP ReadADone
-ReadARelease: ; record release
+ReadARelease:         ; record release
   LDA #$00
   STA a_pressed 
 ReadADone:
@@ -412,7 +412,7 @@ updateHealthBarLoop:
   STA $2006           ; write the high byte of $2000 address
   LDA healthbaroffset, x
   STA $2006           ; write the low byte of $2000 address
-  LDA healthbar, y    ; regA has sprite id
+  LDA progressbar, y    ; regA has sprite id
   INY
   STA $2007
   INX
@@ -467,7 +467,7 @@ updateShieldBarLoop:
   STA $2006           ; write the high byte of $2000 address
   LDA shieldbaroffset, x
   STA $2006           ; write the low byte of $2000 address
-  LDA healthbar, y    ; regA has sprite id
+  LDA progressbar, y    ; regA has sprite id
   INY
   STA $2007
   INX
@@ -514,7 +514,7 @@ updateExperienceBarLoop:
   STA $2006           ; write the high byte of $2000 address
   LDA experiencebaroffset, x
   STA $2006           ; write the low byte of $2000 address
-  LDA experiencebar, y    ; regA has sprite id
+  LDA progressbar, y    ; regA has sprite id
   INY
   STA $2007
   INX

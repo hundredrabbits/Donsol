@@ -1,5 +1,5 @@
 ;; Setup
-
+  
 LoadPalettes:
   LDA $2002
   LDA #$3F
