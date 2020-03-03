@@ -2,8 +2,6 @@
 GameStart:
   ; reset health($15 = 21)
   LDA #$15
-  STA health_max
-  LDA health_max
   STA health
   ; reset controls
   LDA #$00
@@ -16,6 +14,9 @@ GameStart:
   STA can_run 
 
   JSR runTests
+
+  LDA #$00
+  STA $30
 
   ; table
   JSR drawCards
@@ -193,26 +194,31 @@ pickCardDone:
 
 selectCardHeart:
   JSR runPotion
+  JSR addPotionSickness
   JSR flipCard
   RTS
 
 selectCardDiamond:
   JSR runShield
+  JSR removePotionSickness
   JSR flipCard
   RTS
 
 selectCardSpade:
   JSR runAttack
+  JSR removePotionSickness
   JSR flipCard
   RTS
 
 selectCardClub:
   JSR runAttack
+  JSR removePotionSickness
   JSR flipCard
   RTS
 
 selectCardJoker:
   JSR runAttack
+  JSR removePotionSickness
   JSR flipCard
   RTS
 
@@ -266,34 +272,74 @@ runPotion:
   STA health
   ; specials
   JSR clampHealth
-  JSR addPotionSickness
 runPotionDone:
   RTS
 
 runShield:
   LDA card_last_value
   STA shield
-  STA shield_max
-  ; specials
-  JSR removePotionSickness
+  LDA #$16 ; max durability is $15+1
+  STA shield_durability
   RTS
 
 runAttack:
-  ; check if is killing
+
+  ; check if can block
+
+  LDA shield
+  CMP #$00
+  BNE runAttackBlocked
+
+runAttackUnblocked:
+  
+  ; check if killing
+
   LDA card_last_value
   CMP health
-  BCC runAttackContinue
+  BCC runAttackUnblockedSurvive
+  ; killing
   JSR runDeath         ; run death if health < card_last_value
   RTS                  ; stop attack phase
-runAttackContinue:
+
+runAttackUnblockedSurvive:
+
+  ; remove health
+
   LDA health
   SEC
   SBC card_last_value
   STA health
-  ; TODO: implement shield malus
-  ; TODO: implement death
-  ; specials
-  JSR removePotionSickness
+  RTS
+
+runAttackBlocked:
+
+  ; check if shield breaking
+
+  LDA card_last_value
+  CMP shield_durability
+  BCC runAttackBlock
+
+  ; break shield
+
+  LDA #$00
+  STA shield
+  STA shield_durability
+
+  ; remove health
+  
+  LDA health
+  SEC
+  SBC card_last_value
+  STA health
+  RTS
+
+runAttackBlock:
+
+  ; update durability
+
+  LDA card_last_value
+  STA shield_durability
+  
   RTS
 
 runDeath:
@@ -319,9 +365,9 @@ removePotionSickness:
 
 clampHealth:
   LDA health
-  CMP health_max
+  CMP #$15
   BCC clampHealthDone
-  LDA health_max
+  LDA #$15
   STA health
 clampHealthDone:
   RTS
@@ -405,6 +451,22 @@ updateShieldDigit2:
   LDA #$0f
   STA $2006 ; write the low byte of $2000 address
   LDX shield
+  LDA number_low, x
+  STA $2007
+updateShieldDurabilityDigit1:
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$0c
+  STA $2006 ; write the low byte of $2000 address
+  LDX shield_durability
+  LDA number_high, x
+  STA $2007
+updateShieldDurabilityDigit2:
+  LDA #$21
+  STA $2006 ; write the high byte of $2000 address
+  LDA #$0d
+  STA $2006 ; write the low byte of $2000 address
+  LDX shield_durability
   LDA number_low, x
   STA $2007
 updateShieldFix:

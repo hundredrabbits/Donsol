@@ -18,9 +18,8 @@
 
 ; player
 health .dsb 1
-health_max .dsb 1
 shield .dsb 1
-shield_max .dsb 1
+shield_durability .dsb 1
 experience .dsb 1
 ; flags
 is_dead .dsb 1

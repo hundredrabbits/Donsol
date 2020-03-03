@@ -5,9 +5,10 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Interpolate stats
 - Implement tests
 - Draw cards
-- Display shield damage/shield max
+- Display shield durability
 - Display selected card name
 - Toggle run ui, when can run
 - Implement deck shuffling
@@ -19,6 +20,7 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 - Implement difficulties (easy/medium/hard)
 - Auto switch room timer
 - Implement sounds
+- Implement onscreen guide
 
 ### TODOs(minor)
 
