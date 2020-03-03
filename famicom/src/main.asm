@@ -13,14 +13,9 @@ GameStart:
   STA is_dead
   STA ui_selection
   LDA #$01
-  STA can_run
+  STA can_run 
 
-  ; test
-  JSR testPotion
-  JSR testSickness
-  JSR testShield
-  JSR testAttack
-  JSR testDeath
+  JSR runTests
 
   ; table
   JSR drawCards
@@ -63,7 +58,9 @@ ReadA:
   LDA a_pressed
   CMP #$01
   BEQ ReadADone
-  JSR selectCard ; record press
+  LDX ui_selection    ; load selection in X
+  LDY card1, x        ; select card on table, from offset of card1
+  JSR pickCard ; record press
   LDA #$01
   STA a_pressed 
   JMP ReadADone
@@ -167,36 +164,6 @@ selectPrevAround:
   STA ui_selection
 selectPrevDone:
   JSR updateCursor
-  RTS
-
-; TODO: remove, replace with pickCard
-
-selectCard:
-  ; check if card is flipped
-  LDX ui_selection    ; load selection in X
-  LDA card1, x        ; select card on table
-  CMP #$36            ; if card is $36(flipped)
-  BEQ selectCardDone  ; skip selection
-  ; load card data
-  STA card_last       ; 
-  LDX card_last
-  LDA card_types, x
-  STA card_last_type  ; load type
-  LDA card_values, x
-  STA card_last_value ; load value
-  ; branch types
-  LDA card_types, x
-  CMP #$00
-  BEQ selectCardHeart
-  CMP #$01
-  BEQ selectCardDiamond
-  CMP #$02
-  BEQ selectCardSpade
-  CMP #$03
-  BEQ selectCardClub
-  CMP #$04
-  BEQ selectCardJoker
-selectCardDone:
   RTS
 
 pickCard: ; select card in reg Y

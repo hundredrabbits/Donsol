@@ -13,6 +13,47 @@ resetStats:
   STA can_run
   RTS
 
+runTests:
+  LDA #$83
+  STA test_id
+
+  JSR testPotion
+  JSR testSickness
+  JSR testShield
+  JSR testAttack
+  JSR testDeath
+  JSR resetStats
+  RTS
+
+testPass:
+  LDA $2000           ; read PPU status to reset the high/low latch
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA test_id
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$a2
+  STA $2007  
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  INC test_id
+  RTS
+
+testFail:
+  LDX test_id
+  LDA $2000           ; read PPU status to reset the high/low latch
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA test_id
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$a3
+  STA $2007  
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  INC test_id
+  RTS
+
 ; health test
 
 testPotion:
@@ -28,33 +69,11 @@ testPotion:
   CMP #$13            ; health = $13(18)
   BNE testPotionFail
   ; pass
-  JSR testPotionPass
-  RTS
-
-testPotionFail:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$83
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a3
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-
 testPotionPass:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$83
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a2
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
+  JSR testPass
+  RTS
+testPotionFail:
+  JSR testFail
   RTS
 
 testSickness:
@@ -76,33 +95,11 @@ testSickness:
   CMP #$01            ; sickness = true
   BNE testSicknessFail
   ; pass
-  JSR testSicknessPass
-  RTS
-
-testSicknessFail:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$84
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a3
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-
 testSicknessPass:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$84
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a2
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
+  JSR testPass
+  RTS
+testSicknessFail:
+  JSR testFail
   RTS
 
 ; shield
@@ -117,33 +114,11 @@ testShield:
   CMP #$02            ; shield = $02(02)
   BNE testShieldFail
   ; pass
-  JSR testShieldPass
-  RTS
-
-testShieldFail:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$8a
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a3
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-
 testShieldPass:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$8a
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a2
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
+  JSR testPass
+  RTS
+testShieldFail:
+  JSR testFail
   RTS
 
 ; attack
@@ -158,33 +133,11 @@ testAttack:
   CMP #$0f            ; shield = $0f(15)
   BNE testAttackFail
   ; pass
-  JSR testAttackPass
-  RTS
-
-testAttackFail:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$91
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a3
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-
 testAttackPass:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$91
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a2
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
+  JSR testPass
+  RTS
+testAttackFail:
+  JSR testFail
   RTS
 
 ; death
@@ -206,31 +159,9 @@ testDeath:
   CMP #$01            ; health = $00(00)
   BNE testDeathFail
   ; pass
-  JSR testDeathPass
-  RTS
-
-testDeathFail:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$92
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a3
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-
 testDeathPass:
-  LDA $2000           ; read PPU status to reset the high/low latch
-  LDA #$20
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$92
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a2
-  STA $2007  
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
+  JSR testPass
+  RTS
+testDeathFail:
+  JSR testFail
   RTS
