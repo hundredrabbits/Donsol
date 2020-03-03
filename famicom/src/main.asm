@@ -12,12 +12,8 @@ GameStart:
   STA ui_selection
   LDA #$01
   STA can_run 
-
+  ; tests
   JSR runTests
-
-  LDA #$00
-  STA $30
-
   ; table
   JSR drawCards
   ; UI
@@ -258,6 +254,19 @@ checkRoomDone:
   BEQ drawCards
   RTS
 
+; cards
+
+drawCards:
+  LDA #$03   ; heart 4
+  STA card1
+  LDA #$11   ; diamond 5
+  STA card2
+  LDA #$1f   ; spades 6
+  STA card3
+  LDA #$2d   ; club 7
+  STA card4
+  RTS
+
 ; turns
 
 runPotion:
@@ -283,64 +292,63 @@ runShield:
   RTS
 
 runAttack:
-
   ; check if can block
-
   LDA shield
   CMP #$00
-  BNE runAttackBlocked
-
+  BNE runAttackBlock
 runAttackUnblocked:
-  
   ; check if killing
-
   LDA card_last_value
   CMP health
   BCC runAttackUnblockedSurvive
   ; killing
   JSR runDeath         ; run death if health < card_last_value
   RTS                  ; stop attack phase
-
 runAttackUnblockedSurvive:
-
   ; remove health
-
   LDA health
   SEC
   SBC card_last_value
   STA health
   RTS
-
-runAttackBlocked:
-
+runAttackBlock:
   ; check if shield breaking
-
   LDA card_last_value
   CMP shield_durability
-  BCC runAttackBlock
-
+  BCC runAttackShielded
   ; break shield
-
   LDA #$00
   STA shield
   STA shield_durability
-
   ; remove health
-
   LDA health
   SEC
   SBC card_last_value
   STA health
   RTS
-
-runAttackBlock:
-
-  ; update durability
-  ; TODO: Calulate damages, remove from health
-
+runAttackShielded:
+  ; check for overflow
+  LDA card_last_value
+  CMP shield
+  BCC runAttackBlockFull
+  ; overflow
+  LDA card_last_value
+  SEC
+  SBC shield ; damages is now stored in A
+  STA damages
+  ; remove health
+  LDA health
+  SEC
+  SBC damages
+  STA health
+  ; damage shield
   LDA card_last_value
   STA shield_durability
-  
+  RTS
+runAttackBlockFull:
+  ; damage shield
+  LDA card_last_value
+  STA shield_durability
   RTS
 
 runDeath:
@@ -371,19 +379,6 @@ clampHealth:
   LDA #$15
   STA health
 clampHealthDone:
-  RTS
-
-; cards
-
-drawCards:
-  LDA #$03   ; heart 4
-  STA card1
-  LDA #$11   ; diamond 5
-  STA card2
-  LDA #$1f   ; spades 6
-  STA card3
-  LDA #$2d   ; club 7
-  STA card4
   RTS
 
 ; update

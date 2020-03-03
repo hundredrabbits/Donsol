@@ -20,10 +20,12 @@ runTests:
   JSR testSickness
   JSR testShield
   JSR testAttack
-  JSR testAttackShield
+  JSR testAttackDeath
   JSR testAttackShieldBlock
+  JSR testAttackShieldOverflow
+  JSR testAttackShieldOverflowDeath
   JSR testAttackShieldBreak
-  JSR testDeath
+  JSR testAttackShieldBreakDeath
 
   ; JSR testComplete
   ; JSR testCanRun
@@ -140,41 +142,6 @@ testShieldFail:
   JSR testFail
   RTS
 
-; Equip 6sp
-; Attack 3ap
-; Loose 0hp
-
-; Shield is 6sp
-; Health is 21hp
-
-testAttackShieldBlock:
-  JSR resetStats
-  ; pick
-  LDY #$12            ; Diamonds 6
-  JSR pickCard
-  LDY #$1c            ; Spades 3
-  JSR pickCard
-  ; test health
-  LDA health
-  CMP #$15            ; hp = $15(21)
-  BNE testAttackShieldBlockFail
-  ; test shield
-  LDA shield
-  CMP #$06            ; sp = $06(06)
-  BNE testAttackShieldBlockFail
-  ; test durability
-  LDA shield_durability
-  CMP #$03            ; dp = $03(03)
-  BNE testAttackShieldBlockFail
-  ; test
-  ; pass
-testAttackShieldBlockPass:
-  JSR testPass
-  RTS
-testAttackShieldBlockFail:
-  JSR testFail
-  RTS
-
 ; Attack 6ap
 ; Loose 6hp
 
@@ -204,7 +171,7 @@ testAttackFail:
 ; Shield is 0sp
 ; Health is 0hp
 
-testDeath:
+testAttackDeath:
   JSR resetStats
   ; Lower health
   LDA #$04
@@ -215,16 +182,46 @@ testDeath:
   ; test health
   LDA health
   CMP #$00            ; health = $00(00)
-  BNE testDeathFail
+  BNE testAttackDeathFail
   ; test death flag
   LDA is_dead
   CMP #$01            ; health = $00(00)
-  BNE testDeathFail
+  BNE testAttackDeathFail
   ; pass
-testDeathPass:
+testAttackDeathPass:
   JSR testPass
   RTS
-testDeathFail:
+testAttackDeathFail:
+  JSR testFail
+  RTS
+
+; Equip 6sp
+; Attack 4ap
+; Loose 0hp
+
+; Shield is 6dp
+; Health is 18hp
+
+testAttackShieldBlock:
+  JSR resetStats
+  ; pick
+  LDY #$12            ; Diamond 6
+  JSR pickCard
+  LDY #$1d            ; Spades 4
+  JSR pickCard
+  ; loose 3hp
+  LDA health
+  CMP #$15
+  BNE testAttackShieldBlockFail
+  ; shield durability 6
+  LDA shield_durability
+  CMP #$04
+  BNE testAttackShieldBlockFail
+  ; pass
+testAttackShieldBlockedPass:
+  JSR testPass
+  RTS
+testAttackShieldBlockFail:
   JSR testFail
   RTS
 
@@ -235,7 +232,7 @@ testDeathFail:
 ; Shield is 6dp
 ; Health is 18hp
 
-testAttackShield:
+testAttackShieldOverflow:
   JSR resetStats
   ; pick
   LDY #$0f            ; Diamond 3
@@ -245,16 +242,53 @@ testAttackShield:
   ; loose 3hp
   LDA health
   CMP #$12
-  BNE testAttackShieldFail
+  BNE testAttackShieldOverflowFail
   ; shield durability 6
   LDA shield_durability
   CMP #$06
-  BNE testAttackShieldFail
+  BNE testAttackShieldOverflowFail
   ; pass
-testAttackShieldPass:
+testAttackShieldOverflowPass:
   JSR testPass
   RTS
-testAttackShieldFail:
+testAttackShieldOverflowFail:
+  JSR testFail
+  RTS
+
+; Equip 3sp
+; Attack 6ap
+; Loose 3hp
+
+; Shield is 6dp
+; Health is 18hp
+
+testAttackShieldOverflowDeath:
+  JSR resetStats
+  ; Lower health
+  LDA #$02
+  STA health
+  ; pick
+  LDY #$0f            ; Diamond 3
+  JSR pickCard
+  LDY #$1f            ; Spades 6
+  JSR pickCard
+  ; loose 3hp
+  LDA health
+  CMP #$00
+  BNE testAttackShieldOverflowDeathFail
+  ; test death flag
+  LDA is_dead
+  CMP #$01            ; health = $00(00)
+  BNE testAttackShieldOverflowDeathFail
+  ; shield durability 6
+  LDA shield_durability
+  CMP #$06
+  BNE testAttackShieldOverflowDeathFail
+  ; pass
+testAttackShieldOverflowDeathPass:
+  JSR testPass
+  RTS
+testAttackShieldOverflowDeathFail:
   JSR testFail
   RTS
 
@@ -294,5 +328,51 @@ testAttackShieldBreakPass:
   JSR testPass
   RTS
 testAttackShieldBreakFail:
+  JSR testFail
+  RTS
+
+; Equip 4sp
+; Attack 3ap
+; Loose 0hp
+; Attack 4ap
+; Shield breaks
+; Loose 4hp
+
+; Shield is 0dp
+; Health is 17hp
+
+testAttackShieldBreakDeath:
+  JSR resetStats
+  ; Lower health
+  LDA #$02
+  STA health
+  ; pick
+  LDY #$10            ; Diamond 4
+  JSR pickCard
+  LDY #$1c            ; Spades 3
+  JSR pickCard
+  LDY #$1d            ; Spades 4
+  JSR pickCard
+  ; loose 4hp
+  LDA health
+  CMP #$00
+  BNE testAttackShieldBreakDeathFail
+  ; test death flag
+  LDA is_dead
+  CMP #$01            ; health = $00(00)
+  BNE testAttackShieldBreakDeathFail
+  ; shield durability 0
+  LDA shield_durability
+  CMP #$00
+  BNE testAttackShieldBreakDeathFail
+  ; shield 0
+  LDA shield
+  CMP #$00
+  BNE testAttackShieldBreakDeathFail
+  ; pass
+testAttackShieldBreakDeathPass:
+  JSR testPass
+  RTS
+testAttackShieldBreakDeathFail:
   JSR testFail
   RTS
