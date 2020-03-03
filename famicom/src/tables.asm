@@ -4,8 +4,9 @@
 
   .org $E000
 
-  ; $15 -> red
   ; $30 -> white
+  ; $15 -> red
+  ; $3A -> cyan
   ; $2D -> dark grey
 
 palettes:
