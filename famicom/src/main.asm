@@ -18,7 +18,7 @@ GameStart:
   ; UI
   JSR updateStats
   JSR updateCursor
-  JSR updateCards
+  ; JSR updateCards
 
 EnableSprites:
   LDA #%10010000   ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
@@ -258,7 +258,7 @@ checkRoomDone:
 drawCards:
   LDA #$03   ; heart 4
   STA card1
-  LDA #$11   ; diamond 5
+  LDA #$0e   ; diamond 5
   STA card2
   LDA #$1f   ; spades 6
   STA card3
@@ -449,15 +449,7 @@ updateShieldDurabilityDigit1:
   LDA #$0c
   STA $2006 ; write the low byte of $2000 address
   LDX shield_durability
-  LDA number_high, x
-  STA $2007
-updateShieldDurabilityDigit2:
-  LDA #$21
-  STA $2006 ; write the high byte of $2000 address
-  LDA #$0d
-  STA $2006 ; write the low byte of $2000 address
-  LDX shield_durability
-  LDA number_low, x
+  LDA card_glyphs, x
   STA $2007
 updateShieldFix:
   LDA #$00         ; No background scrolling
@@ -475,7 +467,7 @@ updateShieldBarLoop:
   STA $2006           ; write the high byte of $2000 address
   LDA shieldbaroffset, x
   STA $2006           ; write the low byte of $2000 address
-  LDA shieldbar, y    ; regA has sprite id
+  LDA healthbar, y    ; regA has sprite id
   INY
   STA $2007
   INX
