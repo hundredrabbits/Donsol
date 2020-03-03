@@ -19,6 +19,8 @@ GameStart:
   JSR testPotion
   JSR testSickness
   JSR testShield
+  JSR testAttack
+  JSR testDeath
 
   ; table
   JSR drawCards
@@ -318,7 +320,7 @@ runAttack:
   RTS                  ; stop attack phase
 runAttackContinue:
   LDA health
-  CLC
+  SEC
   SBC card_last_value
   STA health
   ; TODO: implement shield malus
@@ -328,6 +330,8 @@ runAttackContinue:
   RTS
 
 runDeath:
+  LDA #$01
+  STA is_dead
   LDA #$00
   STA health
   STA shield

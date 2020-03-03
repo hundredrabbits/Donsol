@@ -145,3 +145,92 @@ testShieldPass:
   STA $2005
   STA $2005
   RTS
+
+; attack
+
+testAttack:
+  JSR resetStats
+  ; pick
+  LDY #$1f            ; Spades 6
+  JSR pickCard
+  ; test health
+  LDA health
+  CMP #$0f            ; shield = $0f(15)
+  BNE testAttackFail
+  ; pass
+  JSR testAttackPass
+  RTS
+
+testAttackFail:
+  LDA $2000           ; read PPU status to reset the high/low latch
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$91
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$a3
+  STA $2007  
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+testAttackPass:
+  LDA $2000           ; read PPU status to reset the high/low latch
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$91
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$a2
+  STA $2007  
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+; death
+
+testDeath:
+  JSR resetStats
+  ; Lower health
+  LDA #$04
+  STA health
+  ; pick
+  LDY #$1f            ; Spades 6
+  JSR pickCard
+  ; test health
+  LDA health
+  CMP #$00            ; health = $00(00)
+  BNE testDeathFail
+  ; test death flag
+  LDA is_dead
+  CMP #$01            ; health = $00(00)
+  BNE testDeathFail
+  ; pass
+  JSR testDeathPass
+  RTS
+
+testDeathFail:
+  LDA $2000           ; read PPU status to reset the high/low latch
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$92
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$a3
+  STA $2007  
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+testDeathPass:
+  LDA $2000           ; read PPU status to reset the high/low latch
+  LDA #$20
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$92
+  STA $2006           ; write the low byte of $2000 address
+  LDA #$a2
+  STA $2007  
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
