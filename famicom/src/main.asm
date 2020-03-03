@@ -326,7 +326,7 @@ runAttackBlocked:
   STA shield_durability
 
   ; remove health
-  
+
   LDA health
   SEC
   SBC card_last_value
@@ -336,6 +336,7 @@ runAttackBlocked:
 runAttackBlock:
 
   ; update durability
+  ; TODO: Calulate damages, remove from health
 
   LDA card_last_value
   STA shield_durability
