@@ -313,7 +313,7 @@ runPotion:
   ; check for potion sickness
   LDA potion_sickness
   CMP #$01
-  BEQ runPotionDone
+  BEQ runPotionSickness
   ; heal
   LDA health
   CLC
@@ -321,7 +321,9 @@ runPotion:
   STA health
   ; specials
   JSR clampHealth
-runPotionDone:
+  RTS
+runPotionSickness:
+  JSR dialogPotionsickness
   RTS
 
 runShield:
@@ -350,7 +352,7 @@ runAttackBlock:
   LDA #$00
   STA shield
   STA shield_durability
-  JSR dialog_shieldbreak
+  JSR dialogShieldbreak
   ; load damages(unblocked)
   LDA card_last_value 
   STA damages
@@ -417,19 +419,34 @@ clampHealth:
 clampHealthDone:
   RTS
 
-dialog_shieldbreak:
+dialogShieldbreak:
   LDA $2002
   LDA #$23
   STA $2006
-  LDA #$04
+  LDA #$03
   STA $2006
   LDX #$00
-dialog_shieldbreakLoop:
+dialogShieldbreakLoop:
   LDA dialog_shieldbreak_data, x
   STA $2007
   INX
   CPX #$12
-  BNE dialog_shieldbreakLoop
+  BNE dialogShieldbreakLoop
+  RTS
+
+dialogPotionsickness:
+  LDA $2002
+  LDA #$23
+  STA $2006
+  LDA #$03
+  STA $2006
+  LDX #$00
+dialogPotionsicknessLoop:
+  LDA dialog_potionsickness_data, x
+  STA $2007
+  INX
+  CPX #$12
+  BNE dialogPotionsicknessLoop
   RTS
 
 ; TODO
