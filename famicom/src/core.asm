@@ -13,7 +13,7 @@ GameStart:
   LDA #$01
   STA can_run 
   ; tests
-  ;JSR runTests
+  ; JSR runTests
 
   ; table
 
@@ -350,6 +350,7 @@ runAttackBlock:
   LDA #$00
   STA shield
   STA shield_durability
+  JSR dialog_shieldbreak
   ; load damages(unblocked)
   LDA card_last_value 
   STA damages
@@ -416,7 +417,20 @@ clampHealth:
 clampHealthDone:
   RTS
 
-
+dialog_shieldbreak:
+  LDA $2002
+  LDA #$23
+  STA $2006
+  LDA #$04
+  STA $2006
+  LDX #$00
+dialog_shieldbreakLoop:
+  LDA dialog_shieldbreak_data, x
+  STA $2007
+  INX
+  CPX #$12
+  BNE dialog_shieldbreakLoop
+  RTS
 
 ; TODO
 
@@ -439,3 +453,4 @@ drawNextRoom:
   JSR drawCard
 
   RTS
+

@@ -15,8 +15,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 ### Client
 
 - Interpolate stats
-- Draw cards
-- Display selected card name
 - Toggle run ui, when can run
 - Implement onscreen guide
 - Implement sounds
