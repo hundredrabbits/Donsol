@@ -128,7 +128,7 @@ updateClientDone:
 ; actual update code
 
 updateCursor:
-  LDX ui_selection
+  LDX cursor_pos
   LDA cursor_positions, x
   STA $0203        ; set tile.x pos
   CLC
@@ -155,6 +155,21 @@ updateHealthDigit2:
   LDX health
   LDA number_low, x
   STA $2007
+updatePotionSickness:
+  LDA #$21
+  STA $2006           ; write the high byte of $2000 address
+  LDA #$05
+  STA $2006           ; write the low byte of $2000 address
+  LDA potion_sickness
+  CMP #$01
+  BNE updateSicknessFalse
+updateSicknessTrue:
+  LDA #$3f
+  STA $2007  
+  JSR updateHealthFix
+updateSicknessFalse:
+  LDA #$00
+  STA $2007  
 updateHealthFix:
   LDA #$00         ; No background scrolling
   STA $2005
@@ -367,28 +382,6 @@ drawCard4Loop:
   CPX #$36
   BNE drawCard4Loop
 drawCard4Done:
-  LDA #$00            ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-
-updateSickness:
-  LDA $2000 ; read PPU status to reset the high/low latch
-  LDA #$21
-  STA $2006           ; write the high byte of $2000 address
-  LDA #$05
-  STA $2006           ; write the low byte of $2000 address
-  LDA potion_sickness
-  CMP #$01
-  BNE updateSicknessFalse
-updateSicknessTrue:
-  LDA #$3f
-  STA $2007  
-  JSR updateSicknessDone
-updateSicknessFalse:
-  LDA #$00
-  STA $2007  
-updateSicknessDone:
   LDA #$00            ; No background scrolling
   STA $2005
   STA $2005

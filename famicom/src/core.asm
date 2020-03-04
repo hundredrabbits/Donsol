@@ -9,7 +9,7 @@ GameStart:
   STA arrow_left_pressed
   STA arrow_right_pressed
   STA experience
-  STA ui_selection
+  STA cursor_pos
   LDA #$01
   STA can_run 
   ; tests
@@ -29,6 +29,17 @@ GameStart:
   LDX #$03
   LDY #$2f            ; Clubs 9
   JSR drawCard
+
+  ;
+
+  LDX #$03
+  JSR flipCard
+  LDX #$01
+  JSR flipCard
+  LDX #$02
+  JSR flipCard
+  LDX #$00
+  JSR flipCard
 
   ;
 
@@ -74,7 +85,7 @@ ReadA:
   LDA a_pressed
   CMP #$01
   BEQ ReadADone
-  LDX ui_selection    ; load selection in X
+  LDX cursor_pos      ; load selection in X
   LDY card1, x        ; select card on table, from offset of card1
   JSR pickCard        ; record press
   LDA #$01
@@ -127,7 +138,7 @@ ReadLeft:
   LDA arrow_left_pressed
   CMP #$01
   BEQ ReadLeftDone
-  JSR selectPrevCard ; record press
+  JSR moveCursorLeft ; record press
   LDA #$01
   STA arrow_left_pressed 
   JMP ReadLeftDone
@@ -143,7 +154,7 @@ ReadRight:
   LDA arrow_right_pressed
   CMP #$01
   BEQ ReadRightDone
-  JSR selectNextCard ; record press
+  JSR moveCursorRight ; record press
   LDA #$01
   STA arrow_right_pressed 
   JMP ReadRightDone
@@ -156,29 +167,29 @@ ReadRightDone:
 
 ; selection
 
-selectNextCard:
-  LDA ui_selection
+moveCursorRight:
+  LDA cursor_pos
   CMP #$03
   BEQ selectNextAround
-  INC ui_selection
+  INC cursor_pos
   JMP selectNextDone
 selectNextAround:
   LDA #$00
-  STA ui_selection
+  STA cursor_pos
 selectNextDone:
   LDA #$01
   STA reqdraw_cursor
   RTS
 
-selectPrevCard:
-  LDA ui_selection
+moveCursorLeft:
+  LDA cursor_pos
   CMP #$00
   BEQ selectPrevAround
-  DEC ui_selection
+  DEC cursor_pos
   JMP selectPrevDone
 selectPrevAround:
   LDA #$03
-  STA ui_selection
+  STA cursor_pos
 selectPrevDone:
   LDA #$01
   STA reqdraw_cursor
@@ -193,10 +204,27 @@ drawCard:
   STA card1, x
   RTS
 
+; flip card from the table
+
+flipCard:
+  ; Card table pos, must be in Xreg
+  LDA card1, x        ; get card id from table
+  TAY 
+  JSR pickCard
+  ; flip card
+  LDA #$36            ; $36 is flipped
+  STA card1, x
+  LDA #$01            ; Request update
+  STA reqdraw_card1, x
+  ; misc
+  INC experience
+  JSR requestUpdateStats
+  RTS
+
 ; Pick card from the deck
 
 pickCard: 
-  ; Card must be in Yreg
+  ; Card deck id must be in Yreg
   TYA                 ; transfer from Y to A
   ; check if card is flipped
   CMP #$36            ; if card is $36(flipped)
@@ -224,44 +252,31 @@ pickCardDone:
 selectCardHeart:
   JSR runPotion
   JSR addPotionSickness
-  JSR flipCard
+  ; JSR flipCard
   RTS
 
 selectCardDiamond:
   JSR runShield
   JSR removePotionSickness
-  JSR flipCard
+  ; JSR flipCard
   RTS
 
 selectCardSpade:
   JSR runAttack
   JSR removePotionSickness
-  JSR flipCard
+  ; JSR flipCard
   RTS
 
 selectCardClub:
   JSR runAttack
   JSR removePotionSickness
-  JSR flipCard
+  ; JSR flipCard
   RTS
 
 selectCardJoker:
   JSR runAttack
   JSR removePotionSickness
-  JSR flipCard
-  RTS
-
-flipCard:
-  LDX ui_selection
-  LDA #$36            ; $36 is flipped
-  STA card1, x
-  INC experience
-  JSR requestUpdateStats
-  ; if room is complete, draw
-  ; TODO: split client from core
-  ; JSR checkRoom
-  ; JSR updateStats
-  ; JSR updateSickness
+  ; JSR flipCard
   RTS
 
 checkRoom:

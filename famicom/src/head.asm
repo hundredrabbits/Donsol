@@ -26,7 +26,7 @@ damages               .dsb 1
 potion_sickness       .dsb 1
 can_run               .dsb 1
 ; interface
-ui_selection          .dsb 1
+cursor_pos            .dsb 1
 ui_health             .dsb 1
 ; controls
 arrow_left_pressed    .dsb 1
