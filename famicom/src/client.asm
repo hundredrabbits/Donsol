@@ -11,6 +11,22 @@ requestUpdateStats:
   STA reqdraw_xp
   RTS
 
+requestUpdateCursor:
+  LDA #$01
+  STA reqdraw_cursor
+  RTS
+
+requestUpdateCards:
+  LDA #$01
+  STA reqdraw_card1
+  LDA #$01
+  STA reqdraw_card2
+  LDA #$01
+  STA reqdraw_card3
+  LDA #$01
+  STA reqdraw_card4
+  RTS
+
 ; check for updates required
 
 updateClient:

@@ -14,7 +14,6 @@ GameStart:
   STA can_run 
   ; tests
   JSR runTests
-  JSR requestUpdateStats
 
   ; table
 
@@ -33,24 +32,11 @@ GameStart:
 
   ;
 
-  LDA #$01
-  STA reqdraw_cursor
+  JSR requestUpdateStats
+  JSR requestUpdateCursor
+  JSR requestUpdateCards
 
   ;
-
-  LDA #$01
-  STA reqdraw_card1
-  LDA #$01
-  STA reqdraw_card2
-  LDA #$01
-  STA reqdraw_card3
-  LDA #$01
-  STA reqdraw_card4
-
-
-  ; UI
-  ; JSR updateStats
-  ; JSR updateCards
 
 EnableSprites:
   LDA #%10010000      ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1

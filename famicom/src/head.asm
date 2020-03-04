@@ -17,44 +17,43 @@
   .enum $0000         ; Zero Page variables
 
 ; player
-health .dsb 1
-shield .dsb 1
-shield_durability .dsb 1
-experience .dsb 1
-damages .dsb 1
+health                .dsb 1
+shield                .dsb 1
+shield_durability     .dsb 1
+experience            .dsb 1
+damages               .dsb 1
 ; flags
-potion_sickness .dsb 1
-can_run .dsb 1
+potion_sickness       .dsb 1
+can_run               .dsb 1
 ; interface
-ui_selection .dsb 1
-ui_health .dsb 1
+ui_selection          .dsb 1
+ui_health             .dsb 1
 ; controls
-arrow_left_pressed .dsb 1
-arrow_right_pressed .dsb 1
-a_pressed .dsb 1
+arrow_left_pressed    .dsb 1
+arrow_right_pressed   .dsb 1
+a_pressed             .dsb 1
 ; table
-card1 .dsb 1
-card2 .dsb 1
-card3 .dsb 1
-card4 .dsb 1
-room_complete .dsb 1
+card1                 .dsb 1
+card2                 .dsb 1
+card3                 .dsb 1
+card4                 .dsb 1
+room_complete         .dsb 1
 ; stats
-card_last .dsb 1
-card_last_type .dsb 1
-card_last_value .dsb 1
+card_last             .dsb 1
+card_last_type        .dsb 1
+card_last_value       .dsb 1
 ; tests
-test_id .dsb 1
-
-; client
-reqdraws       .dsb 1
-reqdraw_hp     .dsb 1
-reqdraw_sp     .dsb 1
-reqdraw_xp     .dsb 1
-reqdraw_cursor .dsb 1
-reqdraw_card1  .dsb 1
-reqdraw_card2  .dsb 1
-reqdraw_card3  .dsb 1
-reqdraw_card4  .dsb 1
+test_id               .dsb 1
+; redraws flags
+reqdraws              .dsb 1
+reqdraw_hp            .dsb 1
+reqdraw_sp            .dsb 1
+reqdraw_xp            .dsb 1
+reqdraw_cursor        .dsb 1
+reqdraw_card1         .dsb 1
+reqdraw_card2         .dsb 1
+reqdraw_card3         .dsb 1
+reqdraw_card4         .dsb 1
 
   .ende
 
