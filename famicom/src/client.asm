@@ -319,7 +319,11 @@ drawCardLoop:
   STA $2006           ; write the high byte of $2000 address
   LDA card1pos_low, x
   STA $2006           ; write the low byte of $2000 address
-  LDA blank, x
+
+  ; load card in regY
+  LDY card1
+  JSR loadCardSprite  ; require regX(tile) regY(card_id)
+
   STA $2007        ; set tile.x pos
   INX
   CPX #$36
@@ -338,7 +342,11 @@ drawCard2Loop:
   STA $2006           ; write the high byte of $2000 address
   LDA card2pos_low, x
   STA $2006           ; write the low byte of $2000 address
-  LDA spade1, x
+  
+  ; load card in regY
+  LDY card2
+  JSR loadCardSprite  ; require regX(tile) regY(card_id)
+
   STA $2007        ; set tile.x pos
   INX
   CPX #$36
@@ -357,7 +365,11 @@ drawCard3Loop:
   STA $2006           ; write the high byte of $2000 address
   LDA card3pos_low, x
   STA $2006           ; write the low byte of $2000 address
-  LDA diamond11, x
+  
+  ; load card in regY
+  LDY card3
+  JSR loadCardSprite  ; require regX(tile) regY(card_id)
+
   STA $2007        ; set tile.x pos
   INX
   CPX #$36
@@ -376,7 +388,11 @@ drawCard4Loop:
   STA $2006           ; write the high byte of $2000 address
   LDA card4pos_low, x
   STA $2006           ; write the low byte of $2000 address
-  LDA heart10, x
+  
+  ; load card in regY
+  LDY card4
+  JSR loadCardSprite  ; require regX(tile) regY(card_id)
+
   STA $2007        ; set tile.x pos
   INX
   CPX #$36
@@ -385,4 +401,324 @@ drawCard4Done:
   LDA #$00            ; No background scrolling
   STA $2005
   STA $2005
+  RTS
+
+loadCardSprite:       ; regX = tile_id, regY = card_id
+  LDA card_types, y
+  CMP #$00
+  BEQ loadCardSpriteHeart
+  CMP #$01
+  BEQ loadCardSpriteDiamond
+  CMP #$02
+  BEQ loadCardSpriteSpade
+  CMP #$03
+  BEQ loadCardSpriteClover
+  CMP #$04
+  BEQ loadCardSpriteJoker
+  LDA blank, x
+  RTS
+loadCardSpriteHeart:
+  JSR loadSpriteHeart
+  RTS
+loadCardSpriteDiamond:
+  JSR loadSpriteDiamond
+  RTS
+loadCardSpriteSpade:
+  JSR loadSpriteSpade
+  RTS
+loadCardSpriteClover:
+  JSR loadSpriteClover
+  RTS
+loadCardSpriteJoker:
+  JSR loadSpriteJoker
+  RTS
+
+loadSpriteHeart:
+  TYA
+  CMP #$00
+  BEQ loadHeart01
+  CMP #$01
+  BEQ loadHeart02
+  CMP #$02
+  BEQ loadHeart03
+  CMP #$03
+  BEQ loadHeart04
+  CMP #$04
+  BEQ loadHeart05
+  CMP #$05
+  BEQ loadHeart06
+  CMP #$06
+  BEQ loadHeart07
+  CMP #$07
+  BEQ loadHeart08
+  CMP #$08
+  BEQ loadHeart09
+  CMP #$09
+  BEQ loadHeart10
+  CMP #$0a
+  BEQ loadHeart11
+  CMP #$0b
+  BEQ loadHeart12
+  CMP #$0c
+  BEQ loadHeart13
+  RTS
+loadHeart01:
+  LDA heart1, x
+  RTS
+loadHeart02:
+  LDA heart2, x
+  RTS
+loadHeart03:
+  LDA heart3, x
+  RTS
+loadHeart04:
+  LDA heart4, x
+  RTS
+loadHeart05:
+  LDA heart5, x
+  RTS
+loadHeart06:
+  LDA heart6, x
+  RTS
+loadHeart07:
+  LDA heart7, x
+  RTS
+loadHeart08:
+  LDA heart8, x
+  RTS
+loadHeart09:
+  LDA heart9, x
+  RTS
+loadHeart10:
+  LDA heart10, x
+  RTS
+loadHeart11:
+  LDA heart11, x
+  RTS
+loadHeart12:
+  LDA heart12, x
+  RTS
+loadHeart13:
+  LDA heart13, x
+  RTS
+
+loadSpriteDiamond:
+  TYA
+  CMP #$0d
+  BEQ loadDiamond01
+  CMP #$0e
+  BEQ loadDiamond02
+  CMP #$0f
+  BEQ loadDiamond03
+  CMP #$10
+  BEQ loadDiamond04
+  CMP #$11
+  BEQ loadDiamond05
+  CMP #$12
+  BEQ loadDiamond06
+  CMP #$13
+  BEQ loadDiamond07
+  CMP #$14
+  BEQ loadDiamond08
+  CMP #$15
+  BEQ loadDiamond09
+  CMP #$16
+  BEQ loadDiamond10
+  CMP #$17
+  BEQ loadDiamond11
+  CMP #$18
+  BEQ loadDiamond12
+  CMP #$19
+  BEQ loadDiamond13
+  RTS
+loadDiamond01:
+  LDA diamond1, x
+  RTS
+loadDiamond02:
+  LDA diamond2, x
+  RTS
+loadDiamond03:
+  LDA diamond3, x
+  RTS
+loadDiamond04:
+  LDA diamond4, x
+  RTS
+loadDiamond05:
+  LDA diamond5, x
+  RTS
+loadDiamond06:
+  LDA diamond6, x
+  RTS
+loadDiamond07:
+  LDA diamond7, x
+  RTS
+loadDiamond08:
+  LDA diamond8, x
+  RTS
+loadDiamond09:
+  LDA diamond9, x
+  RTS
+loadDiamond10:
+  LDA diamond10, x
+  RTS
+loadDiamond11:
+  LDA diamond11, x
+  RTS
+loadDiamond12:
+  LDA diamond12, x
+  RTS
+loadDiamond13:
+  LDA diamond13, x
+  RTS
+
+loadSpriteSpade:
+  TYA
+  CMP #$1a
+  BEQ loadSpade01
+  CMP #$1b
+  BEQ loadSpade02
+  CMP #$1c
+  BEQ loadSpade03
+  CMP #$1d
+  BEQ loadSpade04
+  CMP #$1e
+  BEQ loadSpade05
+  CMP #$1f
+  BEQ loadSpade06
+  CMP #$20
+  BEQ loadSpade07
+  CMP #$21
+  BEQ loadSpade08
+  CMP #$22
+  BEQ loadSpade09
+  CMP #$23
+  BEQ loadSpade10
+  CMP #$24
+  BEQ loadSpade11
+  CMP #$25
+  BEQ loadSpade12
+  CMP #$26
+  BEQ loadSpade13
+  RTS
+loadSpade01:
+  LDA spade1, x
+  RTS
+loadSpade02:
+  LDA spade2, x
+  RTS
+loadSpade03:
+  LDA spade3, x
+  RTS
+loadSpade04:
+  LDA spade4, x
+  RTS
+loadSpade05:
+  LDA spade5, x
+  RTS
+loadSpade06:
+  LDA spade6, x
+  RTS
+loadSpade07:
+  LDA spade7, x
+  RTS
+loadSpade08:
+  LDA spade8, x
+  RTS
+loadSpade09:
+  LDA spade9, x
+  RTS
+loadSpade10:
+  LDA spade10, x
+  RTS
+loadSpade11:
+  LDA spade11, x
+  RTS
+loadSpade12:
+  LDA spade12, x
+  RTS
+loadSpade13:
+  LDA spade13, x
+  RTS
+
+loadSpriteClover:
+  TYA
+  CMP #$27
+  BEQ loadClover01
+  CMP #$28
+  BEQ loadClover02
+  CMP #$29
+  BEQ loadClover03
+  CMP #$2a
+  BEQ loadClover04
+  CMP #$2b
+  BEQ loadClover05
+  CMP #$2c
+  BEQ loadClover06
+  CMP #$2d
+  BEQ loadClover07
+  CMP #$2e
+  BEQ loadClover08
+  CMP #$2f
+  BEQ loadClover09
+  CMP #$30
+  BEQ loadClover10
+  CMP #$31
+  BEQ loadClover11
+  CMP #$32
+  BEQ loadClover12
+  CMP #$33
+  BEQ loadClover13
+  RTS
+loadClover01:
+  LDA clover1, x
+  RTS
+loadClover02:
+  LDA clover2, x
+  RTS
+loadClover03:
+  LDA clover3, x
+  RTS
+loadClover04:
+  LDA clover4, x
+  RTS
+loadClover05:
+  LDA clover5, x
+  RTS
+loadClover06:
+  LDA clover6, x
+  RTS
+loadClover07:
+  LDA clover7, x
+  RTS
+loadClover08:
+  LDA clover8, x
+  RTS
+loadClover09:
+  LDA clover9, x
+  RTS
+loadClover10:
+  LDA clover10, x
+  RTS
+loadClover11:
+  LDA clover11, x
+  RTS
+loadClover12:
+  LDA clover12, x
+  RTS
+loadClover13:
+  LDA clover13, x
+  RTS
+
+loadSpriteJoker:
+  TYA
+  CMP #$34
+  BEQ loadJoker01
+  CMP #$35
+  BEQ loadJoker02
+  RTS
+loadJoker01:
+  LDA joker1, x
+  RTS
+loadJoker02:
+  LDA joker2, x
   RTS

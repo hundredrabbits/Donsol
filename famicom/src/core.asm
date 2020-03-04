@@ -13,33 +13,22 @@ GameStart:
   LDA #$01
   STA can_run 
   ; tests
-  JSR runTests
+  ;JSR runTests
 
   ; table
 
   LDX #$00
-  LDY #$05            ; Hearts 6
-  JSR drawCard
-  LDX #$01
   LDY #$13            ; Diamonds 7
   JSR drawCard
-  LDX #$02
-  LDY #$21            ; Spades 8
-  JSR drawCard
-  LDX #$03
-  LDY #$2f            ; Clubs 9
-  JSR drawCard
-
-  ;
-
-  LDX #$03
-  JSR flipCard
   LDX #$01
-  JSR flipCard
+  LDY #$24            ; Spades 11
+  JSR drawCard
   LDX #$02
-  JSR flipCard
-  LDX #$00
-  JSR flipCard
+  LDY #$02            ; Hearts 3
+  JSR drawCard
+  LDX #$03
+  LDY #$2b            ; Clubs 5
+  JSR drawCard
 
   ;
 
@@ -85,9 +74,8 @@ ReadA:
   LDA a_pressed
   CMP #$01
   BEQ ReadADone
-  LDX cursor_pos      ; load selection in X
-  LDY card1, x        ; select card on table, from offset of card1
-  JSR pickCard        ; record press
+  LDX cursor_pos
+  JSR flipCard
   LDA #$01
   STA a_pressed 
   JMP ReadADone
@@ -107,14 +95,14 @@ ReadSel:
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadSelDone 
-  NOP
+  JSR drawNextRoom
 ReadSelDone:        ; handling this button is done
 
 ReadStart: 
   LDA $4016
   AND #%00000001  ; only look at bit 0
   BEQ ReadStartDone 
-  NOP
+  JSR drawNextRoom
 ReadStartDone:        ; handling this button is done
 
 ReadUp: 
@@ -202,6 +190,8 @@ drawCard:
   ; Card deck id, must be in Yreg
   TYA 
   STA card1, x
+  LDA #$01            ; Request update
+  STA reqdraw_card1, x
   RTS
 
 ; flip card from the table
@@ -243,7 +233,7 @@ pickCard:
   CMP #$02
   BEQ selectCardSpade
   CMP #$03
-  BEQ selectCardClub
+  BEQ selectCardClover
   CMP #$04
   BEQ selectCardJoker
 pickCardDone:
@@ -267,7 +257,7 @@ selectCardSpade:
   ; JSR flipCard
   RTS
 
-selectCardClub:
+selectCardClover:
   JSR runAttack
   JSR removePotionSickness
   ; JSR flipCard
@@ -313,7 +303,7 @@ drawCards:
   STA card2
   LDA #$1f   ; spades 6
   STA card3
-  LDA #$2d   ; club 7
+  LDA #$2d   ; clover 7
   STA card4
   RTS
 
@@ -424,4 +414,28 @@ clampHealth:
   LDA #$15
   STA health
 clampHealthDone:
+  RTS
+
+
+
+; TODO
+
+drawNextRoom:
+
+  LDX #$00
+  LDY #$1d            ; Spades 8
+  JSR drawCard
+
+  LDX #$01
+  LDY #$14            ; Diamonds 8
+  JSR drawCard
+
+  LDX #$02
+  LDY #$34            ; Hearts 4
+  JSR drawCard
+
+  LDX #$03
+  LDY #$08            ; Clubs 5
+  JSR drawCard
+
   RTS
