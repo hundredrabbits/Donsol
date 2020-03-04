@@ -323,7 +323,10 @@ runPotion:
   JSR clampHealth
   RTS
 runPotionSickness:
-  JSR dialogPotionsickness
+  ; dialog
+  LDA #$01
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 
 runShield:
@@ -352,11 +355,14 @@ runAttackBlock:
   LDA #$00
   STA shield
   STA shield_durability
-  JSR dialogShieldbreak
   ; load damages(unblocked)
   LDA card_last_value 
   STA damages
   JSR runDamages
+  ; dialog
+  LDA #$02
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 runAttackShielded:
   ; check for overflow
@@ -419,36 +425,6 @@ clampHealth:
 clampHealthDone:
   RTS
 
-dialogShieldbreak:
-  LDA $2002
-  LDA #$23
-  STA $2006
-  LDA #$03
-  STA $2006
-  LDX #$00
-dialogShieldbreakLoop:
-  LDA dialog_shieldbreak_data, x
-  STA $2007
-  INX
-  CPX #$12
-  BNE dialogShieldbreakLoop
-  RTS
-
-dialogPotionsickness:
-  LDA $2002
-  LDA #$23
-  STA $2006
-  LDA #$03
-  STA $2006
-  LDX #$00
-dialogPotionsicknessLoop:
-  LDA dialog_potionsickness_data, x
-  STA $2007
-  INX
-  CPX #$12
-  BNE dialogPotionsicknessLoop
-  RTS
-
 ; TODO
 
 drawNextRoom:
@@ -466,8 +442,7 @@ drawNextRoom:
   JSR drawCard
 
   LDX #$03
-  LDY #$08            ; Clubs 5
+  LDY #$06            ; Clubs 5
   JSR drawCard
 
   RTS
-

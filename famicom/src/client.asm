@@ -16,6 +16,11 @@ requestUpdateCursor:
   STA reqdraw_cursor
   RTS
 
+requestUpdateDialog:
+  LDA #$01
+  STA reqdraw_dialog
+  RTS
+
 requestUpdateCards:
   LDA #$01
   STA reqdraw_card1
@@ -113,12 +118,23 @@ checkReqSP:
 checkReqXP:
   LDA reqdraw_xp
   CMP #$00
-  BEQ updateClientDone
+  BEQ checkReqDialog
 
   JSR updateExperience
   JSR updateExperienceBar
   LDA #$00
   STA reqdraw_xp
+  INC reqdraws
+  RTS
+
+checkReqDialog:
+  LDA reqdraw_dialog
+  CMP #$00
+  BEQ updateClientDone
+
+  JSR updateDialog
+  LDA #$00
+  STA reqdraw_dialog
   INC reqdraws
   RTS
 
@@ -403,7 +419,49 @@ drawCard4Done:
   STA $2005
   RTS
 
-loadCardSprite:       ; regX = tile_id, regY = card_id
+; dialog
+
+updateDialog:
+  LDA $2002
+  LDA #$23
+  STA $2006
+  LDA #$03
+  STA $2006
+  LDX #$00
+updateDialogLoop:
+  LDY dialog_id
+  JSR loadDialog
+  STA $2007
+  INX
+  CPX #$12
+  BNE updateDialogLoop
+drawDialogDone:
+  LDA #$00            ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+loadDialog: ;(x:tile_id, y:dialog_id)
+  TYA
+  CMP #$00
+  BEQ loadDialogClear
+  CMP #$01
+  BEQ loadDialogSickness
+  CMP #$02
+  BEQ loadDialogBreak
+loadDialogClear:
+  LDA dialog_clear_data, x
+  RTS
+loadDialogSickness:
+  LDA dialog_potionsickness_data, x
+  RTS
+loadDialogBreak:
+  LDA dialog_shieldbreak_data, x
+  RTS
+
+;
+
+loadCardSprite: ;(x:tile_id, y:card_id)
   LDA card_types, y
   CMP #$00
   BEQ loadCardSpriteHeart
