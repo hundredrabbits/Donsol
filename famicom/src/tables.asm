@@ -10,7 +10,7 @@
   ; $2D -> dark grey
 
 palettes: ; red        ; cyan           ; grey
-  .db $0F,$15,$2D,$30, $0F,$3A,$2D,$30, $13,$2D,$2D,$30, $0F,$3A,$30,$30 ; background
+  .db $0F,$15,$2D,$30, $0F,$3A,$15,$30, $13,$2D,$3A,$30, $0F,$3A,$30,$30 ; background
   .db $0F,$15,$2D,$30, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F ; sprites
 
 cursor_positions:
@@ -171,3 +171,7 @@ dialog_potionsickness_data: ; $01
 dialog_shieldbreak_data: ; $02
   .db $23,$33,$39,$36,$00,$37,$2c,$2d,$29,$30
   .db $28,$00,$26,$36,$33,$2f,$29,$68,$00,$00
+
+dialog_death_data: ; $03
+  .db $23,$33,$39,$00,$28,$2d,$29,$28,$69,$00
+  .db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00

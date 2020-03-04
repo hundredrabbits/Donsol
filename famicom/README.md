@@ -7,18 +7,21 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ### Core
 
+- Implement run
 - Implement difficulties (easy/medium/hard)
 - Implement deck shuffling
-- Implement run
 - Implement restart
 
 ### Client
 
+- Add dialog when starting
+- Add dialog when complete
 - Interpolate stats
 - Toggle run ui, when can run
 - Implement onscreen guide
 - Implement sounds
 - Auto switch room timer
+- Implement dungeon complete
 
 ### TODOs(minor)
 

@@ -449,6 +449,8 @@ loadDialog: ;(x:tile_id, y:dialog_id)
   BEQ loadDialogSickness
   CMP #$02
   BEQ loadDialogBreak
+  CMP #$03
+  BEQ loadDialogDeath
 loadDialogClear:
   LDA dialog_clear_data, x
   RTS
@@ -457,6 +459,9 @@ loadDialogSickness:
   RTS
 loadDialogBreak:
   LDA dialog_shieldbreak_data, x
+  RTS
+loadDialogDeath:
+  LDA dialog_death_data, x
   RTS
 
 ;

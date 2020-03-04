@@ -396,6 +396,10 @@ runDamagesDeath:
   STA health
   STA shield
   STA experience
+  ; dialog
+  LDA #$03
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS                 ; stop attack phase
 runDamagesSurvive:
   LDA health
