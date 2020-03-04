@@ -29,25 +29,7 @@ LoadAttributesLoop:
   CPX #$40
   BNE LoadAttributesLoop
 
-CreateCursor:
-  LDA #$b0         ; cursor(left)
-  STA $0200        ; set tile.y pos
-  LDA #$10
-  STA $0201        ; set tile.id
-  LDA #$00
-  STA $0202        ; set tile.attribute
-  LDA #$88
-  STA $0203        ; set tile.x pos
-  LDA #$b0         ; cursor(right)
-  STA $0204        ; set tile.y pos
-  LDA #$11
-  STA $0205        ; set tile.id
-  LDA #$00
-  STA $0206        ; set tile.attribute
-  LDA #$88
-  STA $0207        ; set tile.x pos
-
-drawInterface:
+createInterface:
   LDA $2000 ; read PPU status to reset the high/low latch  
   ; HP H
   LDA #$21
@@ -95,3 +77,21 @@ drawInterface:
   LDA #$00            ; No background scrolling
   STA $2005
   STA $2005
+
+CreateCursor:
+  LDA #$b0         ; cursor(left)
+  STA $0200        ; set tile.y pos
+  LDA #$10
+  STA $0201        ; set tile.id
+  LDA #$00
+  STA $0202        ; set tile.attribute
+  LDA #$88
+  STA $0203        ; set tile.x pos
+  LDA #$b0         ; cursor(right)
+  STA $0204        ; set tile.y pos
+  LDA #$11
+  STA $0205        ; set tile.id
+  LDA #$00
+  STA $0206        ; set tile.attribute
+  LDA #$88
+  STA $0207        ; set tile.x pos

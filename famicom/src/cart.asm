@@ -2,7 +2,9 @@ include "src/head.asm"
     
 include "src/setup.asm"
 
-include "src/main.asm"
+include "src/core.asm"
+
+include "src/client.asm"
 
 include "src/tests.asm"
 

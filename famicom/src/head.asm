@@ -45,8 +45,16 @@ card_last_value .dsb 1
 ; tests
 test_id .dsb 1
 
-pointerBackgroundLowByte  .dsb 1
-pointerBackgroundHighByte .dsb 1
+; client
+reqdraws       .dsb 1
+reqdraw_hp     .dsb 1
+reqdraw_sp     .dsb 1
+reqdraw_xp     .dsb 1
+reqdraw_cursor .dsb 1
+reqdraw_card1  .dsb 1
+reqdraw_card2  .dsb 1
+reqdraw_card3  .dsb 1
+reqdraw_card4  .dsb 1
 
   .ende
 
