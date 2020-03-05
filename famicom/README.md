@@ -5,11 +5,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-### Controls
-
-- Use input-lock timer instead of key_down addresses
-- Fix key-repeat on nestopia
-
 ### Core
 
 - Implement run
@@ -20,7 +15,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ### Client
 
-- Add dialog when starting
 - Add dialog when complete
 - Interpolate stats
 - Toggle run ui, when can run
@@ -32,9 +26,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 ### Issues
 
 - When dying, pressing a button will restart the game
-- Don't get XP from flipped cards..
-- Fix draw bugs on nestopia
-
 
 ### TODOs(minor)
 

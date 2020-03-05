@@ -166,6 +166,10 @@ runPotion:                     ;
   STA health
   ; specials
   JSR clampHealth
+  ; dialog
+  LDA #$07
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 
 ;; turn(sickness)
@@ -184,6 +188,10 @@ runShield:                     ;
   STA shield
   LDA #$16                     ; max durability is $15+1
   STA shield_durability
+  ; dialog
+  LDA #$06
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 
 ;; turn(attack)
