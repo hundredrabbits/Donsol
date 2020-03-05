@@ -11,13 +11,17 @@ GameStart:                     ;
   JSR loadInterface
   JSR loadCursor
   ; tests
-  JSR runTests
+  ; JSR runTests
   ; render
   JSR renderStop 
   JSR requestUpdateStats
   JSR requestUpdateCursor
   JSR requestUpdateCards
   JSR renderStart
+  ; dialog
+  LDA #$04
+  STA dialog_id
+  JSR requestUpdateDialog
 
 ;; jump back to Forever, infinite loop
 

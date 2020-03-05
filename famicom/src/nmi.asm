@@ -7,7 +7,6 @@ NMI:                           ;
   LDA #$02
   STA $4014                    ; set the high byte (02) of the RAM address, start the transfer
   ; 
-  JSR updateClient
 LatchController:               ; 
   LDA #$01
   STA $4016
@@ -89,4 +88,5 @@ ReadRightRelease:              ; record release
   LDA #$00
   STA arrow_right_pressed 
 ReadRightDone:                 ; 
+  JSR updateClient
   RTI                          ; return from interrupt

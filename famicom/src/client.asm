@@ -397,7 +397,7 @@ updateDialogLoop:              ;
   JSR loadDialog
   STA $2007
   INX
-  CPX #$12
+  CPX #$16
   BNE updateDialogLoop
 drawDialogDone:                ; 
   JSR renderStart
@@ -415,6 +415,10 @@ loadDialog:                    ; (x:tile_id, y:dialog_id)
   BEQ loadDialogBreak
   CMP #$03
   BEQ loadDialogDeath
+  CMP #$04
+  BEQ loadDialogEnter
+  CMP #$05
+  BEQ loadDialogLeave
 loadDialogClear:               ; 
   LDA dialog_clear_data, x
   RTS
@@ -426,6 +430,12 @@ loadDialogBreak:               ;
   RTS
 loadDialogDeath:               ; 
   LDA dialog_death_data, x
+  RTS
+loadDialogEnter:               ; 
+  LDA dialog_enter_data, x
+  RTS
+loadDialogLeave:               ; 
+  LDA dialog_leave_data, x
   RTS
 
 ;; card sprites
