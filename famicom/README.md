@@ -5,6 +5,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Make a linter
+
 ### Core
 
 - Implement run
@@ -22,6 +24,11 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 - Implement sounds
 - Auto switch room timer
 - Implement dungeon complete
+
+### UX
+
+- When dying, pressing a button will restart the game
+- Don't get XP from flipped cards..
 
 ### TODOs(minor)
 

@@ -1,5 +1,4 @@
-
-resetStats:
+resetStats:                    ; 
   LDA #$15
   STA health
   LDA #$00
@@ -10,11 +9,9 @@ resetStats:
   LDA #$01
   STA can_run
   RTS
-
-runTests:
+runTests:                      ; 
   LDA #$43
   STA test_id
-
   JSR testPotion
   JSR testSickness
   JSR testShield
@@ -25,184 +22,162 @@ runTests:
   JSR testAttackShieldOverflowDeath
   JSR testAttackShieldBreak
   JSR testAttackShieldBreakDeath
-
   ; JSR testComplete
   ; JSR testCanRun
   ; JSR testCannotRun
-
   JSR resetStats
   RTS
-
-testPass:
-  LDA $2000           ; read PPU status to reset the high/low latch
+testPass:                      ; 
+  LDA $2000                    ; read PPU status to reset the high/low latch
   LDA #$20
-  STA $2006           ; write the high byte of $2000 address
+  STA $2006                    ; write the high byte of $2000 address
   LDA test_id
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a2
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$A2
   STA $2007  
-  LDA #$00            ; No background scrolling
+  LDA #$00                     ; No background scrolling
   STA $2005
   STA $2005
   INC test_id
   RTS
-
-testFail:
+testFail:                      ; 
   LDX test_id
-  LDA $2000           ; read PPU status to reset the high/low latch
+  LDA $2000                    ; read PPU status to reset the high/low latch
   LDA #$20
-  STA $2006           ; write the high byte of $2000 address
+  STA $2006                    ; write the high byte of $2000 address
   LDA test_id
-  STA $2006           ; write the low byte of $2000 address
-  LDA #$a3
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$A3
   STA $2007  
-  LDA #$00            ; No background scrolling
+  LDA #$00                     ; No background scrolling
   STA $2005
   STA $2005
   INC test_id
   RTS
-
 ; Drink 3hp
-
 ; Shield is 0sp
 ; Health is 21hp
-
-testPotion:
+testPotion:                    ; 
   JSR resetStats
   ; take some dammage
   LDA #$10
   STA health
   ; pick
-  LDY #$02            ; Hearts 3
+  LDY #$02                     ; Hearts 3
   JSR pickCard
   ; test health
   LDA health
-  CMP #$13            ; health = $13(18)
+  CMP #$13                     ; health = $13(18)
   BNE testPotionFail
   ; pass
-testPotionPass:
+testPotionPass:                ; 
   JSR testPass
   RTS
-testPotionFail:
+testPotionFail:                ; 
   JSR testFail
   RTS
-
 ; Drink 5hp
 ; Drink 6hp
-
 ; Shield is 0sp
 ; Health is 9hp
-
-testSickness:
+testSickness:                  ; 
   JSR resetStats
   ; take some dammage
   LDA #$04
   STA health
   ; drink two potions
-  LDY #$04            ; Hearts 5
+  LDY #$04                     ; Hearts 5
   JSR pickCard
-  LDY #$05            ; Hearts 6
+  LDY #$05                     ; Hearts 6
   JSR pickCard
   ; test health
   LDA health
-  CMP #$09            ; health = $09(09)[4hp + 5hp]
+  CMP #$09                     ; health = $09(09)[4hp + 5hp]
   BNE testSicknessFail
   ; test sickness
   LDA potion_sickness
-  CMP #$01            ; sickness = true
+  CMP #$01                     ; sickness = true
   BNE testSicknessFail
   ; pass
-testSicknessPass:
+testSicknessPass:              ; 
   JSR testPass
   RTS
-testSicknessFail:
+testSicknessFail:              ; 
   JSR testFail
   RTS
-
 ; Equip 2sp
-
 ; Shield is 2sp
 ; Health is 21hp
-
-testShield:
+testShield:                    ; 
   JSR resetStats
   ; pick
-  LDY #$0e            ; Diamonds 2
+  LDY #$0E                     ; Diamonds 2
   JSR pickCard
   ; test health
   LDA shield
-  CMP #$02            ; shield = $02(02)
+  CMP #$02                     ; shield = $02(02)
   BNE testShieldFail
   ; pass
-testShieldPass:
+testShieldPass:                ; 
   JSR testPass
   RTS
-testShieldFail:
+testShieldFail:                ; 
   JSR testFail
   RTS
-
 ; Attack 6ap
 ; Loose 6hp
-
 ; Shield is 0sp
 ; Health is 15hp
-
-testAttack:
+testAttack:                    ; 
   JSR resetStats
   ; pick
-  LDY #$1f            ; Spades 6
+  LDY #$1F                     ; Spades 6
   JSR pickCard
   ; test health
   LDA health
-  CMP #$0f            ; shield = $0f(15)
+  CMP #$0F                     ; shield = $0f(15)
   BNE testAttackFail
   ; pass
-testAttackPass:
+testAttackPass:                ; 
   JSR testPass
   RTS
-testAttackFail:
+testAttackFail:                ; 
   JSR testFail
   RTS
-
 ; Attack 6ap
 ; Loose 6hp
-
 ; Shield is 0sp
 ; Health is 0hp
-
-testAttackDeath:
+testAttackDeath:               ; 
   JSR resetStats
   ; Lower health
   LDA #$04
   STA health
   ; pick
-  LDY #$1f            ; Spades 6
+  LDY #$1F                     ; Spades 6
   JSR pickCard
   ; test health
   LDA health
-  CMP #$00            ; health = $00(00)
+  CMP #$00                     ; health = $00(00)
   BNE testAttackDeathFail
   ; pass
-testAttackDeathPass:
+testAttackDeathPass:           ; 
   JSR testPass
   RTS
-testAttackDeathFail:
+testAttackDeathFail:           ; 
   JSR testFail
   RTS
-
 ; Equip 6sp
 ; Attack 4ap
 ; Loose 0hp
-
 ; Shield is 6dp
 ; Health is 18hp
-
-testAttackShieldBlock:
+testAttackShieldBlock:         ; 
   JSR resetStats
   ; pick
-  LDY #$12            ; Diamond 6
+  LDY #$12                     ; Diamond 6
   JSR pickCard
-  LDY #$1d            ; Spades 4
+  LDY #$1D                     ; Spades 4
   JSR pickCard
   ; loose 3hp
   LDA health
@@ -213,26 +188,23 @@ testAttackShieldBlock:
   CMP #$04
   BNE testAttackShieldBlockFail
   ; pass
-testAttackShieldBlockedPass:
+testAttackShieldBlockedPass:   ; 
   JSR testPass
   RTS
-testAttackShieldBlockFail:
+testAttackShieldBlockFail:     ; 
   JSR testFail
   RTS
-
 ; Equip 3sp
 ; Attack 6ap
 ; Loose 3hp
-
 ; Shield is 6dp
 ; Health is 18hp
-
-testAttackShieldOverflow:
+testAttackShieldOverflow:      ; 
   JSR resetStats
   ; pick
-  LDY #$0f            ; Diamond 3
+  LDY #$0F                     ; Diamond 3
   JSR pickCard
-  LDY #$1f            ; Spades 6
+  LDY #$1F                     ; Spades 6
   JSR pickCard
   ; loose 3hp
   LDA health
@@ -243,29 +215,26 @@ testAttackShieldOverflow:
   CMP #$06
   BNE testAttackShieldOverflowFail
   ; pass
-testAttackShieldOverflowPass:
+testAttackShieldOverflowPass:  ; 
   JSR testPass
   RTS
-testAttackShieldOverflowFail:
+testAttackShieldOverflowFail:  ; 
   JSR testFail
   RTS
-
 ; Equip 3sp
 ; Attack 6ap
 ; Loose 3hp
-
 ; Shield is 6dp
 ; Health is 18hp
-
-testAttackShieldOverflowDeath:
+testAttackShieldOverflowDeath: ; 
   JSR resetStats
   ; Lower health
   LDA #$02
   STA health
   ; pick
-  LDY #$0f            ; Diamond 3
+  LDY #$0F                     ; Diamond 3
   JSR pickCard
-  LDY #$1f            ; Spades 6
+  LDY #$1F                     ; Spades 6
   JSR pickCard
   ; loose 3hp
   LDA health
@@ -276,31 +245,28 @@ testAttackShieldOverflowDeath:
   CMP #$06
   BNE testAttackShieldOverflowDeathFail
   ; pass
-testAttackShieldOverflowDeathPass:
+testAttackShieldOverflowDeathPass:; 
   JSR testPass
   RTS
-testAttackShieldOverflowDeathFail:
+testAttackShieldOverflowDeathFail:; 
   JSR testFail
   RTS
-
 ; Equip 4sp
 ; Attack 3ap
 ; Loose 0hp
 ; Attack 4ap
 ; Shield breaks
 ; Loose 4hp
-
 ; Shield is 0dp
 ; Health is 17hp
-
-testAttackShieldBreak:
+testAttackShieldBreak:         ; 
   JSR resetStats
   ; pick
-  LDY #$10            ; Diamond 4
+  LDY #$10                     ; Diamond 4
   JSR pickCard
-  LDY #$1c            ; Spades 3
+  LDY #$1C                     ; Spades 3
   JSR pickCard
-  LDY #$1d            ; Spades 4
+  LDY #$1D                     ; Spades 4
   JSR pickCard
   ; loose 4hp
   LDA health
@@ -315,34 +281,31 @@ testAttackShieldBreak:
   CMP #$00
   BNE testAttackShieldBreakFail
   ; pass
-testAttackShieldBreakPass:
+testAttackShieldBreakPass:     ; 
   JSR testPass
   RTS
-testAttackShieldBreakFail:
+testAttackShieldBreakFail:     ; 
   JSR testFail
   RTS
-
 ; Equip 4sp
 ; Attack 3ap
 ; Loose 0hp
 ; Attack 4ap
 ; Shield breaks
 ; Loose 4hp
-
 ; Shield is 0dp
 ; Health is 17hp
-
-testAttackShieldBreakDeath:
+testAttackShieldBreakDeath:    ; 
   JSR resetStats
   ; Lower health
   LDA #$02
   STA health
   ; pick
-  LDY #$10            ; Diamond 4
+  LDY #$10                     ; Diamond 4
   JSR pickCard
-  LDY #$1c            ; Spades 3
+  LDY #$1C                     ; Spades 3
   JSR pickCard
-  LDY #$1d            ; Spades 4
+  LDY #$1D                     ; Spades 4
   JSR pickCard
   ; loose 4hp
   LDA health
@@ -357,9 +320,9 @@ testAttackShieldBreakDeath:
   CMP #$00
   BNE testAttackShieldBreakDeathFail
   ; pass
-testAttackShieldBreakDeathPass:
+testAttackShieldBreakDeathPass:; 
   JSR testPass
   RTS
-testAttackShieldBreakDeathFail:
+testAttackShieldBreakDeathFail:; 
   JSR testFail
   RTS

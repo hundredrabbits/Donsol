@@ -1,7 +1,12 @@
 #!/bin/bash
 
 # Remove old
+
 rm cart.nes
+
+# Lint
+
+node lint6502
 
 # Build
 
