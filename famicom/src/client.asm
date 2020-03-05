@@ -134,6 +134,7 @@ updateCursor:                  ;
 updateHealth:                  ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
+  JSR renderStop
 updateHealthDigit1:            ; 
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
@@ -166,6 +167,7 @@ updateSicknessFalse:           ;
   LDA #$00
   STA $2007  
 updateHealthDone:              ; 
+  JSR renderStop
   RTS
 
 ;; health bar
@@ -175,6 +177,7 @@ updateHealthBar:               ;
   LDY health
   LDA healthbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
+  JSR renderStop
 updateHealthBarLoop:           ; 
   LDA #$20
   STA $2006                    ; write the high byte of $2000 address
@@ -186,6 +189,7 @@ updateHealthBarLoop:           ;
   INX
   CPX #$06
   BNE updateHealthBarLoop
+  JSR renderStart
   RTS
 
 ;; shield value
@@ -193,6 +197,7 @@ updateHealthBarLoop:           ;
 updateShield:                  ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
+  JSR renderStop
 updateShieldDigit1:            ; 
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
@@ -217,6 +222,7 @@ updateShieldDurabilityDigit1:  ;
   LDX shield_durability
   LDA card_glyphs, x
   STA $2007
+  JSR renderStart
   RTS
 
 ;; shield bar
@@ -226,6 +232,7 @@ updateShieldBar:               ;
   LDY shield
   LDA shieldbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
+  JSR renderStop
 updateShieldBarLoop:           ; 
   LDA #$20
   STA $2006                    ; write the high byte of $2000 address
@@ -237,6 +244,7 @@ updateShieldBarLoop:           ;
   INX
   CPX #$06
   BNE updateShieldBarLoop
+  JSR renderStart
   RTS
 
 ;; experience value
@@ -244,6 +252,7 @@ updateShieldBarLoop:           ;
 updateExperience:              ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
+  JSR renderStop
 updateExperienceDigit1:        ; 
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
@@ -260,6 +269,7 @@ updateExperienceDigit2:        ;
   LDX experience
   LDA number_low, x
   STA $2007
+  JSR renderStart
   RTS
 
 ;; experience bar
@@ -269,6 +279,7 @@ updateExperienceBar:           ;
   LDY experience
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
+  JSR renderStop
 updateExperienceBarLoop:       ; 
   LDA #$20
   STA $2006                    ; write the high byte of $2000 address
@@ -280,6 +291,7 @@ updateExperienceBarLoop:       ;
   INX
   CPX #$06
   BNE updateExperienceBarLoop
+  JSR renderStart
   RTS
 
 ;; to merge into a single routine
@@ -287,7 +299,7 @@ updateExperienceBarLoop:       ;
 updateCard1:                   ; 
   LDA #$00
   LDX #$00
-  ; JSR renderStop
+  JSR renderStop
 drawCardLoop:                  ; 
   LDA card1pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -301,7 +313,7 @@ drawCardLoop:                  ;
   CPX #$36
   BNE drawCardLoop
 drawCardDone:                  ; 
-  ; JSR renderStart
+  JSR renderStart
   RTS
 
 ;;
@@ -309,7 +321,7 @@ drawCardDone:                  ;
 updateCard2:                   ; 
   LDA #$00
   LDX #$00
-  ; JSR renderStop
+  JSR renderStop
 drawCard2Loop:                 ; 
   LDA card1pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -323,7 +335,7 @@ drawCard2Loop:                 ;
   CPX #$36
   BNE drawCard2Loop
 drawCard2Done:                 ; 
-  ; JSR renderStart
+  JSR renderStart
   RTS
 
 ;;
@@ -331,7 +343,7 @@ drawCard2Done:                 ;
 updateCard3:                   ; 
   LDA #$00
   LDX #$00
-  ; JSR renderStop
+  JSR renderStop
 drawCard3Loop:                 ; 
   LDA card3pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -345,7 +357,7 @@ drawCard3Loop:                 ;
   CPX #$36
   BNE drawCard3Loop
 drawCard3Done:                 ; 
-  ; JSR renderStart
+  JSR renderStart
   RTS
 
 ;;
@@ -353,7 +365,7 @@ drawCard3Done:                 ;
 updateCard4:                   ; 
   LDA #$00
   LDX #$00
-  ; JSR renderStop
+  JSR renderStop
 drawCard4Loop:                 ; 
   LDA card3pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -367,7 +379,7 @@ drawCard4Loop:                 ;
   CPX #$36
   BNE drawCard4Loop
 drawCard4Done:                 ; 
-  ; JSR renderStart
+  JSR renderStart
   RTS
 
 ;; dialog
@@ -379,6 +391,7 @@ updateDialog:                  ;
   LDA #$03
   STA $2006
   LDX #$00
+  JSR renderStop
 updateDialogLoop:              ; 
   LDY dialog_id
   JSR loadDialog
@@ -387,7 +400,11 @@ updateDialogLoop:              ;
   CPX #$12
   BNE updateDialogLoop
 drawDialogDone:                ; 
+  JSR renderStart
   RTS
+
+;; dialog loader
+
 loadDialog:                    ; (x:tile_id, y:dialog_id)
   TYA
   CMP #$00
