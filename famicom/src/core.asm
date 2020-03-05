@@ -30,9 +30,7 @@ selectPrevDone:                ;
 
 ;; Draw card to the table
 
-drawCard:                      ; 
-  ; Card table pos, must be in Xreg
-  ; Card deck id, must be in Yreg
+drawCard:                      ; (x:card_pos, y:card_id)
   TYA 
   STA card1, x
   LDA #$01                     ; Request update
@@ -41,8 +39,7 @@ drawCard:                      ;
 
 ;; flip card from the table
 
-flipCard:                      ; 
-  ; Card table pos, must be in Xreg
+flipCard:                      ; (x:card_pos)
   LDA card1, x                 ; get card id from table
   TAY 
   JSR pickCard
@@ -58,8 +55,7 @@ flipCard:                      ;
 
 ;; Pick card from the deck
 
-pickCard:                      ; 
-  ; Card deck id must be in Yreg
+pickCard:                      ; (y:card_id)
   TYA                          ; transfer from Y to A
   ; check if card is flipped
   CMP #$36                     ; if card is $36(flipped)

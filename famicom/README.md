@@ -5,8 +5,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Make a linter
-
 ### Core
 
 - Implement run
@@ -26,10 +24,12 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 - Auto switch room timer
 - Implement dungeon complete
 
-### UX
+### Issues
 
 - When dying, pressing a button will restart the game
 - Don't get XP from flipped cards..
+- Fix draw bugs on nestopia
+- Fix key-repeat on nestopia
 
 ### TODOs(minor)
 

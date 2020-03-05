@@ -6,7 +6,10 @@ NMI:                           ;
   STA $2003                    ; set the low byte (00) of the RAM address
   LDA #$02
   STA $4014                    ; set the high byte (02) of the RAM address, start the transfer
+  ; 
+  JSR renderStop
   JSR updateClient
+  JSR renderStart
 LatchController:               ; 
   LDA #$01
   STA $4016

@@ -27,16 +27,6 @@ requestUpdateCards:            ;
   LDA #$01
   STA reqdraw_card4
   RTS
-requestUpdateWipe:             ; 
-  LDA #$01
-  STA reqdraw_wipe1
-  LDA #$01
-  STA reqdraw_wipe2
-  LDA #$01
-  STA reqdraw_wipe3
-  LDA #$01
-  STA reqdraw_wipe4
-  RTS
 
 ;; check for updates required
 
@@ -44,46 +34,10 @@ updateClient:                  ;
 checkReqCursor:                ; 
   LDA reqdraw_cursor
   CMP #$00
-  BEQ checkReqWipe1
+  BEQ checkReqCard1
   JSR updateCursor
   LDA #$00
   STA reqdraw_cursor
-  INC reqdraws
-  RTS
-checkReqWipe1:                 ; 
-  LDA reqdraw_wipe1
-  CMP #$00
-  BEQ checkReqWipe2
-  JSR updateWipe1
-  LDA #$00
-  STA reqdraw_wipe1
-  INC reqdraws
-  RTS
-checkReqWipe2:                 ; 
-  LDA reqdraw_wipe2
-  CMP #$00
-  BEQ checkReqWipe3
-  JSR updateWipe2
-  LDA #$00
-  STA reqdraw_wipe2
-  INC reqdraws
-  RTS
-checkReqWipe3:                 ; 
-  LDA reqdraw_wipe3
-  CMP #$00
-  BEQ checkReqWipe4
-  JSR updateWipe3
-  LDA #$00
-  STA reqdraw_wipe3
-  INC reqdraws
-  RTS
-checkReqWipe4:                 ; 
-  LDA reqdraw_wipe4
-  CMP #$00
-  BEQ checkReqCard1
-  JSR updateWipe4
-  LDA #$00
-  STA reqdraw_wipe4
   INC reqdraws
   RTS
 checkReqCard1:                 ; 
@@ -174,6 +128,9 @@ updateCursor:                  ;
   ADC #$08
   STA $0207                    ; set tile.x pos
   RTS
+
+;; health value
+
 updateHealth:                  ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
@@ -204,15 +161,15 @@ updatePotionSickness:          ;
 updateSicknessTrue:            ; 
   LDA #$3F
   STA $2007  
-  JSR updateHealthFix
+  JSR updateHealthDone
 updateSicknessFalse:           ; 
   LDA #$00
   STA $2007  
-updateHealthFix:               ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
+updateHealthDone:              ; 
   RTS
+
+;; health bar
+
 updateHealthBar:               ; 
   LDX #$00
   LDY health
@@ -229,11 +186,10 @@ updateHealthBarLoop:           ;
   INX
   CPX #$06
   BNE updateHealthBarLoop
-updateHealthBarDone:           ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
   RTS
+
+;; shield value
+
 updateShield:                  ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
@@ -261,11 +217,10 @@ updateShieldDurabilityDigit1:  ;
   LDX shield_durability
   LDA card_glyphs, x
   STA $2007
-updateShieldFix:               ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
   RTS
+
+;; shield bar
+
 updateShieldBar:               ; 
   LDX #$00
   LDY shield
@@ -282,11 +237,10 @@ updateShieldBarLoop:           ;
   INX
   CPX #$06
   BNE updateShieldBarLoop
-updateShieldBarDone:           ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
   RTS
+
+;; experience value
+
 updateExperience:              ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
@@ -306,11 +260,10 @@ updateExperienceDigit2:        ;
   LDX experience
   LDA number_low, x
   STA $2007
-updateExperienceFix:           ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
   RTS
+
+;; experience bar
+
 updateExperienceBar:           ; 
   LDX #$00
   LDY experience
@@ -327,23 +280,14 @@ updateExperienceBarLoop:       ;
   INX
   CPX #$06
   BNE updateExperienceBarLoop
-updateExperienceBarDone:       ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
   RTS
-updateStats:                   ; 
-  JSR updateHealth
-  JSR updateHealthBar
-  JSR updateShield
-  JSR updateShieldBar
-  JSR updateExperience
-  JSR updateExperienceBar
-  RTS
-; to merge into a single routine
+
+;; to merge into a single routine
+
 updateCard1:                   ; 
   LDA #$00
   LDX #$00
+  ; JSR renderStop
 drawCardLoop:                  ; 
   LDA card1pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -357,13 +301,15 @@ drawCardLoop:                  ;
   CPX #$36
   BNE drawCardLoop
 drawCardDone:                  ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
+  ; JSR renderStart
   RTS
+
+;;
+
 updateCard2:                   ; 
   LDA #$00
   LDX #$00
+  ; JSR renderStop
 drawCard2Loop:                 ; 
   LDA card1pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -377,13 +323,15 @@ drawCard2Loop:                 ;
   CPX #$36
   BNE drawCard2Loop
 drawCard2Done:                 ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
+  ; JSR renderStart
   RTS
+
+;;
+
 updateCard3:                   ; 
   LDA #$00
   LDX #$00
+  ; JSR renderStop
 drawCard3Loop:                 ; 
   LDA card3pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -397,13 +345,15 @@ drawCard3Loop:                 ;
   CPX #$36
   BNE drawCard3Loop
 drawCard3Done:                 ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
+  ; JSR renderStart
   RTS
+
+;;
+
 updateCard4:                   ; 
   LDA #$00
   LDX #$00
+  ; JSR renderStop
 drawCard4Loop:                 ; 
   LDA card3pos_high, x
   STA $2006                    ; write the high byte of $2000 address
@@ -417,80 +367,7 @@ drawCard4Loop:                 ;
   CPX #$36
   BNE drawCard4Loop
 drawCard4Done:                 ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-
-;; wipe
-
-updateWipe1:                   ; 
-  LDA $2002                    ; reset latch
-  LDA #$20
-  STA $2006
-  LDA #$00
-  STA $2006
-  LDY #$00
-updateWipe1Loop:               ; 
-  LDA #$00
-  STA $2007                    ; paint a blank tile
-  INY
-  CPY #$00
-  BNE updateWipe1Loop
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-updateWipe2:                   ; 
-  LDA $2002                    ; reset latch
-  LDA #$21
-  STA $2006
-  LDA #$00
-  STA $2006
-  LDY #$00
-updateWipe2Loop:               ; 
-  LDA #$00
-  STA $2007                    ; paint a blank tile
-  INY
-  CPY #$00
-  BNE updateWipe2Loop
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-updateWipe3:                   ; 
-  LDA $2002                    ; reset latch
-  LDA #$22
-  STA $2006
-  LDA #$00
-  STA $2006
-  LDY #$00
-updateWipe3Loop:               ; 
-  LDA #$00
-  STA $2007                    ; paint a blank tile
-  INY
-  CPY #$00
-  BNE updateWipe3Loop
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
-  RTS
-updateWipe4:                   ; 
-  LDA $2002                    ; reset latch
-  LDA #$23
-  STA $2006
-  LDA #$00
-  STA $2006
-  LDY #$00
-updateWipe4Loop:               ; 
-  LDA #$00
-  STA $2007                    ; paint a blank tile
-  INY
-  CPY #$00
-  BNE updateWipe4Loop
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
+  ; JSR renderStart
   RTS
 
 ;; dialog
@@ -510,9 +387,6 @@ updateDialogLoop:              ;
   CPX #$12
   BNE updateDialogLoop
 drawDialogDone:                ; 
-  LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
   RTS
 loadDialog:                    ; (x:tile_id, y:dialog_id)
   TYA
