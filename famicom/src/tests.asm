@@ -1,17 +1,6 @@
 
 ;; Tests
 
-resetStats:                    ; 
-  LDA #$15
-  STA health
-  LDA #$00
-  STA shield
-  STA shield_durability
-  STA experience
-  STA potion_sickness
-  LDA #$01
-  STA can_run
-  RTS
 runTests:                      ; 
   LDA #$43
   STA test_id
@@ -36,7 +25,7 @@ testPass:                      ;
   STA $2006                    ; write the high byte of $2000 address
   LDA test_id
   STA $2006                    ; write the low byte of $2000 address
-  LDA #$A2
+  LDA #$6A
   STA $2007  
   LDA #$00                     ; No background scrolling
   STA $2005
@@ -50,7 +39,7 @@ testFail:                      ;
   STA $2006                    ; write the high byte of $2000 address
   LDA test_id
   STA $2006                    ; write the low byte of $2000 address
-  LDA #$A3
+  LDA #$6B
   STA $2007  
   LDA #$00                     ; No background scrolling
   STA $2005
