@@ -9,5 +9,14 @@ include "src/client.asm"
 include "src/tests.asm"
 include "src/tables.asm"
 include "src/cards.asm"
-include "src/vectors.asm"
+
+;; vectors
+
+  .pad $FFFA
+  .dw NMI
+  .dw RESET
+  .dw 0
+
+;; include sprites
+
   .incbin "src/sprite.chr"

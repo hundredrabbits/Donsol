@@ -25,9 +25,7 @@ dialog_id             .dsb 1
 cursor_pos            .dsb 1
 ui_health             .dsb 1
 ; controls
-arrow_left_pressed    .dsb 1
-arrow_right_pressed   .dsb 1
-a_pressed             .dsb 1
+input_lock            .dsb 1
 ; table
 card1                 .dsb 1
 card2                 .dsb 1

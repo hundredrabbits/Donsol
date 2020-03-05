@@ -40,7 +40,10 @@ drawCard:                      ; (x:card_pos, y:card_id)
 ;; flip card from the table
 
 flipCard:                      ; (x:card_pos)
+  ; check if card is flipped
   LDA card1, x                 ; get card id from table
+  CMP #$36
+  BEQ flipCardDone             ; skip when card is already flipped
   TAY 
   JSR pickCard
   ; flip card
@@ -51,6 +54,7 @@ flipCard:                      ; (x:card_pos)
   ; misc
   INC experience
   JSR requestUpdateStats
+flipCardDone:                  ; 
   RTS
 
 ;; Pick card from the deck
