@@ -8,7 +8,7 @@ NMI:                           ;
   STA $4014                    ; set the high byte (02) of the RAM address, start the transfer
 
 ;; update
-
+  JSR interpolateStats
   JSR updateClient
 
 ;; skip latch if input is locked

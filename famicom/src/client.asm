@@ -28,6 +28,53 @@ requestUpdateCards:            ;
   STA reqdraw_card4
   RTS
 
+;; interpolate
+
+interpolateStats:              ; 
+  JSR interpolateHealth
+  JSR interpolateShield
+  RTS
+
+;;
+
+interpolateHealth:             ; 
+  LDA ui_health                ; follower x
+  CMP health                   ; sprite x
+  BEQ interpolateHealthDone
+  BCC interpolateHealthInc
+  DEC ui_health
+  ; request redraw
+  LDA #$01
+  STA reqdraw_hp
+  RTS
+interpolateHealthInc:          ; 
+  INC ui_health
+  ; request redraw
+  LDA #$01
+  STA reqdraw_hp
+interpolateHealthDone:         ; 
+  RTS
+
+;;
+
+interpolateShield:             ; 
+  LDA ui_shield                ; follower x
+  CMP shield                   ; sprite x
+  BEQ interpolateShieldDone
+  BCC interpolateShieldInc
+  DEC ui_shield
+  ; request redraw
+  LDA #$01
+  STA reqdraw_sp
+  RTS
+interpolateShieldInc:          ; 
+  INC ui_shield
+  ; request redraw
+  LDA #$01
+  STA reqdraw_sp
+interpolateShieldDone:         ; 
+  RTS
+
 ;; check for updates required
 
 updateClient:                  ; 
@@ -140,7 +187,7 @@ updateHealthDigit1:            ;
   STA $2006                    ; write the high byte of $2000 address
   LDA #$07
   STA $2006                    ; write the low byte of $2000 address
-  LDX health
+  LDX ui_health
   LDA number_high, x
   STA $2007
 updateHealthDigit2:            ; 
@@ -148,7 +195,7 @@ updateHealthDigit2:            ;
   STA $2006                    ; write the high byte of $2000 address
   LDA #$08
   STA $2006                    ; write the low byte of $2000 address
-  LDX health
+  LDX ui_health
   LDA number_low, x
   STA $2007
 updatePotionSickness:          ; 
@@ -174,7 +221,7 @@ updateHealthDone:              ;
 
 updateHealthBar:               ; 
   LDX #$00
-  LDY health
+  LDY ui_health
   LDA healthbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR renderStop
@@ -203,7 +250,7 @@ updateShieldDigit1:            ;
   STA $2006                    ; write the high byte of $2000 address
   LDA #$0E
   STA $2006                    ; write the low byte of $2000 address
-  LDX shield
+  LDX ui_shield
   LDA number_high, x
   STA $2007
 updateShieldDigit2:            ; 
@@ -211,7 +258,7 @@ updateShieldDigit2:            ;
   STA $2006                    ; write the high byte of $2000 address
   LDA #$0F
   STA $2006                    ; write the low byte of $2000 address
-  LDX shield
+  LDX ui_shield
   LDA number_low, x
   STA $2007
 updateShieldDurabilityDigit1:  ; 
@@ -229,7 +276,7 @@ updateShieldDurabilityDigit1:  ;
 
 updateShieldBar:               ; 
   LDX #$00
-  LDY shield
+  LDY ui_shield
   LDA shieldbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR renderStop

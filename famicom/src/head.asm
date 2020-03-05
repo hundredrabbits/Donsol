@@ -24,6 +24,7 @@ can_run               .dsb 1
 dialog_id             .dsb 1
 cursor_pos            .dsb 1
 ui_health             .dsb 1
+ui_shield             .dsb 1
 ; controls
 input_lock            .dsb 1
 ; table
