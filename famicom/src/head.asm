@@ -1,11 +1,5 @@
 
-;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;   iNES HEADER   ;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;;;
+;; iNES HEADER
 
   .db  "NES", $1a              ; identification of the iNES header
   .db  PRG_COUNT               ; number of 16KB PRG-ROM pages
@@ -14,13 +8,7 @@
   .dsb $09, $00                ; clear the remaining bytes
   .fillvalue $FF               ; Sets all unused space in rom to value $FF
 
-;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;   VARIABLES   ;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;
+;; VARIABLES
 
   .enum $0000                  ; Zero Page variables
 ; player
@@ -65,13 +53,7 @@ reqdraw_card4         .dsb 1
 reqdraw_dialog        .dsb 1
   .ende
 
-;;;;;;;;;;;;;;;;;;;;;
-
-
-;;;   CONSTANTS   ;;;
-
-
-;;;;;;;;;;;;;;;;;;;;;
+;;  CONSTANTS
 
 PRG_COUNT       = 1            ; 1 = 16KB, 2 = 32KB
 MIRRORING       = %0001
@@ -84,13 +66,7 @@ PPU_Data        .equ $2007
 spriteRAM       .equ $0200
   .org $C000
 
-;;;;;;;;;;;;;;;;;
-
-
-;;;   RESET   ;;;
-
-
-;;;;;;;;;;;;;;;;;
+;; RESET
 
 RESET:                         ; 
   SEI                          ; disable IRQs

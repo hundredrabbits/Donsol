@@ -1,6 +1,8 @@
 
 ;; Setup
 
+;; Palettes
+
 LoadPalettes:                  ; 
   LDA $2002
   LDA #$3F
@@ -14,6 +16,9 @@ LoadPalettesLoop:              ;
   INX
   CPX #$20
   BNE LoadPalettesLoop
+
+;; Attributes
+
 LoadAttributes:                ; 
   LDA $2002
   LDA #$23
@@ -27,6 +32,9 @@ LoadAttributesLoop:            ;
   INX
   CPX #$40
   BNE LoadAttributesLoop
+
+;; Interface
+
 createInterface:               ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   ; HP H
@@ -75,6 +83,9 @@ createInterface:               ;
   LDA #$00                     ; No background scrolling
   STA $2005
   STA $2005
+
+;; Cursor
+
 CreateCursor:                  ; 
   LDA #$B0                     ; cursor(left)
   STA $0200                    ; set tile.y pos

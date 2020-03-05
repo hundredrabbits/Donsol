@@ -68,7 +68,7 @@ function lint6502 (text) {
     }).join(' ')
   }
 
-  function commentRoutine (line, next) {
+  function commentRoutine (line) {
     if (line.trim().split(' ')[0].indexOf(':') < 0) { return line }
     const parts = line.split(';')
     const routine = parts[0].trim()
@@ -89,9 +89,11 @@ function lint6502 (text) {
     return parts.map((item) => { return item.substr(0, 2) === '#$' ? item.toUpperCase() : item }).join(' ')
   }
 
-  function blockComment (line) {
+  function blockComment (line, prev, next) {
     if (line.indexOf(';;') < 0) { return line }
-    return `\n${line.trim()}\n`
+
+    console.log(line,prev ? prev.substr(0,2) : '*',next ? next.substr(0,2) : '*')
+    return `${prev && prev.trim().substr(0,2) === ";;" ? '' : '\n'}${line.trim()}${next && next.trim().substr(0,2) === ";;" ? '' : '\n'}`
   }
 
   for (const id in lines) {

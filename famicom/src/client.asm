@@ -1,7 +1,8 @@
 
 ;; client
 
-; request redraws
+;; request redraws
+
 requestUpdateStats:            ; 
   LDA #$01
   STA reqdraw_hp
@@ -28,7 +29,9 @@ requestUpdateCards:            ;
   LDA #$01
   STA reqdraw_card4
   RTS
-; check for updates required
+
+;; check for updates required
+
 updateClient:                  ; 
 checkReqCursor:                ; 
   LDA reqdraw_cursor
@@ -116,7 +119,9 @@ checkReqDialog:                ;
   RTS
 updateClientDone:              ; 
   RTS
-; actual update code
+
+;; actual update code
+
 updateCursor:                  ; 
   LDX cursor_pos
   LDA cursor_positions, x
@@ -372,7 +377,9 @@ drawCard4Done:                 ;
   STA $2005
   STA $2005
   RTS
-; dialog
+
+;; dialog
+
 updateDialog:                  ; 
   LDA $2002
   LDA #$23
@@ -414,7 +421,9 @@ loadDialogBreak:               ;
 loadDialogDeath:               ; 
   LDA dialog_death_data, x
   RTS
-;
+
+;; card sprites
+
 loadCardSprite:                ; (x:tile_id, y:card_id)
   LDA card_types, y
   CMP #$00

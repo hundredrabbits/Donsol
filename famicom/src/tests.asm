@@ -1,3 +1,6 @@
+
+;; Tests
+
 resetStats:                    ; 
   LDA #$15
   STA health
@@ -54,9 +57,9 @@ testFail:                      ;
   STA $2005
   INC test_id
   RTS
-; Drink 3hp
-; Shield is 0sp
-; Health is 21hp
+
+;; Drink 3hp | Shield is 0sp | Health is 21hp
+
 testPotion:                    ; 
   JSR resetStats
   ; take some dammage
@@ -76,10 +79,9 @@ testPotionPass:                ;
 testPotionFail:                ; 
   JSR testFail
   RTS
-; Drink 5hp
-; Drink 6hp
-; Shield is 0sp
-; Health is 9hp
+
+;; Drink 5hp | Drink 6hp | Shield is 0sp | Health is 9hp
+
 testSickness:                  ; 
   JSR resetStats
   ; take some dammage
@@ -105,9 +107,9 @@ testSicknessPass:              ;
 testSicknessFail:              ; 
   JSR testFail
   RTS
-; Equip 2sp
-; Shield is 2sp
-; Health is 21hp
+
+;; Equip 2sp | Shield is 2sp | Health is 21hp
+
 testShield:                    ; 
   JSR resetStats
   ; pick
@@ -124,10 +126,9 @@ testShieldPass:                ;
 testShieldFail:                ; 
   JSR testFail
   RTS
-; Attack 6ap
-; Loose 6hp
-; Shield is 0sp
-; Health is 15hp
+
+;; Attack 6ap | Loose 6hp | Shield is 0sp | Health is 15hp
+
 testAttack:                    ; 
   JSR resetStats
   ; pick
@@ -144,10 +145,9 @@ testAttackPass:                ;
 testAttackFail:                ; 
   JSR testFail
   RTS
-; Attack 6ap
-; Loose 6hp
-; Shield is 0sp
-; Health is 0hp
+
+;; Attack 6ap | Loose 6hp | Shield is 0sp | Health is 0hp
+
 testAttackDeath:               ; 
   JSR resetStats
   ; Lower health
@@ -167,11 +167,9 @@ testAttackDeathPass:           ;
 testAttackDeathFail:           ; 
   JSR testFail
   RTS
-; Equip 6sp
-; Attack 4ap
-; Loose 0hp
-; Shield is 6dp
-; Health is 18hp
+
+;; Equip 6sp | Attack 4ap | Loose 0hp | Shield is 6dp | Health is 18hp
+
 testAttackShieldBlock:         ; 
   JSR resetStats
   ; pick
@@ -194,11 +192,9 @@ testAttackShieldBlockedPass:   ;
 testAttackShieldBlockFail:     ; 
   JSR testFail
   RTS
-; Equip 3sp
-; Attack 6ap
-; Loose 3hp
-; Shield is 6dp
-; Health is 18hp
+
+;; Equip 3sp | Attack 6ap | Loose 3hp | Shield is 6dp | Health is 18hp
+
 testAttackShieldOverflow:      ; 
   JSR resetStats
   ; pick
@@ -221,11 +217,9 @@ testAttackShieldOverflowPass:  ;
 testAttackShieldOverflowFail:  ; 
   JSR testFail
   RTS
-; Equip 3sp
-; Attack 6ap
-; Loose 3hp
-; Shield is 6dp
-; Health is 18hp
+
+;; Equip 3sp | Attack 6ap | Loose 3hp | Shield is 6dp | Health is 18hp
+
 testAttackShieldOverflowDeath: ; 
   JSR resetStats
   ; Lower health
@@ -251,14 +245,9 @@ testAttackShieldOverflowDeathPass:;
 testAttackShieldOverflowDeathFail:; 
   JSR testFail
   RTS
-; Equip 4sp
-; Attack 3ap
-; Loose 0hp
-; Attack 4ap
-; Shield breaks
-; Loose 4hp
-; Shield is 0dp
-; Health is 17hp
+
+;; Equip 4sp | Attack 3ap | Loose 0hp | Attack 4ap | Shield breaks | Loose 4hp | Shield is 0dp | Health is 17hp
+
 testAttackShieldBreak:         ; 
   JSR resetStats
   ; pick
@@ -287,14 +276,9 @@ testAttackShieldBreakPass:     ;
 testAttackShieldBreakFail:     ; 
   JSR testFail
   RTS
-; Equip 4sp
-; Attack 3ap
-; Loose 0hp
-; Attack 4ap
-; Shield breaks
-; Loose 4hp
-; Shield is 0dp
-; Health is 17hp
+
+;; Equip 4sp | Attack 3ap | Loose 0hp | Attack 4ap | Shield breaks | Loose 4hp | Shield is 0dp | Health is 17hp
+
 testAttackShieldBreakDeath:    ; 
   JSR resetStats
   ; Lower health

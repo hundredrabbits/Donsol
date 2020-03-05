@@ -160,7 +160,9 @@ selectPrevDone:                ;
   LDA #$01
   STA reqdraw_cursor
   RTS
-; Draw card to the table
+
+;; Draw card to the table
+
 drawCard:                      ; 
   ; Card table pos, must be in Xreg
   ; Card deck id, must be in Yreg
@@ -169,7 +171,9 @@ drawCard:                      ;
   LDA #$01                     ; Request update
   STA reqdraw_card1, x
   RTS
-; flip card from the table
+
+;; flip card from the table
+
 flipCard:                      ; 
   ; Card table pos, must be in Xreg
   LDA card1, x                 ; get card id from table
@@ -184,7 +188,9 @@ flipCard:                      ;
   INC experience
   JSR requestUpdateStats
   RTS
-; Pick card from the deck
+
+;; Pick card from the deck
+
 pickCard:                      ; 
   ; Card deck id must be in Yreg
   TYA                          ; transfer from Y to A
@@ -210,6 +216,9 @@ pickCard:                      ;
   BEQ selectCardJoker
 pickCardDone:                  ; 
   RTS
+
+;; selection
+
 selectCardHeart:               ; 
   JSR runPotion
   JSR addPotionSickness
@@ -235,6 +244,9 @@ selectCardJoker:               ;
   JSR removePotionSickness
   ; JSR flipCard
   RTS
+
+;; check for completed room
+
 checkRoom:                     ; 
   LDA #$00
   STA room_complete
@@ -259,7 +271,9 @@ checkRoomDone:                 ;
   CMP #$01
   BEQ drawCards
   RTS
-; cards
+
+;; draw some cards
+
 drawCards:                     ; 
   LDA #$03                     ; heart 4
   STA card1
@@ -271,7 +285,7 @@ drawCards:                     ;
   STA card4
   RTS
 
-;; turns
+;; turn(potion)
 
 runPotion:                     ; 
   ; check for potion sickness
@@ -286,18 +300,27 @@ runPotion:                     ;
   ; specials
   JSR clampHealth
   RTS
+
+;; turn(sickness)
+
 runPotionSickness:             ; 
   ; dialog
   LDA #$01
   STA dialog_id
   JSR requestUpdateDialog
   RTS
+
+;; turn(shield)
+
 runShield:                     ; 
   LDA card_last_value
   STA shield
   LDA #$16                     ; max durability is $15+1
   STA shield_durability
   RTS
+
+;; turn(attack)
+
 runAttack:                     ; 
   ; check if can block
   LDA shield
