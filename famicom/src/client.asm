@@ -1,6 +1,77 @@
 
 ;; client
 
+createInterface:               ; 
+  LDA $2000                    ; read PPU status to reset the high/low latch
+  ; HP H
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
+  LDA #$03
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$12
+  STA $2007  
+  ; HP P
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
+  LDA #$04
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$1A
+  STA $2007  
+  ; SP S
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
+  LDA #$0A
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$1D
+  STA $2007  
+  ; SP P
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
+  LDA #$0B
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$1A
+  STA $2007 
+  ; XP X
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
+  LDA #$11
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$22
+  STA $2007  
+  ; XP P
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
+  LDA #$12
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$1A
+  STA $2007  
+  ; fix
+  LDA #$00                     ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+;; Cursor
+
+CreateCursor:                  ; 
+  LDA #$B0                     ; cursor(left)
+  STA $0200                    ; set tile.y pos
+  LDA #$10
+  STA $0201                    ; set tile.id
+  LDA #$00
+  STA $0202                    ; set tile.attribute
+  LDA #$88
+  STA $0203                    ; set tile.x pos
+  LDA #$B0                     ; cursor(right)
+  STA $0204                    ; set tile.y pos
+  LDA #$11
+  STA $0205                    ; set tile.id
+  LDA #$00
+  STA $0206                    ; set tile.attribute
+  LDA #$88
+  STA $0207                    ; set tile.x pos
+  RTS
+
 ;; request redraws
 
 requestUpdateStats:            ; 
@@ -29,6 +100,16 @@ requestUpdateCards:            ;
   LDA #$01
   STA reqdraw_card4
   RTS
+requestUpdateWipe:             ; 
+  LDA #$01
+  STA reqdraw_wipe1
+  LDA #$01
+  STA reqdraw_wipe2
+  LDA #$01
+  STA reqdraw_wipe3
+  LDA #$01
+  STA reqdraw_wipe4
+  RTS
 
 ;; check for updates required
 
@@ -36,10 +117,46 @@ updateClient:                  ;
 checkReqCursor:                ; 
   LDA reqdraw_cursor
   CMP #$00
-  BEQ checkReqCard1
+  BEQ checkReqWipe1
   JSR updateCursor
   LDA #$00
   STA reqdraw_cursor
+  INC reqdraws
+  RTS
+checkReqWipe1:                 ; 
+  LDA reqdraw_wipe1
+  CMP #$00
+  BEQ checkReqWipe2
+  JSR updateWipe1
+  LDA #$00
+  STA reqdraw_wipe1
+  INC reqdraws
+  RTS
+checkReqWipe2:                 ; 
+  LDA reqdraw_wipe2
+  CMP #$00
+  BEQ checkReqWipe3
+  JSR updateWipe2
+  LDA #$00
+  STA reqdraw_wipe2
+  INC reqdraws
+  RTS
+checkReqWipe3:                 ; 
+  LDA reqdraw_wipe3
+  CMP #$00
+  BEQ checkReqWipe4
+  JSR updateWipe3
+  LDA #$00
+  STA reqdraw_wipe3
+  INC reqdraws
+  RTS
+checkReqWipe4:                 ; 
+  LDA reqdraw_wipe4
+  CMP #$00
+  BEQ checkReqCard1
+  JSR updateWipe4
+  LDA #$00
+  STA reqdraw_wipe4
   INC reqdraws
   RTS
 checkReqCard1:                 ; 
@@ -373,6 +490,77 @@ drawCard4Loop:                 ;
   CPX #$36
   BNE drawCard4Loop
 drawCard4Done:                 ; 
+  LDA #$00                     ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+
+;; wipe
+
+updateWipe1:                   ; 
+  LDA $2002                    ; reset latch
+  LDA #$20
+  STA $2006
+  LDA #$00
+  STA $2006
+  LDY #$00
+updateWipe1Loop:               ; 
+  LDA #$00
+  STA $2007                    ; paint a blank tile
+  INY
+  CPY #$00
+  BNE updateWipe1Loop
+  LDA #$00                     ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+updateWipe2:                   ; 
+  LDA $2002                    ; reset latch
+  LDA #$21
+  STA $2006
+  LDA #$00
+  STA $2006
+  LDY #$00
+updateWipe2Loop:               ; 
+  LDA #$00
+  STA $2007                    ; paint a blank tile
+  INY
+  CPY #$00
+  BNE updateWipe2Loop
+  LDA #$00                     ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+updateWipe3:                   ; 
+  LDA $2002                    ; reset latch
+  LDA #$22
+  STA $2006
+  LDA #$00
+  STA $2006
+  LDY #$00
+updateWipe3Loop:               ; 
+  LDA #$00
+  STA $2007                    ; paint a blank tile
+  INY
+  CPY #$00
+  BNE updateWipe3Loop
+  LDA #$00                     ; No background scrolling
+  STA $2005
+  STA $2005
+  RTS
+updateWipe4:                   ; 
+  LDA $2002                    ; reset latch
+  LDA #$23
+  STA $2006
+  LDA #$00
+  STA $2006
+  LDY #$00
+updateWipe4Loop:               ; 
+  LDA #$00
+  STA $2007                    ; paint a blank tile
+  INY
+  CPY #$00
+  BNE updateWipe4Loop
   LDA #$00                     ; No background scrolling
   STA $2005
   STA $2005

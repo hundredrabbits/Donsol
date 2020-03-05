@@ -1,139 +1,6 @@
 
-;; core
+;; selection
 
-GameStart:                     ; 
-  ; reset health($15 = 21)
-  LDA #$15
-  STA health
-  ; reset controls
-  LDA #$00
-  STA arrow_left_pressed
-  STA arrow_right_pressed
-  STA experience
-  STA cursor_pos
-  LDA #$01
-  STA can_run 
-  ; tests
-  ; JSR runTests
-  ; table
-  LDX #$00
-  LDY #$13                     ; Diamonds 7
-  JSR drawCard
-  LDX #$01
-  LDY #$24                     ; Spades 11
-  JSR drawCard
-  LDX #$02
-  LDY #$02                     ; Hearts 3
-  JSR drawCard
-  LDX #$03
-  LDY #$2B                     ; Clubs 5
-  JSR drawCard
-  ;
-  JSR requestUpdateStats
-  JSR requestUpdateCursor
-  JSR requestUpdateCards
-  ;
-EnableSprites:                 ; 
-  LDA #%10010000               ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
-  STA $2000
-  LDA #%00011110               ; enable sprites, enable background, no clipping on left side
-  STA $2001
-  LDA #$00                     ; No background scrolling
-  STA $2006
-  STA $2006
-  STA $2005
-  STA $2005
-Forever:                       ; 
-  JMP Forever                  ; jump back to Forever, infinite loop
-NMI:                           ; 
-  LDA #$00
-  STA $2003                    ; set the low byte (00) of the RAM address
-  LDA #$02
-  STA $4014                    ; set the high byte (02) of the RAM address, start the transfer
-  JSR updateClient
-LatchController:               ; 
-  LDA #$01
-  STA $4016
-  LDA #$00
-  STA $4016                    ; tell both the controllers to latch buttons
-ReadA:                         ; 
-  LDA $4016
-  AND #%00000001               ; only look at BIT 0
-  BEQ ReadARelease             ; check if button is already pressed
-  LDA a_pressed
-  CMP #$01
-  BEQ ReadADone
-  LDX cursor_pos
-  JSR flipCard
-  LDA #$01
-  STA a_pressed 
-  JMP ReadADone
-ReadARelease:                  ; record release
-  LDA #$00
-  STA a_pressed 
-ReadADone:                     ; 
-ReadB:                         ; 
-  LDA $4016
-  AND #%00000001               ; only look at BIT 0
-  BEQ ReadBDone
-  NOP
-ReadBDone:                     ; handling this button is done
-ReadSel:                       ; 
-  LDA $4016
-  AND #%00000001               ; only look at BIT 0
-  BEQ ReadSelDone 
-  JSR drawNextRoom
-ReadSelDone:                   ; handling this button is done
-ReadStart:                     ; 
-  LDA $4016
-  AND #%00000001               ; only look at BIT 0
-  BEQ ReadStartDone 
-  JSR drawNextRoom
-ReadStartDone:                 ; handling this button is done
-ReadUp:                        ; 
-  LDA $4016
-  AND #%00000001               ; only look at BIT 0
-  BEQ ReadUpDone 
-  NOP
-ReadUpDone:                    ; handling this button is done
-ReadDown:                      ; 
-  LDA $4016
-  AND #%00000001               ; only look at BIT 0
-  BEQ ReadDownDone 
-  NOP
-ReadDownDone:                  ; handling this button is done
-ReadLeft:                      ; 
-  LDA $4016
-  AND #%00000001
-  BEQ ReadLeftRelease          ; check if button is already pressed
-  LDA arrow_left_pressed
-  CMP #$01
-  BEQ ReadLeftDone
-  JSR moveCursorLeft           ; record press
-  LDA #$01
-  STA arrow_left_pressed 
-  JMP ReadLeftDone
-ReadLeftRelease:               ; record release
-  LDA #$00
-  STA arrow_left_pressed 
-ReadLeftDone:                  ; 
-ReadRight:                     ; 
-  LDA $4016
-  AND #%00000001
-  BEQ ReadRightRelease         ; check if button is already pressed
-  LDA arrow_right_pressed
-  CMP #$01
-  BEQ ReadRightDone
-  JSR moveCursorRight          ; record press
-  LDA #$01
-  STA arrow_right_pressed 
-  JMP ReadRightDone
-ReadRightRelease:              ; record release
-  LDA #$00
-  STA arrow_right_pressed 
-ReadRightDone:                 ; 
-  RTI                          ; return from interrupt
-; selection
 moveCursorRight:               ; 
   LDA cursor_pos
   CMP #$03
@@ -413,7 +280,24 @@ clampHealthDone:               ;
 
 ;; TODO
 
-drawNextRoom:                  ; 
+drawHand1:                     ; 
+  LDX #$00
+  LDY #$13                     ; Diamonds 7
+  JSR drawCard
+  LDX #$01
+  LDY #$24                     ; Spades 11
+  JSR drawCard
+  LDX #$02
+  LDY #$02                     ; Hearts 3
+  JSR drawCard
+  LDX #$03
+  LDY #$2B                     ; Clubs 5
+  JSR drawCard
+  RTS
+
+;;
+
+drawHand2:                     ; 
   LDX #$00
   LDY #$1D                     ; Spades 8
   JSR drawCard

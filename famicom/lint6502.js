@@ -91,8 +91,6 @@ function lint6502 (text) {
 
   function blockComment (line, prev, next) {
     if (line.indexOf(';;') < 0) { return line }
-
-    console.log(line,prev ? prev.substr(0,2) : '*',next ? next.substr(0,2) : '*')
     return `${prev && prev.trim().substr(0,2) === ";;" ? '' : '\n'}${line.trim()}${next && next.trim().substr(0,2) === ";;" ? '' : '\n'}`
   }
 

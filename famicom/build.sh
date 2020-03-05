@@ -14,4 +14,5 @@ node lint6502
 
 # Run
 
-fceux cart.nes
+# fceux cart.nes
+nestopia cart.nes
