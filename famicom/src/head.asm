@@ -41,6 +41,10 @@ reqdraw_card2         .dsb 1
 reqdraw_card3         .dsb 1
 reqdraw_card4         .dsb 1
 reqdraw_dialog        .dsb 1
+; 16-bits
+cards_low             .dsb 1
+cards_high            .dsb 1
+cards_temp            .dsb 1
   .ende
 
 ;; CONSTANTS
