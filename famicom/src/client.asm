@@ -449,6 +449,9 @@ updateDialogLoop:              ;
 drawDialogDone:                ; 
   JSR renderStart
   RTS
+
+;;
+
 ; Form a 16-bit address contained in the given location, AND the one 
 ; following.  Add to that address the contents of the Y register.  
 ; Fetch the value stored at that address.
@@ -461,55 +464,19 @@ drawDialogDone:                ;
 ;; dialog loader
 
 loadDialog:                    ; (x:tile_id, y:dialog_id)
+  ; find dialog offset
+  LDA dialogs_offset_low,y
+  STA dialogs_low
+  LDA dialogs_offset_high,y
+  STA dialogs_high
+  ; add y + x registers
   TYA
-  CMP #$00
-  BEQ loadDialogClear
-  CMP #$01
-  BEQ loadDialogSickness
-  CMP #$02
-  BEQ loadDialogBreak
-  CMP #$03
-  BEQ loadDialogDeath
-  CMP #$04
-  BEQ loadDialogEnter
-  CMP #$05
-  BEQ loadDialogShield
-  CMP #$06
-  BEQ loadDialogPotion
-  CMP #$07
-  BEQ loadDialogEnterRoom
-  ; TODO
-  CMP #$08
-  BEQ loadDialogEnterRoom
-  CMP #$09
-  BEQ loadDialogEnterRoom
-  CMP #$0A
-  BEQ loadDialogEnterRoom
-  CMP #$0B
-  BEQ loadDialogEnterRoom
-loadDialogClear:               ; 
-  LDA dialog_clear_data, x
-  RTS
-loadDialogSickness:            ; 
-  LDA dialog_sickness_data, x
-  RTS
-loadDialogBreak:               ; 
-  LDA dialog_shieldbreak_data, x
-  RTS
-loadDialogDeath:               ; 
-  LDA dialog_death_data, x
-  RTS
-loadDialogEnter:               ; 
-  LDA dialog_enterdungeon_data, x
-  RTS
-loadDialogShield:              ; 
-  LDA dialog_shield_data, x
-  RTS
-loadDialogPotion:              ; 
-  LDA dialog_potion_data, x
-  RTS
-loadDialogEnterRoom:           ; 
-  LDA dialog_enterroom_data, x
+  STX dialogs_temp
+  CLC
+  ADC dialogs_temp
+  TAY
+  ; load dialog sprite
+  LDA (dialogs_low), y         ; load value at 16-bit address from (dialogs_low + dialogs_high) + y
   RTS
 
 ;; card sprites

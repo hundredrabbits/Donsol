@@ -45,6 +45,9 @@ reqdraw_dialog        .dsb 1
 cards_low             .dsb 1
 cards_high            .dsb 1
 cards_temp            .dsb 1
+dialogs_low           .dsb 1
+dialogs_high          .dsb 1
+dialogs_temp          .dsb 1
   .ende
 
 ;; CONSTANTS
