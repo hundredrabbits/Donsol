@@ -159,6 +159,10 @@ runPotion:                     ;
   LDA potion_sickness
   CMP #$01
   BEQ runPotionSickness
+  ; check for potion waste
+  LDA health
+  CMP #$15
+  BEQ runPotionWaste
   ; heal
   LDA health
   CLC
@@ -172,11 +176,20 @@ runPotion:                     ;
   JSR requestUpdateDialog
   RTS
 
-;; turn(sickness)
+;; turn(potion-sickness)
 
 runPotionSickness:             ; 
   ; dialog:sickness
   LDA #$01
+  STA dialog_id
+  JSR requestUpdateDialog
+  RTS
+
+;; turn(potion-waste)
+
+runPotionWaste:                ; 
+  ; dialog:potion
+  LDA #$07
   STA dialog_id
   JSR requestUpdateDialog
   RTS
@@ -206,7 +219,7 @@ runAttack:                     ;
   STA damages
   JSR runDamages
   ; dialog:unshielded
-  LDA #$05 
+  LDA #$08
   STA dialog_id
   JSR requestUpdateDialog
   RTS

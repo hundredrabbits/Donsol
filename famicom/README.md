@@ -16,7 +16,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 ### Client
 
 - Animate cursor movement
-- Add dialog when complete
 - Toggle run ui, when can run
 - Implement onscreen guide
 - Implement sounds
@@ -26,7 +25,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ### Issues
 
-- Display the right dialogs..
 - When dying, pressing a button will restart the game
 
 ### TODOs(minor)
