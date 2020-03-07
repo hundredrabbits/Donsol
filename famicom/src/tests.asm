@@ -26,7 +26,7 @@ testPass:                      ;
   LDA test_id
   STA $2006                    ; write the low byte of $2000 address
   LDA #$6A
-  STA $2007  
+  STA $2007
   LDA #$00                     ; No background scrolling
   STA $2005
   STA $2005
@@ -40,7 +40,7 @@ testFail:                      ;
   LDA test_id
   STA $2006                    ; write the low byte of $2000 address
   LDA #$6B
-  STA $2007  
+  STA $2007
   LDA #$00                     ; No background scrolling
   STA $2005
   STA $2005

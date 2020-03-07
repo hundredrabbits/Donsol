@@ -13,7 +13,7 @@ GameStart:                     ;
   ; tests
   ; JSR runTests
   ; render
-  JSR renderStop 
+  JSR renderStop
   JSR requestUpdateStats
   JSR requestUpdateCursor
   JSR requestUpdateCards
@@ -26,7 +26,7 @@ GameStart:                     ;
 ;; jump back to Forever, infinite loop
 
 Forever:                       ; 
-  JMP Forever                 
+  JMP Forever
 
 ;; reset stats
 
@@ -107,42 +107,42 @@ loadInterface:                 ;
   LDA #$03
   STA $2006                    ; write the low byte of $2000 address
   LDA #$12
-  STA $2007  
+  STA $2007
   ; HP P
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
   LDA #$04
   STA $2006                    ; write the low byte of $2000 address
   LDA #$1A
-  STA $2007  
+  STA $2007
   ; SP S
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
   LDA #$0A
   STA $2006                    ; write the low byte of $2000 address
   LDA #$1D
-  STA $2007  
+  STA $2007
   ; SP P
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
   LDA #$0B
   STA $2006                    ; write the low byte of $2000 address
   LDA #$1A
-  STA $2007 
+  STA $2007
   ; XP X
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
   LDA #$11
   STA $2006                    ; write the low byte of $2000 address
   LDA #$22
-  STA $2007  
+  STA $2007
   ; XP P
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
   LDA #$12
   STA $2006                    ; write the low byte of $2000 address
   LDA #$1A
-  STA $2007  
+  STA $2007
   ; fix
   ; LDA #$00                     ; No background scrolling
   ; STA $2005

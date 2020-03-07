@@ -68,6 +68,11 @@ function lint6502 (text) {
     }).join(' ')
   }
 
+  function padOpcodes (line) {
+    if (!opCodes[line.trim().split(' ')[0].toUpperCase()]) { return line }
+    return '  ' + line.trim()
+  }
+
   function commentRoutine (line) {
     if (line.trim().split(' ')[0].indexOf(':') < 0) { return line }
     const parts = line.split(';')
@@ -91,7 +96,7 @@ function lint6502 (text) {
 
   function blockComment (line, prev, next) {
     if (line.indexOf(';;') < 0) { return line }
-    return `${prev && prev.trim().substr(0,2) === ";;" ? '' : '\n'}${line.trim()}${next && next.trim().substr(0,2) === ";;" ? '' : '\n'}`
+    return `${prev && prev.trim().substr(0, 2) === ';;' ? '' : '\n'}${line.trim()}${next && next.trim().substr(0, 2) === ';;' ? '' : '\n'}`
   }
 
   for (const id in lines) {
@@ -99,6 +104,7 @@ function lint6502 (text) {
     // lines[id] = catComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = commentRoutine(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = blockComment(lines[id], lines[id - 1], lines[id + 1])
+    lines[id] = padOpcodes(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = padComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = ucHexCode(lines[id], lines[id - 1], lines[id + 1])
   }
@@ -108,16 +114,23 @@ function lint6502 (text) {
 // Load /src
 
 const fs = require('fs')
+const folder = 'src'
 
-fs.readdirSync('src').forEach(file => {
-  if (file.indexOf('.asm') > -1) {
-    const path = `src/${file}`
-    const contents = fs.readFileSync(path, 'utf8')
-    const linted = lint6502(contents)
-    if(contents !== linted){
-      console.log(`Linting ${path}`)
-      fs.writeFileSync(path, lint6502(contents))
+if (fs.existsSync(folder)) {
+  fs.readdirSync(folder).forEach(file => {
+    if (file.indexOf('.asm') > -1) {
+      const path = folder+'/'+file
+      const contents = fs.readFileSync(path, 'utf8')
+      const linted = lint6502(contents)
+      if (contents !== linted) {
+        console.log(`Linting ${path}`)
+        fs.writeFileSync(path, lint6502(contents))
+      }
     }
-  }
-})
+  })
+
+}
+else{
+  console.error('Error: Could not open folder /'+folder)
+}
 

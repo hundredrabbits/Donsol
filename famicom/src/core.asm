@@ -31,7 +31,7 @@ selectPrevDone:                ;
 ;; Draw card to the table
 
 drawCard:                      ; (x:card_pos, y:card_id)
-  TYA 
+  TYA
   STA card1, x
   LDA #$01                     ; Request update
   STA reqdraw_card1, x
@@ -44,7 +44,7 @@ flipCard:                      ; (x:card_pos)
   LDA card1, x                 ; get card id from table
   CMP #$36
   BEQ flipCardDone             ; skip when card is already flipped
-  TAY 
+  TAY
   JSR pickCard
   ; flip card
   LDA #$36                     ; $36 is flipped
@@ -233,7 +233,7 @@ runAttackBlock:                ;
   STA shield
   STA shield_durability
   ; load damages(unblocked)
-  LDA card_last_value 
+  LDA card_last_value
   STA damages
   JSR runDamages
   ; dialog:shield break

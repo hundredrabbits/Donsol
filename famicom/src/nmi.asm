@@ -52,7 +52,7 @@ ReadBDone:                     ; handling this button is done
 ReadSel:                       ; 
   LDA $4016
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadSelDone 
+  BEQ ReadSelDone
   JSR drawHand2
   JSR lockInput
 ReadSelDone:                   ; handling this button is done
@@ -62,7 +62,7 @@ ReadSelDone:                   ; handling this button is done
 ReadStart:                     ; 
   LDA $4016
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadStartDone 
+  BEQ ReadStartDone
   JSR drawHand2
   JSR lockInput
 ReadStartDone:                 ; handling this button is done
@@ -72,7 +72,7 @@ ReadStartDone:                 ; handling this button is done
 ReadUp:                        ; 
   LDA $4016
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadUpDone 
+  BEQ ReadUpDone
   NOP
   JSR lockInput
 ReadUpDone:                    ; handling this button is done
@@ -82,7 +82,7 @@ ReadUpDone:                    ; handling this button is done
 ReadDown:                      ; 
   LDA $4016
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadDownDone 
+  BEQ ReadDownDone
   NOP
   JSR lockInput
 ReadDownDone:                  ; handling this button is done

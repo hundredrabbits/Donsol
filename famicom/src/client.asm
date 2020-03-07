@@ -208,11 +208,11 @@ updatePotionSickness:          ;
   BNE updateSicknessFalse
 updateSicknessTrue:            ; 
   LDA #$3F
-  STA $2007  
+  STA $2007
   JSR updateHealthDone
 updateSicknessFalse:           ; 
   LDA #$00
-  STA $2007  
+  STA $2007
 updateHealthDone:              ; 
   JSR renderStop
   RTS
