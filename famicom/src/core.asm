@@ -166,8 +166,8 @@ runPotion:                     ;
   STA health
   ; specials
   JSR clampHealth
-  ; dialog
-  LDA #$07
+  ; dialog:potion
+  LDA #$06
   STA dialog_id
   JSR requestUpdateDialog
   RTS
@@ -175,7 +175,7 @@ runPotion:                     ;
 ;; turn(sickness)
 
 runPotionSickness:             ; 
-  ; dialog
+  ; dialog:sickness
   LDA #$01
   STA dialog_id
   JSR requestUpdateDialog
@@ -189,7 +189,7 @@ runShield:                     ;
   LDA #$16                     ; max durability is $15+1
   STA shield_durability
   ; dialog
-  LDA #$06
+  LDA #$05
   STA dialog_id
   JSR requestUpdateDialog
   RTS
@@ -205,6 +205,10 @@ runAttack:                     ;
   LDA card_last_value
   STA damages
   JSR runDamages
+  ; dialog:unshielded
+  LDA #$05 
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 runAttackBlock:                ; 
   ; check if shield breaking
@@ -219,7 +223,7 @@ runAttackBlock:                ;
   LDA card_last_value 
   STA damages
   JSR runDamages
-  ; dialog
+  ; dialog:shield break
   LDA #$02
   STA dialog_id
   JSR requestUpdateDialog
@@ -239,11 +243,19 @@ runAttackShieldedPartial:      ;
   ; damage shield
   LDA card_last_value
   STA shield_durability
+  ; dialog:damages
+  LDA #$0B
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 runAttackShieldedFull:         ; 
   ; damage shield
   LDA card_last_value
   STA shield_durability
+  ; dialog:blocked
+  LDA #$0A
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 runDamages:                    ; 
   ; check if killing
@@ -255,7 +267,7 @@ runDamagesDeath:               ;
   STA health
   STA shield
   STA experience
-  ; dialog
+  ; dialog:death
   LDA #$03
   STA dialog_id
   JSR requestUpdateDialog
@@ -265,6 +277,10 @@ runDamagesSurvive:             ;
   SEC
   SBC damages
   STA health
+  ; dialog:attack
+  LDA #$09
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 
 ;; flags

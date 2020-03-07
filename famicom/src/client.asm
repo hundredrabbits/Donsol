@@ -78,7 +78,7 @@ interpolateShieldDone:         ;
 ;; check for updates required
 
 updateClient:                  ; 
-checkReqCursor:                ; 
+checkReqCursor:                ; TODO: not sure if the cursor should take a render frame..
   LDA reqdraw_cursor
   CMP #$00
   BEQ checkReqCard1
@@ -470,11 +470,20 @@ loadDialog:                    ; (x:tile_id, y:dialog_id)
   BEQ loadDialogPotion
   CMP #$07
   BEQ loadDialogEnterRoom
+  ; TODO
+  CMP #$08
+  BEQ loadDialogEnterRoom
+  CMP #$09
+  BEQ loadDialogEnterRoom
+  CMP #$0A
+  BEQ loadDialogEnterRoom
+  CMP #$0B
+  BEQ loadDialogEnterRoom
 loadDialogClear:               ; 
   LDA dialog_clear_data, x
   RTS
 loadDialogSickness:            ; 
-  LDA dialog_potionsickness_data, x
+  LDA dialog_sickness_data, x
   RTS
 loadDialogBreak:               ; 
   LDA dialog_shieldbreak_data, x

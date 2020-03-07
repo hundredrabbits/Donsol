@@ -1,13 +1,4 @@
 
-;; iNES HEADER
-
-  .db  "NES", $1a              ; identification of the iNES header
-  .db  PRG_COUNT               ; number of 16KB PRG-ROM pages
-  .db  $01                     ; number of 8KB CHR-ROM pages
-  .db  $70|MIRRORING           ; mapper 7
-  .dsb $09, $00                ; clear the remaining bytes
-  .fillvalue $FF               ; Sets all unused space in rom to value $FF
-
 ;; VARIABLES
 
   .enum $0000                  ; Zero Page variables
@@ -52,7 +43,7 @@ reqdraw_card4         .dsb 1
 reqdraw_dialog        .dsb 1
   .ende
 
-;;  CONSTANTS
+;; CONSTANTS
 
 PRG_COUNT       = 1            ; 1 = 16KB, 2 = 32KB
 MIRRORING       = %0001

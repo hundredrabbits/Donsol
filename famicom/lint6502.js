@@ -100,7 +100,6 @@ function lint6502 (text) {
     lines[id] = commentRoutine(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = blockComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = padComment(lines[id], lines[id - 1], lines[id + 1])
-    lines[id] = padComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = ucHexCode(lines[id], lines[id - 1], lines[id + 1])
   }
   return lines.join('\n')
