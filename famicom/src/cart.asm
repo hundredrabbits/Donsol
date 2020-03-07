@@ -17,7 +17,6 @@ include "src/core.asm"
 include "src/client.asm"
 include "src/tests.asm"
 include "src/tables.asm"
-include "src/cards.asm"
 
 ;; vectors
 
