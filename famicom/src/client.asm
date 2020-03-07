@@ -449,6 +449,14 @@ updateDialogLoop:              ;
 drawDialogDone:                ; 
   JSR renderStart
   RTS
+; Form a 16-bit address contained in the given location, AND the one 
+; following.  Add to that address the contents of the Y register.  
+; Fetch the value stored at that address.
+; 
+;   LDA ($B4),Y  where Y contains 6
+;   
+; If $B4 contains $EE AND $B5 contains $12 then the value at memory 
+; location $12EE + Y (6) = $12F4 is fetched AND put in the accumulator.
 
 ;; dialog loader
 
@@ -506,22 +514,11 @@ loadDialogEnterRoom:           ;
 
 ;; card sprites
 
-; Form a 16-bit address contained in the given location, AND the one 
-; following.  Add to that address the contents of the Y register.  
-; Fetch the value stored at that address.
-; 
-;   LDA ($B4),Y  where Y contains 6
-;   
-; If $B4 contains $EE AND $B5 contains $12 then the value at memory 
-; location $12EE + Y (6) = $12F4 is fetched AND put in the accumulator.
-
-;;
-
 loadCardSprite:                ; (x:tile_id, y:card_id)
   ; find card offset
-  LDA cards_test_low,y
+  LDA cards_offset_low,y
   STA cards_low
-  LDA cards_test_high,y
+  LDA cards_offset_high,y
   STA cards_high
   ; add y + x registers
   TYA
