@@ -2,68 +2,75 @@
 ;; VARIABLES
 
   .enum $0000                  ; Zero Page variables
+
+;;
+
 ; player
-health                .dsb 1
-shield                .dsb 1
-shield_durability     .dsb 1
-experience            .dsb 1
-damages               .dsb 1
-difficulty            .dsb 1
+health                  .dsb 1
+shield                  .dsb 1
+shield_durability       .dsb 1
+experience              .dsb 1
+damages                 .dsb 1
+difficulty              .dsb 1
 ; flags
-potion_sickness       .dsb 1
-can_run               .dsb 1
+potion_sickness         .dsb 1
+can_run                 .dsb 1
 ; interface
-dialog_id             .dsb 1
-cursor_pos            .dsb 1
-ui_health             .dsb 1
-ui_shield             .dsb 1
+dialog_id               .dsb 1
+cursor_pos              .dsb 1
+ui_health               .dsb 1
+ui_shield               .dsb 1
 ; controls
-input_timer           .dsb 1
+input_timer             .dsb 1
 ; table
-card1                 .dsb 1
-card2                 .dsb 1
-card3                 .dsb 1
-card4                 .dsb 1
-room_timer            .dsb 1
-room_complete         .dsb 1
+card1                   .dsb 1
+card2                   .dsb 1
+card3                   .dsb 1
+card4                   .dsb 1
+room_timer              .dsb 1
+room_complete           .dsb 1
 ; stats
-card_last             .dsb 1
-card_last_type        .dsb 1
-card_last_value       .dsb 1
+card_last               .dsb 1
+card_last_type          .dsb 1
+card_last_value         .dsb 1
 ; tests
-test_id               .dsb 1
+test_id                 .dsb 1
 ; redraws flags
-reqdraws              .dsb 1
-reqdraw_hp            .dsb 1
-reqdraw_sp            .dsb 1
-reqdraw_xp            .dsb 1
-reqdraw_cursor        .dsb 1
-reqdraw_card1         .dsb 1
-reqdraw_card2         .dsb 1
-reqdraw_card3         .dsb 1
-reqdraw_card4         .dsb 1
-reqdraw_dialog        .dsb 1
-reqdraw_run           .dsb 1
+reqdraws                .dsb 1
+reqdraw_hp              .dsb 1
+reqdraw_sp              .dsb 1
+reqdraw_xp              .dsb 1
+reqdraw_cursor          .dsb 1
+reqdraw_card1           .dsb 1
+reqdraw_card2           .dsb 1
+reqdraw_card3           .dsb 1
+reqdraw_card4           .dsb 1
+reqdraw_dialog          .dsb 1
+reqdraw_run             .dsb 1
 ; 16-bits
-cards_low             .dsb 1
-cards_high            .dsb 1
-cards_temp            .dsb 1
-dialogs_low           .dsb 1
-dialogs_high          .dsb 1
-dialogs_temp          .dsb 1
+cards_low               .dsb 1
+cards_high              .dsb 1
+cards_temp              .dsb 1
+dialogs_low             .dsb 1
+dialogs_high            .dsb 1
+dialogs_temp            .dsb 1
+
+;;
+
   .ende
 
 ;; CONSTANTS
 
-PRG_COUNT       = 1            ; 1 = 16KB, 2 = 32KB
-MIRRORING       = %0001
-PPU_Control     .equ $2000
-PPU_Mask        .equ $2001
-PPU_Status      .equ $2002
-PPU_Scroll      .equ $2005
-PPU_Address     .equ $2006
-PPU_Data        .equ $2007
-spriteRAM       .equ $0200
+PPU_Control         .equ $2000
+PPU_Mask            .equ $2001
+PPU_Status          .equ $2002
+PPU_Scroll          .equ $2005
+PPU_Address         .equ $2006
+PPU_Data            .equ $2007
+spriteRAM           .equ $0200
+
+;;
+
   .org $C000
 
 ;; RESET

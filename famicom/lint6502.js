@@ -73,7 +73,12 @@ function lint6502 (text) {
     return '  ' + line.trim()
   }
 
-  function commentRoutine (line) {
+  function ucHexCode (line) {
+    const parts = line.split(' ')
+    return parts.map((item) => { return item.substr(0, 2) === '#$' ? item.toUpperCase() : item }).join(' ')
+  }
+
+  function routineComment (line) {
     if (line.trim().split(' ')[0].indexOf(':') < 0) { return line }
     const parts = line.split(';')
     const routine = parts[0].trim()
@@ -89,23 +94,39 @@ function lint6502 (text) {
     return `${instruction.padEnd(31, ' ')}; ${comment}`
   }
 
-  function ucHexCode (line) {
-    const parts = line.split(' ')
-    return parts.map((item) => { return item.substr(0, 2) === '#$' ? item.toUpperCase() : item }).join(' ')
-  }
-
   function blockComment (line, prev, next) {
     if (line.indexOf(';;') < 0) { return line }
     return `${prev && prev.trim().substr(0, 2) === ';;' ? '' : '\n'}${line.trim()}${next && next.trim().substr(0, 2) === ';;' ? '' : '\n'}`
   }
 
+  function padEqu (line) {
+    if (line.indexOf('.equ') < 0) { return line }
+    const parts = line.split('.equ')
+    const name = parts[0].trim()
+    const value = parts[1].trim()
+    return `${name.padEnd(20, ' ')}.equ ${value}`
+  }
+
+  function padDsb (line) {
+    if (line.indexOf('.dsb') < 0 || line.trim().substr(0, 4) === '.dsb') { return line }
+    const parts = line.split('.dsb')
+    const name = parts[0].trim()
+    const value = parts[1].trim()
+    return `${name.padEnd(24, ' ')}.dsb ${value}`
+  }
+
   for (const id in lines) {
+    // opcodes
     lines[id] = ucOpCodes(lines[id])
-    lines[id] = commentRoutine(lines[id], lines[id - 1], lines[id + 1])
-    lines[id] = blockComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = padOpcodes(lines[id], lines[id - 1], lines[id + 1])
-    lines[id] = padComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = ucHexCode(lines[id], lines[id - 1], lines[id + 1])
+    // comments
+    lines[id] = routineComment(lines[id], lines[id - 1], lines[id + 1])
+    lines[id] = blockComment(lines[id], lines[id - 1], lines[id + 1])
+    lines[id] = padComment(lines[id], lines[id - 1], lines[id + 1])
+    // variables
+    lines[id] = padEqu(lines[id], lines[id - 1], lines[id + 1])
+    lines[id] = padDsb(lines[id], lines[id - 1], lines[id + 1])
   }
   return lines.join('\n')
 }
@@ -118,7 +139,7 @@ const folder = 'src'
 if (fs.existsSync(folder)) {
   fs.readdirSync(folder).forEach(file => {
     if (file.indexOf('.asm') > -1) {
-      const path = folder+'/'+file
+      const path = folder + '/' + file
       const contents = fs.readFileSync(path, 'utf8')
       const linted = lint6502(contents)
       if (contents !== linted) {
@@ -127,9 +148,6 @@ if (fs.existsSync(folder)) {
       }
     }
   })
-
+} else {
+  console.error('Error: Could not open folder /' + folder)
 }
-else{
-  console.error('Error: Could not open folder /'+folder)
-}
-
