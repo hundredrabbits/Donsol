@@ -21,6 +21,10 @@ requestUpdateRun:              ;
   LDA #$01
   STA reqdraw_run
   RTS
+requestUpdateName:             ; 
+  LDA #$01
+  STA reqdraw_name
+  RTS
 requestUpdateCards:            ; 
   LDA #$01
   STA reqdraw_card1
@@ -33,7 +37,6 @@ requestUpdateCards:            ;
   RTS
 
 ;; interpolate
-
 interpolateStats:              ; 
   JSR interpolateHealth
   JSR interpolateShield
@@ -86,10 +89,19 @@ updateClient:                  ;
 checkReqCursor:                ; TODO: not sure if the cursor should take a render frame..
   LDA reqdraw_cursor
   CMP #$00
-  BEQ checkReqCard1
+  BEQ checkReqName
   JSR updateCursor
   LDA #$00
   STA reqdraw_cursor
+  INC reqdraws
+  RTS
+checkReqName:                  ; TODO: not sure if the cursor should take a render frame..
+  LDA reqdraw_name
+  CMP #$00
+  BEQ checkReqCard1
+  JSR updateName
+  LDA #$00
+  STA reqdraw_name
   INC reqdraws
   RTS
 checkReqCard1:                 ; 
@@ -188,6 +200,26 @@ updateCursor:                  ;
   CLC
   ADC #$08
   STA $0207                    ; set tile.x pos
+  RTS
+
+;;
+
+updateName:                    ; 
+  LDA PPUSTATUS
+  LDA #$21
+  STA PPUADDR
+  LDA #$43
+  STA PPUADDR
+  LDX #$00
+  JSR renderStop
+@loop:                         ; 
+  LDY #$01                     ; load card id
+  JSR loadCardName
+  STA PPUDATA
+  INX
+  CPX #$10
+  BNE @loop
+  JSR renderStart
   RTS
 
 ;;
@@ -519,6 +551,28 @@ loadDialog:                    ; (x:tile_id, y:dialog_id)
   TAY
   ; load dialog sprite
   LDA (dialogs_low), y         ; load value at 16-bit address from (dialogs_low + dialogs_high) + y
+  RTS
+
+;;
+
+loadCardName:                  ; (y:card_id)
+  ; figure out y
+  LDY cursor
+  LDA card1, y
+  TAY
+  ; find name offset
+  LDA card_names_offset_lb,y
+  STA names_low
+  LDA card_names_offset_hb,y
+  STA names_high
+  ; add y + x registers
+  TYA
+  STX names_temp
+  CLC
+  ADC names_temp
+  TAY
+  ; load dialog sprite
+  LDA (names_low), y           ; load value at 16-bit address from (dialogs_low + dialogs_high) + y
   RTS
 
 ;; card sprites

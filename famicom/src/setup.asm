@@ -18,6 +18,7 @@ GameStart:                     ;
   JSR requestUpdateCursor
   JSR requestUpdateCards
   JSR requestUpdateRun
+  JSR requestUpdateName
   JSR renderStart
   ; dialog
   LDA #$04

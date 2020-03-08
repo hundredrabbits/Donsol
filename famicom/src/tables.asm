@@ -288,6 +288,7 @@ card_names:                    ;
 
 ;;
 
+  .db $0f,$31,$34,$36,$29,$37,$37,$00,$02,$08,$00,$00,$00,$00,$00,$00; Empress 17
   .db $1d,$30,$2d,$31,$29,$00,$03,$00,$00,$00,$00,$00,$00,$00,$00,$00; Slime 2
   .db $1e,$39,$32,$32,$29,$30,$29,$36,$00,$04,$00,$00,$00,$00,$00,$00; Tunneler 3
   .db $10,$2d,$29,$32,$28,$00,$05,$00,$00,$00,$00,$00,$00,$00,$00,$00; Fiend 4
@@ -300,10 +301,10 @@ card_names:                    ;
   .db $0d,$33,$32,$37,$33,$36,$38,$00,$02,$02,$00,$00,$00,$00,$00,$00; Consort 11
   .db $1b,$39,$29,$29,$32,$00,$02,$04,$00,$00,$00,$00,$00,$00,$00,$00; Queen 13
   .db $1c,$29,$2b,$32,$25,$32,$38,$00,$02,$06,$00,$00,$00,$00,$00,$00; Regnant 15
-  .db $0f,$31,$34,$36,$29,$37,$37,$00,$02,$08,$00,$00,$00,$00,$00,$00; Empress 17
 
 ;;
 
+  .db $0f,$31,$34,$36,$29,$37,$37,$00,$02,$08,$00,$00,$00,$00,$00,$00; Empress 17
   .db $1c,$25,$38,$00,$03,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00; Rat 2
   .db $0c,$25,$38,$00,$04,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00; Bat 3
   .db $13,$31,$34,$00,$05,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00; Imp 4
@@ -316,9 +317,25 @@ card_names:                    ;
   .db $0d,$33,$32,$37,$33,$36,$38,$00,$02,$02,$00,$00,$00,$00,$00,$00; Consort 11
   .db $1b,$39,$29,$29,$32,$00,$02,$04,$00,$00,$00,$00,$00,$00,$00,$00; Queen 13
   .db $1c,$29,$2b,$32,$25,$32,$38,$00,$02,$06,$00,$00,$00,$00,$00,$00; Regnant 15
-  .db $0f,$31,$34,$36,$29,$37,$37,$00,$02,$08,$00,$00,$00,$00,$00,$00; Empress 17
 
 ;;
 
   .db $1c,$29,$28,$00,$0e,$33,$32,$37,$33,$30,$00,$03,$02,$00,$00,$00; Red Donsol 21
   .db $0c,$30,$25,$27,$2f,$00,$0e,$33,$32,$37,$33,$30,$00,$03,$02,$00; Black Donsol 21
+
+;;
+
+card_names_offset_lb:          ; 
+  .db #<(card_names+(#$0f* 0)),#<(card_names+(#$0f* 0)),#<(card_names+(#$0f* 2)),#<(card_names+(#$0f* 3)),#<(card_names+(#$0f* 4)),#<(card_names+(#$0f* 5)),#<(card_names+(#$0f* 6)),#<(card_names+(#$0f* 7)),#<(card_names+(#$0f* 8)),#<(card_names+(#$0f* 9))
+  .db #<(card_names+(#$0f*10)),#<(card_names+(#$0f*11)),#<(card_names+(#$0f*12)),#<(card_names+(#$0f*13)),#<(card_names+(#$0f*14)),#<(card_names+(#$0f*15)),#<(card_names+(#$0f*16)),#<(card_names+(#$0f*17)),#<(card_names+(#$0f*18)),#<(card_names+(#$0f*19))
+  .db #<(card_names+(#$0f*20)),#<(card_names+(#$0f*21)),#<(card_names+(#$0f*22)),#<(card_names+(#$0f*23)),#<(card_names+(#$0f*24)),#<(card_names+(#$0f*25)),#<(card_names+(#$0f*26)),#<(card_names+(#$0f*27)),#<(card_names+(#$0f*28)),#<(card_names+(#$0f*29))
+  .db #<(card_names+(#$0f*30)),#<(card_names+(#$0f*31)),#<(card_names+(#$0f*32)),#<(card_names+(#$0f*33)),#<(card_names+(#$0f*34)),#<(card_names+(#$0f*35)),#<(card_names+(#$0f*36)),#<(card_names+(#$0f*37)),#<(card_names+(#$0f*38)),#<(card_names+(#$0f*39))
+  .db #<(card_names+(#$0f*40)),#<(card_names+(#$0f*41)),#<(card_names+(#$0f*42)),#<(card_names+(#$0f*43)),#<(card_names+(#$0f*44)),#<(card_names+(#$0f*45)),#<(card_names+(#$0f*46)),#<(card_names+(#$0f*47)),#<(card_names+(#$0f*48)),#<(card_names+(#$0f*49))
+  .db #<(card_names+(#$0f*50)),#<(card_names+(#$0f*51)),#<(card_names+(#$0f*52)),#<(card_names+(#$0f*53)),#<(card_names+(#$0f*54)),#<(card_names+(#$0f*55))
+card_names_offset_hb:          ; 
+  .db #>(card_names+(#$0f* 0)),#>(card_names+(#$0f* 1)),#>(card_names+(#$0f* 2)),#>(card_names+(#$0f* 3)),#>(card_names+(#$0f* 4)),#>(card_names+(#$0f* 5)),#>(card_names+(#$0f* 6)),#>(card_names+(#$0f* 7)),#>(card_names+(#$0f* 8)),#>(card_names+(#$0f* 9))
+  .db #>(card_names+(#$0f*10)),#>(card_names+(#$0f*11)),#>(card_names+(#$0f*12)),#>(card_names+(#$0f*13)),#>(card_names+(#$0f*14)),#>(card_names+(#$0f*15)),#>(card_names+(#$0f*16)),#>(card_names+(#$0f*17)),#>(card_names+(#$0f*18)),#>(card_names+(#$0f*19))
+  .db #>(card_names+(#$0f*20)),#>(card_names+(#$0f*21)),#>(card_names+(#$0f*22)),#>(card_names+(#$0f*23)),#>(card_names+(#$0f*24)),#>(card_names+(#$0f*25)),#>(card_names+(#$0f*26)),#>(card_names+(#$0f*27)),#>(card_names+(#$0f*28)),#>(card_names+(#$0f*29))
+  .db #>(card_names+(#$0f*30)),#>(card_names+(#$0f*31)),#>(card_names+(#$0f*32)),#>(card_names+(#$0f*33)),#>(card_names+(#$0f*34)),#>(card_names+(#$0f*35)),#>(card_names+(#$0f*36)),#>(card_names+(#$0f*37)),#>(card_names+(#$0f*38)),#>(card_names+(#$0f*39))
+  .db #>(card_names+(#$0f*40)),#>(card_names+(#$0f*41)),#>(card_names+(#$0f*42)),#>(card_names+(#$0f*43)),#>(card_names+(#$0f*44)),#>(card_names+(#$0f*45)),#>(card_names+(#$0f*46)),#>(card_names+(#$0f*47)),#>(card_names+(#$0f*48)),#>(card_names+(#$0f*49))
+  .db #>(card_names+(#$0f*50)),#>(card_names+(#$0f*51)),#>(card_names+(#$0f*52)),#>(card_names+(#$0f*53)),#>(card_names+(#$0f*54)),#>(card_names+(#$0f*55))

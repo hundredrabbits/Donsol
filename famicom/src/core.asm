@@ -11,6 +11,7 @@ moveCursorRight:               ;
   LDA #$00
   STA cursor
 @done:                         ; 
+  JSR requestUpdateName
   JSR requestUpdateCursor
   RTS
 
@@ -26,6 +27,7 @@ moveCursorLeft:                ;
   LDA #$03
   STA cursor
 @done:                         ; 
+  JSR requestUpdateName
   JSR requestUpdateCursor
   RTS
 
@@ -39,7 +41,6 @@ drawCard:                      ; (x:card_pos, y:card_id)
   RTS
 
 ;; flip card from the table, used in controls when press
-
 flipCard:                      ; (x:card_pos)
   ; check if card is flipped
   LDA card1, x                 ; get card id from table

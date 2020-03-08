@@ -48,6 +48,7 @@ reqdraw_card3           .dsb 1
 reqdraw_card4           .dsb 1
 reqdraw_dialog          .dsb 1
 reqdraw_run             .dsb 1
+reqdraw_name            .dsb 1
 ; 16-bits
 cards_low               .dsb 1
 cards_high              .dsb 1
@@ -55,6 +56,9 @@ cards_temp              .dsb 1
 dialogs_low             .dsb 1
 dialogs_high            .dsb 1
 dialogs_temp            .dsb 1
+names_low               .dsb 1
+names_high              .dsb 1
+names_temp              .dsb 1
 
 ;;
 
