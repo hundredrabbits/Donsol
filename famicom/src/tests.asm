@@ -22,28 +22,28 @@ runTests:                      ;
 testPass:                      ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDA #$20
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA test_id
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA #$6A
-  STA $2007
+  STA PPUDATA
   LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
+  STA PPUSCROLL
+  STA PPUSCROLL
   INC test_id
   RTS
 testFail:                      ; 
   LDX test_id
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDA #$20
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA test_id
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA #$6B
-  STA $2007
+  STA PPUDATA
   LDA #$00                     ; No background scrolling
-  STA $2005
-  STA $2005
+  STA PPUSCROLL
+  STA PPUSCROLL
   INC test_id
   RTS
 

@@ -47,16 +47,16 @@ resetStats:                    ;
 ;; clear background
 
 loadBackground:                ; 
-  LDA $2002                    ; reset latch
+  LDA PPUSTATUS                ; reset latch
   LDA #$20
-  STA $2006
+  STA PPUADDR
   LDA #$00
-  STA $2006
+  STA PPUADDR
   LDX #$00
   LDY #$00
 @loop:                         ; 
   LDA #$00                     ; sprite id
-  STA $2007
+  STA PPUDATA
   INY
   CPY #$00
   BNE @loop
@@ -68,15 +68,15 @@ loadBackground:                ;
 ;; Palettes
 
 loadPalettes:                  ; 
-  LDA $2002
+  LDA PPUSTATUS
   LDA #$3F
-  STA $2006
+  STA PPUADDR
   LDA #$00
-  STA $2006
+  STA PPUADDR
   LDX #$00
 @loop:                         ; 
   LDA palettes, x
-  STA $2007
+  STA PPUDATA
   INX
   CPX #$20
   BNE @loop
@@ -85,15 +85,15 @@ loadPalettes:                  ;
 ;; Attributes
 
 loadAttributes:                ; 
-  LDA $2002
+  LDA PPUSTATUS
   LDA #$23
-  STA $2006
+  STA PPUADDR
   LDA #$C0
-  STA $2006
+  STA PPUADDR
   LDX #$00
 @loop:                         ; 
   LDA attributes, x
-  STA $2007
+  STA PPUDATA
   INX
   CPX #$40
   BNE @loop
@@ -102,37 +102,37 @@ loadAttributes:                ;
 ;; Interface
 
 loadInterface:                 ; 
-  LDA $2000                    ; read PPU status to reset the high/low latch
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   ; HP H
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$03
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA #$12
-  STA $2007
+  STA PPUDATA
   ; HP P
   LDA #$1A
-  STA $2007
+  STA PPUDATA
   ; SP S
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$0A
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA #$1D
-  STA $2007
+  STA PPUDATA
   ; SP P
   LDA #$1A
-  STA $2007
+  STA PPUDATA
   ; XP X
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$11
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA #$22
-  STA $2007
+  STA PPUDATA
   ; XP P
   LDA #$1A
-  STA $2007
+  STA PPUDATA
   RTS
 
 ;; Cursor
@@ -160,21 +160,21 @@ loadCursor:                    ;
 
 renderStart:                   ; 
   LDA #%10010000               ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
-  STA $2000
+  STA PPUCTRL
   LDA #%00011110               ; enable sprites, enable background, no clipping on left side
-  STA $2001
+  STA PPUMASK
   LDA #$00                     ; No background scrolling
-  STA $2006
-  STA $2006
-  STA $2005
-  STA $2005
+  STA PPUADDR
+  STA PPUADDR
+  STA PPUSCROLL
+  STA PPUSCROLL
   RTS
 
 ;;
 
 renderStop:                    ; 
   LDA #%10000000               ; disable NMI, sprites from Pattern Table 0
-  STA $2000
+  STA PPUCTRL
   LDA #%00000000               ; disable sprites
-  STA $2001
+  STA PPUMASK
   RTS

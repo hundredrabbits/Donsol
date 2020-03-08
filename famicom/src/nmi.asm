@@ -3,9 +3,9 @@
 
 NMI:                           ; 
   LDA #$00
-  STA $2003                    ; set the low byte (00) of the RAM address
+  STA SPRADDR                  ; set the low byte (00) of the RAM address
   LDA #$02
-  STA $4014                    ; set the high byte (02) of the RAM address, start the transfer
+  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
 
 ;; update
 
@@ -26,14 +26,14 @@ checkInputLock:                ;
 
 LatchController:               ; 
   LDA #$01
-  STA $4016
+  STA JOY1
   LDA #$00
-  STA $4016                    ; tell both the controllers to latch buttons
+  STA JOY1                     ; tell both the controllers to latch buttons
 
 ;; a
 
 ReadA:                         ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadADone                ; check if button is already pressed
   LDX cursor_pos
@@ -44,7 +44,7 @@ ReadADone:                     ;
 ;; b
 
 ReadB:                         ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadBDone
   LDA #$00
@@ -56,7 +56,7 @@ ReadBDone:                     ; handling this button is done
 ;; select
 
 ReadSel:                       ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadSelDone
   JSR drawHand2
@@ -66,7 +66,7 @@ ReadSelDone:                   ; handling this button is done
 ;; start
 
 ReadStart:                     ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadStartDone
   JSR drawHand2
@@ -76,7 +76,7 @@ ReadStartDone:                 ; handling this button is done
 ;; up
 
 ReadUp:                        ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadUpDone
   NOP
@@ -86,7 +86,7 @@ ReadUpDone:                    ; handling this button is done
 ;; down
 
 ReadDown:                      ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadDownDone
   NOP
@@ -96,7 +96,7 @@ ReadDownDone:                  ; handling this button is done
 ;; left
 
 ReadLeft:                      ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001
   BEQ ReadLeftDone             ; check if button is already pressed
   JSR moveCursorLeft
@@ -106,7 +106,7 @@ ReadLeftDone:                  ;
 ;; right
 
 ReadRight:                     ; 
-  LDA $4016
+  LDA JOY1
   AND #%00000001
   BEQ ReadRightDone            ; check if button is already pressed
   JSR moveCursorRight

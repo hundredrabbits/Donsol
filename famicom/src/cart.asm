@@ -1,4 +1,18 @@
 
+;; constants
+
+PPUCTRL             .equ $2000
+PPUMASK             .equ $2001
+PPUSTATUS           .equ $2002
+SPRADDR             .equ $2003
+PPUSCROLL           .equ $2005
+PPUADDR             .equ $2006
+PPUDATA             .equ $2007
+SPRDMA              .equ $4014
+SNDCHN              .equ $4015
+JOY1                .equ $4016
+JOY2                .equ $4017
+
 ;; iNES header
 
   .db  "NES", $1a              ; identification of the iNES header

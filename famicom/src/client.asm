@@ -192,73 +192,73 @@ updateCursor:                  ;
 ;;
 
 updateRun:                     ; 
-  LDA $2000                    ; read PPU status to reset the high/low latch
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   JSR renderStop
   LDA can_run
   CMP #$01
   BNE updateRunHide
 updateRunShow:                 ; RUN: $1c,$1f,$18
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$18
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA #$1C                     ; R
-  STA $2007
+  STA PPUDATA
   LDA #$1F                     ; U
-  STA $2007
+  STA PPUDATA
   LDA #$18                     ; N
-  STA $2007
+  STA PPUDATA
   JSR renderStart
   RTS
 updateRunHide:                 ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$18
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA #$00                     ; R
-  STA $2007
-  STA $2007
-  STA $2007
+  STA PPUDATA
+  STA PPUDATA
+  STA PPUDATA
   JSR renderStart
   RTS
 
 ;; health value
 
 updateHealth:                  ; 
-  LDA $2000                    ; read PPU status to reset the high/low latch
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR renderStop
 updateHealthDigit1:            ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$07
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDX ui_health
   LDA number_high, x
-  STA $2007
+  STA PPUDATA
 updateHealthDigit2:            ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$08
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDX ui_health
   LDA number_low, x
-  STA $2007
+  STA PPUDATA
 updatePotionSickness:          ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$05
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA potion_sickness
   CMP #$01
   BNE updateSicknessFalse
 updateSicknessTrue:            ; 
   LDA #$3F
-  STA $2007
+  STA PPUDATA
   JSR updateHealthDone
 updateSicknessFalse:           ; 
   LDA #$00
-  STA $2007
+  STA PPUDATA
 updateHealthDone:              ; 
   JSR renderStop
   RTS
@@ -273,12 +273,12 @@ updateHealthBar:               ;
   JSR renderStop
 @loop:                         ; 
   LDA #$20
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA healthbaroffset, x
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA progressbar, y           ; regA has sprite id
   INY
-  STA $2007
+  STA PPUDATA
   INX
   CPX #$06
   BNE @loop
@@ -288,33 +288,33 @@ updateHealthBar:               ;
 ;; shield value
 
 updateShield:                  ; 
-  LDA $2000                    ; read PPU status to reset the high/low latch
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR renderStop
 updateShieldDigit1:            ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$0E
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDX ui_shield
   LDA number_high, x
-  STA $2007
+  STA PPUDATA
 updateShieldDigit2:            ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$0F
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDX ui_shield
   LDA number_low, x
-  STA $2007
+  STA PPUDATA
 updateShieldDurabilityDigit1:  ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$0C
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDX shield_durability
   LDA card_glyphs, x
-  STA $2007
+  STA PPUDATA
   JSR renderStart
   RTS
 
@@ -328,12 +328,12 @@ updateShieldBar:               ;
   JSR renderStop
 @loop:                         ; 
   LDA #$20
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA shieldbaroffset, x
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA progressbar, y           ; regA has sprite id
   INY
-  STA $2007
+  STA PPUDATA
   INX
   CPX #$06
   BNE @loop
@@ -343,25 +343,25 @@ updateShieldBar:               ;
 ;; experience value
 
 updateExperience:              ; 
-  LDA $2000                    ; read PPU status to reset the high/low latch
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR renderStop
 updateExperienceDigit1:        ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$15
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDX experience
   LDA number_high, x
-  STA $2007
+  STA PPUDATA
 updateExperienceDigit2:        ; 
   LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA #$16
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDX experience
   LDA number_low, x
-  STA $2007
+  STA PPUDATA
   JSR renderStart
   RTS
 
@@ -375,12 +375,12 @@ updateExperienceBar:           ;
   JSR renderStop
 @loop:                         ; 
   LDA #$20
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA experiencebaroffset, x
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   LDA progressbar, y           ; regA has sprite id
   INY
-  STA $2007
+  STA PPUDATA
   INX
   CPX #$06
   BNE @loop
@@ -395,13 +395,13 @@ updateCard1:                   ;
   JSR renderStop
 @loop:                         ; 
   LDA card1pos_high, x
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA card1pos_low, x
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   ; load card in regY
   LDY card1
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
-  STA $2007                    ; set tile.x pos
+  STA PPUDATA                  ; set tile.x pos
   INX
   CPX #$36
   BNE @loop
@@ -416,13 +416,13 @@ updateCard2:                   ;
   JSR renderStop
 @loop:                         ; 
   LDA card1pos_high, x
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA card2pos_low, x
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   ; load card in regY
   LDY card2
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
-  STA $2007                    ; set tile.x pos
+  STA PPUDATA                  ; set tile.x pos
   INX
   CPX #$36
   BNE @loop
@@ -437,13 +437,13 @@ updateCard3:                   ;
   JSR renderStop
 @loop:                         ; 
   LDA card3pos_high, x
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA card3pos_low, x
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   ; load card in regY
   LDY card3
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
-  STA $2007                    ; set tile.x pos
+  STA PPUDATA                  ; set tile.x pos
   INX
   CPX #$36
   BNE @loop
@@ -458,13 +458,13 @@ updateCard4:                   ;
   JSR renderStop
 @loop:                         ; 
   LDA card3pos_high, x
-  STA $2006                    ; write the high byte of $2000 address
+  STA PPUADDR                  ; write the high byte
   LDA card4pos_low, x
-  STA $2006                    ; write the low byte of $2000 address
+  STA PPUADDR                  ; write the low byte
   ; load card in regY
   LDY card4
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
-  STA $2007                    ; set tile.x pos
+  STA PPUDATA                  ; set tile.x pos
   INX
   CPX #$36
   BNE @loop
@@ -474,17 +474,17 @@ updateCard4:                   ;
 ;; dialog
 
 updateDialog:                  ; 
-  LDA $2002
+  LDA PPUSTATUS
   LDA #$23
-  STA $2006
+  STA PPUADDR
   LDA #$03
-  STA $2006
+  STA PPUADDR
   LDX #$00
   JSR renderStop
 @loop:                         ; 
   LDY dialog_id
   JSR loadDialog
-  STA $2007
+  STA PPUDATA
   INX
   CPX #$18
   BNE @loop
