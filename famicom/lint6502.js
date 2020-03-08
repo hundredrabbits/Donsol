@@ -101,7 +101,6 @@ function lint6502 (text) {
 
   for (const id in lines) {
     lines[id] = ucOpCodes(lines[id])
-    // lines[id] = catComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = commentRoutine(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = blockComment(lines[id], lines[id - 1], lines[id + 1])
     lines[id] = padOpcodes(lines[id], lines[id - 1], lines[id + 1])

@@ -7,6 +7,7 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ### Core
 
+- Implement next
 - Implement run
 - Implement difficulties (easy/medium/hard)
 - Implement deck shuffling

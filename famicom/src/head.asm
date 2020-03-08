@@ -23,6 +23,7 @@ card1                 .dsb 1
 card2                 .dsb 1
 card3                 .dsb 1
 card4                 .dsb 1
+room_timer            .dsb 1
 room_complete         .dsb 1
 ; stats
 card_last             .dsb 1

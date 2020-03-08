@@ -8,11 +8,14 @@ NMI:                           ;
   STA $4014                    ; set the high byte (02) of the RAM address, start the transfer
 
 ;; update
-  JSR interpolateStats
-  JSR updateClient
+
+  JSR checkRoomTimer           ; in core
+  JSR interpolateStats         ; in client
+  JSR updateClient             ; in client
 
 ;; skip latch if input is locked
 
+checkInputLock:                ; 
   LDA input_lock
   CMP #$00
   BEQ LatchController

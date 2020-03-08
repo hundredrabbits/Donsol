@@ -33,6 +33,7 @@ Forever:                       ;
 resetStats:                    ; 
   LDA #$15
   STA health
+  STA ui_health
   LDA #$00
   STA shield
   STA shield_durability
@@ -143,10 +144,6 @@ loadInterface:                 ;
   STA $2006                    ; write the low byte of $2000 address
   LDA #$1A
   STA $2007
-  ; fix
-  ; LDA #$00                     ; No background scrolling
-  ; STA $2005
-  ; STA $2005
   RTS
 
 ;; Cursor

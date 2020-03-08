@@ -37,7 +37,7 @@ drawCard:                      ; (x:card_pos, y:card_id)
   STA reqdraw_card1, x
   RTS
 
-;; flip card from the table
+;; flip card from the table, used in controls when press
 
 flipCard:                      ; (x:card_pos)
   ; check if card is flipped
@@ -55,6 +55,7 @@ flipCard:                      ; (x:card_pos)
   INC experience
   JSR requestUpdateStats
 flipCardDone:                  ; 
+  JSR checkRoom
   RTS
 
 ;; Pick card from the deck
@@ -110,33 +111,6 @@ selectCardJoker:               ;
   JSR runAttack
   JSR removePotionSickness
   ; JSR flipCard
-  RTS
-
-;; check for completed room
-
-checkRoom:                     ; 
-  LDA #$00
-  STA room_complete
-  LDA card1
-  CMP #$36
-  BNE checkRoomDone
-  LDA card2
-  CMP #$36
-  BNE checkRoomDone
-  LDA card3
-  CMP #$36
-  BNE checkRoomDone
-  LDA card4
-  CMP #$36
-  BNE checkRoomDone
-  LDA #$01
-  STA room_complete            ; set room_complete to $01
-checkRoomDone:                 ; 
-  ; auto change room if all cards are flipped
-  ; TODO: start timer
-  LDA room_complete
-  CMP #$01
-  BEQ drawCards
   RTS
 
 ;; draw some cards
@@ -315,7 +289,62 @@ clampHealth:                   ;
 clampHealthDone:               ; 
   RTS
 
-;; TODO
+;; check for completed room
+
+checkRoom:                     ; 
+  LDA #$00
+  STA room_complete
+  LDA card1
+  CMP #$36
+  BNE checkRoomDone
+  LDA card2
+  CMP #$36
+  BNE checkRoomDone
+  LDA card3
+  CMP #$36
+  BNE checkRoomDone
+  LDA card4
+  CMP #$36
+  BNE checkRoomDone
+  LDA #$01
+  STA room_complete            ; set room_complete to $01
+checkRoomDone:                 ; 
+  ; auto change room if all cards are flipped
+  LDA room_complete
+  CMP #$01
+  BEQ completeRoom
+  RTS
+completeRoom:                  ; TODO
+  LDA #$30                     ; how long until next draw
+  STA room_timer
+  RTS
+
+;;
+
+checkRoomTimer:                ; 
+  ; check if room complete is true
+  LDA room_complete
+  CMP #$00
+  BEQ checkRoomTimerDone
+  ; check if room timer is done
+  LDA room_timer
+  CMP #$00
+  BEQ enterNextRoom
+  ; decrement timer
+  DEC room_timer
+checkRoomTimerDone:            ; 
+  RTS                          ; return from NMI interup
+
+;;
+
+enterNextRoom:                 ; 
+  LDA #$00
+  STA room_complete
+  STA room_timer
+  JSR drawHand1
+  RTS
+
+;;
 
 drawHand1:                     ; 
   LDX #$00
