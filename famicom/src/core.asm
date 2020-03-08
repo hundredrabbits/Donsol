@@ -2,33 +2,31 @@
 ;; selection
 
 moveCursorRight:               ; 
-  LDA cursor_pos
+  LDA cursor
   CMP #$03
-  BEQ selectNextAround
-  INC cursor_pos
-  JMP selectNextDone
-selectNextAround:              ; 
+  BEQ @wrap
+  INC cursor
+  JMP @done
+@wrap:                         ; 
   LDA #$00
-  STA cursor_pos
-selectNextDone:                ; 
-  LDA #$01
-  STA reqdraw_cursor
+  STA cursor
+@done:                         ; 
+  JSR requestUpdateCursor
   RTS
 
 ;;
 
 moveCursorLeft:                ; 
-  LDA cursor_pos
+  LDA cursor
   CMP #$00
-  BEQ selectPrevAround
-  DEC cursor_pos
-  JMP selectPrevDone
-selectPrevAround:              ; 
+  BEQ @wrap
+  DEC cursor
+  JMP @done
+@wrap:                         ; 
   LDA #$03
-  STA cursor_pos
-selectPrevDone:                ; 
-  LDA #$01
-  STA reqdraw_cursor
+  STA cursor
+@done:                         ; 
+  JSR requestUpdateCursor
   RTS
 
 ;; Draw card to the table

@@ -11,7 +11,7 @@ GameStart:                     ;
   JSR loadInterface
   JSR loadCursor
   ; tests
-  JSR runTests
+  ; JSR runTests
   ; render
   JSR renderStop
   JSR requestUpdateStats
