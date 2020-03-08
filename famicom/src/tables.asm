@@ -252,3 +252,73 @@ cards_offset_high:             ;
   .db #>(cards+(#$35*30)),#>(cards+(#$35*31)),#>(cards+(#$35*32)),#>(cards+(#$35*33)),#>(cards+(#$35*34)),#>(cards+(#$35*35)),#>(cards+(#$35*36)),#>(cards+(#$35*37)),#>(cards+(#$35*38)),#>(cards+(#$35*39))
   .db #>(cards+(#$35*40)),#>(cards+(#$35*41)),#>(cards+(#$35*42)),#>(cards+(#$35*43)),#>(cards+(#$35*44)),#>(cards+(#$35*45)),#>(cards+(#$35*46)),#>(cards+(#$35*47)),#>(cards+(#$35*48)),#>(cards+(#$35*49))
   .db #>(cards+(#$35*50)),#>(cards+(#$35*51)),#>(cards+(#$35*52)),#>(cards+(#$35*53)),#>(cards+(#$35*54)),#>(cards+(#$35*55))
+
+;; card names
+
+card_names:                    ; 
+  .db $21,$2c,$2d,$38,$29,$00,$17,$25,$2b,$29,$00,$02,$02,$00,$00,$00; White Mage 11
+  .db $1d,$31,$25,$30,$30,$00,$1a,$33,$38,$2d,$33,$32,$00,$03,$00,$00; Small Potion 2
+  .db $1d,$31,$25,$30,$30,$00,$1a,$33,$38,$2d,$33,$32,$00,$04,$00,$00; Small Potion 3
+  .db $17,$29,$28,$2d,$39,$31,$00,$1a,$33,$38,$2d,$33,$32,$00,$05,$00; Medium Potion 4
+  .db $17,$29,$28,$2d,$39,$31,$00,$1a,$33,$38,$2d,$33,$32,$00,$06,$00; Medium Potion 5
+; Large Potion 6
+; Large Potion 7
+; Super Potion 8
+; Super Potion 9
+; Super Potion 10
+; White Mage 11
+; White Mage 11
+; White Mage 11
+
+;;
+
+; Red Mage 11
+; Buckler 2
+; Buckler 3
+; Kite 4
+; Kite 5
+; Heater 6
+; Heater 7
+; Tower Shield 8
+; Tower Shield 9
+; Tower Shield 10
+; Red Mage 11
+; Red Mage 11
+; Red Mage 11
+
+;;
+
+; Slime 2
+; Tunneler 3
+; Fiend 4
+; Drake 5
+; Specter 6
+; Ghost 7
+; Elemental 8
+; Witch 9
+; Familiar 10
+; Consort 11
+; Queen 13
+; Regnant 15
+
+;;
+
+; Empress 17
+; Rat 2
+; Bat 3
+; Imp 4
+; Goblin 5
+; Orc 6
+; Ogre 7
+; Beholder 8
+; Medusa 9
+; Demon 10
+; Consort 11
+; Queen 13
+; Regnant 15
+; Empress 17
+
+;;
+
+  .db $1c,$29,$28,$00,$0e,$33,$32,$37,$33,$30,$00,$03,$02,$00,$00,$00; Red Donsol 21
+  .db $0c,$30,$25,$27,$2f,$00,$0e,$33,$32,$37,$33,$30,$00,$03,$02,$00; Black Donsol 21
