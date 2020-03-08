@@ -44,19 +44,19 @@ interpolateStats:              ;
 interpolateHealth:             ; 
   LDA ui_health                ; follower x
   CMP health                   ; sprite x
-  BEQ interpolateHealthDone
-  BCC interpolateHealthInc
+  BEQ @done
+  BCC @inc
   DEC ui_health
   ; request redraw
   LDA #$01
   STA reqdraw_hp
   RTS
-interpolateHealthInc:          ; 
+@inc:                          ; 
   INC ui_health
   ; request redraw
   LDA #$01
   STA reqdraw_hp
-interpolateHealthDone:         ; 
+@done:                         ; 
   RTS
 
 ;;
@@ -64,19 +64,19 @@ interpolateHealthDone:         ;
 interpolateShield:             ; 
   LDA ui_shield                ; follower x
   CMP shield                   ; sprite x
-  BEQ interpolateShieldDone
-  BCC interpolateShieldInc
+  BEQ @done
+  BCC @inc
   DEC ui_shield
   ; request redraw
   LDA #$01
   STA reqdraw_sp
   RTS
-interpolateShieldInc:          ; 
+@inc:                          ; 
   INC ui_shield
   ; request redraw
   LDA #$01
   STA reqdraw_sp
-interpolateShieldDone:         ; 
+@done:                         ; 
   RTS
 
 ;; check for updates required
@@ -271,7 +271,7 @@ updateHealthBar:               ;
   LDA healthbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR renderStop
-updateHealthBarLoop:           ; 
+@loop:                         ; 
   LDA #$20
   STA $2006                    ; write the high byte of $2000 address
   LDA healthbaroffset, x
@@ -281,7 +281,7 @@ updateHealthBarLoop:           ;
   STA $2007
   INX
   CPX #$06
-  BNE updateHealthBarLoop
+  BNE @loop
   JSR renderStart
   RTS
 
@@ -326,7 +326,7 @@ updateShieldBar:               ;
   LDA shieldbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR renderStop
-updateShieldBarLoop:           ; 
+@loop:                         ; 
   LDA #$20
   STA $2006                    ; write the high byte of $2000 address
   LDA shieldbaroffset, x
@@ -336,7 +336,7 @@ updateShieldBarLoop:           ;
   STA $2007
   INX
   CPX #$06
-  BNE updateShieldBarLoop
+  BNE @loop
   JSR renderStart
   RTS
 
@@ -373,7 +373,7 @@ updateExperienceBar:           ;
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR renderStop
-updateExperienceBarLoop:       ; 
+@loop:                         ; 
   LDA #$20
   STA $2006                    ; write the high byte of $2000 address
   LDA experiencebaroffset, x
@@ -383,7 +383,7 @@ updateExperienceBarLoop:       ;
   STA $2007
   INX
   CPX #$06
-  BNE updateExperienceBarLoop
+  BNE @loop
   JSR renderStart
   RTS
 
@@ -393,7 +393,7 @@ updateCard1:                   ;
   LDA #$00
   LDX #$00
   JSR renderStop
-drawCardLoop:                  ; 
+@loop:                         ; 
   LDA card1pos_high, x
   STA $2006                    ; write the high byte of $2000 address
   LDA card1pos_low, x
@@ -404,8 +404,7 @@ drawCardLoop:                  ;
   STA $2007                    ; set tile.x pos
   INX
   CPX #$36
-  BNE drawCardLoop
-drawCardDone:                  ; 
+  BNE @loop
   JSR renderStart
   RTS
 
@@ -415,7 +414,7 @@ updateCard2:                   ;
   LDA #$00
   LDX #$00
   JSR renderStop
-drawCard2Loop:                 ; 
+@loop:                         ; 
   LDA card1pos_high, x
   STA $2006                    ; write the high byte of $2000 address
   LDA card2pos_low, x
@@ -426,8 +425,7 @@ drawCard2Loop:                 ;
   STA $2007                    ; set tile.x pos
   INX
   CPX #$36
-  BNE drawCard2Loop
-drawCard2Done:                 ; 
+  BNE @loop
   JSR renderStart
   RTS
 
@@ -437,7 +435,7 @@ updateCard3:                   ;
   LDA #$00
   LDX #$00
   JSR renderStop
-drawCard3Loop:                 ; 
+@loop:                         ; 
   LDA card3pos_high, x
   STA $2006                    ; write the high byte of $2000 address
   LDA card3pos_low, x
@@ -448,8 +446,7 @@ drawCard3Loop:                 ;
   STA $2007                    ; set tile.x pos
   INX
   CPX #$36
-  BNE drawCard3Loop
-drawCard3Done:                 ; 
+  BNE @loop
   JSR renderStart
   RTS
 
@@ -459,7 +456,7 @@ updateCard4:                   ;
   LDA #$00
   LDX #$00
   JSR renderStop
-drawCard4Loop:                 ; 
+@loop:                         ; 
   LDA card3pos_high, x
   STA $2006                    ; write the high byte of $2000 address
   LDA card4pos_low, x
@@ -470,8 +467,7 @@ drawCard4Loop:                 ;
   STA $2007                    ; set tile.x pos
   INX
   CPX #$36
-  BNE drawCard4Loop
-drawCard4Done:                 ; 
+  BNE @loop
   JSR renderStart
   RTS
 
@@ -485,14 +481,13 @@ updateDialog:                  ;
   STA $2006
   LDX #$00
   JSR renderStop
-updateDialogLoop:              ; 
+@loop:                         ; 
   LDY dialog_id
   JSR loadDialog
   STA $2007
   INX
   CPX #$18
-  BNE updateDialogLoop
-drawDialogDone:                ; 
+  BNE @loop
   JSR renderStart
   RTS
 

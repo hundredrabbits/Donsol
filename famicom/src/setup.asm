@@ -11,7 +11,7 @@ GameStart:                     ;
   JSR loadInterface
   JSR loadCursor
   ; tests
-  ; JSR runTests
+  JSR runTests
   ; render
   JSR renderStop
   JSR requestUpdateStats
@@ -40,7 +40,7 @@ resetStats:                    ;
   STA shield_durability
   STA experience
   STA potion_sickness
-  LDA #$01
+  LDA #$00
   STA can_run
   RTS
 
@@ -54,15 +54,15 @@ loadBackground:                ;
   STA $2006
   LDX #$00
   LDY #$00
-LoadBackgroundLoop:            ; 
+@loop:                         ; 
   LDA #$00                     ; sprite id
   STA $2007
   INY
   CPY #$00
-  BNE LoadBackgroundLoop
+  BNE @loop
   INX
   CPX #$04
-  BNE LoadBackgroundLoop
+  BNE @loop
   RTS
 
 ;; Palettes
@@ -74,12 +74,12 @@ loadPalettes:                  ;
   LDA #$00
   STA $2006
   LDX #$00
-LoadPalettesLoop:              ; 
+@loop:                         ; 
   LDA palettes, x
   STA $2007
   INX
   CPX #$20
-  BNE LoadPalettesLoop
+  BNE @loop
   RTS
 
 ;; Attributes
@@ -91,12 +91,12 @@ loadAttributes:                ;
   LDA #$C0
   STA $2006
   LDX #$00
-LoadAttributesLoop:            ; 
+@loop:                         ; 
   LDA attributes, x
   STA $2007
   INX
   CPX #$40
-  BNE LoadAttributesLoop
+  BNE @loop
   RTS
 
 ;; Interface
@@ -169,6 +169,9 @@ renderStart:                   ;
   STA $2005
   STA $2005
   RTS
+
+;;
+
 renderStop:                    ; 
   LDA #%10000000               ; disable NMI, sprites from Pattern Table 0
   STA $2000

@@ -14,6 +14,9 @@ selectNextDone:                ;
   LDA #$01
   STA reqdraw_cursor
   RTS
+
+;;
+
 moveCursorLeft:                ; 
   LDA cursor_pos
   CMP #$00
@@ -43,7 +46,7 @@ flipCard:                      ; (x:card_pos)
   ; check if card is flipped
   LDA card1, x                 ; get card id from table
   CMP #$36
-  BEQ flipCardDone             ; skip when card is already flipped
+  BEQ @done                    ; skip when card is already flipped
   TAY
   JSR pickCard
   ; flip card
@@ -54,8 +57,9 @@ flipCard:                      ; (x:card_pos)
   ; misc
   INC experience
   JSR requestUpdateStats
-flipCardDone:                  ; 
+@done:                         ; 
   JSR checkRoom
+  JSR checkRun
   RTS
 
 ;; Pick card from the deck
@@ -64,7 +68,7 @@ pickCard:                      ; (y:card_id)
   TYA                          ; transfer from Y to A
   ; check if card is flipped
   CMP #$36                     ; if card is $36(flipped)
-  BEQ pickCardDone             ; skip selection
+  BEQ @done                    ; skip selection
   ; load card data
   LDA card_types, y
   STA card_last_type           ; load type
@@ -82,7 +86,7 @@ pickCard:                      ; (y:card_id)
   BEQ selectCardClover
   CMP #$04
   BEQ selectCardJoker
-pickCardDone:                  ; 
+@done:                         ; 
   RTS
 
 ;; selection
@@ -296,43 +300,43 @@ checkRoom:                     ;
   STA room_complete
   LDA card1
   CMP #$36
-  BNE checkRoomDone
+  BNE @done
   LDA card2
   CMP #$36
-  BNE checkRoomDone
+  BNE @done
   LDA card3
   CMP #$36
-  BNE checkRoomDone
+  BNE @done
   LDA card4
   CMP #$36
-  BNE checkRoomDone
+  BNE @done
   LDA #$01
   STA room_complete            ; set room_complete to $01
-checkRoomDone:                 ; 
+@done:                         ; 
   ; auto change room if all cards are flipped
   LDA room_complete
   CMP #$01
-  BEQ completeRoom
+  BEQ @complete
   RTS
-completeRoom:                  ; TODO
+@complete:                     ; TODO
   LDA #$30                     ; how long until next draw
   STA room_timer
   RTS
 
-;;
+;; room timer for auto change
 
 checkRoomTimer:                ; 
   ; check if room complete is true
   LDA room_complete
   CMP #$00
-  BEQ checkRoomTimerDone
+  BEQ @done
   ; check if room timer is done
   LDA room_timer
   CMP #$00
   BEQ enterNextRoom
   ; decrement timer
   DEC room_timer
-checkRoomTimerDone:            ; 
+@done:                         ; 
   RTS                          ; return from NMI interup
 
 ;;
@@ -342,6 +346,65 @@ enterNextRoom:                 ;
   STA room_complete
   STA room_timer
   JSR drawHand1
+  RTS
+
+;;
+
+countCardsLeft:                ; store count in x
+  LDX #$00
+countCardsLeft1:               ; 
+  LDA card1
+  CMP #$36
+  BEQ countCardsLeft2
+  INX
+countCardsLeft2:               ; 
+  LDA card2
+  CMP #$36
+  BEQ countCardsLeft3
+  INX
+countCardsLeft3:               ; 
+  LDA card3
+  CMP #$36
+  BEQ countCardsLeft4
+  INX
+countCardsLeft4:               ; 
+  LDA card4
+  CMP #$36
+  BEQ @done
+  INX
+@done:                         ; 
+  RTS
+
+;;
+
+checkRun:                      ; 
+  ; Easy Mode: All monsters have been dealt with. 
+  ; Normal Mode: And, the player has not escaped the previous room. 
+  ; Hard Mode: And, there is only one card left in the room. 
+  ; Expert Mode: Can never escape. 
+checkRunDisable:               ; 
+  LDA #$00
+  STA can_run
+  JSR requestUpdateRun
+  LDA difficulty
+  CMP #$00
+  BEQ @Easy
+  CMP #$01
+  BEQ @Normal
+  CMP #$00
+  BEQ @Hard
+  CMP #$00
+  BEQ @Expert
+@Easy:                         ; (x:cards_left)
+  JSR countCardsLeft           ; store cards left in room, in regX
+  TXA
+  STA $30
+  RTS
+@Normal:                       ; 
+  RTS
+@Hard:                         ; 
+  RTS
+@Expert:                       ; 
   RTS
 
 ;;

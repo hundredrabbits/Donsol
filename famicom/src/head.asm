@@ -8,6 +8,7 @@ shield                .dsb 1
 shield_durability     .dsb 1
 experience            .dsb 1
 damages               .dsb 1
+difficulty            .dsb 1
 ; flags
 potion_sickness       .dsb 1
 can_run               .dsb 1

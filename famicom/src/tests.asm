@@ -60,12 +60,11 @@ testPotion:                    ;
   ; test health
   LDA health
   CMP #$13                     ; health = $13(18)
-  BNE testPotionFail
+  BNE @fail
   ; pass
-testPotionPass:                ; 
   JSR testPass
   RTS
-testPotionFail:                ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -84,16 +83,15 @@ testSickness:                  ;
   ; test health
   LDA health
   CMP #$09                     ; health = $09(09)[4hp + 5hp]
-  BNE testSicknessFail
+  BNE @fail
   ; test sickness
   LDA potion_sickness
   CMP #$01                     ; sickness = true
-  BNE testSicknessFail
+  BNE @fail
   ; pass
-testSicknessPass:              ; 
   JSR testPass
   RTS
-testSicknessFail:              ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -107,12 +105,11 @@ testShield:                    ;
   ; test health
   LDA shield
   CMP #$02                     ; shield = $02(02)
-  BNE testShieldFail
+  BNE @fail
   ; pass
-testShieldPass:                ; 
   JSR testPass
   RTS
-testShieldFail:                ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -126,12 +123,11 @@ testAttack:                    ;
   ; test health
   LDA health
   CMP #$0F                     ; shield = $0f(15)
-  BNE testAttackFail
+  BNE @fail
   ; pass
-testAttackPass:                ; 
   JSR testPass
   RTS
-testAttackFail:                ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -148,12 +144,11 @@ testAttackDeath:               ;
   ; test health
   LDA health
   CMP #$00                     ; health = $00(00)
-  BNE testAttackDeathFail
+  BNE @fail
   ; pass
-testAttackDeathPass:           ; 
   JSR testPass
   RTS
-testAttackDeathFail:           ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -169,16 +164,15 @@ testAttackShieldBlock:         ;
   ; loose 3hp
   LDA health
   CMP #$15
-  BNE testAttackShieldBlockFail
+  BNE @fail
   ; shield durability 6
   LDA shield_durability
   CMP #$04
-  BNE testAttackShieldBlockFail
+  BNE @fail
   ; pass
-testAttackShieldBlockedPass:   ; 
   JSR testPass
   RTS
-testAttackShieldBlockFail:     ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -194,16 +188,15 @@ testAttackShieldOverflow:      ;
   ; loose 3hp
   LDA health
   CMP #$12
-  BNE testAttackShieldOverflowFail
+  BNE @fail
   ; shield durability 6
   LDA shield_durability
   CMP #$06
-  BNE testAttackShieldOverflowFail
+  BNE @fail
   ; pass
-testAttackShieldOverflowPass:  ; 
   JSR testPass
   RTS
-testAttackShieldOverflowFail:  ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -222,16 +215,15 @@ testAttackShieldOverflowDeath: ;
   ; loose 3hp
   LDA health
   CMP #$00
-  BNE testAttackShieldOverflowDeathFail
+  BNE @fail
   ; shield durability 6
   LDA shield_durability
   CMP #$06
-  BNE testAttackShieldOverflowDeathFail
+  BNE @fail
   ; pass
-testAttackShieldOverflowDeathPass:; 
   JSR testPass
   RTS
-testAttackShieldOverflowDeathFail:; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -249,20 +241,19 @@ testAttackShieldBreak:         ;
   ; loose 4hp
   LDA health
   CMP #$11
-  BNE testAttackShieldBreakFail
+  BNE @fail
   ; shield durability 0
   LDA shield_durability
   CMP #$00
-  BNE testAttackShieldBreakFail
+  BNE @fail
   ; shield 0
   LDA shield
   CMP #$00
-  BNE testAttackShieldBreakFail
+  BNE @fail
   ; pass
-testAttackShieldBreakPass:     ; 
   JSR testPass
   RTS
-testAttackShieldBreakFail:     ; 
+@fail:                         ; 
   JSR testFail
   RTS
 
@@ -283,19 +274,18 @@ testAttackShieldBreakDeath:    ;
   ; loose 4hp
   LDA health
   CMP #$00
-  BNE testAttackShieldBreakDeathFail
+  BNE @fail
   ; shield durability 0
   LDA shield_durability
   CMP #$00
-  BNE testAttackShieldBreakDeathFail
+  BNE @fail
   ; shield 0
   LDA shield
   CMP #$00
-  BNE testAttackShieldBreakDeathFail
+  BNE @fail
   ; pass
-testAttackShieldBreakDeathPass:; 
   JSR testPass
   RTS
-testAttackShieldBreakDeathFail:; 
+@fail:                         ; 
   JSR testFail
   RTS
