@@ -47,9 +47,7 @@ ReadB:                         ;
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadBDone
-  LDA #$00
-  STA can_run
-  JSR requestUpdateRun
+  JSR run
   JSR lockInput
 ReadBDone:                     ; handling this button is done
 

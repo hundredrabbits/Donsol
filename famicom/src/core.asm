@@ -331,11 +331,22 @@ checkRoomTimer:                ;
   ; check if room timer is done
   LDA room_timer
   CMP #$00
-  BEQ enterNextRoom
+  BEQ completeRoom
   ; decrement timer
   DEC room_timer
 @done:                         ; 
   RTS                          ; return from NMI interup
+
+;;
+
+completeRoom:                  ; 
+  ; reset ran flag
+  LDA #$00
+  STA has_run
+  JSR checkRun
+  ; go on..
+  JSR enterNextRoom
+  RTS
 
 ;;
 
@@ -348,24 +359,24 @@ enterNextRoom:                 ;
 
 ;;
 
-countCardsLeft:                ; store count in x
+countCardsLeft:                ; () -> store count in x
   LDX #$00
-countCardsLeft1:               ; 
+@card1:                        ; 
   LDA card1
   CMP #$36
-  BEQ countCardsLeft2
+  BEQ @card2
   INX
-countCardsLeft2:               ; 
+@card2:                        ; 
   LDA card2
   CMP #$36
-  BEQ countCardsLeft3
+  BEQ @card3
   INX
-countCardsLeft3:               ; 
+@card3:                        ; 
   LDA card3
   CMP #$36
-  BEQ countCardsLeft4
+  BEQ @card4
   INX
-countCardsLeft4:               ; 
+@card4:                        ; 
   LDA card4
   CMP #$36
   BEQ @done
@@ -376,33 +387,58 @@ countCardsLeft4:               ;
 ;;
 
 checkRun:                      ; 
-  ; Easy Mode: All monsters have been dealt with. 
-  ; Normal Mode: And, the player has not escaped the previous room. 
-  ; Hard Mode: And, there is only one card left in the room. 
-  ; Expert Mode: Can never escape. 
-checkRunDisable:               ; 
-  LDA #$00
-  STA can_run
-  JSR requestUpdateRun
+  ; Easy Mode: Can run when has not run before.
+  ; Normal Mode: Can run when has not run before, AND there is only 1 monster left.
+  ; Hard Mode: Can never run.
   LDA difficulty
   CMP #$00
   BEQ @Easy
   CMP #$01
   BEQ @Normal
-  CMP #$00
+  CMP #$02
   BEQ @Hard
-  CMP #$00
-  BEQ @Expert
 @Easy:                         ; (x:cards_left)
-  JSR countCardsLeft           ; store cards left in room, in regX
-  TXA
-  STA $30
+  ; can at any time, only once
+  LDA has_run
+  CMP #$00
+  BEQ @enableRun
+  JSR @disableRun
   RTS
 @Normal:                       ; 
+  ; can run, when has not ran before
+  LDA has_run
+  CMP #$01
+  BEQ @disableRun
+  ; can run when 3 cards left on table
+  JSR countCardsLeft           ; store cards left in room, in regX
+  TXA
+  CMP #$01
+  BEQ @enableRun
   RTS
 @Hard:                         ; 
+  ; can never run
+  JSR @disableRun
   RTS
-@Expert:                       ; 
+@enableRun:                    ; 
+  LDA #$01
+  STA can_run
+  JSR requestUpdateRun         ; TODO: Only request update on change
+  RTS
+@disableRun
+  LDA #$00
+  STA can_run
+  JSR requestUpdateRun         ; TODO: Only request update on change
+  RTS
+
+;;
+
+run:                           ; TODO: implement drawNext enterNextRoom
+  ; record running
+  LDA #$01
+  STA has_run
+  ;
+  JSR drawHand2
+  JSR checkRun
   RTS
 
 ;;
@@ -420,6 +456,7 @@ drawHand1:                     ;
   LDX #$03
   LDY #$2B                     ; Clubs 5
   JSR drawCard
+  JSR checkRun
   RTS
 
 ;;
@@ -437,4 +474,5 @@ drawHand2:                     ;
   LDX #$03
   LDY #$06                     ; Clubs 5
   JSR drawCard
+  JSR checkRun
   RTS

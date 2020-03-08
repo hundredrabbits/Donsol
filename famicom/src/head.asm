@@ -15,6 +15,7 @@ difficulty              .dsb 1
 ; flags
 potion_sickness         .dsb 1
 can_run                 .dsb 1
+has_run                 .dsb 1
 ; interface
 dialog_id               .dsb 1
 cursor                  .dsb 1
