@@ -17,7 +17,7 @@ potion_sickness         .dsb 1
 can_run                 .dsb 1
 ; interface
 dialog_id               .dsb 1
-cursor_pos              .dsb 1
+cursor                  .dsb 1
 ui_health               .dsb 1
 ui_shield               .dsb 1
 ; controls

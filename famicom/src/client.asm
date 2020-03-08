@@ -82,6 +82,7 @@ interpolateShield:             ;
 ;; check for updates required
 
 updateClient:                  ; 
+  ; animate cursor
 checkReqCursor:                ; TODO: not sure if the cursor should take a render frame..
   LDA reqdraw_cursor
   CMP #$00
@@ -181,7 +182,7 @@ updateClientDone:              ;
 ;; actual update code
 
 updateCursor:                  ; 
-  LDX cursor_pos
+  LDX cursor
   LDA cursor_positions, x
   STA $0203                    ; set tile.x pos
   CLC

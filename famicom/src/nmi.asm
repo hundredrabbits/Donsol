@@ -36,7 +36,7 @@ ReadA:                         ;
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ ReadADone                ; check if button is already pressed
-  LDX cursor_pos
+  LDX cursor
   JSR flipCard
   JSR lockInput
 ReadADone:                     ; 
