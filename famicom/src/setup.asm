@@ -17,6 +17,7 @@ GameStart:                     ;
   JSR requestUpdateStats
   JSR requestUpdateCursor
   JSR requestUpdateCards
+  JSR requestUpdateRun
   JSR renderStart
   ; dialog
   LDA #$04
@@ -110,10 +111,6 @@ loadInterface:                 ;
   LDA #$12
   STA $2007
   ; HP P
-  LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
-  LDA #$04
-  STA $2006                    ; write the low byte of $2000 address
   LDA #$1A
   STA $2007
   ; SP S
@@ -124,10 +121,6 @@ loadInterface:                 ;
   LDA #$1D
   STA $2007
   ; SP P
-  LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
-  LDA #$0B
-  STA $2006                    ; write the low byte of $2000 address
   LDA #$1A
   STA $2007
   ; XP X
@@ -138,10 +131,6 @@ loadInterface:                 ;
   LDA #$22
   STA $2007
   ; XP P
-  LDA #$21
-  STA $2006                    ; write the high byte of $2000 address
-  LDA #$12
-  STA $2006                    ; write the low byte of $2000 address
   LDA #$1A
   STA $2007
   RTS

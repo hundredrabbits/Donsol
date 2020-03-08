@@ -17,7 +17,7 @@ cursor_pos            .dsb 1
 ui_health             .dsb 1
 ui_shield             .dsb 1
 ; controls
-input_lock            .dsb 1
+input_timer           .dsb 1
 ; table
 card1                 .dsb 1
 card2                 .dsb 1
@@ -42,6 +42,7 @@ reqdraw_card2         .dsb 1
 reqdraw_card3         .dsb 1
 reqdraw_card4         .dsb 1
 reqdraw_dialog        .dsb 1
+reqdraw_run           .dsb 1
 ; 16-bits
 cards_low             .dsb 1
 cards_high            .dsb 1

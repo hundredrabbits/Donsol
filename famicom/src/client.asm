@@ -17,6 +17,10 @@ requestUpdateDialog:           ;
   LDA #$01
   STA reqdraw_dialog
   RTS
+requestUpdateRun:              ; 
+  LDA #$01
+  STA reqdraw_run
+  RTS
 requestUpdateCards:            ; 
   LDA #$01
   STA reqdraw_card1
@@ -146,11 +150,20 @@ checkReqSP:                    ;
 checkReqXP:                    ; 
   LDA reqdraw_xp
   CMP #$00
-  BEQ checkReqDialog
+  BEQ checkReqRun
   JSR updateExperience
   JSR updateExperienceBar
   LDA #$00
   STA reqdraw_xp
+  INC reqdraws
+  RTS
+checkReqRun:                   ; 
+  LDA reqdraw_run
+  CMP #$00
+  BEQ checkReqDialog
+  JSR updateRun
+  LDA #$00
+  STA reqdraw_run
   INC reqdraws
   RTS
 checkReqDialog:                ; 
@@ -174,6 +187,25 @@ updateCursor:                  ;
   CLC
   ADC #$08
   STA $0207                    ; set tile.x pos
+  RTS
+
+;;
+
+updateRun:                     ; 
+  LDA $2000                    ; read PPU status to reset the high/low latch
+  JSR renderStop
+  ; RUN: $1c,$1f,$18
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
+  LDA #$18
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$1C
+  STA $2007
+  LDA #$1F
+  STA $2007
+  LDA #$18
+  STA $2007
+  JSR renderStart
   RTS
 
 ;; health value
