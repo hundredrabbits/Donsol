@@ -194,16 +194,30 @@ updateCursor:                  ;
 updateRun:                     ; 
   LDA $2000                    ; read PPU status to reset the high/low latch
   JSR renderStop
-  ; RUN: $1c,$1f,$18
+  LDA can_run
+  CMP #$01
+  BNE updateRunHide
+updateRunShow:                 ; RUN: $1c,$1f,$18
   LDA #$21
   STA $2006                    ; write the high byte of $2000 address
   LDA #$18
   STA $2006                    ; write the low byte of $2000 address
-  LDA #$1C
+  LDA #$1C                     ; R
   STA $2007
-  LDA #$1F
+  LDA #$1F                     ; U
   STA $2007
+  LDA #$18                     ; N
+  STA $2007
+  JSR renderStart
+  RTS
+updateRunHide:                 ; 
+  LDA #$21
+  STA $2006                    ; write the high byte of $2000 address
   LDA #$18
+  STA $2006                    ; write the low byte of $2000 address
+  LDA #$00                     ; R
+  STA $2007
+  STA $2007
   STA $2007
   JSR renderStart
   RTS

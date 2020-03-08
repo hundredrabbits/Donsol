@@ -21,6 +21,7 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 - Implement sounds
 - Implement dungeon complete
 - When shield break, display cyan star next to SP
+- Display card name on selection
 
 ### Issues
 
