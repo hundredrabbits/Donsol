@@ -6,11 +6,11 @@ rm cart.nes
 
 # Lint
 
-node lint6502
+node ./tools/lint6502
 
 # Build
 
-./asm6 src/cart.asm cart.nes
+./tools/asm6 src/cart.asm cart.nes
 
 # Run
 

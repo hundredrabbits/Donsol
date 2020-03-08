@@ -13,6 +13,7 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ### Client
 
+- Add button icons next to actions
 - Implement onscreen guide
 - Implement sounds
 - Implement dungeon complete
@@ -27,7 +28,7 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ```
 ; a -> select
-; b -> select run
+; b -> run
 ; left/right -> select prev/next
 ; up/down -< select card/run
 ```
