@@ -192,21 +192,25 @@ runAttack:                     ;
   ; check if can block
   LDA shield
   CMP #$00
-  BNE runAttackBlock
-  ; load damages(unblocked)
-  LDA card_last_value
-  STA damages
-  JSR runDamages
+  BNE @blocking
   ; dialog:unshielded
   LDA #$08
   STA dialog_id
   JSR requestUpdateDialog
+  ; load damages(unblocked)
+  LDA card_last_value
+  STA damages
+  JSR runDamages
   RTS
-runAttackBlock:                ; 
+@blocking:                     ; 
   ; check if shield breaking
   LDA card_last_value
   CMP shield_durability
-  BCC runAttackShielded
+  BCC @shielded
+  ; dialog:shield break
+  LDA #$02
+  STA dialog_id
+  JSR requestUpdateDialog
   ; break shield
   LDA #$00
   STA shield
@@ -215,17 +219,16 @@ runAttackBlock:                ;
   LDA card_last_value
   STA damages
   JSR runDamages
-  ; dialog:shield break
-  LDA #$02
-  STA dialog_id
-  JSR requestUpdateDialog
   RTS
-runAttackShielded:             ; 
+@shielded:                     ; 
   ; check for overflow
   LDA card_last_value
   CMP shield
-  BCC runAttackShieldedFull
-runAttackShieldedPartial:      ; 
+  BCC @blocked
+  ; dialog:damages
+  LDA #$0B
+  STA dialog_id
+  JSR requestUpdateDialog
   ; load damages(partial)
   LDA card_last_value
   SEC
@@ -235,12 +238,8 @@ runAttackShieldedPartial:      ;
   ; damage shield
   LDA card_last_value
   STA shield_durability
-  ; dialog:damages
-  LDA #$0B
-  STA dialog_id
-  JSR requestUpdateDialog
   RTS
-runAttackShieldedFull:         ; 
+@blocked:                      ; 
   ; damage shield
   LDA card_last_value
   STA shield_durability
@@ -249,12 +248,14 @@ runAttackShieldedFull:         ;
   STA dialog_id
   JSR requestUpdateDialog
   RTS
+
+;; damages
+
 runDamages:                    ; 
   ; check if killing
   LDA damages
   CMP health
-  BCC runDamagesSurvive
-runDamagesDeath:               ; 
+  BCC @survive
   LDA #$00
   STA health
   STA shield
@@ -264,7 +265,7 @@ runDamagesDeath:               ;
   STA dialog_id
   JSR requestUpdateDialog
   RTS                          ; stop attack phase
-runDamagesSurvive:             ; 
+@survive:                      ; 
   LDA health
   SEC
   SBC damages
