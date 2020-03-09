@@ -10,7 +10,7 @@ GameStart:                     ;
   JSR loadCursor
   JSR restart
   ; tests
-  JSR runTests
+  ; JSR runTests
   ; render
   JSR renderStart
 

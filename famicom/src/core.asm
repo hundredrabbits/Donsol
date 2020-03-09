@@ -305,9 +305,8 @@ checkRoom:                     ;
   ; check if player is alive
   LDA health
   CMP #$00
-  BNE @done
-  RTS
-@load:                         ; 
+  BEQ @done
+  ; RTS
   LDA #$00
   STA room_complete
   LDA card1
