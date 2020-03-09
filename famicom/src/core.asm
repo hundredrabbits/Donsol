@@ -440,6 +440,10 @@ run:                           ; TODO: implement drawNext enterNextRoom
   ;
   JSR drawHand2
   JSR checkRun
+  ; dialog:run
+  LDA #$0C
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 
 ;;

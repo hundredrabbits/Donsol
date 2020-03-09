@@ -43,6 +43,9 @@ resetStats:                    ;
   STA potion_sickness
   LDA #$00
   STA can_run
+  ; set difficulty
+  LDA #$01
+  STA difficulty
   RTS
 
 ;; clear background
