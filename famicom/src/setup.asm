@@ -2,28 +2,17 @@
 ;; Setup
 
 GameStart:                     ; 
-  JSR resetStats
-  JSR drawHand1
   ; start drawing
   JSR loadBackground
   JSR loadPalettes
   JSR loadAttributes
   JSR loadInterface
   JSR loadCursor
+  JSR restart
   ; tests
   ; JSR runTests
   ; render
-  JSR renderStop
-  JSR requestUpdateStats
-  JSR requestUpdateCursor
-  JSR requestUpdateCards
-  JSR requestUpdateRun
-  JSR requestUpdateName
   JSR renderStart
-  ; dialog
-  LDA #$04
-  STA dialog_id
-  JSR requestUpdateDialog
 
 ;; jump back to Forever, infinite loop
 

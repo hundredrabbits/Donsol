@@ -43,6 +43,10 @@ drawCard:                      ; (x:card_pos, y:card_id)
 ;; flip card from the table, used in controls when press
 
 flipCard:                      ; (x:card_pos)
+  ; check if player is alive
+  LDA health
+  CMP #$00
+  BEQ @done
   ; check if card is flipped
   LDA card1, x                 ; get card id from table
   CMP #$36
@@ -289,15 +293,21 @@ removePotionSickness:          ;
 clampHealth:                   ; 
   LDA health
   CMP #$15
-  BCC clampHealthDone
+  BCC @done
   LDA #$15
   STA health
-clampHealthDone:               ; 
+@done:                         ; 
   RTS
 
 ;; check for completed room
 
 checkRoom:                     ; 
+  ; check if player is alive
+  LDA health
+  CMP #$00
+  BNE @done
+  RTS
+@load:                         ; 
   LDA #$00
   STA room_complete
   LDA card1
@@ -436,12 +446,33 @@ checkRun:                      ;
 ;;
 
 tryRun:                        ; 
+  ; check if player is alive
+  LDA health
+  CMP #$00
+  BEQ restart
+  ; 
   JSR checkRun
   LDA can_run
   CMP #$01
   BEQ run
   ; dialog:cannot_run
   LDA #$0D
+  STA dialog_id
+  JSR requestUpdateDialog
+  RTS
+
+;;
+
+restart:                       ; 
+  JSR resetStats
+  JSR drawHand1
+  JSR requestUpdateStats
+  JSR requestUpdateRun
+  JSR requestUpdateCursor
+  JSR requestUpdateCards
+  JSR requestUpdateName
+  ; dialog
+  LDA #$04
   STA dialog_id
   JSR requestUpdateDialog
   RTS

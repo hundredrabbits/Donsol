@@ -7,22 +7,17 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ### Core
 
-- Stop game on death
+- Can reshuffle on first hand
 - Implement deck shuffling
 - Implement restart
 - Implement splash screen
 
 ### Client
 
-- Add button icons next to actions
 - Implement onscreen guide
 - Implement sounds
 - Implement dungeon complete
 - When shield break, display cyan star next to SP
-
-### Issues
-
-- When dying, pressing a button will restart the game
 
 ### TODOs(minor)
 

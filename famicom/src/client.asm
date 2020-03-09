@@ -37,6 +37,7 @@ requestUpdateCards:            ;
   RTS
 
 ;; interpolate
+
 interpolateStats:              ; 
   JSR interpolateHealth
   JSR interpolateShield
@@ -182,13 +183,13 @@ checkReqRun:                   ;
 checkReqDialog:                ; 
   LDA reqdraw_dialog
   CMP #$00
-  BEQ updateClientDone
+  BEQ @done
   JSR updateDialog
   LDA #$00
   STA reqdraw_dialog
   INC reqdraws
   RTS
-updateClientDone:              ; 
+@done:                         ; 
   RTS
 
 ;; actual update code
@@ -229,12 +230,19 @@ updateRun:                     ;
   JSR renderStop
   LDA can_run
   CMP #$01
-  BNE updateRunHide
-updateRunShow:                 ; RUN: $1c,$1f,$18
+  BNE @hide
+  LDA experience
+  CMP #$00
+  BEQ @hide
+@show:                         ; RUN: $1c,$1f,$18
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$18
   STA PPUADDR                  ; write the low byte
+  LDA #$6D                     ; Button(B)
+  STA PPUDATA
+  LDA #$00                     ; Blank
+  STA PPUDATA
   LDA #$1C                     ; R
   STA PPUDATA
   LDA #$1F                     ; U
@@ -243,12 +251,14 @@ updateRunShow:                 ; RUN: $1c,$1f,$18
   STA PPUDATA
   JSR renderStart
   RTS
-updateRunHide:                 ; 
+@hide:                         ; 
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$18
   STA PPUADDR                  ; write the low byte
   LDA #$00                     ; R
+  STA PPUDATA
+  STA PPUDATA
   STA PPUDATA
   STA PPUDATA
   STA PPUDATA
@@ -261,7 +271,7 @@ updateHealth:                  ;
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR renderStop
-updateHealthDigit1:            ; 
+  ; digit 1
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$07
@@ -269,7 +279,7 @@ updateHealthDigit1:            ;
   LDX ui_health
   LDA number_high, x
   STA PPUDATA
-updateHealthDigit2:            ; 
+  ; digit 2
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$08
@@ -277,22 +287,22 @@ updateHealthDigit2:            ;
   LDX ui_health
   LDA number_low, x
   STA PPUDATA
-updatePotionSickness:          ; 
+  ; sickness
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$05
   STA PPUADDR                  ; write the low byte
   LDA potion_sickness
   CMP #$01
-  BNE updateSicknessFalse
-updateSicknessTrue:            ; 
+  BNE @false
+  ; sickness icon
   LDA #$3F
   STA PPUDATA
-  JSR updateHealthDone
-updateSicknessFalse:           ; 
+  JSR @done
+@false:                        ; 
   LDA #$00
   STA PPUDATA
-updateHealthDone:              ; 
+@done:                         ; 
   JSR renderStop
   RTS
 
@@ -324,7 +334,7 @@ updateShield:                  ;
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR renderStop
-updateShieldDigit1:            ; 
+  ; digit 1
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$0E
@@ -332,7 +342,7 @@ updateShieldDigit1:            ;
   LDX ui_shield
   LDA number_high, x
   STA PPUDATA
-updateShieldDigit2:            ; 
+  ; digit 2
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$0F
@@ -340,7 +350,7 @@ updateShieldDigit2:            ;
   LDX ui_shield
   LDA number_low, x
   STA PPUDATA
-updateShieldDurabilityDigit1:  ; 
+  ; durability
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$0C
@@ -379,7 +389,7 @@ updateExperience:              ;
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR renderStop
-updateExperienceDigit1:        ; 
+  ; digit 1
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$15
@@ -387,7 +397,7 @@ updateExperienceDigit1:        ;
   LDX experience
   LDA number_high, x
   STA PPUDATA
-updateExperienceDigit2:        ; 
+  ; digit 2
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$16
