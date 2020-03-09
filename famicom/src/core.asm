@@ -433,6 +433,18 @@ checkRun:                      ;
 
 ;;
 
+tryRun:
+  
+  
+  ; dialog:cannot_run
+  LDA #$0D
+  STA dialog_id
+  JSR requestUpdateDialog
+
+  RTS
+
+;;
+
 run:                           ; TODO: implement drawNext enterNextRoom
   ; record running
   LDA #$01
