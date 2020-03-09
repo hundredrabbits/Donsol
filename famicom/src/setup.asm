@@ -44,7 +44,7 @@ resetStats:                    ;
   LDA #$00
   STA can_run
   ; set difficulty
-  LDA #$01
+  LDA #$00
   STA difficulty
   RTS
 

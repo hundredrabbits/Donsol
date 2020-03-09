@@ -41,6 +41,7 @@ drawCard:                      ; (x:card_pos, y:card_id)
   RTS
 
 ;; flip card from the table, used in controls when press
+
 flipCard:                      ; (x:card_pos)
   ; check if card is flipped
   LDA card1, x                 ; get card id from table
@@ -59,6 +60,7 @@ flipCard:                      ; (x:card_pos)
 @done:                         ; 
   JSR checkRoom
   JSR checkRun
+  JSR requestUpdateRun
   RTS
 
 ;; Pick card from the deck
@@ -345,6 +347,7 @@ completeRoom:                  ;
   LDA #$00
   STA has_run
   JSR checkRun
+  JSR requestUpdateRun
   ; go on..
   JSR enterNextRoom
   RTS
@@ -423,24 +426,23 @@ checkRun:                      ;
 @enableRun:                    ; 
   LDA #$01
   STA can_run
-  JSR requestUpdateRun         ; TODO: Only request update on change
   RTS
 @disableRun
   LDA #$00
   STA can_run
-  JSR requestUpdateRun         ; TODO: Only request update on change
   RTS
 
 ;;
 
-tryRun:
-  
-  
+tryRun:                        ; 
+  JSR checkRun
+  LDA can_run
+  CMP #$01
+  BEQ run
   ; dialog:cannot_run
   LDA #$0D
   STA dialog_id
   JSR requestUpdateDialog
-
   RTS
 
 ;;
@@ -451,7 +453,8 @@ run:                           ; TODO: implement drawNext enterNextRoom
   STA has_run
   ;
   JSR drawHand2
-  JSR checkRun
+  ; update interface
+  JSR requestUpdateRun
   ; dialog:run
   LDA #$0C
   STA dialog_id
@@ -474,6 +477,7 @@ drawHand1:                     ;
   LDY #$2B                     ; Clubs 5
   JSR drawCard
   JSR checkRun
+  JSR requestUpdateRun
   RTS
 
 ;;
@@ -492,4 +496,5 @@ drawHand2:                     ;
   LDY #$06                     ; Clubs 5
   JSR drawCard
   JSR checkRun
+  JSR requestUpdateRun
   RTS
