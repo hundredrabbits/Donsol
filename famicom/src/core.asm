@@ -13,32 +13,31 @@ pickCard:                      ; (y:card_id)
   STA card_last_value          ; load value
   ; branch types
   LDA card_types, y
-@heart:
+@heart:                        ; 
   CMP #$00
-  BNE selectCardHeart
+  BNE @diamond
   JSR runPotion
   JSR add_sick@player
   RTS
-@diamond:
+@diamond:                      ; 
   CMP #$01
-  BNE @spade
+  BNE @else
   JSR runShield
   JSR remove_sick@player
   RTS
-@else:
+@else:                         ; 
   CMP #$02
   BEQ selectCardSpadeCloverJoker
   CMP #$03
   BEQ selectCardSpadeCloverJoker
   CMP #$04
   BEQ selectCardSpadeCloverJoker
-@none:                         ; 
+@done:                         ; 
   RTS
 
 ;; selection
 
 selectCardDiamond:             ; 
-  
   RTS
 selectCardSpadeCloverJoker:    ; 
   JSR runAttack
