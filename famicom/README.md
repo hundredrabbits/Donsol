@@ -5,6 +5,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Card $00 is blank, instead of 35
+
 ### Core
 
 - Can reshuffle on first hand
@@ -31,62 +33,63 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 ## Card IDs
 
 ```
-$00 Hearts Ace
-$01 Hearts 2
-$02 Hearts 3
-$03 Hearts 4
-$04 Hearts 5
-$05 Hearts 6
-$06 Hearts 7
-$07 Hearts 8
-$08 Hearts 9
-$09 Hearts 10
-$0a Hearts Jack
-$0b Hearts Queen
-$0c Hearts King
+$00 Blank
+$01 Hearts Ace
+$02 Hearts 2
+$03 Hearts 3
+$04 Hearts 4
+$05 Hearts 5
+$06 Hearts 6
+$07 Hearts 7
+$08 Hearts 8
+$09 Hearts 9
+$0a Hearts 10
+$0b Hearts Jack
+$0c Hearts Queen
+$0d Hearts King
 
-$0d Diamonds Ace
-$0e Diamonds 2
-$0f Diamonds 3
-$10 Diamonds 4
-$11 Diamonds 5
-$12 Diamonds 6
-$13 Diamonds 7
-$14 Diamonds 8
-$15 Diamonds 9
-$16 Diamonds 10
-$17 Diamonds Jack
-$18 Diamonds Queen
-$19 Diamonds King
+$0e Diamonds Ace
+$0f Diamonds 2
+$10 Diamonds 3
+$11 Diamonds 4
+$12 Diamonds 5
+$13 Diamonds 6
+$14 Diamonds 7
+$15 Diamonds 8
+$16 Diamonds 9
+$17 Diamonds 10
+$18 Diamonds Jack
+$19 Diamonds Queen
+$1a Diamonds King
 
-$1a Spades Ace
-$1b Spades 2
-$1c Spades 3
-$1d Spades 4
-$1e Spades 5
-$1f Spades 6
-$20 Spades 7
-$21 Spades 8
-$22 Spades 9
-$23 Spades 10
-$24 Spades Jack
-$25 Spades Queen
-$26 Spades King
+$1b Spades Ace
+$1c Spades 2
+$1d Spades 3
+$1e Spades 4
+$1f Spades 5
+$20 Spades 6
+$21 Spades 7
+$22 Spades 8
+$23 Spades 9
+$24 Spades 10
+$25 Spades Jack
+$26 Spades Queen
+$27 Spades King
 
-$27 Clubs Ace
-$28 Clubs 2
-$29 Clubs 3
-$2a Clubs 4
-$2b Clubs 5
-$2c Clubs 6
-$2d Clubs 7
-$2e Clubs 8
-$2f Clubs 9
-$30 Clubs 10
-$31 Clubs Jack
-$32 Clubs Queen
-$33 Clubs King
+$28 Clubs Ace
+$29 Clubs 2
+$2a Clubs 3
+$2b Clubs 4
+$2c Clubs 5
+$2d Clubs 6
+$2e Clubs 7
+$2f Clubs 8
+$30 Clubs 9
+$31 Clubs 10
+$32 Clubs Jack
+$33 Clubs Queen
+$34 Clubs King
 
-$34 Joker A
-$35 Joker B
+$35 Joker A
+$36 Joker B
 ```

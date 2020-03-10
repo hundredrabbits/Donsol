@@ -3,7 +3,7 @@
 
 runTests:                      ; 
   LDA #$43
-  STA test_id
+  STA test@count
   JSR testPotion
   JSR testSickness
   JSR testShield
@@ -23,28 +23,28 @@ testPass:                      ;
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDA #$20
   STA PPUADDR                  ; write the high byte
-  LDA test_id
+  LDA test@count
   STA PPUADDR                  ; write the low byte
   LDA #$6A
   STA PPUDATA
   LDA #$00                     ; No background scrolling
   STA PPUSCROLL
   STA PPUSCROLL
-  INC test_id
+  INC test@count
   RTS
 testFail:                      ; 
-  LDX test_id
+  LDX test@count
   LDA $2000                    ; read PPU status to reset the high/low latch
   LDA #$20
   STA PPUADDR                  ; write the high byte
-  LDA test_id
+  LDA test@count
   STA PPUADDR                  ; write the low byte
   LDA #$6B
   STA PPUDATA
   LDA #$00                     ; No background scrolling
   STA PPUSCROLL
   STA PPUSCROLL
-  INC test_id
+  INC test@count
   RTS
 
 ;; Drink 3hp | Shield is 0sp | Health is 21hp

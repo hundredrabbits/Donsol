@@ -2,6 +2,7 @@
 ;;
 
 restart:                       ; 
+  JSR init@deck
   JSR resetStats
   JSR drawHand1                ; TODO: replace with real draw
   JSR requestUpdateStats
