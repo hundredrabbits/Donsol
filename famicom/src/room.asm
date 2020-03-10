@@ -4,36 +4,28 @@
 enter@room:                    ; 
   ; pull card1
   JSR pull@deck
-  LDX #$00
   LDY hand@deck
-  JSR add@room
+  TYA
+  STA card1@room
   ; pull card2
   JSR pull@deck
-  LDX #$01
   LDY hand@deck
-  JSR add@room
+  TYA
+  STA card2@room
   ; pull card3
   JSR pull@deck
-  LDX #$02
   LDY hand@deck
-  JSR add@room
+  TYA
+  STA card3@room
   ; pull card4
   JSR pull@deck
-  LDX #$03
   LDY hand@deck
-  JSR add@room
+  TYA
+  STA card4@room
   ; etcs
   JSR checkRun
   JSR requestUpdateRun
-  RTS
-
-;; add a card to the table
-
-add@room:                      ; (x:card_pos, y:card_id)
-  TYA
-  STA card1@room, x
-  LDA #$01                     ; Request update
-  STA reqdraw_card1, x
+  JSR requestUpdateCards
   RTS
 
 ;;
@@ -219,42 +211,4 @@ tryRun:                        ;
   ; dialog:cannot_run
   LDA #$0D
   JSR show@dialog
-  RTS
-
-;;
-
-drawHand1:                     ; 
-  LDX #$00
-  LDY #$13                     ; Diamonds 7
-  JSR add@room
-  LDX #$01
-  LDY #$24                     ; Spades 11
-  JSR add@room
-  LDX #$02
-  LDY #$02                     ; Hearts 3
-  JSR add@room
-  LDX #$03
-  LDY #$2B                     ; Clubs 5
-  JSR add@room
-  JSR checkRun
-  JSR requestUpdateRun
-  RTS
-
-;;
-
-drawHand2:                     ; 
-  LDX #$00
-  LDY #$1D                     ; Spades 8
-  JSR add@room
-  LDX #$01
-  LDY #$14                     ; Diamonds 8
-  JSR add@room
-  LDX #$02
-  LDY #$34                     ; Hearts 4
-  JSR add@room
-  LDX #$03
-  LDY #$06                     ; Clubs 5
-  JSR add@room
-  JSR checkRun
-  JSR requestUpdateRun
   RTS

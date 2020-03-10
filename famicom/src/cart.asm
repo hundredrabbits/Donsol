@@ -1,4 +1,13 @@
 
+;; iNES header
+
+  .db  "NES", $1a              ; identification of the iNES header
+  .db  1                       ; number of 16KB PRG-ROM pages
+  .db  $01                     ; number of 8KB CHR-ROM pages
+  .db  $70|%0001               ; mapper 7
+  .dsb $09,$00                 ; clear the remaining bytes
+  .fillvalue $FF               ; Sets all unused space in rom to value $FF
+
 ;; constants
 
 PPUCTRL             .equ $2000
@@ -12,15 +21,6 @@ SPRDMA              .equ $4014
 SNDCHN              .equ $4015
 JOY1                .equ $4016
 JOY2                .equ $4017
-
-;; iNES header
-
-  .db  "NES", $1a              ; identification of the iNES header
-  .db  1                       ; number of 16KB PRG-ROM pages
-  .db  $01                     ; number of 8KB CHR-ROM pages
-  .db  $70|%0001               ; mapper 7
-  .dsb $09,$00                 ; clear the remaining bytes
-  .fillvalue $FF               ; Sets all unused space in rom to value $FF
 
 ;; variables
 
@@ -120,11 +120,105 @@ RESET:                         ;
   INX
   BNE @clear
 
-;; includes
+;; Setup
 
-include "src/setup.asm"
-include "src/nmi.asm"
+  ; start drawing
+  JSR loadBackground
+  JSR loadPalettes
+  JSR loadAttributes
+  JSR setup@interface
+  JSR setup@cursor
+  JSR restart@game
+  ; tests
+  JSR run@tests
+  ; render
+  JSR start@renderer
+
+;; jump back to Forever, infinite loop
+
+Forever:                       ; 
+  JMP Forever
+
+;; NMI
+
+NMI:                           ; 
+  LDA #$00
+  STA SPRADDR                  ; set the low byte (00) of the RAM address
+  LDA #$02
+  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
+
+;; update
+
+  JSR tic@room
+  JSR interpolateStats         ; in client
+  JSR updateClient             ; in client
+
+;; skip latch if input is locked
+
+  LDA timer@input
+  CMP #$00
+  BEQ @latch
+  DEC timer@input
+  RTI
+
+;; latch
+
+@latch:                        ; 
+  LDA #$01
+  STA JOY1
+  LDA #$00
+  STA JOY1                     ; tell both the controllers to latch buttons
+@a:                            ; 
+  LDA JOY1
+  AND #%00000001               ; only look at BIT 0
+  BEQ @b                       ; check if button is already pressed
+  LDX cursor
+  JSR flip@room                ; flipcard(x: cursor)
+  JSR lock@input
+@b:                            ; 
+  LDA JOY1
+  AND #%00000001               ; only look at BIT 0
+  BEQ @select
+  ; askquit: leave(TODO)
+  ; dungeon: run
+  JSR tryRun
+  JSR lock@input
+@select:                       ; 
+  LDA JOY1
+  AND #%00000001
+  BEQ @start
+  JSR askQuit@game
+@start:                        ; 
+  LDA JOY1
+  AND #%00000001
+  BEQ @up
+  NOP
+@up:                           ; 
+  LDA JOY1
+  AND #%00000001
+  BEQ @down
+  NOP
+@down:                         ; 
+  LDA JOY1
+  AND #%00000001
+  BEQ @left
+  NOP
+@left:                         ; 
+  LDA JOY1
+  AND #%00000001
+  BEQ @right
+  JSR left@input
+  JSR lock@input
+@right:                        ; 
+  LDA JOY1
+  AND #%00000001
+  BEQ @done
+  JSR right@input
+  JSR lock@input
+@done:                         ; 
+  RTI                          ; return from interrupt
 include "src/game.asm"
+include "src/input.asm"
 include "src/core.asm"
 include "src/deck.asm"
 include "src/player.asm"
