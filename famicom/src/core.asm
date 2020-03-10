@@ -153,30 +153,20 @@ pickCard:                      ; (y:card_id)
   BNE @diamond
   JSR runPotion
   JSR add_sick@player
+  JSR add_xp@player
   RTS
 @diamond:                      ; 
   CMP #$01
-  BNE @else
+  BNE @enemies
   JSR runShield
   JSR remove_sick@player
+  JSR add_xp@player
   RTS
-@else:                         ; 
-  CMP #$02
-  BEQ selectCardSpadeCloverJoker
-  CMP #$03
-  BEQ selectCardSpadeCloverJoker
-  CMP #$04
-  BEQ selectCardSpadeCloverJoker
-@done:                         ; 
-  RTS
-
-;; selection
-
-selectCardDiamond:             ; 
-  RTS
-selectCardSpadeCloverJoker:    ; 
+@enemies:                      ; 
   JSR runAttack
   JSR remove_sick@player
+  JSR add_xp@player
+@done:                         ; 
   RTS
 
 ;; turn(potion)

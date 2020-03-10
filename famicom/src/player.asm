@@ -30,3 +30,11 @@ remove_sick@player:            ;
   LDA #$00
   STA sickness@player
   RTS
+
+;;
+
+add_xp@player:                 ; 
+  INC xp@player
+  LDA #$01
+  STA reqdraw_xp
+  RTS

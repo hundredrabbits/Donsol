@@ -2,23 +2,19 @@
 ;; room
 
 enter@room:                    ; 
-  ; pull card1
-  JSR pull@deck
+  JSR pull@deck                ; pull card1
   LDY hand@deck
   TYA
   STA card1@room
-  ; pull card2
-  JSR pull@deck
+  JSR pull@deck                ; pull card2
   LDY hand@deck
   TYA
   STA card2@room
-  ; pull card3
-  JSR pull@deck
+  JSR pull@deck                ; pull card3
   LDY hand@deck
   TYA
   STA card3@room
-  ; pull card4
-  JSR pull@deck
+  JSR pull@deck                ; pull card4
   LDY hand@deck
   TYA
   STA card4@room
@@ -66,16 +62,15 @@ flip@room:                     ; (x:card_pos)
   LDA card1@room, x            ; get card id from table
   CMP #$36
   BEQ @done                    ; skip when card is already flipped
+  ; pick card
   TAY
   JSR pickCard
   ; flip card
   LDA #$36                     ; $36 is flipped
   STA card1@room, x
+  ; request draw
   LDA #$01                     ; Request update
   STA reqdraw_card1, x
-  ; misc
-  INC xp@player
-  JSR requestUpdateStats
 @done:                         ; 
   JSR check@room
   JSR checkRun
