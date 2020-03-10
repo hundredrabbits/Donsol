@@ -16,3 +16,17 @@ reset@player:                  ;
   LDA #$00
   STA difficulty@player
   RTS
+
+;;
+
+add_sick@player:               ; 
+  LDA #$01
+  STA sickness@player
+  RTS
+
+;;
+
+remove_sick@player:            ; 
+  LDA #$00
+  STA sickness@player
+  RTS

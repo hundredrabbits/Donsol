@@ -442,7 +442,7 @@ updateCard1:                   ;
   LDA card1pos_low, x
   STA PPUADDR                  ; write the low byte
   ; load card in regY
-  LDY card1
+  LDY card1@room
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
   STA PPUDATA                  ; set tile.x pos
   INX
@@ -463,7 +463,7 @@ updateCard2:                   ;
   LDA card2pos_low, x
   STA PPUADDR                  ; write the low byte
   ; load card in regY
-  LDY card2
+  LDY card2@room
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
   STA PPUDATA                  ; set tile.x pos
   INX
@@ -484,7 +484,7 @@ updateCard3:                   ;
   LDA card3pos_low, x
   STA PPUADDR                  ; write the low byte
   ; load card in regY
-  LDY card3
+  LDY card3@room
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
   STA PPUDATA                  ; set tile.x pos
   INX
@@ -505,7 +505,7 @@ updateCard4:                   ;
   LDA card4pos_low, x
   STA PPUADDR                  ; write the low byte
   ; load card in regY
-  LDY card4
+  LDY card4@room
   JSR loadCardSprite           ; require regX(tile) regY(card_id)
   STA PPUDATA                  ; set tile.x pos
   INX
@@ -568,7 +568,7 @@ loadDialog:                    ; (x:tile_id, y:dialog_id)
 loadCardName:                  ; (y:card_id)
   ; figure out y
   LDY cursor
-  LDA card1, y
+  LDA card1@room, y
   TAY
   ; find name offset
   LDA card_names_offset_lb,y

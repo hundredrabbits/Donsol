@@ -8,11 +8,11 @@ run@tests:                     ;
   JSR sickness@tests
   JSR shield@tests
   JSR attack@tests
-  JSR testAttackDeath
+  JSR death@tests
   JSR testAttackShieldBlock
   JSR testAttackShieldOverflow
   JSR testAttackShieldOverflowDeath
-  JSR testAttackShieldBreak
+  JSR break@tests
   JSR testAttackShieldBreakDeath
   ; JSR testComplete
   ; JSR testCanRun
@@ -139,7 +139,7 @@ attack@tests:                  ;
 
 ;; Attack 6ap | Loose 6hp | Shield is 0sp | Health is 0hp
 
-testAttackDeath:               ; 
+death@tests:                   ; 
   JSR reset@player
   ; Lower health
   LDA #$04
@@ -235,7 +235,7 @@ testAttackShieldOverflowDeath: ;
 
 ;; Equip 4sp | Attack 3ap | Loose 0hp | Attack 4ap | Shield breaks | Loose 4hp | Shield is 0dp | Health is 17hp
 
-testAttackShieldBreak:         ; 
+break@tests:                   ; 
   JSR reset@player
   ; pick
   LDY #$10                     ; Diamond 4

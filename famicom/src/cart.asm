@@ -42,16 +42,15 @@ length@deck             .dsb 1 ; deck
 hand@deck               .dsb 1
 timer@room              .dsb 1 ; room
 completed@room          .dsb 1
+card1@room              .dsb 1
+card2@room              .dsb 1
+card3@room              .dsb 1
+card4@room              .dsb 1
 ; interface
 dialog_id               .dsb 1
 cursor                  .dsb 1
 ui_health               .dsb 1
 ui_shield               .dsb 1
-; table
-card1                   .dsb 1
-card2                   .dsb 1
-card3                   .dsb 1
-card4                   .dsb 1
 ; stats
 card_last               .dsb 1
 card_last_type          .dsb 1
@@ -129,6 +128,7 @@ include "src/nmi.asm"
 include "src/core.asm"
 include "src/deck.asm"
 include "src/player.asm"
+include "src/room.asm"
 include "src/client.asm"
 include "src/tests.asm"
 include "src/tables.asm"
