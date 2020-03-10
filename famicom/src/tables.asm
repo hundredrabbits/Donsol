@@ -173,7 +173,7 @@ dialogs:                       ;
 ;; dialogs map
 
 dialogs_offset_low:            ; 
-  .db #<(dialogs+(#$17* 0)),#<(dialogs+(#$17* 0)),#<(dialogs+(#$17* 2)),#<(dialogs+(#$17* 3)),#<(dialogs+(#$17* 4)),#<(dialogs+(#$17* 5))
+  .db #<(dialogs+(#$17* 0)),#<(dialogs+(#$17* 1)),#<(dialogs+(#$17* 2)),#<(dialogs+(#$17* 3)),#<(dialogs+(#$17* 4)),#<(dialogs+(#$17* 5))
   .db #<(dialogs+(#$17* 6)),#<(dialogs+(#$17* 7)),#<(dialogs+(#$17* 8)),#<(dialogs+(#$17* 9)),#<(dialogs+(#$17*10)),#<(dialogs+(#$17*11))
   .db #<(dialogs+(#$17*12)),#<(dialogs+(#$17*13))
 dialogs_offset_high:           ; 

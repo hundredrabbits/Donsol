@@ -2,8 +2,9 @@
 ;; room
 
 enter@room:                    ; 
-  LDX #$00
-  ; pull card1
+  JSR drawHand1
+  RTS
+ ; pull card1
   JSR pull@deck
   LDX #$00
   LDY hand@deck
@@ -203,10 +204,10 @@ tryRun:                        ;
 
 drawHand1:                     ; 
   LDX #$00
-  LDY #$13                     ; Diamonds 7
+  LDY #$00                     ; Diamonds 7
   JSR add@room
   LDX #$01
-  LDY #$24                     ; Spades 11
+  LDY #$01                     ; Spades 11
   JSR add@room
   LDX #$02
   LDY #$02                     ; Hearts 3
