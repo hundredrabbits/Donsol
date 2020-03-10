@@ -58,3 +58,15 @@ shift@deck:                    ;
   BNE @loop
 @done
   RTS
+
+;; Shuffle
+
+shuffle@deck:                  ; 
+  LDX #$00
+@loop:                         ; 
+  LDA shuffleA, x
+  STA $80, x
+  INX
+  CPX #$36
+  BNE @loop
+  RTS

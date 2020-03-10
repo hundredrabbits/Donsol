@@ -3,6 +3,7 @@
 
 restart:                       ; 
   JSR init@deck
+  JSR shuffle@deck
   JSR reset@player
   JSR enter@room               ; TODO: replace with real draw
   JSR requestUpdateStats

@@ -2,8 +2,6 @@
 ;; room
 
 enter@room:                    ; 
-  JSR drawHand1
-  RTS
  ; pull card1
   JSR pull@deck
   LDX #$00
@@ -82,6 +80,9 @@ checkRoom:                     ;
   STA completed@room           ; set completed@room to $01
 @done:                         ; 
   ; auto change room if all cards are flipped
+
+;;
+
   LDA completed@room
   CMP #$01
   BEQ @complete
@@ -185,7 +186,7 @@ tryRun:                        ;
   LDA #$01
   STA has_run@player
   ; draw cards for next room
-  JSR drawHand2                ; TODO: replace with real draw
+  JSR enter@room               ; TODO: replace with real draw
   ; update interface
   JSR requestUpdateRun
   ; dialog:run
@@ -204,10 +205,10 @@ tryRun:                        ;
 
 drawHand1:                     ; 
   LDX #$00
-  LDY #$00                     ; Diamonds 7
+  LDY #$13                     ; Diamonds 7
   JSR add@room
   LDX #$01
-  LDY #$01                     ; Spades 11
+  LDY #$24                     ; Spades 11
   JSR add@room
   LDX #$02
   LDY #$02                     ; Hearts 3
