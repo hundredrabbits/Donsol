@@ -80,9 +80,6 @@ checkRoom:                     ;
   STA completed@room           ; set completed@room to $01
 @done:                         ; 
   ; auto change room if all cards are flipped
-
-;;
-
   LDA completed@room
   CMP #$01
   BEQ @complete
@@ -175,7 +172,7 @@ tryRun:                        ;
   LDA hp@player
   CMP #$00
   BNE @begin
-  JSR restart
+  JSR restart@game
   RTS
 @begin:                        ; 
   JSR checkRun

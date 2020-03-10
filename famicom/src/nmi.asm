@@ -40,6 +40,8 @@ checkInputLock:                ;
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @select
+  ; askquit: leave(TODO)
+  ; dungeon: run
   JSR tryRun
   JSR lockInput
 @select:                       ; 
@@ -47,6 +49,7 @@ checkInputLock:                ;
   AND #%00000001               ; only look at BIT 0
   BEQ @start
   NOP                          ; do nothing
+  JSR askQuit@game
 @start:                        ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0

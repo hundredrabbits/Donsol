@@ -5,21 +5,18 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Issue with dialogs
-
-### Core
-
+- Implement running, put cards back into deck.
+- Only monsters give XP, or count monsters left in deck to detect complete?
+- Implement shuffle seed
+- Implement restart
 - Can reshuffle on first hand
 - Implement deck shuffling
-- Implement restart
 - Implement splash screen
-
-### Client
-
 - Implement onscreen guide
-- Implement sounds
 - Implement dungeon complete
 - When shield break, display cyan star next to SP
+- Implement sounds
+- Implement restart, maybe pressing select + a?
 
 ### TODOs(minor)
 

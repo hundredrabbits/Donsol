@@ -8,7 +8,7 @@ GameStart:                     ;
   JSR loadAttributes
   JSR loadInterface
   JSR loadCursor
-  JSR restart
+  JSR restart@game
   ; tests
   ; JSR run@tests
   ; render

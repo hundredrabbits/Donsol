@@ -125,6 +125,7 @@ RESET:                         ;
 
 include "src/setup.asm"
 include "src/nmi.asm"
+include "src/game.asm"
 include "src/core.asm"
 include "src/deck.asm"
 include "src/player.asm"

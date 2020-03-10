@@ -96,7 +96,7 @@ checkReqCursor:                ;
   STA reqdraw_cursor
   INC reqdraws
   RTS
-checkReqName:                  ; TODO: not sure if the cursor should take a render frame..
+checkReqName:                  ;
   LDA reqdraw_name
   CMP #$00
   BEQ checkReqCard1

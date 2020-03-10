@@ -1,22 +1,4 @@
 
-;;
-
-restart:                       ; 
-  JSR init@deck
-  JSR shuffle@deck
-  JSR reset@player
-  JSR enter@room               ; TODO: replace with real draw
-  JSR requestUpdateStats
-  JSR requestUpdateRun
-  JSR requestUpdateCursor
-  JSR requestUpdateCards
-  JSR requestUpdateName
-  ; dialog
-  LDA #$04
-  STA dialog_id
-  JSR requestUpdateDialog
-  RTS
-
 ;; flip card from the table, used in controls when press
 
 flipCard:                      ; (x:card_pos)
