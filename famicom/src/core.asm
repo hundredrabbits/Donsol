@@ -45,11 +45,11 @@ pickCard:                      ; (y:card_id)
   CMP #$01
   BEQ selectCardDiamond
   CMP #$02
-  BEQ selectCardSpade
+  BEQ selectCardSpadeCloverJoker
   CMP #$03
-  BEQ selectCardClover
+  BEQ selectCardSpadeCloverJoker
   CMP #$04
-  BEQ selectCardJoker
+  BEQ selectCardSpadeCloverJoker
 @done:                         ; 
   RTS
 
@@ -63,15 +63,7 @@ selectCardDiamond:             ;
   JSR runShield
   JSR remove_sick@player
   RTS
-selectCardSpade:               ; 
-  JSR runAttack
-  JSR remove_sick@player
-  RTS
-selectCardClover:              ; 
-  JSR runAttack
-  JSR remove_sick@player
-  RTS
-selectCardJoker:               ; 
+selectCardSpadeCloverJoker:    ; 
   JSR runAttack
   JSR remove_sick@player
   RTS
@@ -96,8 +88,7 @@ runPotion:                     ;
   JSR clampHealth
   ; dialog:potion
   LDA #$06
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;; turn(potion-sickness)
@@ -105,8 +96,7 @@ runPotion:                     ;
 runPotionSickness:             ; 
   ; dialog:sickness
   LDA #$01
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;; turn(potion-waste)
@@ -114,8 +104,7 @@ runPotionSickness:             ;
 runPotionWaste:                ; 
   ; dialog:potion
   LDA #$07
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;; turn(shield)
@@ -127,8 +116,7 @@ runShield:                     ;
   STA dp@player
   ; dialog
   LDA #$05
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;; turn(attack)
@@ -140,8 +128,7 @@ runAttack:                     ;
   BNE @blocking
   ; dialog:unshielded
   LDA #$08
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   ; load damages(unblocked)
   LDA card_last_value
   STA damages@player
@@ -154,8 +141,7 @@ runAttack:                     ;
   BCC @shielded
   ; dialog:shield break
   LDA #$02
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   ; break shield
   LDA #$00
   STA sp@player
@@ -172,8 +158,7 @@ runAttack:                     ;
   BCC @blocked
   ; dialog:damages
   LDA #$0B
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   ; load damages(partial)
   LDA card_last_value
   SEC
@@ -190,8 +175,7 @@ runAttack:                     ;
   STA dp@player
   ; dialog:blocked
   LDA #$0A
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;; damages
@@ -207,8 +191,7 @@ runDamages:                    ;
   STA xp@player
   ; dialog:death
   LDA #$03
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS                          ; stop attack phase
 @survive:                      ; 
   LDA hp@player
@@ -217,8 +200,7 @@ runDamages:                    ;
   STA hp@player
   ; dialog:attack
   LDA #$09
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;; flags

@@ -96,7 +96,7 @@ checkReqCursor:                ;
   STA reqdraw_cursor
   INC reqdraws
   RTS
-checkReqName:                  ;
+checkReqName:                  ; 
   LDA reqdraw_name
   CMP #$00
   BEQ checkReqCard1
@@ -184,7 +184,7 @@ checkReqDialog:                ;
   LDA reqdraw_dialog
   CMP #$00
   BEQ @done
-  JSR updateDialog
+  JSR update@dialog
   LDA #$00
   STA reqdraw_dialog
   INC reqdraws
@@ -514,26 +514,6 @@ updateCard4:                   ;
   JSR renderStart
   RTS
 
-;; dialog
-
-updateDialog:                  ; 
-  LDA PPUSTATUS
-  LDA #$23
-  STA PPUADDR
-  LDA #$03
-  STA PPUADDR
-  LDX #$00
-  JSR renderStop
-@loop:                         ; 
-  LDY dialog_id
-  JSR loadDialog
-  STA PPUDATA
-  INX
-  CPX #$18
-  BNE @loop
-  JSR renderStart
-  RTS
-
 ;;
 
 ; Form a 16-bit address contained in the given location, AND the one 
@@ -544,24 +524,6 @@ updateDialog:                  ;
 ;   
 ; If $B4 contains $EE AND $B5 contains $12 then the value at memory 
 ; location $12EE + Y (6) = $12F4 is fetched AND put in the accumulator.
-
-;; dialog loader
-
-loadDialog:                    ; (x:tile_id, y:dialog_id)
-  ; find dialog offset
-  LDA dialogs_offset_low,y
-  STA dialogs_low
-  LDA dialogs_offset_high,y
-  STA dialogs_high
-  ; add y + x registers
-  TYA
-  STX dialogs_temp
-  CLC
-  ADC dialogs_temp
-  TAY
-  ; load dialog sprite
-  LDA (dialogs_low), y         ; load value at 16-bit address from (dialogs_low + dialogs_high) + y
-  RTS
 
 ;;
 
@@ -601,4 +563,57 @@ loadCardSprite:                ; (x:tile_id, y:card_id)
   TAY
   ; load card sprite
   LDA (cards_low), y           ; load value at 16-bit address from (cards_low + cards_high) + y
+  RTS
+
+;; dialog
+
+show@dialog:                   ; (a:id@dialog)
+  STA id@dialog
+  JSR requestUpdateDialog
+  RTS
+
+;;
+
+hide@dialog:                   ; 
+  LDA #$00
+  STA id@dialog
+  JSR requestUpdateDialog
+  RTS
+
+;;
+
+update@dialog:                 ; 
+  LDA PPUSTATUS
+  LDA #$23
+  STA PPUADDR
+  LDA #$03
+  STA PPUADDR
+  LDX #$00
+  JSR renderStop
+@loop:                         ; 
+  LDY id@dialog
+  JSR load@dialog
+  STA PPUDATA
+  INX
+  CPX #$18
+  BNE @loop
+  JSR renderStart
+  RTS
+
+;;
+
+load@dialog:                   ; (x:tile_id, y:id@dialog)
+  ; find dialog offset
+  LDA dialogs_offset_low,y
+  STA dialogs_low
+  LDA dialogs_offset_high,y
+  STA dialogs_high
+  ; add y + x registers
+  TYA
+  STX dialogs_temp
+  CLC
+  ADC dialogs_temp
+  TAY
+  ; load dialog sprite
+  LDA (dialogs_low), y         ; load value at 16-bit address from (dialogs_low + dialogs_high) + y
   RTS

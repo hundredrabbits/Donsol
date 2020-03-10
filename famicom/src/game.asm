@@ -13,8 +13,7 @@ restart@game:                  ;
   JSR requestUpdateName
   ; dialog
   LDA #$04
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;;
@@ -22,6 +21,5 @@ restart@game:                  ;
 askQuit@game:                  ; TODO: Implement actual return to splash
   ; dialog
   LDA #$0E
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS

@@ -188,14 +188,12 @@ tryRun:                        ;
   JSR requestUpdateRun
   ; dialog:run
   LDA #$0C
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 @unable:                       ; 
   ; dialog:cannot_run
   LDA #$0D
-  STA dialog_id
-  JSR requestUpdateDialog
+  JSR show@dialog
   RTS
 
 ;;

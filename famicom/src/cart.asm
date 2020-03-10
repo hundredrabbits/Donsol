@@ -46,8 +46,7 @@ card1@room              .dsb 1
 card2@room              .dsb 1
 card3@room              .dsb 1
 card4@room              .dsb 1
-; interface
-dialog_id               .dsb 1
+id@dialog               .dsb 1 ; dialog
 cursor                  .dsb 1
 ui_health               .dsb 1
 ui_shield               .dsb 1
