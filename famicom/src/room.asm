@@ -114,17 +114,12 @@ completeRoom:                  ;
   STA has_run@player
   JSR checkRun
   JSR requestUpdateRun
-  ; go on..
-  JSR enter@room
-  RTS
-
-;; TODO: merge with checkRoomTimer routine(UNUSED!!)
-
-enterNextRoom:                 ; 
+  ; save things
   LDA #$00
   STA completed@room
   STA timer@room
-  JSR enter@room               ; TODO: replace with real draw
+  ; go on..
+  JSR enter@room
   RTS
 
 ;; running

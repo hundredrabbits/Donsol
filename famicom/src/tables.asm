@@ -331,7 +331,7 @@ card_names:                    ;
 ;;
 
 card_names_offset_lb:          ; 
-  .db #<(card_names+(#$0f* 0)),#<(card_names+(#$0f* 0)),#<(card_names+(#$0f* 2)),#<(card_names+(#$0f* 3)),#<(card_names+(#$0f* 4)),#<(card_names+(#$0f* 5)),#<(card_names+(#$0f* 6)),#<(card_names+(#$0f* 7)),#<(card_names+(#$0f* 8)),#<(card_names+(#$0f* 9))
+  .db #<(card_names+(#$0f* 0)),#<(card_names+(#$0f* 1)),#<(card_names+(#$0f* 2)),#<(card_names+(#$0f* 3)),#<(card_names+(#$0f* 4)),#<(card_names+(#$0f* 5)),#<(card_names+(#$0f* 6)),#<(card_names+(#$0f* 7)),#<(card_names+(#$0f* 8)),#<(card_names+(#$0f* 9))
   .db #<(card_names+(#$0f*10)),#<(card_names+(#$0f*11)),#<(card_names+(#$0f*12)),#<(card_names+(#$0f*13)),#<(card_names+(#$0f*14)),#<(card_names+(#$0f*15)),#<(card_names+(#$0f*16)),#<(card_names+(#$0f*17)),#<(card_names+(#$0f*18)),#<(card_names+(#$0f*19))
   .db #<(card_names+(#$0f*20)),#<(card_names+(#$0f*21)),#<(card_names+(#$0f*22)),#<(card_names+(#$0f*23)),#<(card_names+(#$0f*24)),#<(card_names+(#$0f*25)),#<(card_names+(#$0f*26)),#<(card_names+(#$0f*27)),#<(card_names+(#$0f*28)),#<(card_names+(#$0f*29))
   .db #<(card_names+(#$0f*30)),#<(card_names+(#$0f*31)),#<(card_names+(#$0f*32)),#<(card_names+(#$0f*33)),#<(card_names+(#$0f*34)),#<(card_names+(#$0f*35)),#<(card_names+(#$0f*36)),#<(card_names+(#$0f*37)),#<(card_names+(#$0f*38)),#<(card_names+(#$0f*39))
