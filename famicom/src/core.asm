@@ -1,31 +1,4 @@
 
-;; flip card from the table, used in controls when press
-
-flipCard:                      ; (x:card_pos)
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @done
-  ; check if card is flipped
-  LDA card1@room, x            ; get card id from table
-  CMP #$36
-  BEQ @done                    ; skip when card is already flipped
-  TAY
-  JSR pickCard
-  ; flip card
-  LDA #$36                     ; $36 is flipped
-  STA card1@room, x
-  LDA #$01                     ; Request update
-  STA reqdraw_card1, x
-  ; misc
-  INC xp@player
-  JSR requestUpdateStats
-@done:                         ; 
-  JSR checkRoom
-  JSR checkRun
-  JSR requestUpdateRun
-  RTS
-
 ;; Pick card from the deck
 
 pickCard:                      ; (y:card_id)

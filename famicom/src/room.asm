@@ -63,9 +63,36 @@ count@room:                    ; () -> store count in x
 @done:                         ; 
   RTS
 
+;; flip card from the table, used in controls when press
+
+flip@room:                     ; (x:card_pos)
+  ; check if player is alive
+  LDA hp@player
+  CMP #$00
+  BEQ @done
+  ; check if card is flipped
+  LDA card1@room, x            ; get card id from table
+  CMP #$36
+  BEQ @done                    ; skip when card is already flipped
+  TAY
+  JSR pickCard
+  ; flip card
+  LDA #$36                     ; $36 is flipped
+  STA card1@room, x
+  LDA #$01                     ; Request update
+  STA reqdraw_card1, x
+  ; misc
+  INC xp@player
+  JSR requestUpdateStats
+@done:                         ; 
+  JSR check@room
+  JSR checkRun
+  JSR requestUpdateRun
+  RTS
+
 ;; check for completed room
 
-checkRoom:                     ; 
+check@room:                    ; 
   ; check if player is alive
   LDA hp@player
   CMP #$00
@@ -87,27 +114,25 @@ checkRoom:                     ;
 @complete:                     ; 
   LDA #$30                     ; how long until next draw
   STA timer@room
-  RTS
+  RTS                          ; return from NMI interup
 
-;; room timer for auto change
+;; room timer for auto change              ;
 
-checkRoomTimer:                ; 
-  ; check if room complete is true
+tic@room:                      ; 
   LDA completed@room
   CMP #$00
   BEQ @done
   ; check if room timer is done
   LDA timer@room
   CMP #$00
-  BEQ completeRoom
-  ; decrement timer
-  DEC timer@room
+  BEQ complete@room
+  DEC timer@room               ; decrement timer
 @done:                         ; 
-  RTS                          ; return from NMI interup
+  RTS
 
-;; TODO: merge with checkRoomTimer routine
+;; TODO: merge with check@roomTimer routine
 
-completeRoom:                  ; 
+complete@room:                 ; 
   ; reset ran flag
   LDA #$00
   STA has_run@player
