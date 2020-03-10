@@ -24,6 +24,27 @@ enter@room:                    ;
   JSR requestUpdateCards
   RTS
 
+;; flip card from the table, used in controls when press
+
+flip@room:                     ; (x:card_pos)
+  LDA hp@player                ; check if player is alive
+  CMP #$00
+  BEQ @done
+  LDA card1@room, x            ; check if card is flipped
+  CMP #$36
+  BEQ @done
+  TAY                          ; pick card
+  JSR pickCard
+  LDA #$36                     ; flip card
+  STA card1@room, x
+  LDA #$01                     ; request draw
+  STA reqdraw_card1, x
+  JSR check@room               ; updates
+  JSR checkRun
+  JSR requestUpdateRun
+@done:                         ; 
+  RTS
+
 ;;
 
 count@room:                    ; () -> store count in x
@@ -51,32 +72,6 @@ count@room:                    ; () -> store count in x
 @done:                         ; 
   RTS
 
-;; flip card from the table, used in controls when press
-
-flip@room:                     ; (x:card_pos)
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @done
-  ; check if card is flipped
-  LDA card1@room, x            ; get card id from table
-  CMP #$36
-  BEQ @done                    ; skip when card is already flipped
-  ; pick card
-  TAY
-  JSR pickCard
-  ; flip card
-  LDA #$36                     ; $36 is flipped
-  STA card1@room, x
-  ; request draw
-  LDA #$01                     ; Request update
-  STA reqdraw_card1, x
-@done:                         ; 
-  JSR check@room
-  JSR checkRun
-  JSR requestUpdateRun
-  RTS
-
 ;; check for completed room
 
 check@room:                    ; 
@@ -102,36 +97,6 @@ check@room:                    ;
   LDA #$30                     ; how long until next draw
   STA timer@room
   RTS                          ; return from NMI interup
-
-;; room timer for auto change              ;
-
-tic@room:                      ; 
-  LDA completed@room
-  CMP #$00
-  BEQ @done
-  ; check if room timer is done
-  LDA timer@room
-  CMP #$00
-  BEQ complete@room
-  DEC timer@room               ; decrement timer
-@done:                         ; 
-  RTS
-
-;; TODO: merge with check@roomTimer routine
-
-complete@room:                 ; 
-  ; reset ran flag
-  LDA #$00
-  STA has_run@player
-  JSR checkRun
-  JSR requestUpdateRun
-  ; save things
-  LDA #$00
-  STA completed@room
-  STA timer@room
-  ; go on..
-  JSR enter@room
-  RTS
 
 ;; running
 
@@ -206,4 +171,36 @@ tryRun:                        ;
   ; dialog:cannot_run
   LDA #$0D
   JSR show@dialog
+  RTS
+
+;; update from the nmi
+
+update@room:                   ; 
+  ; look for unflipped cards
+  LDA card1@room
+  CMP #$36
+  BNE @incomplete
+  LDA card2@room
+  CMP #$36
+  BNE @incomplete
+  LDA card3@room
+  CMP #$36
+  BNE @incomplete
+  LDA card4@room
+  CMP #$36
+  BNE @incomplete
+  ; when the room is complete
+  LDA timer@room
+  CMP #$00
+  BEQ @proceed
+  DEC timer@room
+  RTS
+@proceed:                      ; 
+  ; reset ran flag & timer
+  LDA #$00
+  STA has_run@player
+  STA timer@room
+  ; go on..
+  JSR enter@room
+@incomplete:                   ; 
   RTS

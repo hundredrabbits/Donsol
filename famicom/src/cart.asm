@@ -149,7 +149,7 @@ NMI:                           ;
 
 ;; update
 
-  JSR tic@room
+  JSR update@room
   JSR interpolateStats         ; in client
   JSR updateClient             ; in client
 
@@ -217,6 +217,9 @@ NMI:                           ;
   JSR lock@input
 @done:                         ; 
   RTI                          ; return from interrupt
+
+;; includes
+
 include "src/game.asm"
 include "src/input.asm"
 include "src/core.asm"
