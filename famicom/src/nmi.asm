@@ -18,101 +18,65 @@ NMI:                           ;
 checkInputLock:                ; 
   LDA input_timer
   CMP #$00
-  BEQ LatchController
+  BEQ @latch
   DEC input_timer
   RTI
 
 ;; latch
 
-LatchController:               ; 
+@latch:                        ; 
   LDA #$01
   STA JOY1
   LDA #$00
   STA JOY1                     ; tell both the controllers to latch buttons
-
-;; a
-
-ReadA:                         ; 
+@a:                            ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadADone                ; check if button is already pressed
+  BEQ @b                       ; check if button is already pressed
   LDX cursor
-  JSR flipCard
+  JSR flipCard                 ; flipcard(x: cursor)
   JSR lockInput
-ReadADone:                     ; 
-
-;; b
-
-ReadB:                         ; 
+@b:                            ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadBDone
+  BEQ @select
   JSR tryRun
   JSR lockInput
-ReadBDone:                     ; handling this button is done
-
-;; select
-
-ReadSel:                       ; 
+@select:                       ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadSelDone
-  JSR drawHand2
-  JSR lockInput
-ReadSelDone:                   ; handling this button is done
-
-;; start
-
-ReadStart:                     ; 
+  BEQ @start
+  NOP                          ; do nothing
+@start:                        ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadStartDone
-  JSR drawHand2
-  JSR lockInput
-ReadStartDone:                 ; handling this button is done
-
-;; up
-
-ReadUp:                        ; 
+  BEQ @up
+  NOP                          ; do nothing
+@up:                           ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadUpDone
+  BEQ @down
   NOP
   JSR lockInput
-ReadUpDone:                    ; handling this button is done
-
-;; down
-
-ReadDown:                      ; 
+@down:                         ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
-  BEQ ReadDownDone
+  BEQ @left
   NOP
   JSR lockInput
-ReadDownDone:                  ; handling this button is done
-
-;; left
-
-ReadLeft:                      ; 
+@left:                         ; 
   LDA JOY1
   AND #%00000001
-  BEQ ReadLeftDone             ; check if button is already pressed
+  BEQ @right                   ; check if button is already pressed
   JSR moveCursorLeft
   JSR lockInput
-ReadLeftDone:                  ; 
-
-;; right
-
-ReadRight:                     ; 
+@right:                        ; 
   LDA JOY1
   AND #%00000001
-  BEQ ReadRightDone            ; check if button is already pressed
+  BEQ @done                    ; check if button is already pressed
   JSR moveCursorRight
   JSR lockInput
-ReadRightDone:                 ; 
-
-;; end nmi
-
+@done:                         ; 
   RTI                          ; return from interrupt
 
 ;; lock

@@ -81,10 +81,10 @@ RESET:                         ;
   STX PPUCTRL                  ; disable NMI
   STX PPUMASK                  ; disable rendering
   STX $4010                    ; disable DMC IRQs
-vblankwait1:                   ; First wait for vblank to make sure PPU is ready
+@vwait1:                       ; First wait for vblank to make sure PPU is ready
   BIT PPUSTATUS
-  BPL vblankwait1
-clrmem:                        ; 
+  BPL @vwait1
+@clear:                        ; 
   LDA #$00
   STA $0000, x
   STA $0100, x
@@ -96,7 +96,7 @@ clrmem:                        ;
   LDA #$FE
   STA $0200, x                 ; move all sprites off screen
   INX
-  BNE clrmem
-vblankwait2:                   ; Second wait for vblank, PPU is ready after this
+  BNE @clear
+@vwait2:                       ; Second wait for vblank, PPU is ready after this
   BIT PPUSTATUS
-  BPL vblankwait2
+  BPL @vwait2
