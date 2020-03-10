@@ -68,13 +68,13 @@ checkInputLock:                ;
   LDA JOY1
   AND #%00000001
   BEQ @right                   ; check if button is already pressed
-  JSR moveCursorLeft
+  JSR moveLeft
   JSR lockInput
 @right:                        ; 
   LDA JOY1
   AND #%00000001
   BEQ @done                    ; check if button is already pressed
-  JSR moveCursorRight
+  JSR moveRight
   JSR lockInput
 @done:                         ; 
   RTI                          ; return from interrupt
@@ -84,4 +84,36 @@ checkInputLock:                ;
 lockInput:                     ; 
   LDA #$06
   STA input_timer
+  RTS
+
+;;
+
+moveRight:                     ; 
+  LDA cursor
+  CMP #$03
+  BEQ @wrap
+  INC cursor
+  JMP @done
+@wrap:                         ; 
+  LDA #$00
+  STA cursor
+@done:                         ; 
+  JSR requestUpdateName
+  JSR requestUpdateCursor
+  RTS
+
+;;
+
+moveLeft:                      ; 
+  LDA cursor
+  CMP #$00
+  BEQ @wrap
+  DEC cursor
+  JMP @done
+@wrap:                         ; 
+  LDA #$03
+  STA cursor
+@done:                         ; 
+  JSR requestUpdateName
+  JSR requestUpdateCursor
   RTS

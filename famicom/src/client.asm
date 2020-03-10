@@ -87,7 +87,7 @@ interpolateShield:             ;
 
 updateClient:                  ; 
   ; animate cursor
-checkReqCursor:                ; TODO: not sure if the cursor should take a render frame..
+checkReqCursor:                ; 
   LDA reqdraw_cursor
   CMP #$00
   BEQ checkReqName

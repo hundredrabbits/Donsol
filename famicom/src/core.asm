@@ -1,34 +1,18 @@
 
-;; selection
-
-moveCursorRight:               ; 
-  LDA cursor
-  CMP #$03
-  BEQ @wrap
-  INC cursor
-  JMP @done
-@wrap:                         ; 
-  LDA #$00
-  STA cursor
-@done:                         ; 
-  JSR requestUpdateName
-  JSR requestUpdateCursor
-  RTS
-
 ;;
 
-moveCursorLeft:                ; 
-  LDA cursor
-  CMP #$00
-  BEQ @wrap
-  DEC cursor
-  JMP @done
-@wrap:                         ; 
-  LDA #$03
-  STA cursor
-@done:                         ; 
-  JSR requestUpdateName
+restart:                       ; 
+  JSR resetStats
+  JSR drawHand1                ; TODO: replace with real draw
+  JSR requestUpdateStats
+  JSR requestUpdateRun
   JSR requestUpdateCursor
+  JSR requestUpdateCards
+  JSR requestUpdateName
+  ; dialog
+  LDA #$04
+  STA dialog_id
+  JSR requestUpdateDialog
   RTS
 
 ;; Draw card to the table
@@ -99,40 +83,22 @@ pickCard:                      ; (y:card_id)
 selectCardHeart:               ; 
   JSR runPotion
   JSR addPotionSickness
-  ; JSR flipCard
   RTS
 selectCardDiamond:             ; 
   JSR runShield
   JSR removePotionSickness
-  ; JSR flipCard
   RTS
 selectCardSpade:               ; 
   JSR runAttack
   JSR removePotionSickness
-  ; JSR flipCard
   RTS
 selectCardClover:              ; 
   JSR runAttack
   JSR removePotionSickness
-  ; JSR flipCard
   RTS
 selectCardJoker:               ; 
   JSR runAttack
   JSR removePotionSickness
-  ; JSR flipCard
-  RTS
-
-;; draw some cards
-
-drawCards:                     ; 
-  LDA #$03                     ; heart 4
-  STA card1
-  LDA #$0E                     ; diamond 5
-  STA card2
-  LDA #$1F                     ; spades 6
-  STA card3
-  LDA #$2D                     ; clover 7
-  STA card4
   RTS
 
 ;; turn(potion)
@@ -299,78 +265,6 @@ clampHealth:                   ;
 @done:                         ; 
   RTS
 
-;; check for completed room
-
-checkRoom:                     ; 
-  ; check if player is alive
-  LDA health
-  CMP #$00
-  BEQ @done
-  ; RTS
-  LDA #$00
-  STA room_complete
-  LDA card1
-  CMP #$36
-  BNE @done
-  LDA card2
-  CMP #$36
-  BNE @done
-  LDA card3
-  CMP #$36
-  BNE @done
-  LDA card4
-  CMP #$36
-  BNE @done
-  LDA #$01
-  STA room_complete            ; set room_complete to $01
-@done:                         ; 
-  ; auto change room if all cards are flipped
-  LDA room_complete
-  CMP #$01
-  BEQ @complete
-  RTS
-@complete:                     ; TODO
-  LDA #$30                     ; how long until next draw
-  STA room_timer
-  RTS
-
-;; room timer for auto change
-
-checkRoomTimer:                ; 
-  ; check if room complete is true
-  LDA room_complete
-  CMP #$00
-  BEQ @done
-  ; check if room timer is done
-  LDA room_timer
-  CMP #$00
-  BEQ completeRoom
-  ; decrement timer
-  DEC room_timer
-@done:                         ; 
-  RTS                          ; return from NMI interup
-
-;;
-
-completeRoom:                  ; 
-  ; reset ran flag
-  LDA #$00
-  STA has_run
-  JSR checkRun
-  JSR requestUpdateRun
-  ; go on..
-  JSR enterNextRoom
-  RTS
-
-;;
-
-enterNextRoom:                 ; 
-  LDA #$00
-  STA room_complete
-  STA room_timer
-  JSR drawHand1
-  RTS
-
 ;;
 
 countCardsLeft:                ; () -> store count in x
@@ -396,6 +290,69 @@ countCardsLeft:                ; () -> store count in x
   BEQ @done
   INX
 @done:                         ; 
+  RTS
+
+;; check for completed room
+
+checkRoom:                     ; 
+  ; check if player is alive
+  LDA health
+  CMP #$00
+  BEQ @done
+  ; get the number of cards left
+  JSR countCardsLeft           ; stores in x
+  TXA
+  CMP #$00
+  BNE @done
+  ; is complete
+  LDA #$01
+  STA room_complete            ; set room_complete to $01
+@done:                         ; 
+  ; auto change room if all cards are flipped
+  LDA room_complete
+  CMP #$01
+  BEQ @complete
+  RTS
+@complete:                     ; 
+  LDA #$30                     ; how long until next draw
+  STA room_timer
+  RTS
+
+;; room timer for auto change
+
+checkRoomTimer:                ; 
+  ; check if room complete is true
+  LDA room_complete
+  CMP #$00
+  BEQ @done
+  ; check if room timer is done
+  LDA room_timer
+  CMP #$00
+  BEQ completeRoom
+  ; decrement timer
+  DEC room_timer
+@done:                         ; 
+  RTS                          ; return from NMI interup
+
+;; TODO: merge with checkRoomTimer routine
+
+completeRoom:                  ; 
+  ; reset ran flag
+  LDA #$00
+  STA has_run
+  JSR checkRun
+  JSR requestUpdateRun
+  ; go on..
+  JSR enterNextRoom
+  RTS
+
+;; TODO: merge with checkRoomTimer routine
+
+enterNextRoom:                 ; 
+  LDA #$00
+  STA room_complete
+  STA room_timer
+  JSR drawHand1                ; TODO: replace with real draw
   RTS
 
 ;;
@@ -448,46 +405,29 @@ tryRun:                        ;
   ; check if player is alive
   LDA health
   CMP #$00
-  BEQ restart
-  ; 
+  BNE @begin
+  JSR restart
+  RTS
+@begin:                        ; 
   JSR checkRun
   LDA can_run
   CMP #$01
-  BEQ run
-  ; dialog:cannot_run
-  LDA #$0D
-  STA dialog_id
-  JSR requestUpdateDialog
-  RTS
-
-;;
-
-restart:                       ; 
-  JSR resetStats
-  JSR drawHand1
-  JSR requestUpdateStats
-  JSR requestUpdateRun
-  JSR requestUpdateCursor
-  JSR requestUpdateCards
-  JSR requestUpdateName
-  ; dialog
-  LDA #$04
-  STA dialog_id
-  JSR requestUpdateDialog
-  RTS
-
-;;
-
-run:                           ; TODO: implement drawNext enterNextRoom
+  BNE @unable
   ; record running
   LDA #$01
   STA has_run
-  ;
-  JSR drawHand2
+  ; draw cards for next room
+  JSR drawHand2                ; TODO: replace with real draw
   ; update interface
   JSR requestUpdateRun
   ; dialog:run
   LDA #$0C
+  STA dialog_id
+  JSR requestUpdateDialog
+  RTS
+@unable:                       ; 
+  ; dialog:cannot_run
+  LDA #$0D
   STA dialog_id
   JSR requestUpdateDialog
   RTS
