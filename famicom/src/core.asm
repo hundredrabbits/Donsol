@@ -171,9 +171,6 @@ runDamages:                    ;
   SEC
   SBC damages@player
   STA hp@player
-  ; dialog:attack
-  LDA #$09
-  JSR show@dialog
   RTS
 
 ;; flags

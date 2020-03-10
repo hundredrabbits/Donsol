@@ -212,7 +212,7 @@ updateName:                    ;
   LDA #$43
   STA PPUADDR
   LDX #$00
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDY #$01                     ; load card id
   JSR loadCardName
@@ -220,14 +220,14 @@ updateName:                    ;
   INX
   CPX #$10
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;;
 
 updateRun:                     ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
-  JSR renderStop
+  JSR stop@renderer
   LDA can_run@player
   CMP #$01
   BNE @hide
@@ -249,7 +249,7 @@ updateRun:                     ;
   STA PPUDATA
   LDA #$18                     ; N
   STA PPUDATA
-  JSR renderStart
+  JSR start@renderer
   RTS
 @hide:                         ; 
   LDA #$21
@@ -262,7 +262,7 @@ updateRun:                     ;
   STA PPUDATA
   STA PPUDATA
   STA PPUDATA
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;; health value
@@ -270,7 +270,7 @@ updateRun:                     ;
 updateHealth:                  ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
-  JSR renderStop
+  JSR stop@renderer
   ; digit 1
   LDA #$21
   STA PPUADDR                  ; write the high byte
@@ -303,7 +303,7 @@ updateHealth:                  ;
   LDA #$00
   STA PPUDATA
 @done:                         ; 
-  JSR renderStop
+  JSR stop@renderer
   RTS
 
 ;; health bar
@@ -313,7 +313,7 @@ updateHealthBar:               ;
   LDY ui_health
   LDA healthbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDA #$20
   STA PPUADDR                  ; write the high byte
@@ -325,7 +325,7 @@ updateHealthBar:               ;
   INX
   CPX #$06
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;; shield value
@@ -333,7 +333,7 @@ updateHealthBar:               ;
 updateShield:                  ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
-  JSR renderStop
+  JSR stop@renderer
   ; digit 1
   LDA #$21
   STA PPUADDR                  ; write the high byte
@@ -358,7 +358,7 @@ updateShield:                  ;
   LDX dp@player
   LDA card_glyphs, x
   STA PPUDATA
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;; shield bar
@@ -368,7 +368,7 @@ updateShieldBar:               ;
   LDY ui_shield
   LDA shieldbarpos, y          ; regA has sprite offset
   TAY                          ; regY has sprite offset
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDA #$20
   STA PPUADDR                  ; write the high byte
@@ -380,7 +380,7 @@ updateShieldBar:               ;
   INX
   CPX #$06
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;; experience value
@@ -388,7 +388,7 @@ updateShieldBar:               ;
 updateExperience:              ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
-  JSR renderStop
+  JSR stop@renderer
   ; digit 1
   LDA #$21
   STA PPUADDR                  ; write the high byte
@@ -405,7 +405,7 @@ updateExperience:              ;
   LDX xp@player
   LDA number_low, x
   STA PPUDATA
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;; experience bar
@@ -415,7 +415,7 @@ updateExperienceBar:           ;
   LDY xp@player
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDA #$20
   STA PPUADDR                  ; write the high byte
@@ -427,7 +427,7 @@ updateExperienceBar:           ;
   INX
   CPX #$06
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;; to merge into a single routine
@@ -435,7 +435,7 @@ updateExperienceBar:           ;
 updateCard1:                   ; 
   LDA #$00
   LDX #$00
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDA card1pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -448,7 +448,7 @@ updateCard1:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;;
@@ -456,7 +456,7 @@ updateCard1:                   ;
 updateCard2:                   ; 
   LDA #$00
   LDX #$00
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDA card1pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -469,7 +469,7 @@ updateCard2:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;;
@@ -477,7 +477,7 @@ updateCard2:                   ;
 updateCard3:                   ; 
   LDA #$00
   LDX #$00
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDA card3pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -490,7 +490,7 @@ updateCard3:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;;
@@ -498,7 +498,7 @@ updateCard3:                   ;
 updateCard4:                   ; 
   LDA #$00
   LDX #$00
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDA card3pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -511,7 +511,7 @@ updateCard4:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;;
@@ -589,7 +589,7 @@ update@dialog:                 ;
   LDA #$03
   STA PPUADDR
   LDX #$00
-  JSR renderStop
+  JSR stop@renderer
 @loop:                         ; 
   LDY id@dialog
   JSR load@dialog
@@ -597,7 +597,7 @@ update@dialog:                 ;
   INX
   CPX #$18
   BNE @loop
-  JSR renderStart
+  JSR start@renderer
   RTS
 
 ;;
