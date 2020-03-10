@@ -4,14 +4,8 @@
 requestUpdateStats:            ; 
   LDA #$01
   STA reqdraw_hp
-  LDA #$01
   STA reqdraw_sp
-  LDA #$01
   STA reqdraw_xp
-  RTS
-requestUpdateCursor:           ; 
-  LDA #$01
-  STA reqdraw_cursor
   RTS
 requestUpdateDialog:           ; 
   LDA #$01
@@ -28,11 +22,8 @@ requestUpdateName:             ;
 requestUpdateCards:            ; 
   LDA #$01
   STA reqdraw_card1
-  LDA #$01
   STA reqdraw_card2
-  LDA #$01
   STA reqdraw_card3
-  LDA #$01
   STA reqdraw_card4
   RTS
 
@@ -87,15 +78,6 @@ interpolateShield:             ;
 
 updateClient:                  ; 
   ; animate cursor
-checkReqCursor:                ; 
-  LDA reqdraw_cursor
-  CMP #$00
-  BEQ checkReqName
-  JSR updateCursor
-  LDA #$00
-  STA reqdraw_cursor
-  INC reqdraws
-  RTS
 checkReqName:                  ; 
   LDA reqdraw_name
   CMP #$00
@@ -194,7 +176,7 @@ checkReqDialog:                ;
 
 ;; actual update code
 
-updateCursor:                  ; 
+update@cursor:                 ; 
   LDX cursor
   LDA cursor_positions, x
   STA $0203                    ; set tile.x pos

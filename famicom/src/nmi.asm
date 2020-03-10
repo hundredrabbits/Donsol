@@ -11,7 +11,19 @@ NMI:                           ;
 
   JSR tic@room
   JSR interpolateStats         ; in client
+
+;; update client only every 16th frame
+
+  LDA timer@renderer
+  CMP #$00
+  BEQ doUpdate
+  DEC timer@renderer
+  JMP skipUpdate
+doUpdate:                      ; 
   JSR updateClient             ; in client
+  LDA #$08
+  STA timer@renderer
+skipUpdate:                    ; 
 
 ;; skip latch if input is locked
 
@@ -102,7 +114,7 @@ right@input:                   ;
   STA cursor
 @done:                         ; 
   JSR requestUpdateName
-  JSR requestUpdateCursor
+  JSR update@cursor
   RTS
 
 ;;
@@ -118,5 +130,5 @@ left@input:                    ;
   STA cursor
 @done:                         ; 
   JSR requestUpdateName
-  JSR requestUpdateCursor
+  JSR update@cursor
   RTS

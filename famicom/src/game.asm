@@ -5,10 +5,10 @@ restart@game:                  ;
   JSR init@deck
   JSR shuffle@deck
   JSR reset@player
-  JSR enter@room               ; TODO: replace with real draw
+  JSR enter@room
   JSR requestUpdateStats
   JSR requestUpdateRun
-  JSR requestUpdateCursor
+  JSR update@cursor
   JSR requestUpdateCards
   JSR requestUpdateName
   ; dialog

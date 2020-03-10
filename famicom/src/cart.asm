@@ -47,6 +47,7 @@ card2@room              .dsb 1
 card3@room              .dsb 1
 card4@room              .dsb 1
 id@dialog               .dsb 1 ; dialog
+timer@renderer          .dsb 1
 cursor                  .dsb 1
 ui_health               .dsb 1
 ui_shield               .dsb 1
@@ -59,7 +60,6 @@ reqdraws                .dsb 1
 reqdraw_hp              .dsb 1
 reqdraw_sp              .dsb 1
 reqdraw_xp              .dsb 1
-reqdraw_cursor          .dsb 1
 reqdraw_card1           .dsb 1
 reqdraw_card2           .dsb 1
 reqdraw_card3           .dsb 1
@@ -103,6 +103,9 @@ RESET:                         ;
 @vwait1:                       ; First wait for vblank to make sure PPU is ready
   BIT PPUSTATUS
   BPL @vwait1
+@vwait2:                       ; Second wait for vblank, PPU is ready after this
+  BIT PPUSTATUS
+  BPL @vwait2
 @clear:                        ; 
   LDA #$00
   STA $0000, x
@@ -116,9 +119,6 @@ RESET:                         ;
   STA $0200, x                 ; move all sprites off screen
   INX
   BNE @clear
-@vwait2:                       ; Second wait for vblank, PPU is ready after this
-  BIT PPUSTATUS
-  BPL @vwait2
 
 ;; includes
 

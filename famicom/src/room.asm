@@ -2,7 +2,7 @@
 ;; room
 
 enter@room:                    ; 
- ; pull card1
+  ; pull card1
   JSR pull@deck
   LDX #$00
   LDY hand@deck
@@ -208,7 +208,7 @@ tryRun:                        ;
   LDA #$01
   STA has_run@player
   ; draw cards for next room
-  JSR enter@room               ; TODO: replace with real draw
+  JSR enter@room
   ; update interface
   JSR requestUpdateRun
   ; dialog:run

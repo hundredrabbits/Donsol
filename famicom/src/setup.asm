@@ -10,7 +10,7 @@ GameStart:                     ;
   JSR load@cursor
   JSR restart@game
   ; tests
-  ; JSR run@tests
+  JSR run@tests
   ; render
   JSR start@renderer
 
@@ -136,7 +136,7 @@ load@cursor:                   ;
 start@renderer:                ; 
   LDA #%10010000               ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA PPUCTRL
-  LDA #%00011110               ; enable sprites, enable background, no clipping on left side
+  LDA #%00011000               ; enable sprites, enable background, no clipping on left side
   STA PPUMASK
   LDA #$00                     ; No background scrolling
   STA PPUADDR
