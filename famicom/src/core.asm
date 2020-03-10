@@ -4,7 +4,7 @@
 restart:                       ; 
   JSR init@deck
   JSR reset@player
-  JSR drawHand1                ; TODO: replace with real draw
+  JSR enter@room               ; TODO: replace with real draw
   JSR requestUpdateStats
   JSR requestUpdateRun
   JSR requestUpdateCursor
@@ -14,15 +14,6 @@ restart:                       ;
   LDA #$04
   STA dialog_id
   JSR requestUpdateDialog
-  RTS
-
-;; Draw card to the table
-
-drawCard:                      ; (x:card_pos, y:card_id)
-  TYA
-  STA card1@room, x
-  LDA #$01                     ; Request update
-  STA reqdraw_card1, x
   RTS
 
 ;; flip card from the table, used in controls when press
@@ -256,42 +247,4 @@ clampHealth:                   ;
   LDA #$15
   STA hp@player
 @done:                         ; 
-  RTS
-
-;;
-
-drawHand1:                     ; 
-  LDX #$00
-  LDY #$13                     ; Diamonds 7
-  JSR drawCard
-  LDX #$01
-  LDY #$24                     ; Spades 11
-  JSR drawCard
-  LDX #$02
-  LDY #$02                     ; Hearts 3
-  JSR drawCard
-  LDX #$03
-  LDY #$2B                     ; Clubs 5
-  JSR drawCard
-  JSR checkRun
-  JSR requestUpdateRun
-  RTS
-
-;;
-
-drawHand2:                     ; 
-  LDX #$00
-  LDY #$1D                     ; Spades 8
-  JSR drawCard
-  LDX #$01
-  LDY #$14                     ; Diamonds 8
-  JSR drawCard
-  LDX #$02
-  LDY #$34                     ; Hearts 4
-  JSR drawCard
-  LDX #$03
-  LDY #$06                     ; Clubs 5
-  JSR drawCard
-  JSR checkRun
-  JSR requestUpdateRun
   RTS

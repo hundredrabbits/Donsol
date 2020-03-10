@@ -1,9 +1,45 @@
 
 ;; room
 
+enter@room:                    ; 
+  LDX #$00
+  ; pull card1
+  JSR pull@deck
+  LDX #$00
+  LDY hand@deck
+  JSR add@room
+  ; pull card2
+  JSR pull@deck
+  LDX #$01
+  LDY hand@deck
+  JSR add@room
+  ; pull card3
+  JSR pull@deck
+  LDX #$02
+  LDY hand@deck
+  JSR add@room
+  ; pull card4
+  JSR pull@deck
+  LDX #$03
+  LDY hand@deck
+  JSR add@room
+  ; etcs
+  JSR checkRun
+  JSR requestUpdateRun
+  RTS
+
+;; add a card to the table
+
+add@room:                      ; (x:card_pos, y:card_id)
+  TYA
+  STA card1@room, x
+  LDA #$01                     ; Request update
+  STA reqdraw_card1, x
+  RTS
+
 ;;
 
-countCardsLeft:                ; () -> store count in x
+count@room:                    ; () -> store count in x
   LDX #$00
 @card1:                        ; 
   LDA card1@room
@@ -36,7 +72,7 @@ checkRoom:                     ;
   CMP #$00
   BEQ @done
   ; get the number of cards left
-  JSR countCardsLeft           ; stores in x
+  JSR count@room               ; stores in x
   TXA
   CMP #$00
   BNE @done
@@ -79,16 +115,16 @@ completeRoom:                  ;
   JSR checkRun
   JSR requestUpdateRun
   ; go on..
-  JSR enterNextRoom
+  JSR enter@room
   RTS
 
-;; TODO: merge with checkRoomTimer routine
+;; TODO: merge with checkRoomTimer routine(UNUSED!!)
 
 enterNextRoom:                 ; 
   LDA #$00
   STA completed@room
   STA timer@room
-  JSR drawHand1                ; TODO: replace with real draw
+  JSR enter@room               ; TODO: replace with real draw
   RTS
 
 ;; running
@@ -117,7 +153,7 @@ checkRun:                      ;
   CMP #$01
   BEQ @disableRun
   ; can run when 3 cards left on table
-  JSR countCardsLeft           ; store cards left in room, in regX
+  JSR count@room               ; store cards left in room, in regX
   TXA
   CMP #$01
   BEQ @enableRun
@@ -166,4 +202,42 @@ tryRun:                        ;
   LDA #$0D
   STA dialog_id
   JSR requestUpdateDialog
+  RTS
+
+;;
+
+drawHand1:                     ; 
+  LDX #$00
+  LDY #$13                     ; Diamonds 7
+  JSR add@room
+  LDX #$01
+  LDY #$24                     ; Spades 11
+  JSR add@room
+  LDX #$02
+  LDY #$02                     ; Hearts 3
+  JSR add@room
+  LDX #$03
+  LDY #$2B                     ; Clubs 5
+  JSR add@room
+  JSR checkRun
+  JSR requestUpdateRun
+  RTS
+
+;;
+
+drawHand2:                     ; 
+  LDX #$00
+  LDY #$1D                     ; Spades 8
+  JSR add@room
+  LDX #$01
+  LDY #$14                     ; Diamonds 8
+  JSR add@room
+  LDX #$02
+  LDY #$34                     ; Hearts 4
+  JSR add@room
+  LDX #$03
+  LDY #$06                     ; Clubs 5
+  JSR add@room
+  JSR checkRun
+  JSR requestUpdateRun
   RTS
