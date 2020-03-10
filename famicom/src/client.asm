@@ -47,7 +47,7 @@ interpolateStats:              ;
 
 interpolateHealth:             ; 
   LDA ui_health                ; follower x
-  CMP health@player            ; sprite x
+  CMP hp@player                ; sprite x
   BEQ @done
   BCC @inc
   DEC ui_health
@@ -67,7 +67,7 @@ interpolateHealth:             ;
 
 interpolateShield:             ; 
   LDA ui_shield                ; follower x
-  CMP shield@player            ; sprite x
+  CMP sp@player                ; sprite x
   BEQ @done
   BCC @inc
   DEC ui_shield
@@ -228,10 +228,10 @@ updateName:                    ;
 updateRun:                     ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   JSR renderStop
-  LDA can_run
+  LDA can_run@player
   CMP #$01
   BNE @hide
-  LDA experience@player
+  LDA xp@player
   CMP #$00
   BEQ @hide
 @show:                         ; RUN: $1c,$1f,$18
@@ -355,7 +355,7 @@ updateShield:                  ;
   STA PPUADDR                  ; write the high byte
   LDA #$0C
   STA PPUADDR                  ; write the low byte
-  LDX durability@player
+  LDX dp@player
   LDA card_glyphs, x
   STA PPUDATA
   JSR renderStart
@@ -394,7 +394,7 @@ updateExperience:              ;
   STA PPUADDR                  ; write the high byte
   LDA #$15
   STA PPUADDR                  ; write the low byte
-  LDX experience@player
+  LDX xp@player
   LDA number_high, x
   STA PPUDATA
   ; digit 2
@@ -402,7 +402,7 @@ updateExperience:              ;
   STA PPUADDR                  ; write the high byte
   LDA #$16
   STA PPUADDR                  ; write the low byte
-  LDX experience@player
+  LDX xp@player
   LDA number_low, x
   STA PPUDATA
   JSR renderStart
@@ -412,7 +412,7 @@ updateExperience:              ;
 
 updateExperienceBar:           ; 
   LDX #$00
-  LDY experience@player
+  LDY xp@player
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR renderStop

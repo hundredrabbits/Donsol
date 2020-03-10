@@ -3,15 +3,15 @@
 
 reset@player:                  ; 
   LDA #$15
-  STA health@player
+  STA hp@player
   STA ui_health
   LDA #$00
-  STA shield@player
-  STA durability@player
-  STA experience@player
+  STA sp@player
+  STA dp@player
+  STA xp@player
   STA sickness@player
   LDA #$00
-  STA can_run
+  STA can_run@player
   ; set difficulty
   LDA #$00
   STA difficulty@player

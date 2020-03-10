@@ -59,12 +59,12 @@ potion@tests:                  ;
   JSR reset@player
   ; take some dammage
   LDA #$10
-  STA health@player
+  STA hp@player
   ; pick
   LDY #$02                     ; Hearts 3
   JSR pickCard
   ; test health
-  LDA health@player
+  LDA hp@player
   CMP #$13                     ; health = $13(18)
   BNE @fail
   ; pass
@@ -80,14 +80,14 @@ sickness@tests:                ;
   JSR reset@player
   ; take some dammage
   LDA #$04
-  STA health@player
+  STA hp@player
   ; drink two potions
   LDY #$04                     ; Hearts 5
   JSR pickCard
   LDY #$05                     ; Hearts 6
   JSR pickCard
   ; test health
-  LDA health@player
+  LDA hp@player
   CMP #$09                     ; health = $09(09)[4hp + 5hp]
   BNE @fail
   ; test sickness
@@ -109,7 +109,7 @@ shield@tests:                  ;
   LDY #$0E                     ; Diamonds 2
   JSR pickCard
   ; test health
-  LDA shield@player
+  LDA sp@player
   CMP #$02                     ; shield = $02(02)
   BNE @fail
   ; pass
@@ -127,7 +127,7 @@ attack@tests:                  ;
   LDY #$1F                     ; Spades 6
   JSR pickCard
   ; test health
-  LDA health@player
+  LDA hp@player
   CMP #$0F                     ; shield = $0f(15)
   BNE @fail
   ; pass
@@ -143,12 +143,12 @@ testAttackDeath:               ;
   JSR reset@player
   ; Lower health
   LDA #$04
-  STA health@player
+  STA hp@player
   ; pick
   LDY #$1F                     ; Spades 6
   JSR pickCard
   ; test health
-  LDA health@player
+  LDA hp@player
   CMP #$00                     ; health = $00(00)
   BNE @fail
   ; pass
@@ -168,11 +168,11 @@ testAttackShieldBlock:         ;
   LDY #$1D                     ; Spades 4
   JSR pickCard
   ; loose 3hp
-  LDA health@player
+  LDA hp@player
   CMP #$15
   BNE @fail
   ; shield durability 6
-  LDA durability@player
+  LDA dp@player
   CMP #$04
   BNE @fail
   ; pass
@@ -192,11 +192,11 @@ testAttackShieldOverflow:      ;
   LDY #$1F                     ; Spades 6
   JSR pickCard
   ; loose 3hp
-  LDA health@player
+  LDA hp@player
   CMP #$12
   BNE @fail
   ; shield durability 6
-  LDA durability@player
+  LDA dp@player
   CMP #$06
   BNE @fail
   ; pass
@@ -212,18 +212,18 @@ testAttackShieldOverflowDeath: ;
   JSR reset@player
   ; Lower health
   LDA #$02
-  STA health@player
+  STA hp@player
   ; pick
   LDY #$0F                     ; Diamond 3
   JSR pickCard
   LDY #$1F                     ; Spades 6
   JSR pickCard
   ; loose 3hp
-  LDA health@player
+  LDA hp@player
   CMP #$00
   BNE @fail
   ; shield durability 6
-  LDA durability@player
+  LDA dp@player
   CMP #$06
   BNE @fail
   ; pass
@@ -245,15 +245,15 @@ testAttackShieldBreak:         ;
   LDY #$1D                     ; Spades 4
   JSR pickCard
   ; loose 4hp
-  LDA health@player
+  LDA hp@player
   CMP #$11
   BNE @fail
   ; shield durability 0
-  LDA durability@player
+  LDA dp@player
   CMP #$00
   BNE @fail
   ; shield 0
-  LDA shield@player
+  LDA sp@player
   CMP #$00
   BNE @fail
   ; pass
@@ -269,7 +269,7 @@ testAttackShieldBreakDeath:    ;
   JSR reset@player
   ; Lower health
   LDA #$02
-  STA health@player
+  STA hp@player
   ; pick
   LDY #$10                     ; Diamond 4
   JSR pickCard
@@ -278,15 +278,15 @@ testAttackShieldBreakDeath:    ;
   LDY #$1D                     ; Spades 4
   JSR pickCard
   ; loose 4hp
-  LDA health@player
+  LDA hp@player
   CMP #$00
   BNE @fail
   ; shield durability 0
-  LDA durability@player
+  LDA dp@player
   CMP #$00
   BNE @fail
   ; shield 0
-  LDA shield@player
+  LDA sp@player
   CMP #$00
   BNE @fail
   ; pass
