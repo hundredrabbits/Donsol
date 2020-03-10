@@ -47,7 +47,7 @@ interpolateStats:              ;
 
 interpolateHealth:             ; 
   LDA ui_health                ; follower x
-  CMP health                   ; sprite x
+  CMP health@player            ; sprite x
   BEQ @done
   BCC @inc
   DEC ui_health
@@ -67,7 +67,7 @@ interpolateHealth:             ;
 
 interpolateShield:             ; 
   LDA ui_shield                ; follower x
-  CMP shield                   ; sprite x
+  CMP shield@player            ; sprite x
   BEQ @done
   BCC @inc
   DEC ui_shield
@@ -231,7 +231,7 @@ updateRun:                     ;
   LDA can_run
   CMP #$01
   BNE @hide
-  LDA experience
+  LDA experience@player
   CMP #$00
   BEQ @hide
 @show:                         ; RUN: $1c,$1f,$18
@@ -292,7 +292,7 @@ updateHealth:                  ;
   STA PPUADDR                  ; write the high byte
   LDA #$05
   STA PPUADDR                  ; write the low byte
-  LDA potion_sickness
+  LDA sickness@player
   CMP #$01
   BNE @false
   ; sickness icon
@@ -355,7 +355,7 @@ updateShield:                  ;
   STA PPUADDR                  ; write the high byte
   LDA #$0C
   STA PPUADDR                  ; write the low byte
-  LDX shield_durability
+  LDX durability@player
   LDA card_glyphs, x
   STA PPUDATA
   JSR renderStart
@@ -394,7 +394,7 @@ updateExperience:              ;
   STA PPUADDR                  ; write the high byte
   LDA #$15
   STA PPUADDR                  ; write the low byte
-  LDX experience
+  LDX experience@player
   LDA number_high, x
   STA PPUDATA
   ; digit 2
@@ -402,7 +402,7 @@ updateExperience:              ;
   STA PPUADDR                  ; write the high byte
   LDA #$16
   STA PPUADDR                  ; write the low byte
-  LDX experience
+  LDX experience@player
   LDA number_low, x
   STA PPUDATA
   JSR renderStart
@@ -412,7 +412,7 @@ updateExperience:              ;
 
 updateExperienceBar:           ; 
   LDX #$00
-  LDY experience
+  LDY experience@player
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR renderStop

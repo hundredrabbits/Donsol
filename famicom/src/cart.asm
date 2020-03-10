@@ -29,14 +29,14 @@ JOY2                .equ $4017
 ;;
 
 ; player
-health                  .dsb 1
-shield                  .dsb 1
-shield_durability       .dsb 1
-experience              .dsb 1
-damages                 .dsb 1
-difficulty              .dsb 1
+health@player           .dsb 1
+shield@player           .dsb 1
+durability@player       .dsb 1
+experience@player       .dsb 1
+damages@player          .dsb 1 ; TODO: check if necessary?
+difficulty@player       .dsb 1
 ; flags
-potion_sickness         .dsb 1
+sickness@player         .dsb 1
 can_run                 .dsb 1
 has_run                 .dsb 1
 ; interface
@@ -45,19 +45,18 @@ cursor                  .dsb 1
 ui_health               .dsb 1
 ui_shield               .dsb 1
 ; controls
-input_timer             .dsb 1
+timer@input             .dsb 1
 ; table
 card1                   .dsb 1
 card2                   .dsb 1
 card3                   .dsb 1
 card4                   .dsb 1
-room_timer              .dsb 1
+timer@room              .dsb 1
 room_complete           .dsb 1
 ; deck
 length@deck             .dsb 1
 hand@deck               .dsb 1
-; tests
-test@count              .dsb 1
+count@test              .dsb 1
 ; stats
 card_last               .dsb 1
 card_last_type          .dsb 1
@@ -133,6 +132,7 @@ include "src/setup.asm"
 include "src/nmi.asm"
 include "src/core.asm"
 include "src/deck.asm"
+include "src/player.asm"
 include "src/client.asm"
 include "src/tests.asm"
 include "src/tables.asm"

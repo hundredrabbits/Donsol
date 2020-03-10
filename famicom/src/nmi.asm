@@ -16,10 +16,10 @@ NMI:                           ;
 ;; skip latch if input is locked
 
 checkInputLock:                ; 
-  LDA input_timer
+  LDA timer@input
   CMP #$00
   BEQ @latch
-  DEC input_timer
+  DEC timer@input
   RTI
 
 ;; latch
@@ -83,7 +83,7 @@ checkInputLock:                ;
 
 lockInput:                     ; 
   LDA #$06
-  STA input_timer
+  STA timer@input
   RTS
 
 ;;

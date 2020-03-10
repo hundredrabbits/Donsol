@@ -3,7 +3,7 @@
 
 restart:                       ; 
   JSR init@deck
-  JSR resetStats
+  JSR reset@player
   JSR drawHand1                ; TODO: replace with real draw
   JSR requestUpdateStats
   JSR requestUpdateRun
@@ -29,7 +29,7 @@ drawCard:                      ; (x:card_pos, y:card_id)
 
 flipCard:                      ; (x:card_pos)
   ; check if player is alive
-  LDA health
+  LDA health@player
   CMP #$00
   BEQ @done
   ; check if card is flipped
@@ -44,7 +44,7 @@ flipCard:                      ; (x:card_pos)
   LDA #$01                     ; Request update
   STA reqdraw_card1, x
   ; misc
-  INC experience
+  INC experience@player
   JSR requestUpdateStats
 @done:                         ; 
   JSR checkRoom
@@ -106,18 +106,18 @@ selectCardJoker:               ;
 
 runPotion:                     ; 
   ; check for potion sickness
-  LDA potion_sickness
+  LDA sickness@player
   CMP #$01
   BEQ runPotionSickness
   ; check for potion waste
-  LDA health
+  LDA health@player
   CMP #$15
   BEQ runPotionWaste
   ; heal
-  LDA health
+  LDA health@player
   CLC
   ADC card_last_value
-  STA health
+  STA health@player
   ; specials
   JSR clampHealth
   ; dialog:potion
@@ -148,9 +148,9 @@ runPotionWaste:                ;
 
 runShield:                     ; 
   LDA card_last_value
-  STA shield
+  STA shield@player
   LDA #$16                     ; max durability is $15+1
-  STA shield_durability
+  STA durability@player
   ; dialog
   LDA #$05
   STA dialog_id
@@ -161,7 +161,7 @@ runShield:                     ;
 
 runAttack:                     ; 
   ; check if can block
-  LDA shield
+  LDA shield@player
   CMP #$00
   BNE @blocking
   ; dialog:unshielded
@@ -170,13 +170,13 @@ runAttack:                     ;
   JSR requestUpdateDialog
   ; load damages(unblocked)
   LDA card_last_value
-  STA damages
+  STA damages@player
   JSR runDamages
   RTS
 @blocking:                     ; 
   ; check if shield breaking
   LDA card_last_value
-  CMP shield_durability
+  CMP durability@player
   BCC @shielded
   ; dialog:shield break
   LDA #$02
@@ -184,17 +184,17 @@ runAttack:                     ;
   JSR requestUpdateDialog
   ; break shield
   LDA #$00
-  STA shield
-  STA shield_durability
+  STA shield@player
+  STA durability@player
   ; load damages(unblocked)
   LDA card_last_value
-  STA damages
+  STA damages@player
   JSR runDamages
   RTS
 @shielded:                     ; 
   ; check for overflow
   LDA card_last_value
-  CMP shield
+  CMP shield@player
   BCC @blocked
   ; dialog:damages
   LDA #$0B
@@ -203,17 +203,17 @@ runAttack:                     ;
   ; load damages(partial)
   LDA card_last_value
   SEC
-  SBC shield                   ; damages is now stored in A
-  STA damages
+  SBC shield@player            ; damages is now stored in A
+  STA damages@player
   JSR runDamages
   ; damage shield
   LDA card_last_value
-  STA shield_durability
+  STA durability@player
   RTS
 @blocked:                      ; 
   ; damage shield
   LDA card_last_value
-  STA shield_durability
+  STA durability@player
   ; dialog:blocked
   LDA #$0A
   STA dialog_id
@@ -224,23 +224,23 @@ runAttack:                     ;
 
 runDamages:                    ; 
   ; check if killing
-  LDA damages
-  CMP health
+  LDA damages@player
+  CMP health@player
   BCC @survive
   LDA #$00
-  STA health
-  STA shield
-  STA experience
+  STA health@player
+  STA shield@player
+  STA experience@player
   ; dialog:death
   LDA #$03
   STA dialog_id
   JSR requestUpdateDialog
   RTS                          ; stop attack phase
 @survive:                      ; 
-  LDA health
+  LDA health@player
   SEC
-  SBC damages
-  STA health
+  SBC damages@player
+  STA health@player
   ; dialog:attack
   LDA #$09
   STA dialog_id
@@ -251,18 +251,18 @@ runDamages:                    ;
 
 addPotionSickness:             ; 
   LDA #$01
-  STA potion_sickness
+  STA sickness@player
   RTS
 removePotionSickness:          ; 
   LDA #$00
-  STA potion_sickness
+  STA sickness@player
   RTS
 clampHealth:                   ; 
-  LDA health
+  LDA health@player
   CMP #$15
   BCC @done
   LDA #$15
-  STA health
+  STA health@player
 @done:                         ; 
   RTS
 
@@ -297,7 +297,7 @@ countCardsLeft:                ; () -> store count in x
 
 checkRoom:                     ; 
   ; check if player is alive
-  LDA health
+  LDA health@player
   CMP #$00
   BEQ @done
   ; get the number of cards left
@@ -316,7 +316,7 @@ checkRoom:                     ;
   RTS
 @complete:                     ; 
   LDA #$30                     ; how long until next draw
-  STA room_timer
+  STA timer@room
   RTS
 
 ;; room timer for auto change
@@ -327,11 +327,11 @@ checkRoomTimer:                ;
   CMP #$00
   BEQ @done
   ; check if room timer is done
-  LDA room_timer
+  LDA timer@room
   CMP #$00
   BEQ completeRoom
   ; decrement timer
-  DEC room_timer
+  DEC timer@room
 @done:                         ; 
   RTS                          ; return from NMI interup
 
@@ -352,7 +352,7 @@ completeRoom:                  ;
 enterNextRoom:                 ; 
   LDA #$00
   STA room_complete
-  STA room_timer
+  STA timer@room
   JSR drawHand1                ; TODO: replace with real draw
   RTS
 
@@ -362,7 +362,7 @@ checkRun:                      ;
   ; Easy Mode: Can run when has not run before.
   ; Normal Mode: Can run when has not run before, AND there is only 1 monster left.
   ; Hard Mode: Can never run.
-  LDA difficulty
+  LDA difficulty@player
   CMP #$00
   BEQ @Easy
   CMP #$01
@@ -404,7 +404,7 @@ checkRun:                      ;
 
 tryRun:                        ; 
   ; check if player is alive
-  LDA health
+  LDA health@player
   CMP #$00
   BNE @begin
   JSR restart

@@ -10,7 +10,7 @@ GameStart:                     ;
   JSR loadCursor
   JSR restart
   ; tests
-  JSR runTests
+  JSR run@tests
   ; render
   JSR renderStart
 
@@ -18,24 +18,6 @@ GameStart:                     ;
 
 Forever:                       ; 
   JMP Forever
-
-;; reset stats
-
-resetStats:                    ; 
-  LDA #$15
-  STA health
-  STA ui_health
-  LDA #$00
-  STA shield
-  STA shield_durability
-  STA experience
-  STA potion_sickness
-  LDA #$00
-  STA can_run
-  ; set difficulty
-  LDA #$00
-  STA difficulty
-  RTS
 
 ;; clear background
 
