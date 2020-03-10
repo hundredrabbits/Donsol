@@ -6,13 +6,13 @@ GameStart:                     ;
   JSR loadBackground
   JSR loadPalettes
   JSR loadAttributes
-  JSR loadInterface
-  JSR loadCursor
-  JSR restart
+  JSR load@interface
+  JSR load@cursor
+  JSR restart@game
   ; tests
   ; JSR run@tests
   ; render
-  JSR renderStart
+  JSR start@renderer
 
 ;; jump back to Forever, infinite loop
 
@@ -76,7 +76,7 @@ loadAttributes:                ;
 
 ;; Interface
 
-loadInterface:                 ; 
+load@interface:                ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   ; HP H
   LDA #$21
@@ -112,7 +112,7 @@ loadInterface:                 ;
 
 ;; Cursor
 
-loadCursor:                    ; 
+load@cursor:                   ; 
   LDA #$B0                     ; cursor(left)
   STA $0200                    ; set tile.y pos
   LDA #$10
@@ -133,7 +133,7 @@ loadCursor:                    ;
 
 ;; renderer
 
-renderStart:                   ; 
+start@renderer:                ; 
   LDA #%10010000               ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
   STA PPUCTRL
   LDA #%00011110               ; enable sprites, enable background, no clipping on left side
@@ -147,7 +147,7 @@ renderStart:                   ;
 
 ;;
 
-renderStop:                    ; 
+stop@renderer:                 ; 
   LDA #%10000000               ; disable NMI, sprites from Pattern Table 0
   STA PPUCTRL
   LDA #%00000000               ; disable sprites

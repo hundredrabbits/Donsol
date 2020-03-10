@@ -1,7 +1,5 @@
 
-;; deck
-
-;; Deck: Create a deck of 54($36) cards, from zeropage $80
+;; deck: Create a deck of 54($36) cards, from zeropage $80
 
 init@deck:                     ; 
   ; set deck length

@@ -9,7 +9,7 @@ NMI:                           ;
 
 ;; update
 
-  JSR checkRoomTimer           ; in core
+  JSR tic@room
   JSR interpolateStats         ; in client
   JSR updateClient             ; in client
 
@@ -34,19 +34,22 @@ checkInputLock:                ;
   AND #%00000001               ; only look at BIT 0
   BEQ @b                       ; check if button is already pressed
   LDX cursor
-  JSR flipCard                 ; flipcard(x: cursor)
-  JSR lockInput
+  JSR flip@room                ; flipcard(x: cursor)
+  JSR lock@input
 @b:                            ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @select
+  ; askquit: leave(TODO)
+  ; dungeon: run
   JSR tryRun
-  JSR lockInput
+  JSR lock@input
 @select:                       ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @start
   NOP                          ; do nothing
+  JSR askQuit@game
 @start:                        ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
@@ -57,38 +60,38 @@ checkInputLock:                ;
   AND #%00000001               ; only look at BIT 0
   BEQ @down
   NOP
-  JSR lockInput
+  JSR lock@input
 @down:                         ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @left
   NOP
-  JSR lockInput
+  JSR lock@input
 @left:                         ; 
   LDA JOY1
   AND #%00000001
   BEQ @right                   ; check if button is already pressed
-  JSR moveLeft
-  JSR lockInput
+  JSR left@input
+  JSR lock@input
 @right:                        ; 
   LDA JOY1
   AND #%00000001
   BEQ @done                    ; check if button is already pressed
-  JSR moveRight
-  JSR lockInput
+  JSR right@input
+  JSR lock@input
 @done:                         ; 
   RTI                          ; return from interrupt
 
 ;; lock
 
-lockInput:                     ; 
+lock@input:                    ; 
   LDA #$06
   STA timer@input
   RTS
 
 ;;
 
-moveRight:                     ; 
+right@input:                   ; 
   LDA cursor
   CMP #$03
   BEQ @wrap
@@ -104,7 +107,7 @@ moveRight:                     ;
 
 ;;
 
-moveLeft:                      ; 
+left@input:                    ; 
   LDA cursor
   CMP #$00
   BEQ @wrap
