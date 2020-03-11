@@ -17,6 +17,7 @@ show@game:                     ;
   RTS
 
 ;;
+
 restart@game:                  ; 
   JSR init@deck
   JSR shuffle@deck
@@ -163,9 +164,4 @@ loadAttributes@game:           ;
   INX
   CPX #$40
   BNE @loop
-  RTS
-
-;; test
-
-somethingUsed:                 ; 
   RTS

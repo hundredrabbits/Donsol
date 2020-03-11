@@ -1,4 +1,8 @@
-clearBackground:               ; 
+
+;; core
+
+;; clear background
+
   LDA PPUSTATUS                ; reset latch
   LDA #$20
   STA PPUADDR
@@ -19,7 +23,6 @@ clearBackground:               ;
 
 ;; Palettes
 
-loadPalettes:                  ; 
   LDA PPUSTATUS
   LDA #$3F
   STA PPUADDR

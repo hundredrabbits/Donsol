@@ -166,8 +166,7 @@ function findCalls (calls, content) {
 
 function findUncalledDefs (defs, calls) {
   for (const def of defs) {
-    if (calls[def]) { continue }
-    console.log(`Routine ${def}, is unused.`)
+    if (!calls[def]) { console.log(`Routine ${def}, is unused.`) }    
   }
 }
 
