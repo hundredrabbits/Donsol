@@ -173,3 +173,8 @@ loadAttributes@game:           ;
   CPX #$40
   BNE @loop
   RTS
+
+;; test
+
+somethingUsed:
+  RTS
