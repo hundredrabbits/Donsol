@@ -174,17 +174,6 @@ checkReqDialog:                ;
 @done:                         ; 
   RTS
 
-;; actual update code
-
-update@cursor:                 ; 
-  LDX cursor
-  LDA cursor_positions, x
-  STA $0203                    ; set tile.x pos
-  CLC
-  ADC #$08
-  STA $0207                    ; set tile.x pos
-  RTS
-
 ;;
 
 updateName:                    ; 
@@ -511,7 +500,7 @@ updateCard4:                   ;
 
 loadCardName:                  ; (y:card_id)
   ; figure out y
-  LDY cursor
+  LDY cursor@game
   LDA card1@room, y
   TAY
   ; find name offset

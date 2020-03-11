@@ -48,7 +48,7 @@ card3@room              .dsb 1
 card4@room              .dsb 1
 id@dialog               .dsb 1 ; dialog
 timer@renderer          .dsb 1
-cursor                  .dsb 1
+cursor@game             .dsb 1
 ui_health               .dsb 1
 ui_shield               .dsb 1
 ; stats
@@ -180,27 +180,22 @@ NMI:                           ;
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @b                       ; check if button is already pressed
-  LDX cursor
-  JSR flip@room                ; flipcard(x: cursor)
-  JSR lock@input
+  JSR a@input
 @b:                            ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @select
-  ; askquit: leave(TODO)
-  ; dungeon: run
-  JSR run@room
-  JSR lock@input
+  JSR b@input
 @select:                       ; 
   LDA JOY1
   AND #%00000001
   BEQ @start
-  JSR askQuit@game
+  JSR select@input
 @start:                        ; 
   LDA JOY1
   AND #%00000001
   BEQ @up
-  NOP
+  JSR start@input
 @up:                           ; 
   LDA JOY1
   AND #%00000001
@@ -216,13 +211,11 @@ NMI:                           ;
   AND #%00000001
   BEQ @right
   JSR left@input
-  JSR lock@input
 @right:                        ; 
   LDA JOY1
   AND #%00000001
   BEQ @done
   JSR right@input
-  JSR lock@input
 @done:                         ; 
   RTI                          ; return from interrupt
 

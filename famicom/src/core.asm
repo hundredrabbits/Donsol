@@ -90,27 +90,6 @@ setup@interface:               ;
   STA PPUDATA
   RTS
 
-;; Cursor
-
-setup@cursor:                  ; 
-  LDA #$B0                     ; cursor(left)
-  STA $0200                    ; set tile.y pos
-  LDA #$10
-  STA $0201                    ; set tile.id
-  LDA #$00
-  STA $0202                    ; set tile.attribute
-  LDA #$88
-  STA $0203                    ; set tile.x pos
-  LDA #$B0                     ; cursor(right)
-  STA $0204                    ; set tile.y pos
-  LDA #$11
-  STA $0205                    ; set tile.id
-  LDA #$00
-  STA $0206                    ; set tile.attribute
-  LDA #$88
-  STA $0207                    ; set tile.x pos
-  RTS
-
 ;; renderer
 
 start@renderer:                ; 

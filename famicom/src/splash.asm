@@ -1,5 +1,5 @@
 
-;;
+;; splash
 
 show@splash:                   ; 
   ; set splash mode
@@ -70,7 +70,7 @@ selectNext@splash:             ;
   LDA #$00
   STA cursor@splash
 @done:                         ; 
-  JSR onSelectChange@splash
+  JSR updateCursor@splash
   RTS
 
 ;;
@@ -85,13 +85,27 @@ selectPrev@splash:             ;
   LDA #$02
   STA cursor@splash
 @done:                         ; 
-  JSR onSelectChange@splash
+  JSR updateCursor@splash
   RTS
 
 ;;
 
-onSelectChange@splash:         ; 
-  JSR updateCursor@splash
+select@splash:                 ; 
+  ; set difficulty
+  LDA cursor@splash
+  STA difficulty@player
+  ; TODO: Set shuffle seed here
+  JSR show@game
+  RTS
+
+;;
+
+return@splash:                 ; 
+  ; set difficulty
+  LDA cursor@splash
+  STA difficulty@player
+  ; TODO: Set shuffle seed here
+  JSR show@game
   RTS
 
 ;;
@@ -116,7 +130,7 @@ initCursor@splash:             ;
 
 updateCursor@splash:           ; 
   LDX cursor@splash
-  LDA cursorPos@splash, x
+  LDA selections@splash, x
   STA $0203                    ; set tile.x pos
   CLC
   ADC #$08
