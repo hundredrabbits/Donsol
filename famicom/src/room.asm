@@ -151,28 +151,28 @@ checkRun:                      ;
 
 ;;
 
-tryRun:                        ; 
+run@room:                      ; 
   ; check if player is alive
   LDA hp@player
   CMP #$00
-  BNE @begin
-  JSR restart@game
-  RTS
-@begin:                        ; 
+  BEQ @respawn                 ; 
+  ; when alive
   JSR checkRun
   LDA can_run@player
+  ; check if can run
   CMP #$01
   BNE @unable
-  ; record running
+  ; when able, record running
   LDA #$01
   STA has_run@player
   ; draw cards for next room
   JSR enter@room
-  ; update interface
-  JSR requestUpdateRun
   ; dialog:run
   LDA #$0C
   JSR show@dialog
+  RTS
+@respawn:                      ; 
+  JSR restart@game
   RTS
 @unable:                       ; 
   ; dialog:cannot_run

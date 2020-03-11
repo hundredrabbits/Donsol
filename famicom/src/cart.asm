@@ -181,7 +181,7 @@ NMI:                           ;
   BEQ @select
   ; askquit: leave(TODO)
   ; dungeon: run
-  JSR tryRun
+  JSR run@room
   JSR lock@input
 @select:                       ; 
   LDA JOY1
