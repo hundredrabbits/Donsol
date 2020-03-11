@@ -515,7 +515,7 @@ loadCardName:                  ; (y:card_id)
   ADC names_temp
   TAY
   ; load dialog sprite
-  LDA (names_low), y           ; load value at 16-bit address from (dialogs_low + dialogs_high) + y
+  LDA (names_low), y           ; load value at 16-bit address from (lb@dialogs + hb@dialogs) + y
   RTS
 
 ;; card sprites
@@ -576,9 +576,9 @@ update@dialog:                 ;
 load@dialog:                   ; (x:tile_id, y:id@dialog)
   ; find dialog offset
   LDA dialogs_offset_low,y
-  STA dialogs_low
+  STA lb@dialogs
   LDA dialogs_offset_high,y
-  STA dialogs_high
+  STA hb@dialogs
   ; add y + x registers
   TYA
   STX dialogs_temp
@@ -586,5 +586,5 @@ load@dialog:                   ; (x:tile_id, y:id@dialog)
   ADC dialogs_temp
   TAY
   ; load dialog sprite
-  LDA (dialogs_low), y         ; load value at 16-bit address from (dialogs_low + dialogs_high) + y
+  LDA (lb@dialogs), y          ; load value at 16-bit address from (lb@dialogs + hb@dialogs) + y
   RTS

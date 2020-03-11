@@ -6,7 +6,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 ## TODOs
 
 - Display highscore on splash
-- Implement running, put cards back into deck
 - Implement shuffle seed
 - Can reshuffle on first hand
 - Implement deck shuffling
@@ -14,7 +13,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 - Implement dungeon complete
 - When shield break, display cyan star next to SP
 - Implement sounds
-- Implement restart, maybe pressing select + a?
 
 ## Card IDs
 

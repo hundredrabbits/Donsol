@@ -22,6 +22,15 @@ pull@deck:                     ;
   JSR shift@deck
   RTS
 
+;; return card to deck
+
+return@deck:                   ; (a:card_id)
+  LDX length@deck
+  INX
+  STA $80,x
+  INC length@deck
+  RTS
+
 ;; put last card back into the deck
 
 push@deck:                     ; 

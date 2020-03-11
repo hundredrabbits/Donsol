@@ -149,6 +149,32 @@ checkRun:                      ;
   STA can_run@player
   RTS
 
+;; return non-flipped cards back to the end of the deck
+
+returnCards@room:              ; 
+@return1:                      ; 
+  LDA card1@room
+  CMP #$36
+  BEQ @return2
+  JSR return@deck
+@return2:                      ; 
+  LDA card2@room
+  CMP #$36
+  BEQ @return3
+  JSR return@deck
+@return3:                      ; 
+  LDA card3@room
+  CMP #$36
+  BEQ @return4
+  JSR return@deck
+@return4:                      ; 
+  LDA card4@room
+  CMP #$36
+  BEQ @done
+  JSR return@deck
+@done
+  RTS
+
 ;;
 
 run@room:                      ; 
@@ -166,6 +192,7 @@ run@room:                      ;
   LDA #$01
   STA has_run@player
   ; draw cards for next room
+  JSR returnCards@room
   JSR enter@room
   ; dialog:run
   LDA #$0C
