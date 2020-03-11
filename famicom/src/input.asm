@@ -9,31 +9,21 @@ lock@input:                    ;
 ;;
 
 right@input:                   ; 
-  LDA cursor
-  CMP #$03
-  BEQ @wrap
-  INC cursor
-  JMP @done
-@wrap:                         ; 
-  LDA #$00
-  STA cursor
-@done:                         ; 
-  JSR requestUpdateName
-  JSR update@cursor
+  LDA view@game
+  CMP #$00
+  BEQ @splash
+  JSR selectNext@game
+@splash:                       ; 
+  JSR selectNext@splash
   RTS
 
 ;;
 
 left@input:                    ; 
-  LDA cursor
+  LDA view@game
   CMP #$00
-  BEQ @wrap
-  DEC cursor
-  JMP @done
-@wrap:                         ; 
-  LDA #$03
-  STA cursor
-@done:                         ; 
-  JSR requestUpdateName
-  JSR update@cursor
+  BEQ @splash
+  JSR selectPrev@game
+@splash:                       ; 
+  JSR selectPrev@splash
   RTS

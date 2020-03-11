@@ -68,8 +68,8 @@ reqdraw_dialog          .dsb 1
 reqdraw_run             .dsb 1
 reqdraw_name            .dsb 1
 ; 16-bits
-cards_low               .dsb 1
-cards_high              .dsb 1
+lb@cards                .dsb 1
+hb@cards                .dsb 1
 cards_temp              .dsb 1
 dialogs_low             .dsb 1
 dialogs_high            .dsb 1
@@ -78,6 +78,11 @@ names_low               .dsb 1
 names_high              .dsb 1
 names_temp              .dsb 1
 count@test              .dsb 1
+; splash
+lb@splash               .dsb 1
+hb@splash               .dsb 1
+cursor@splash           .dsb 1
+view@game               .dsb 1 ; display which mode
 
 ;;
 
@@ -122,15 +127,18 @@ RESET:                         ;
 
 ;; Setup
 
-  ; start drawing
-  JSR loadBackground
   JSR loadPalettes
-  JSR loadAttributes
-  JSR setup@interface
-  JSR setup@cursor
-  JSR restart@game
+  ; start drawing
+  ; JSR loadBackground
+  ; JSR loadAttributes
+  ;
+  JSR show@splash
+  ;
+  ; JSR setup@interface
+  ; JSR setup@cursor
+  ; JSR restart@game
   ; tests
-  JSR run@tests
+  ; JSR run@tests
   ; render
   JSR start@renderer
 
@@ -220,6 +228,7 @@ NMI:                           ;
 
 ;; includes
 
+include "src/splash.asm"
 include "src/game.asm"
 include "src/input.asm"
 include "src/core.asm"

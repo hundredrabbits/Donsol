@@ -534,9 +534,9 @@ loadCardName:                  ; (y:card_id)
 loadCardSprite:                ; (x:tile_id, y:card_id)
   ; find card offset
   LDA cards_offset_low,y
-  STA cards_low
+  STA lb@cards
   LDA cards_offset_high,y
-  STA cards_high
+  STA hb@cards
   ; add y + x registers
   TYA
   STX cards_temp
@@ -544,7 +544,7 @@ loadCardSprite:                ; (x:tile_id, y:card_id)
   ADC cards_temp
   TAY
   ; load card sprite
-  LDA (cards_low), y           ; load value at 16-bit address from (cards_low + cards_high) + y
+  LDA (lb@cards), y            ; load value at 16-bit address from (lb@cards + hb@cards) + y
   RTS
 
 ;; dialog
