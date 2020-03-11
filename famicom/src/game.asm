@@ -12,8 +12,8 @@ show@game:                     ;
   JSR stop@renderer
   JSR load@game
   JSR loadAttributes@game
-  JSR start@renderer
   JSR restart@game
+  JSR start@renderer
   RTS
 
 ;;
@@ -24,9 +24,6 @@ restart@game:                  ;
   JSR reset@player
   JSR enter@room
   JSR requestUpdateStats
-  JSR requestUpdateRun
-  JSR updateCursor@game
-  JSR requestUpdateCards
   JSR requestUpdateName
   ; set enter dialog
   LDA #$04
@@ -131,9 +128,8 @@ selectPrev@game:               ;
 ;;
 
 select@game:                   ; 
-  ; TODO
-  ; LDX cursor@game
-  ; JSR flip@room
+  LDX cursor@game
+  JSR flip@room
   RTS
 
 ;;
@@ -141,8 +137,7 @@ select@game:                   ;
 return@game:                   ; 
   ; askquit: leave(TODO)
   ; dungeon: run
-  ; TODO
-  ; JSR run@room 
+  JSR run@room
   RTS
 
 ;;

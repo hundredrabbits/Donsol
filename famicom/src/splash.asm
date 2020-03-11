@@ -105,6 +105,7 @@ return@splash:                 ;
   LDA cursor@splash
   STA difficulty@player
   ; TODO: Set shuffle seed here
+  JSR stop@renderer
   JSR show@game
   RTS
 

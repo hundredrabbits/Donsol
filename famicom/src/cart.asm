@@ -159,9 +159,18 @@ NMI:                           ;
   LDA #$02
   STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
 
-;; update
+;; if input, just do that
 
+@input:                        ; 
+  LDA last@input
+  CMP #$00
+  BEQ @frame
   JSR update@input
+  RTI
+
+;;render frame & timers
+
+@frame:                        ; 
   JSR update@room
   JSR interpolateStats         ; in client
   JSR updateClient             ; in client

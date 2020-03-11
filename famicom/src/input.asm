@@ -25,6 +25,7 @@ onA@input:                     ;
   BEQ @splash
   JSR select@game
   JSR lock@input
+  RTS
 @splash:                       ; 
   JSR select@splash
   JSR lock@input
@@ -38,6 +39,7 @@ onB@input:                     ;
   BEQ @splash
   JSR return@game
   JSR lock@input
+  RTS
 @splash:                       ; 
   JSR return@splash
   JSR lock@input
@@ -67,6 +69,7 @@ onLEFT@input:                  ;
   BEQ @splash
   JSR selectPrev@game
   JSR lock@input
+  RTS
 @splash:                       ; 
   JSR selectPrev@splash
   JSR lock@input
@@ -80,6 +83,7 @@ onRIGHT@input:                 ;
   BEQ @splash
   JSR selectNext@game
   JSR lock@input
+  RTS
 @splash:                       ; 
   JSR selectNext@splash
   JSR lock@input
