@@ -68,9 +68,6 @@ onSELECT@input:                ;
 ;;
 
 onSTART@input:                 ; 
-  ; TODO: 
-  ; JSR askQuit@game
-  ; JSR lock@input
   RTS
 
 ;;

@@ -31,24 +31,6 @@ return@deck:                   ; (a:card_id)
   INC length@deck
   RTS
 
-;; put last card back into the deck
-
-push@deck:                     ; 
-  ; check if has card in hand
-  LDA hand@deck
-  CMP #$00
-  BEQ @done                    ; no card to return
-  ; return card
-  LDX length@deck
-  INX
-  STA $80,x
-  INC length@deck
-  ; empty hand
-  LDA #$00
-  STA hand@deck
-@done
-  RTS
-
 ;; Shift deck forward by 1
 
 shift@deck:                    ; 

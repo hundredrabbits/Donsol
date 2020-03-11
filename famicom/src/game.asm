@@ -17,7 +17,6 @@ show@game:                     ;
   RTS
 
 ;;
-
 restart@game:                  ; 
   JSR init@deck
   JSR shuffle@deck
@@ -85,14 +84,6 @@ load@game:                     ;
   ; XP P
   LDA #$1A
   STA PPUDATA
-  RTS
-
-;;
-
-askQuit@game:                  ; TODO: Implement actual return to splash
-  ; dialog
-  LDA #$0E
-  JSR show@dialog
   RTS
 
 ;;
@@ -176,5 +167,5 @@ loadAttributes@game:           ;
 
 ;; test
 
-somethingUsed:
+somethingUsed:                 ; 
   RTS

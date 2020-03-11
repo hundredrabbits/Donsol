@@ -131,10 +131,52 @@ function lint6502 (text) {
   return lines.join('\n')
 }
 
+//
+
+function findDefs (defs, content) {
+  const lines = content.split('\n').filter((line) => {
+    if (line.indexOf(':') < 0) { return false }
+    if (line.substr(0, 1) === '@') { return false }
+    if (line.split(';')[0].indexOf(':') < 0) { return false }
+    return true
+  })
+
+  for (const line of lines) {
+    defs.push(line.trim().split(':')[0])
+  }
+}
+
+function findCalls (calls, content) {
+  const lines = content.split('\n').filter((line) => {
+    if (line.substr(0, 2) !== '  ') { return false }
+    if (line.substr(5, 1) !== ' ') { return false }
+    if (line.substr(6, 1) === '#') { return false }
+    if (line.substr(6, 1) === '@') { return false }
+    if (line.substr(6, 1) === '$') { return false }
+    if (line.substr(6, 1) === '%') { return false }
+    return true
+  })
+
+  for (const line of lines) {
+    const name = line.trim().substr(4).split(';')[0].trim().split(',')[0].trim()
+    if (!calls[name]) { calls[name] = 0 }
+    calls[name] += 1
+  }
+}
+
+function findUncalledDefs (defs, calls) {
+  for (const def of defs) {
+    if (calls[def]) { continue }
+    console.log(`Routine ${def}, is unused.`)
+  }
+}
+
 // Load /src
 
 const fs = require('fs')
 const folder = 'src'
+const defs = []
+const calls = {}
 
 if (fs.existsSync(folder)) {
   fs.readdirSync(folder).forEach(file => {
@@ -146,8 +188,12 @@ if (fs.existsSync(folder)) {
         console.log(`Linting ${path}`)
         fs.writeFileSync(path, lint6502(contents))
       }
+      findDefs(defs, contents)
+      findCalls(calls, contents)
     }
   })
+  //
+  findUncalledDefs(defs, calls)
 } else {
   console.error('Error: Could not open folder /' + folder)
 }

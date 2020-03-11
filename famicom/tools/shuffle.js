@@ -24,4 +24,4 @@ for (let i = 0; i < 54; i++) {
   deck.push(i)
 }
 
-console.log('  '+shuffle(deck).map(toHex).reduce(format, '')+'\n\n')
+console.log('  ' + shuffle(deck).map(toHex).reduce(format, '') + '\n\n')
