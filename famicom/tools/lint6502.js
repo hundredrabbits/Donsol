@@ -133,16 +133,18 @@ function lint6502 (text) {
 
 //
 
-function findDefs (defs, content) {
+function findDefs (defs, content, path) {
   const lines = content.split('\n').filter((line) => {
     if (line.indexOf(':') < 0) { return false }
+    if (line.indexOf('[skip]') > -1) { return false }
     if (line.substr(0, 1) === '@') { return false }
     if (line.split(';')[0].indexOf(':') < 0) { return false }
     return true
   })
 
   for (const line of lines) {
-    defs.push(line.trim().split(':')[0])
+    const name = line.trim().split(':')[0]
+    defs[name] = path
   }
 }
 
@@ -165,8 +167,8 @@ function findCalls (calls, content) {
 }
 
 function findUncalledDefs (defs, calls) {
-  for (const def of defs) {
-    if (!calls[def]) { console.log(`Routine ${def}, is unused.`) }    
+  for (const def in defs) {
+    if (!calls[def]) { console.log(`Routine ${def}, defined in ${defs[def]}, is unused.`) }
   }
 }
 
@@ -187,8 +189,8 @@ if (fs.existsSync(folder)) {
         console.log(`Linting ${path}`)
         fs.writeFileSync(path, lint6502(contents))
       }
-      findDefs(defs, contents)
-      findCalls(calls, contents)
+      findDefs(defs, contents, path)
+      findCalls(calls, contents, path)
     }
   })
   //
