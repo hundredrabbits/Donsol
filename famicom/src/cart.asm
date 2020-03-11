@@ -22,6 +22,17 @@ SNDCHN              .equ $4015
 JOY1                .equ $4016
 JOY2                .equ $4017
 
+;;
+
+BUTTON_A            .equ #$10
+BUTTON_B            .equ #$11
+BUTTON_SELECT       .equ #$12
+BUTTON_START        .equ #$13
+BUTTON_UP           .equ #$14
+BUTTON_DOWN         .equ #$15
+BUTTON_LEFT         .equ #$16
+BUTTON_RIGHT        .equ #$17
+
 ;; variables
 
   .enum $0000                  ; Zero Page variables
@@ -38,6 +49,7 @@ sickness@player         .dsb 1
 can_run@player          .dsb 1
 has_run@player          .dsb 1
 timer@input             .dsb 1 ; input
+last@input              .dsb 1
 length@deck             .dsb 1 ; deck
 hand@deck               .dsb 1
 timer@room              .dsb 1 ; room
@@ -128,15 +140,7 @@ RESET:                         ;
 ;; Setup
 
   JSR loadPalettes
-  ; start drawing
-  ; JSR loadBackground
-  ; JSR loadAttributes
-  ;
   JSR show@splash
-  ;
-  ; JSR setup@interface
-  ; JSR setup@cursor
-  ; JSR restart@game
   ; tests
   ; JSR run@tests
   ; render
@@ -157,6 +161,7 @@ NMI:                           ;
 
 ;; update
 
+  JSR update@input
   JSR update@room
   JSR interpolateStats         ; in client
   JSR updateClient             ; in client
@@ -180,42 +185,48 @@ NMI:                           ;
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @b                       ; check if button is already pressed
-  JSR a@input
+  LDA BUTTON_A
+  STA last@input
 @b:                            ; 
   LDA JOY1
   AND #%00000001               ; only look at BIT 0
   BEQ @select
-  JSR b@input
+  LDA BUTTON_B
+  STA last@input
 @select:                       ; 
   LDA JOY1
   AND #%00000001
   BEQ @start
-  JSR select@input
+  LDA BUTTON_SELECT
+  STA last@input
 @start:                        ; 
   LDA JOY1
   AND #%00000001
   BEQ @up
-  JSR start@input
+  LDA BUTTON_START
+  STA last@input
 @up:                           ; 
   LDA JOY1
   AND #%00000001
   BEQ @down
-  NOP
+  NOP                          ; unused/disabled in Donsol
 @down:                         ; 
   LDA JOY1
   AND #%00000001
   BEQ @left
-  NOP
+  NOP                          ; unused/disabled in Donsol
 @left:                         ; 
   LDA JOY1
   AND #%00000001
   BEQ @right
-  JSR left@input
+  LDA BUTTON_LEFT
+  STA last@input
 @right:                        ; 
   LDA JOY1
   AND #%00000001
   BEQ @done
-  JSR right@input
+  LDA BUTTON_RIGHT
+  STA last@input
 @done:                         ; 
   RTI                          ; return from interrupt
 

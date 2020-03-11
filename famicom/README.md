@@ -5,7 +5,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Implement running, put cards back into deck.
+- Convert key presses into flags
+- Implement running, put cards back into deck
 - Only monsters give XP, or count monsters left in deck to detect complete?
 - Implement shuffle seed
 - Implement restart

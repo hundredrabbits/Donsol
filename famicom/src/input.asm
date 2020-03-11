@@ -1,40 +1,25 @@
 
-;; lock
+;;
 
-lock@input:                    ; 
-  LDA #$06
-  STA timer@input
+update@input:                  ; run from nmi
+  LDA last@input
+  CMP BUTTON_A
+  BEQ onA@input
+  CMP BUTTON_B
+  BEQ onB@input
+  CMP BUTTON_SELECT
+  BEQ onSELECT@input
+  CMP BUTTON_START
+  BEQ onSTART@input
+  CMP BUTTON_LEFT
+  BEQ onLEFT@input
+  CMP BUTTON_RIGHT
+  BEQ onRIGHT@input
   RTS
 
 ;;
 
-right@input:                   ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-  JSR selectNext@game
-  JSR lock@input
-@splash:                       ; 
-  JSR selectNext@splash
-  JSR lock@input
-  RTS
-
-;;
-
-left@input:                    ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-  JSR selectPrev@game
-  JSR lock@input
-@splash:                       ; 
-  JSR selectPrev@splash
-  JSR lock@input
-  RTS
-
-;;
-
-a@input:                       ; 
+onA@input:                     ; 
   LDA view@game
   CMP #$00
   BEQ @splash
@@ -47,7 +32,7 @@ a@input:                       ;
 
 ;;
 
-b@input:                       ; 
+onB@input:                     ; 
   LDA view@game
   CMP #$00
   BEQ @splash
@@ -60,14 +45,52 @@ b@input:                       ;
 
 ;;
 
-select@input:                  ; 
-  JSR askQuit@game
+onSELECT@input:                ; 
+  ; TODO: 
+  ; JSR askQuit@game
+  ; JSR lock@input
+  RTS
+
+;;
+
+onSTART@input:                 ; 
+  ; TODO: 
+  ; JSR askQuit@game
+  ; JSR lock@input
+  RTS
+
+;;
+
+onLEFT@input:                  ; 
+  LDA view@game
+  CMP #$00
+  BEQ @splash
+  JSR selectPrev@game
+  JSR lock@input
+@splash:                       ; 
+  JSR selectPrev@splash
   JSR lock@input
   RTS
 
 ;;
 
-start@input:                   ; 
-  JSR askQuit@game
+onRIGHT@input:                 ; 
+  LDA view@game
+  CMP #$00
+  BEQ @splash
+  JSR selectNext@game
   JSR lock@input
+@splash:                       ; 
+  JSR selectNext@splash
+  JSR lock@input
+  RTS
+
+;; lock
+
+lock@input:                    ; 
+  LDA #$06
+  STA timer@input
+  ; release
+  LDA #$00
+  STA last@input
   RTS

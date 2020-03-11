@@ -8,6 +8,12 @@ show@game:                     ;
   ; setup cursor
   JSR initCursor@game
   JSR updateCursor@game
+  ; display
+  JSR stop@renderer
+  JSR load@game
+  JSR loadAttributes@game
+  JSR start@renderer
+  JSR restart@game
   RTS
 
 ;;
@@ -28,6 +34,60 @@ restart@game:                  ;
   ; reset room timer
   LDA #$30
   STA timer@room
+  RTS
+
+;;
+
+load@game:                     ; 
+  ; clear background
+  LDA PPUSTATUS                ; reset latch
+  LDA #$20
+  STA PPUADDR
+  LDA #$00
+  STA PPUADDR
+  LDX #$00
+  LDY #$00
+@loop:                         ; 
+  LDA #$00                     ; sprite id
+  STA PPUDATA
+  INY
+  CPY #$00
+  BNE @loop
+  INX
+  CPX #$04
+  BNE @loop
+@interface:                    ; 
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+  ; HP H
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$03
+  STA PPUADDR                  ; write the low byte
+  LDA #$12
+  STA PPUDATA
+  ; HP P
+  LDA #$1A
+  STA PPUDATA
+  ; SP S
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$0A
+  STA PPUADDR                  ; write the low byte
+  LDA #$1D
+  STA PPUDATA
+  ; SP P
+  LDA #$1A
+  STA PPUDATA
+  ; XP X
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$11
+  STA PPUADDR                  ; write the low byte
+  LDA #$22
+  STA PPUDATA
+  ; XP P
+  LDA #$1A
+  STA PPUDATA
   RTS
 
 ;;
@@ -71,8 +131,9 @@ selectPrev@game:               ;
 ;;
 
 select@game:                   ; 
-  LDX cursor@game
-  JSR flip@room
+  ; TODO
+  ; LDX cursor@game
+  ; JSR flip@room
   RTS
 
 ;;
@@ -80,10 +141,8 @@ select@game:                   ;
 return@game:                   ; 
   ; askquit: leave(TODO)
   ; dungeon: run
-  JSR run@room
-  RTS
-onSelectChange@game:           ; 
-  ; JSR update@cursor
+  ; TODO
+  ; JSR run@room 
   RTS
 
 ;;
@@ -116,4 +175,21 @@ updateCursor@game:             ;
   CLC
   ADC #$08
   STA $0207                    ; set tile.x pos
+  RTS
+
+;;
+
+loadAttributes@game:           ; 
+  LDA PPUSTATUS
+  LDA #$23
+  STA PPUADDR
+  LDA #$C0
+  STA PPUADDR
+  LDX #$00
+@loop:                         ; 
+  LDA attributes@game, x
+  STA PPUDATA
+  INX
+  CPX #$40
+  BNE @loop
   RTS

@@ -1,7 +1,4 @@
-
-;; clear background
-
-loadBackground:                ; 
+clearBackground:               ; 
   LDA PPUSTATUS                ; reset latch
   LDA #$20
   STA PPUADDR
@@ -37,58 +34,7 @@ loadPalettes:                  ;
   BNE @loop
   RTS
 
-;; Attributes
-
-loadAttributes:                ; 
-  LDA PPUSTATUS
-  LDA #$23
-  STA PPUADDR
-  LDA #$C0
-  STA PPUADDR
-  LDX #$00
-@loop:                         ; 
-  LDA attributes, x
-  STA PPUDATA
-  INX
-  CPX #$40
-  BNE @loop
-  RTS
-
 ;; Interface
-
-setup@interface:               ; 
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
-  ; HP H
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$03
-  STA PPUADDR                  ; write the low byte
-  LDA #$12
-  STA PPUDATA
-  ; HP P
-  LDA #$1A
-  STA PPUDATA
-  ; SP S
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$0A
-  STA PPUADDR                  ; write the low byte
-  LDA #$1D
-  STA PPUDATA
-  ; SP P
-  LDA #$1A
-  STA PPUDATA
-  ; XP X
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$11
-  STA PPUADDR                  ; write the low byte
-  LDA #$22
-  STA PPUDATA
-  ; XP P
-  LDA #$1A
-  STA PPUDATA
-  RTS
 
 ;; renderer
 
