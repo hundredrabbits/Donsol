@@ -11,9 +11,12 @@ restart@game:                  ;
   JSR update@cursor
   JSR requestUpdateCards
   JSR requestUpdateName
-  ; dialog
+  ; set enter dialog
   LDA #$04
   JSR show@dialog
+  ; reset room timer
+  LDA #$30
+  STA timer@room
   RTS
 
 ;;

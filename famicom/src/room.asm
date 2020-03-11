@@ -1,6 +1,40 @@
 
 ;; room
 
+update@room:                   ; update from the nmi
+  ; look for unflipped cards
+  LDA card1@room
+  CMP #$36
+  BNE @incomplete
+  LDA card2@room
+  CMP #$36
+  BNE @incomplete
+  LDA card3@room
+  CMP #$36
+  BNE @incomplete
+  LDA card4@room
+  CMP #$36
+  BNE @incomplete
+  ; when the room is complete
+  LDA timer@room
+  CMP #$00
+  BEQ @proceed
+  DEC timer@room
+  RTS
+@proceed:                      ; 
+  ; reset ran flag
+  LDA #$00
+  STA has_run@player
+  ; reset timer
+  LDA #$30
+  STA timer@room
+  ; go on..
+  JSR enter@room
+@incomplete:                   ; 
+  RTS
+
+;;
+
 enter@room:                    ; 
   JSR pull@deck                ; pull card1
   LDY hand@deck
@@ -27,21 +61,20 @@ enter@room:                    ;
 ;; flip card from the table, used in controls when press
 
 flip@room:                     ; (x:card_pos)
-  LDA hp@player                ; check if player is alive
+  LDA hp@player
   CMP #$00
   BEQ @done
-  LDA card1@room, x            ; check if card is flipped
+  ; when player is alive
+  LDA card1@room, x
   CMP #$36
   BEQ @done
+  ; when card is not flipped
   TAY                          ; pick card
   JSR pickCard
   LDA #$36                     ; flip card
   STA card1@room, x
   LDA #$01                     ; request draw
   STA reqdraw_card1, x
-  JSR check@room               ; updates
-  JSR checkRun
-  JSR requestUpdateRun
 @done:                         ; 
   RTS
 
@@ -71,32 +104,6 @@ count@room:                    ; () -> store count in x
   INX
 @done:                         ; 
   RTS
-
-;; check for completed room
-
-check@room:                    ; 
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @done
-  ; get the number of cards left
-  JSR count@room               ; stores in x
-  TXA
-  CMP #$00
-  BNE @done
-  ; is complete
-  LDA #$01
-  STA completed@room           ; set completed@room to $01
-@done:                         ; 
-  ; auto change room if all cards are flipped
-  LDA completed@room
-  CMP #$01
-  BEQ @complete
-  RTS
-@complete:                     ; 
-  LDA #$30                     ; how long until next draw
-  STA timer@room
-  RTS                          ; return from NMI interup
 
 ;; running
 
@@ -171,36 +178,4 @@ tryRun:                        ;
   ; dialog:cannot_run
   LDA #$0D
   JSR show@dialog
-  RTS
-
-;; update from the nmi
-
-update@room:                   ; 
-  ; look for unflipped cards
-  LDA card1@room
-  CMP #$36
-  BNE @incomplete
-  LDA card2@room
-  CMP #$36
-  BNE @incomplete
-  LDA card3@room
-  CMP #$36
-  BNE @incomplete
-  LDA card4@room
-  CMP #$36
-  BNE @incomplete
-  ; when the room is complete
-  LDA timer@room
-  CMP #$00
-  BEQ @proceed
-  DEC timer@room
-  RTS
-@proceed:                      ; 
-  ; reset ran flag & timer
-  LDA #$00
-  STA has_run@player
-  STA timer@room
-  ; go on..
-  JSR enter@room
-@incomplete:                   ; 
   RTS
