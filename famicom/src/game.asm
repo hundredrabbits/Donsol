@@ -127,21 +127,6 @@ selectPrev@game:               ;
 
 ;;
 
-select@game:                   ; 
-  LDX cursor@game
-  JSR flip@room
-  RTS
-
-;;
-
-return@game:                   ; 
-  ; askquit: leave(TODO)
-  ; dungeon: run
-  JSR run@room
-  RTS
-
-;;
-
 initCursor@game:               ; 
   LDA #$B0                     ; cursor(left)
   STA $0200                    ; set tile.y pos

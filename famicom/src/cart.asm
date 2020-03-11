@@ -60,6 +60,7 @@ card3@room              .dsb 1
 card4@room              .dsb 1
 id@dialog               .dsb 1 ; dialog
 timer@renderer          .dsb 1
+seed@game               .dsb 1 ; The seed for the random shuffle
 cursor@game             .dsb 1
 ui_health               .dsb 1
 ui_shield               .dsb 1
@@ -143,8 +144,6 @@ RESET:                         ;
   JSR show@splash
   ; tests
   ; JSR run@tests
-  ; render
-  JSR start@renderer
 
 ;; jump back to Forever, infinite loop
 
@@ -175,8 +174,16 @@ NMI:                           ;
   JSR interpolateStats         ; in client
   JSR updateClient             ; in client
 
+;; increment random seed in splash
+
+  LDA view@game
+  CMP #$00
+  BNE @locked
+  INC seed@game
+
 ;; skip latch if input is locked
 
+@locked
   LDA timer@input
   CMP #$00
   BEQ @latch

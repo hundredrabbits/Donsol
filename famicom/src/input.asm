@@ -23,11 +23,15 @@ onA@input:                     ;
   LDA view@game
   CMP #$00
   BEQ @splash
-  JSR select@game
+@game:                         ; 
+  LDX cursor@game
+  JSR flip@room                ; flip selected card
   JSR lock@input
   RTS
 @splash:                       ; 
-  JSR select@splash
+  LDA cursor@splash
+  STA difficulty@player        ; store difficulty
+  JSR show@game
   JSR lock@input
   RTS
 
@@ -37,20 +41,28 @@ onB@input:                     ;
   LDA view@game
   CMP #$00
   BEQ @splash
-  JSR return@game
+@game:                         ; 
+  JSR run@room
   JSR lock@input
   RTS
 @splash:                       ; 
-  JSR return@splash
+  LDA cursor@splash
+  STA difficulty@player        ; store difficulty
+  JSR show@game
   JSR lock@input
   RTS
 
 ;;
 
 onSELECT@input:                ; 
-  ; TODO: 
-  ; JSR askQuit@game
-  ; JSR lock@input
+  LDA view@game
+  CMP #$00
+  BEQ @splash
+  JSR show@splash
+  JSR lock@input
+  RTS
+@splash:                       ; 
+  NOP
   RTS
 
 ;;

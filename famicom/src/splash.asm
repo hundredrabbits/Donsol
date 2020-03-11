@@ -90,27 +90,6 @@ selectPrev@splash:             ;
 
 ;;
 
-select@splash:                 ; 
-  ; set difficulty
-  LDA cursor@splash
-  STA difficulty@player
-  ; TODO: Set shuffle seed here
-  JSR show@game
-  RTS
-
-;;
-
-return@splash:                 ; 
-  ; set difficulty
-  LDA cursor@splash
-  STA difficulty@player
-  ; TODO: Set shuffle seed here
-  JSR stop@renderer
-  JSR show@game
-  RTS
-
-;;
-
 initCursor@splash:             ; 
   LDA #$C8
   STA $0200                    ; (part1)set tile.y pos
