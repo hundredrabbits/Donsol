@@ -5,15 +5,19 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Custom message for difficulty on enter dungeon
-- Get rid of the can_run flag? conver to routine
-- Display highscore on splash
-- Implement shuffle seed
-- Can reshuffle on first hand
 - Implement deck shuffling
-- Implement onscreen guide
+  - Implement shuffle seed
+  - Can reshuffle on first hand
 - Implement dungeon complete
+  - Last rooms should check if card exists or display a folded card.
+- Implement more tests
+  - Test running?
+  - Test dungeon complete
+  - Test difficulty?
+- Display highscore on splash
+- Implement onscreen guide
 - When shield break, display cyan star next to SP
+- Get rid of the can_run flag? conver to routine
 - Implement sounds
 
 ## Rules
