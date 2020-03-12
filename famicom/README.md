@@ -17,7 +17,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 - Display highscore on splash
 - Implement onscreen guide
 - When shield break, display cyan star next to SP
-- Get rid of the can_run flag? conver to routine
 - Implement sounds
 
 ## Rules

@@ -42,7 +42,7 @@ onB@input:                     ;
   CMP #$00
   BEQ @splash
 @game:                         ; 
-  JSR run@room
+  JSR run@player
   JSR lock@input
   RTS
 @splash:                       ; 

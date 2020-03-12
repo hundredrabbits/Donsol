@@ -8,7 +8,6 @@ xp@player               .dsb 1 ; experience points
 damages@player          .dsb 1 ; TODO: check if necessary?
 difficulty@player       .dsb 1
 sickness@player         .dsb 1
-can_run@player          .dsb 1
 has_run@player          .dsb 1
 timer@input             .dsb 1 ; input
 last@input              .dsb 1

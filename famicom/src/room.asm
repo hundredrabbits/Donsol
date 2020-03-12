@@ -53,7 +53,6 @@ enter@room:                    ;
   TYA
   STA card4@room
   ; etcs
-  JSR checkRun
   JSR requestUpdateRun
   JSR requestUpdateCards
   RTS
@@ -110,46 +109,6 @@ enemiesLeft@room:              ; () -> a:count
   TXA
   RTS
 
-;; running
-
-checkRun:                      ; 
-  LDA difficulty@player
-  CMP #$00
-  BEQ @Easy
-  CMP #$01
-  BEQ @Normal
-  CMP #$02
-  BEQ @Hard
-@Easy:                         ; RULE | can escape if when no monsters present or when has not escaped before
-  JSR enemiesLeft@room
-  CMP #$00
-  BEQ @enableRun               ; when monsters left
-  LDA has_run@player
-  CMP #$01
-  BEQ @disableRun              ; when has not escaped
-  JSR @enableRun
-  RTS
-@Normal:                       ; RULE | can escape when has not escaped before
-  LDA has_run@player
-  CMP #$01
-  BEQ @disableRun              ; when has not escaped
-  JSR @enableRun
-  RTS
-@Hard:                         ; RULE | can escape if there are no monsters present
-  JSR enemiesLeft@room
-  CMP #$00
-  BNE @disableRun              ; when no monsters present
-  JSR @enableRun
-  RTS
-@enableRun:                    ; 
-  LDA #$01
-  STA can_run@player
-  RTS
-@disableRun
-  LDA #$00
-  STA can_run@player
-  RTS
-
 ;; return non-flipped cards back to the end of the deck
 
 returnCards@room:              ; 
@@ -174,36 +133,4 @@ returnCards@room:              ;
   BEQ @done
   JSR return@deck
 @done
-  RTS
-
-;;
-
-run@room:                      ; 
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @respawn                 ; 
-  ; when alive
-  JSR checkRun
-  LDA can_run@player
-  ; check if can run
-  CMP #$01
-  BNE @unable
-  ; when able, record running
-  LDA #$01
-  STA has_run@player
-  ; draw cards for next room
-  JSR returnCards@room
-  JSR enter@room
-  ; dialog:run
-  LDA #$0C
-  JSR show@dialog
-  RTS
-@respawn:                      ; 
-  JSR restart@game
-  RTS
-@unable:                       ; 
-  ; dialog:cannot_run
-  LDA #$04
-  JSR show@dialog
   RTS

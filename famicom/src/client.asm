@@ -197,7 +197,7 @@ updateName:                    ;
 updateRun:                     ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   JSR stop@renderer
-  LDA can_run@player
+  JSR loadRun@player           ; load canRun in regA
   CMP #$01
   BNE @hide
   LDA xp@player
