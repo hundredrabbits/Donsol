@@ -10,27 +10,27 @@ function Card (sym, value, type, name = 'Unknown') {
   this.is_flipped = false
 
   this.install = function () {
-    let e = document.createElement('card')
+    const e = document.createElement('card')
     e.setAttribute('class', this.type + ' card_' + this.value)
 
     // Face
-    let face = document.createElement('div')
+    const face = document.createElement('div')
     face.setAttribute('class', 'face')
     e.appendChild(face)
 
     // Value
-    let value = document.createElement('span')
+    const value = document.createElement('span')
     value.setAttribute('class', 'value')
     value.innerHTML = this.symbol
     face.appendChild(value)
 
-    let graphic = document.createElement('div')
+    const graphic = document.createElement('div')
     graphic.className = 'graphic'
     graphic.innerHTML = require('fs').readFileSync(`${__dirname}/media/${this.type}/${this.value}.svg`)
     face.appendChild(graphic)
 
     // Name
-    let name_element = document.createElement('span')
+    const name_element = document.createElement('span')
     name_element.setAttribute('class', 'name')
     name_element.innerHTML = this.name + ' ' + this.value
     face.appendChild(name_element)

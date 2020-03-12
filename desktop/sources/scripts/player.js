@@ -47,7 +47,7 @@ function Player () {
 
   this.attack = function (card) {
     console.log('<attack>' + card.value)
-    let attack_value = card.value
+    const attack_value = card.value
     let damages = attack_value
     let shield_event = ''
 
@@ -112,10 +112,10 @@ function Player () {
       donsol.player.health.add_event('Wasted')
       return
     }
-    let before_health = this.health.value
+    const before_health = this.health.value
     let new_health = this.health.value + potion_value; new_health = new_health > 21 ? 21 : new_health
 
-    let mod = new_health - before_health
+    const mod = new_health - before_health
     donsol.player.health.value = new_health
     donsol.player.health.add_event(mod > 0 ? '+' + mod : 'Wasted')
     donsol.player.experience.add_event('+1')

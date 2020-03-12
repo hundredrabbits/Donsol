@@ -5,6 +5,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Get rid of the can_run flag? conver to routine
+- Custom message for difficulty on enter dungeon
 - Display highscore on splash
 - Implement shuffle seed
 - Can reshuffle on first hand
@@ -13,6 +15,12 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 - Implement dungeon complete
 - When shield break, display cyan star next to SP
 - Implement sounds
+
+## Rules
+
+- Easy: Can escape if when no monsters present or when has not escaped before.
+- Normal: Can escape when has not escaped before.
+- Hard: Can escape if there are no monsters present.
 
 ## Card IDs
 

@@ -10,11 +10,9 @@ reset@player:                  ;
   STA dp@player
   STA xp@player
   STA sickness@player
-  LDA #$00
+  ; allow to run
+  LDA #$01
   STA can_run@player
-  ; set difficulty
-  LDA #$00
-  STA difficulty@player
   RTS
 
 ;;

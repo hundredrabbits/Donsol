@@ -13,8 +13,8 @@ function Walkthrough () {
     if (!this.is_running && !force) { return } // Idle
     if (donsol.player.health.value < 1) { this.is_running = false; return }
 
-    let results = this.rate_room(donsol.board.room)
-    let target = results[0]
+    const results = this.rate_room(donsol.board.room)
+    const target = results[0]
 
     // Return if going to waste potions
     if (target && target[1] < -10 && donsol.player.can_escape()) {
@@ -28,9 +28,9 @@ function Walkthrough () {
   }
 
   this.rate_room = function (room) {
-    let a = []
-    for (let id in room) {
-      let card = room[id]
+    const a = []
+    for (const id in room) {
+      const card = room[id]
       if (card.is_flipped) { continue }
       a.push(this.rate_card(id, card))
     }
@@ -53,13 +53,13 @@ function Walkthrough () {
       if (!donsol.player.can_drink || donsol.player.health.value == 21) {
         rating = -card.value * 4
       } else {
-        let after = clamp(donsol.player.health.value + card.value, 0, 21)
-        let actual = (donsol.player.health.value - after)
+        const after = clamp(donsol.player.health.value + card.value, 0, 21)
+        const actual = (donsol.player.health.value - after)
         rating = actual - card.value
       }
     }
     if (card.type == 'clove' || card.type == 'spade') {
-      let strongest = this.find_strongest(id)
+      const strongest = this.find_strongest(id)
       if (card.value < strongest.value) {
         rating = -strongest.value - card.value
       } else {
@@ -79,8 +79,8 @@ function Walkthrough () {
   this.find_strongest = function () {
     let strongest = null
 
-    for (let id in donsol.board.room) {
-      let card = donsol.board.room[id]
+    for (const id in donsol.board.room) {
+      const card = donsol.board.room[id]
       if (card.type == 'diamond' || card.type == 'heart') { continue }
       if (card.is_flipped) { continue }
       if (!strongest) { strongest = card; continue }

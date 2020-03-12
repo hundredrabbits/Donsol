@@ -72,7 +72,7 @@ function Theme (_default) {
   this.open = function () {
     const fs = require('fs')
     const { dialog, app } = require('electron').remote
-    let paths = dialog.showOpenDialog(app.win, { properties: ['openFile'], filters: [{ name: 'Themes', extensions: ['svg'] }] })
+    const paths = dialog.showOpenDialog(app.win, { properties: ['openFile'], filters: [{ name: 'Themes', extensions: ['svg'] }] })
     if (!paths) { console.log('Nothing to load') }
     fs.readFile(paths[0], 'utf8', function (err, data) {
       if (err) throw err
@@ -103,15 +103,15 @@ function Theme (_default) {
     const svg = new DOMParser().parseFromString(text, 'text/xml')
     try {
       return {
-        'background': svg.getElementById('background').getAttribute('fill'),
-        'f_high': svg.getElementById('f_high').getAttribute('fill'),
-        'f_med': svg.getElementById('f_med').getAttribute('fill'),
-        'f_low': svg.getElementById('f_low').getAttribute('fill'),
-        'f_inv': svg.getElementById('f_inv').getAttribute('fill'),
-        'b_high': svg.getElementById('b_high').getAttribute('fill'),
-        'b_med': svg.getElementById('b_med').getAttribute('fill'),
-        'b_low': svg.getElementById('b_low').getAttribute('fill'),
-        'b_inv': svg.getElementById('b_inv').getAttribute('fill')
+        background: svg.getElementById('background').getAttribute('fill'),
+        f_high: svg.getElementById('f_high').getAttribute('fill'),
+        f_med: svg.getElementById('f_med').getAttribute('fill'),
+        f_low: svg.getElementById('f_low').getAttribute('fill'),
+        f_inv: svg.getElementById('f_inv').getAttribute('fill'),
+        b_high: svg.getElementById('b_high').getAttribute('fill'),
+        b_med: svg.getElementById('b_med').getAttribute('fill'),
+        b_low: svg.getElementById('b_low').getAttribute('fill'),
+        b_inv: svg.getElementById('b_inv').getAttribute('fill')
       }
     } catch (err) {
       console.warn('Theme', 'Incomplete SVG Theme', err)

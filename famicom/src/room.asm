@@ -60,7 +60,7 @@ enter@room:                    ;
 
 ;; flip card from the table, used in controls when press
 
-flip@room:                     ; (x:card_pos)
+flip@room:                     ; (x:card_pos) ->
   LDA hp@player
   CMP #$00
   BEQ @done
@@ -78,39 +78,41 @@ flip@room:                     ; (x:card_pos)
 @done:                         ; 
   RTS
 
-;;
+;; TODO no need to count, could just check if there is any monster left.
 
-count@room:                    ; () -> store count in x
+enemiesLeft@room:              ; () -> a:count
   LDX #$00
 @card1:                        ; 
-  LDA card1@room
-  CMP #$36
-  BEQ @card2
+  LDY card1@room
+  LDA card_enemies, y
+  CMP #$01
+  BNE @card2
   INX
 @card2:                        ; 
-  LDA card2@room
-  CMP #$36
-  BEQ @card3
+  LDY card2@room
+  LDA card_enemies, y
+  CMP #$01
+  BNE @card3
   INX
 @card3:                        ; 
-  LDA card3@room
-  CMP #$36
-  BEQ @card4
+  LDY card3@room
+  LDA card_enemies, y
+  CMP #$01
+  BNE @card4
   INX
 @card4:                        ; 
-  LDA card4@room
-  CMP #$36
-  BEQ @done
+  LDY card4@room
+  LDA card_enemies, y
+  CMP #$01
+  BNE @done
   INX
 @done:                         ; 
+  TXA
   RTS
 
 ;; running
 
 checkRun:                      ; 
-  ; Easy Mode: Can run when has not run before.
-  ; Normal Mode: Can run when has not run before, AND there is only 1 monster left.
-  ; Hard Mode: Can never run.
   LDA difficulty@player
   CMP #$00
   BEQ @Easy
@@ -118,27 +120,26 @@ checkRun:                      ;
   BEQ @Normal
   CMP #$02
   BEQ @Hard
-@Easy:                         ; (x:cards_left)
-  ; can at any time, only once
-  LDA has_run@player
+@Easy:                         ; RULE | can escape if when no monsters present or when has not escaped before
+  JSR enemiesLeft@room
   CMP #$00
-  BEQ @enableRun
-  JSR @disableRun
-  RTS
-@Normal:                       ; 
-  ; can run, when has not ran before
+  BEQ @enableRun               ; when monsters left
   LDA has_run@player
   CMP #$01
-  BEQ @disableRun
-  ; can run when 3 cards left on table
-  JSR count@room               ; store cards left in room, in regX
-  TXA
-  CMP #$01
-  BEQ @enableRun
+  BEQ @disableRun              ; when has not escaped
+  JSR @enableRun
   RTS
-@Hard:                         ; 
-  ; can never run
-  JSR @disableRun
+@Normal:                       ; RULE | can escape when has not escaped before
+  LDA has_run@player
+  CMP #$01
+  BEQ @disableRun              ; when has not escaped
+  JSR @enableRun
+  RTS
+@Hard:                         ; RULE | can escape if there are no monsters present
+  JSR enemiesLeft@room
+  CMP #$00
+  BNE @disableRun              ; when no monsters present
+  JSR @enableRun
   RTS
 @enableRun:                    ; 
   LDA #$01

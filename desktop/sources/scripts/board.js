@@ -92,7 +92,7 @@ function Board (element) {
   }
 
   this.cards_flipped = function () {
-    let a = []
+    const a = []
     if (this.room[0] && this.room[0].is_flipped) { a.push(this.room[0]) }
     if (this.room[1] && this.room[1].is_flipped) { a.push(this.room[1]) }
     if (this.room[2] && this.room[2].is_flipped) { a.push(this.room[2]) }
@@ -101,7 +101,7 @@ function Board (element) {
   }
 
   this.cards_monsters = function () {
-    let a = []
+    const a = []
     if (this.room[0] && this.room[0].constructor.name == 'Card_Monster' && this.room[0].is_flipped === false) { a.push(this.room[0]) }
     if (this.room[1] && this.room[1].constructor.name == 'Card_Monster' && this.room[1].is_flipped === false) { a.push(this.room[1]) }
     if (this.room[2] && this.room[2].constructor.name == 'Card_Monster' && this.room[2].is_flipped === false) { a.push(this.room[2]) }

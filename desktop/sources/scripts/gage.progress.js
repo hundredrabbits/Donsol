@@ -18,11 +18,11 @@ function Progress (radius = 15) {
 
   this.update = function (value, limit = 0) {
     if (limit === 0) { value = 0; limit = 1 }
-    let min = 0
-    let max = 130
-    let pixels = Math.floor(((value / limit) * max) + min)
-    let ratio = (value / limit)
-    let perc = ratio * 100
+    const min = 0
+    const max = 130
+    const pixels = Math.floor(((value / limit) * max) + min)
+    const ratio = (value / limit)
+    const perc = ratio * 100
 
     this.progress_bar.style.width = `${perc}%`
   }
