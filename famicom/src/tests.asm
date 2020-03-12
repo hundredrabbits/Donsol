@@ -1,7 +1,7 @@
 
 ;; Tests
 
-run@tests:                     ; 
+run@tests:                     ; [skip]
   LDA #$43
   STA count@test
   JSR potion@tests

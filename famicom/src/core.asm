@@ -1,7 +1,7 @@
 
 ;; core
 
-clearBackground:               ; 
+clearBackground:               ; [skip]
   LDA PPUSTATUS                ; reset latch
   LDA #$20
   STA PPUADDR

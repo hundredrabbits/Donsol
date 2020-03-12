@@ -14,6 +14,7 @@ timer@input             .dsb 1 ; input
 last@input              .dsb 1
 length@deck             .dsb 1 ; deck
 hand@deck               .dsb 1
+seed@deck               .dsb 1 ; The seed for the random shuffle
 timer@room              .dsb 1 ; room
 completed@room          .dsb 1
 card1@room              .dsb 1
@@ -22,7 +23,6 @@ card3@room              .dsb 1
 card4@room              .dsb 1
 id@dialog               .dsb 1 ; dialog
 timer@renderer          .dsb 1
-seed@game               .dsb 1 ; The seed for the random shuffle
 cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode
 lb@splash               .dsb 1 ; splash

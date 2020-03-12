@@ -117,7 +117,7 @@ NMI:                           ;
   LDA view@game
   CMP #$00
   BNE @locked
-  INC seed@game
+  INC seed@deck
 
 ;; skip latch if input is locked
 

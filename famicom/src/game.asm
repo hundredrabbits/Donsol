@@ -19,14 +19,18 @@ show@game:                     ;
 ;;
 
 restart@game:                  ; 
+  ; deck
   JSR init@deck
   JSR shuffle@deck
+  ; player
   JSR reset@player
   JSR enter@room
   JSR requestUpdateStats
   JSR requestUpdateName
-  ; set enter dialog
-  LDA #$04
+  ; dialog:difficulty
+  LDA #$0D
+  CLC
+  ADC difficulty@player        ; reflect difficulty
   JSR show@dialog
   ; reset room timer
   LDA #$30

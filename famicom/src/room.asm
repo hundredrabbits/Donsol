@@ -204,6 +204,6 @@ run@room:                      ;
   RTS
 @unable:                       ; 
   ; dialog:cannot_run
-  LDA #$0D
+  LDA #$04
   JSR show@dialog
   RTS

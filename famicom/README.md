@@ -5,8 +5,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Get rid of the can_run flag? conver to routine
 - Custom message for difficulty on enter dungeon
+- Get rid of the can_run flag? conver to routine
 - Display highscore on splash
 - Implement shuffle seed
 - Can reshuffle on first hand
