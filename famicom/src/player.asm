@@ -14,14 +14,14 @@ reset@player:                  ;
 
 ;;
 
-add_sick@player:               ; 
+addSickness@player:            ; 
   LDA #$01
   STA sickness@player
   RTS
 
 ;;
 
-remove_sick@player:            ; 
+removeSickness@player:         ; 
   LDA #$00
   STA sickness@player
   RTS

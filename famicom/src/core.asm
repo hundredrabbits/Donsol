@@ -80,19 +80,19 @@ pickCard:                      ; (y:card_id)
   CMP #$00
   BNE @diamond
   JSR runPotion
-  JSR add_sick@player
+  JSR addSickness@player
   JSR add_xp@player
   RTS
 @diamond:                      ; 
   CMP #$01
   BNE @enemies
   JSR runShield
-  JSR remove_sick@player
+  JSR removeSickness@player
   JSR add_xp@player
   RTS
 @enemies:                      ; 
   JSR runAttack
-  JSR remove_sick@player
+  JSR removeSickness@player
   JSR add_xp@player
 @done:                         ; 
   RTS

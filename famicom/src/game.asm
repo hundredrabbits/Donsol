@@ -104,6 +104,7 @@ selectNext@game:               ;
   STA cursor@game
 @done:                         ; 
   JSR updateCursor@game
+  JSR requestUpdateName
   RTS
 
 ;;
@@ -119,6 +120,7 @@ selectPrev@game:               ;
   STA cursor@game
 @done:                         ; 
   JSR updateCursor@game
+  JSR requestUpdateName
   RTS
 
 ;;

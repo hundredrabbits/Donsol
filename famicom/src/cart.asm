@@ -110,7 +110,7 @@ NMI:                           ;
 @frame:                        ; 
   JSR update@room
   JSR interpolateStats         ; in client
-  JSR updateClient             ; in client
+  JSR update@client            ; in client
 
 ;; increment random seed in splash
 

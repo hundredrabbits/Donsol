@@ -24,18 +24,18 @@ load@splash:                   ;
   LDA #$00
   STA $2006
   LDA #<data@splash
-  STA lb@splash
+  STA lb@temp
   LDA #>data@splash
-  STA hb@splash
+  STA hb@temp
   LDX #$00
   LDY #$00
 @loop:                         ; 
-  LDA (lb@splash), y
+  LDA (lb@temp), y
   STA $2007
   INY
   CPY #$00
   BNE @loop
-  INC hb@splash
+  INC hb@temp
   INX
   CPX #$04
   BNE @loop

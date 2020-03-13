@@ -15,18 +15,18 @@ length@deck             .dsb 1 ; deck
 hand@deck               .dsb 1
 seed@deck               .dsb 1 ; The seed for the random shuffle
 timer@room              .dsb 1 ; room
-completed@room          .dsb 1
 card1@room              .dsb 1
 card2@room              .dsb 1
 card3@room              .dsb 1
 card4@room              .dsb 1
 id@dialog               .dsb 1 ; dialog
-timer@renderer          .dsb 1
 cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode
-lb@splash               .dsb 1 ; splash
-hb@splash               .dsb 1
 cursor@splash           .dsb 1
+count@tests             .dsb 1; tests
+lb@temp                 .dsb 1 ; util
+hb@temp                 .dsb 1 ; util
+id@temp                 .dsb 1 ; util
 ; misc
 ui_health               .dsb 1
 ui_shield               .dsb 1
@@ -46,14 +46,3 @@ reqdraw_card4           .dsb 1
 reqdraw_dialog          .dsb 1
 reqdraw_run             .dsb 1
 reqdraw_name            .dsb 1
-; 16-bits
-lb@cards                .dsb 1
-hb@cards                .dsb 1
-lb@dialogs              .dsb 1
-hb@dialogs              .dsb 1
-cards_temp              .dsb 1
-dialogs_temp            .dsb 1
-names_low               .dsb 1
-names_high              .dsb 1
-names_temp              .dsb 1
-count@test              .dsb 1

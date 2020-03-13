@@ -31,15 +31,15 @@ update@dialog:                 ;
 load@dialog:                   ; (x:tile_id, y:id@dialog)
   ; find dialog offset
   LDA dialogs_offset_low,y
-  STA lb@dialogs
+  STA lb@temp
   LDA dialogs_offset_high,y
-  STA hb@dialogs
+  STA hb@temp
   ; add y + x registers
   TYA
-  STX dialogs_temp
+  STX id@temp
   CLC
-  ADC dialogs_temp
+  ADC id@temp
   TAY
   ; load dialog sprite
-  LDA (lb@dialogs), y          ; load value at 16-bit address from (lb@dialogs + hb@dialogs) + y
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
   RTS

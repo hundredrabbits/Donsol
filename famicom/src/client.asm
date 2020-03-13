@@ -75,7 +75,7 @@ interpolateShield:             ;
 
 ;; check for updates required
 
-updateClient:                  ; 
+update@client:                 ; during nmi
   ; animate cursor
   LDA reqdraw_name
   CMP #$00
@@ -503,17 +503,17 @@ loadCardName:                  ; (y:card_id)
   TAY
   ; find name offset
   LDA card_names_offset_lb,y
-  STA names_low
+  STA lb@temp
   LDA card_names_offset_hb,y
-  STA names_high
+  STA hb@temp
   ; add y + x registers
   TYA
-  STX names_temp
+  STX id@temp
   CLC
-  ADC names_temp
+  ADC id@temp
   TAY
   ; load dialog sprite
-  LDA (names_low), y           ; load value at 16-bit address from (lb@dialogs + hb@dialogs) + y
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
   RTS
 
 ;; card sprites
@@ -521,15 +521,15 @@ loadCardName:                  ; (y:card_id)
 loadCardSprite:                ; (x:tile_id, y:card_id)
   ; find card offset
   LDA cards_offset_low,y
-  STA lb@cards
+  STA lb@temp
   LDA cards_offset_high,y
-  STA hb@cards
+  STA hb@temp
   ; add y + x registers
   TYA
-  STX cards_temp
+  STX id@temp
   CLC
-  ADC cards_temp
+  ADC id@temp
   TAY
   ; load card sprite
-  LDA (lb@cards), y            ; load value at 16-bit address from (lb@cards + hb@cards) + y
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
   RTS
