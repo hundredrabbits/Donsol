@@ -28,6 +28,7 @@ requestUpdateCards:            ;
   RTS
 
 ;; interpolate
+
 interpolateStats:              ; 
   JSR interpolateHealth
   JSR interpolateShield
@@ -76,97 +77,106 @@ interpolateShield:             ;
 ;; check for updates required
 
 update@client:                 ; during nmi
-  ; animate cursor
+  ; draw name
   LDA reqdraw_name
   CMP #$00
-  BEQ checkReqCard1
+  BEQ @checkReqCard1
   JSR updateName
   LDA #$00
   STA reqdraw_name
   INC reqdraws
   RTS
-checkReqCard1:                 ; 
+@checkReqCard1:                ; 
   LDA reqdraw_card1
   CMP #$00
-  BEQ checkReqCard2
+  BEQ @checkReqCard2
   JSR updateCard1
   LDA #$00
   STA reqdraw_card1
   INC reqdraws
   RTS
-checkReqCard2:                 ; 
+@checkReqCard2:                ; 
   LDA reqdraw_card2
   CMP #$00
-  BEQ checkReqCard3
+  BEQ @checkReqCard3
   JSR updateCard2
   LDA #$00
   STA reqdraw_card2
   INC reqdraws
   RTS
-checkReqCard3:                 ; 
+@checkReqCard3:                ; 
   LDA reqdraw_card3
   CMP #$00
-  BEQ checkReqCard4
+  BEQ @checkReqCard4
   JSR updateCard3
   LDA #$00
   STA reqdraw_card3
   INC reqdraws
   RTS
-checkReqCard4:                 ; 
+@checkReqCard4:                ; 
   LDA reqdraw_card4
   CMP #$00
-  BEQ checkReqHP
+  BEQ @checkReqHP
   JSR updateCard4
   LDA #$00
   STA reqdraw_card4
   INC reqdraws
   RTS
-checkReqHP:                    ; 
+@checkReqHP:                   ; 
   LDA reqdraw_hp
   CMP #$00
-  BEQ checkReqSP
+  BEQ @checkReqSP
   JSR updateHealth
   JSR updateHealthBar
   LDA #$00
   STA reqdraw_hp
   INC reqdraws
   RTS
-checkReqSP:                    ; 
+@checkReqSP:                   ; 
   LDA reqdraw_sp
   CMP #$00
-  BEQ checkReqXP
+  BEQ @checkReqXP
   JSR updateShield
   JSR updateShieldBar
   LDA #$00
   STA reqdraw_sp
   INC reqdraws
   RTS
-checkReqXP:                    ; 
+@checkReqXP:                   ; 
   LDA reqdraw_xp
   CMP #$00
-  BEQ checkReqRun
+  BEQ @checkReqRun
   JSR updateExperience
   JSR updateExperienceBar
   LDA #$00
   STA reqdraw_xp
   INC reqdraws
   RTS
-checkReqRun:                   ; 
+@checkReqRun:                  ; 
   LDA reqdraw_run
   CMP #$00
-  BEQ checkReqDialog
+  BEQ @checkReqDialog
   JSR updateRun
   LDA #$00
   STA reqdraw_run
   INC reqdraws
   RTS
-checkReqDialog:                ; 
+@checkReqDialog:               ; 
   LDA reqdraw_dialog
   CMP #$00
-  BEQ @done
+  BEQ @checkReqScore
   JSR update@dialog
   LDA #$00
   STA reqdraw_dialog
+  INC reqdraws
+  RTS
+@checkReqScore:                ; 
+  LDA reqdraw_score
+  CMP #$00
+  BEQ @done
+  JSR updateScore@splash
+  LDA #$00
+  STA reqdraw_score
   INC reqdraws
   RTS
 @done:                         ; 
@@ -240,19 +250,16 @@ updateHealth:                  ;
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR stop@renderer
-  ; digit 1
+  ; pos
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$07
   STA PPUADDR                  ; write the low byte
+  ; digit 1
   LDX ui_health
   LDA number_high, x
   STA PPUDATA
   ; digit 2
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$08
-  STA PPUADDR                  ; write the low byte
   LDX ui_health
   LDA number_low, x
   STA PPUDATA
@@ -303,19 +310,16 @@ updateShield:                  ;
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR stop@renderer
-  ; digit 1
+  ; pos
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$0E
   STA PPUADDR                  ; write the low byte
+  ; digit 1
   LDX ui_shield
   LDA number_high, x
   STA PPUDATA
   ; digit 2
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$0F
-  STA PPUADDR                  ; write the low byte
   LDX ui_shield
   LDA number_low, x
   STA PPUDATA
@@ -358,19 +362,16 @@ updateExperience:              ;
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
   JSR stop@renderer
-  ; digit 1
+  ; pos
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$15
   STA PPUADDR                  ; write the low byte
+  ; digit 1
   LDX xp@player
   LDA number_high, x
   STA PPUDATA
   ; digit 2
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$16
-  STA PPUADDR                  ; write the low byte
   LDX xp@player
   LDA number_low, x
   STA PPUDATA

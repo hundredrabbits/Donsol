@@ -23,10 +23,11 @@ id@dialog               .dsb 1 ; dialog
 cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode
 cursor@splash           .dsb 1
-count@tests             .dsb 1; tests
-lb@temp                 .dsb 1 ; util
-hb@temp                 .dsb 1 ; util
-id@temp                 .dsb 1 ; util
+highscore@splash        .dsb 1 ; keep highscore
+count@tests             .dsb 1 ; tests
+lb@temp                 .dsb 1 ; utils
+hb@temp                 .dsb 1
+id@temp                 .dsb 1
 ; misc
 ui_health               .dsb 1
 ui_shield               .dsb 1
@@ -46,3 +47,4 @@ reqdraw_card4           .dsb 1
 reqdraw_dialog          .dsb 1
 reqdraw_run             .dsb 1
 reqdraw_name            .dsb 1
+reqdraw_score           .dsb 1

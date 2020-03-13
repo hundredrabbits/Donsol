@@ -11,6 +11,7 @@ show@splash:                   ;
   ; display
   JSR stop@renderer
   JSR load@splash
+  JSR updateScore@splash
   JSR loadAttributes@splash
   JSR start@renderer
   RTS
@@ -115,4 +116,36 @@ updateCursor@splash:           ;
   CLC
   ADC #$08
   STA $0207                    ; set tile.x pos
+  RTS
+
+;;
+
+updateScore@splash:            ; 
+  LDA PPUSTATUS
+  LDA #$20
+  STA PPUADDR
+  LDA #$EF
+  STA PPUADDR
+  LDX #$00
+  JSR stop@renderer
+  ; digit 1
+  LDX highscore@splash
+  LDA number_high, x
+  STA PPUDATA
+  ; digit 2
+  LDX highscore@splash
+  LDA number_low, x
+  STA PPUDATA
+  JSR start@renderer
+  RTS
+
+;;
+
+tryUpdate@score:               ; 
+  LDA xp@player
+  CMP highscore@splash
+  BCC @done
+  LDA xp@player
+  STA highscore@splash
+@done:                         ; 
   RTS

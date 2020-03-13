@@ -74,6 +74,8 @@ flip@room:                     ; (x:card_pos) ->
   STA card1@room, x
   LDA #$01                     ; request draw
   STA reqdraw_card1, x
+  ; update highscore
+  JSR tryUpdate@score          ; TODO: rename?!
 @done:                         ; 
   RTS
 

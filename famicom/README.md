@@ -14,7 +14,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
   - Test running?
   - Test dungeon complete
   - Test difficulty?
-- Display highscore on splash
 - Implement onscreen guide
 - When shield break, display cyan star next to SP
 - Implement sounds
