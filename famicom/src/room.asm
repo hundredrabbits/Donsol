@@ -23,7 +23,7 @@ update@room:                   ; update from the nmi
   RTS
 @proceed:                      ; 
   ; check if game is complete
-  JSR loadExperience@player    ; store in a:xp
+  LDA xp@player
   CMP #$35
   BNE @incomplete
   ; when dungeon is complete
@@ -83,10 +83,12 @@ flip@room:                     ; (x:card_pos) ->
   STA card1@room, x
   LDA #$01                     ; request draw
   STA reqdraw_card1, x
-  ; update highscore
-  JSR checkScore@splash        ; TODO: rename?!
-  JSR requestUpdateStats
 @done:                         ; 
+  ; update experience
+  JSR loadExperience@player
+  STA xp@player
+  JSR updateScore@splash       ; update highscore
+  JSR requestUpdateStats       ; update stats
   RTS
 
 ;; TODO no need to count, could just check if there is any monster left.

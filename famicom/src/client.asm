@@ -146,8 +146,7 @@ update@client:                 ; during nmi
   LDA reqdraw_xp
   CMP #$00
   BEQ @checkReqRun
-  JSR updateExperience
-  JSR updateExperienceBar
+  JSR redrawExperience@game
   LDA #$00
   STA reqdraw_xp
   INC reqdraws
@@ -174,7 +173,7 @@ update@client:                 ; during nmi
   LDA reqdraw_score
   CMP #$00
   BEQ @done
-  JSR updateScore@splash
+  JSR redrawScore@splash
   LDA #$00
   STA reqdraw_score
   INC reqdraws
@@ -346,53 +345,6 @@ updateShieldBar:               ;
   LDA #$20
   STA PPUADDR                  ; write the high byte
   LDA shieldbaroffset, x
-  STA PPUADDR                  ; write the low byte
-  LDA progressbar, y           ; regA has sprite id
-  INY
-  STA PPUDATA
-  INX
-  CPX #$06
-  BNE @loop
-  JSR start@renderer
-  RTS
-
-;; experience value
-
-updateExperience:              ; 
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
-  LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
-  JSR stop@renderer
-  ; pos
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$15
-  STA PPUADDR                  ; write the low byte
-  ; load xp
-  JSR loadExperience@player    ; load in
-  TAX
-  ; digit 1
-  LDA number_high, x
-  STA PPUDATA
-  ; digit 2
-  LDA number_low, x
-  STA PPUDATA
-  JSR start@renderer
-  RTS
-
-;; experience bar
-
-updateExperienceBar:           ; 
-  ; load xp
-  JSR loadExperience@player    ; load in a
-  TAY
-  LDA experiencebarpos, y      ; regA has sprite offset
-  TAY                          ; regY has sprite offset
-  JSR stop@renderer
-  LDX #$00
-@loop:                         ; 
-  LDA #$20
-  STA PPUADDR                  ; write the high byte
-  LDA experiencebaroffset, x
   STA PPUADDR                  ; write the low byte
   LDA progressbar, y           ; regA has sprite id
   INY

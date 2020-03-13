@@ -11,7 +11,7 @@ show@splash:                   ;
   ; display
   JSR stop@renderer
   JSR load@splash
-  JSR updateScore@splash
+  JSR redrawScore@splash
   JSR loadAttributes@splash
   JSR start@renderer
   RTS
@@ -120,7 +120,7 @@ updateCursor@splash:           ;
 
 ;;
 
-updateScore@splash:            ; 
+redrawScore@splash:            ; 
   LDA PPUSTATUS
   LDA #$20
   STA PPUADDR
@@ -141,12 +141,11 @@ updateScore@splash:            ;
 
 ;;
 
-checkScore@splash:             ; 
+updateScore@splash:            ; 
   ; load xp
-  JSR loadExperience@player    ; load in regA
+  LDA xp@player
   CMP highscore@splash
   BCC @done
-  JSR loadExperience@player    ; load in regA
   STA highscore@splash
 @done:                         ; 
   RTS

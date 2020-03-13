@@ -73,7 +73,7 @@ run@player:                    ;
   CMP #$00
   BEQ @respawn                 ; 
   ; when alive, check for victory
-  JSR loadExperience@player    ; store in a:xp
+  LDA xp@player
   CMP #$35
   BEQ @victory
   CMP #$36
@@ -92,7 +92,7 @@ run@player:                    ;
   JSR show@dialog
   RTS
 @victory:                      ; 
-  ; dialog:run
+  ; dialog:clear
   LDA #$00
   JSR show@dialog
   JSR show@splash

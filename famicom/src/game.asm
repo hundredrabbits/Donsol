@@ -23,7 +23,7 @@ restart@game:                  ;
   JSR init@deck
   JSR shuffle@deck
   ; autoplay
-  JSR walkthrough@game
+  ; JSR walkthrough@game
   ; player
   JSR reset@player
   JSR enter@room
@@ -172,6 +172,42 @@ loadAttributes@game:           ;
   INX
   CPX #$40
   BNE @loop
+  RTS
+
+;; redraw
+
+;; experience value
+
+redrawExperience@game:         ; 
+  JSR stop@renderer
+  LDY xp@player
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+  ; pos
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$15
+  STA PPUADDR                  ; write the low byte
+  ; load xp in y
+  LDA number_high, y           ; digit 1
+  STA PPUDATA
+  LDA number_low, y            ; digit 2
+  STA PPUDATA
+  ; progress bar
+  LDA experiencebarpos, y      ; regA has sprite offset
+  TAY                          ; regY has sprite offset
+  LDX #$00
+@loop:                         ; 
+  LDA #$20
+  STA PPUADDR                  ; write the high byte
+  LDA experiencebaroffset, x
+  STA PPUADDR                  ; write the low byte
+  LDA progressbar, y           ; regA has sprite id
+  INY
+  STA PPUDATA
+  INX
+  CPX #$06
+  BNE @loop
+  JSR start@renderer
   RTS
 
 ;;
