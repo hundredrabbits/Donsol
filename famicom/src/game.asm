@@ -202,8 +202,8 @@ redrawExperience@game:         ;
   LDA experiencebaroffset, x
   STA PPUADDR                  ; write the low byte
   LDA progressbar, y           ; regA has sprite id
-  INY
   STA PPUDATA
+  INY
   INX
   CPX #$06
   BNE @loop
