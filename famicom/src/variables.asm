@@ -3,7 +3,7 @@
 
 hp@player               .dsb 1 ; health points
 sp@player               .dsb 1 ; shield points
-dp@player               .dsb 1 ; defense points
+dp@player               .dsb 1 ; durability points(max $16)
 xp@player               .dsb 1 ; experience points
 damages@player          .dsb 1 ; TODO: check if necessary?
 difficulty@player       .dsb 1

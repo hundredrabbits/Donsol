@@ -14,6 +14,8 @@ show@game:                     ;
   JSR loadAttributes@game
   JSR restart@game
   JSR start@renderer
+  ; autoplay
+  JSR walkthrough@game
   RTS
 
 ;;
@@ -170,4 +172,11 @@ loadAttributes@game:           ;
   INX
   CPX #$40
   BNE @loop
+  RTS
+
+;;
+
+walkthrough@game:              ; 
+  LDX #$01
+  JSR flip@room
   RTS

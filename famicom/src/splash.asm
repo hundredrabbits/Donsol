@@ -1,5 +1,5 @@
 
-;; splash
+;; splash | holds the highscore count
 
 show@splash:                   ; 
   ; set splash mode
@@ -141,7 +141,7 @@ updateScore@splash:            ;
 
 ;;
 
-tryUpdate@score:               ; 
+checkScore@splash:             ; 
   LDA xp@player
   CMP highscore@splash
   BCC @done

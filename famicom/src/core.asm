@@ -103,36 +103,27 @@ runPotion:                     ;
   ; check for potion sickness
   LDA sickness@player
   CMP #$01
-  BEQ runPotionSickness
-  ; check for potion waste
+  BNE @tryWaste
+  ; when sick
+  LDA #$01                     ; dialog:sickness
+  JSR show@dialog
+  RTS
+@tryWaste:                     ; 
   LDA hp@player
   CMP #$15
-  BEQ runPotionWaste
-  ; heal
+  BNE @heal
+  ; when already full health
+  LDA #$07                     ; dialog:potion
+  JSR show@dialog
+  RTS
+@heal:                         ; 
   LDA hp@player
   CLC
   ADC card_last_value
   STA hp@player
   ; specials
   JSR clampHealth
-  ; dialog:potion
-  LDA #$06
-  JSR show@dialog
-  RTS
-
-;; turn(potion-sickness)
-
-runPotionSickness:             ; 
-  ; dialog:sickness
-  LDA #$01
-  JSR show@dialog
-  RTS
-
-;; turn(potion-waste)
-
-runPotionWaste:                ; 
-  ; dialog:potion
-  LDA #$07
+  LDA #$06                     ; dialog:potion
   JSR show@dialog
   RTS
 
@@ -143,8 +134,7 @@ runShield:                     ;
   STA sp@player
   LDA #$16                     ; max durability is $15+1
   STA dp@player
-  ; dialog
-  LDA #$05
+  LDA #$05                     ; dialog: shield
   JSR show@dialog
   RTS
 
@@ -155,8 +145,7 @@ runAttack:                     ;
   LDA sp@player
   CMP #$00
   BNE @blocking
-  ; dialog:unshielded
-  LDA #$08
+  LDA #$08                     ; dialog:unshielded
   JSR show@dialog
   ; load damages(unblocked)
   LDA card_last_value
@@ -168,8 +157,7 @@ runAttack:                     ;
   LDA card_last_value
   CMP dp@player
   BCC @shielded
-  ; dialog:shield break
-  LDA #$02
+  LDA #$02                     ; dialog:shield break
   JSR show@dialog
   ; break shield
   LDA #$00
@@ -185,8 +173,7 @@ runAttack:                     ;
   LDA card_last_value
   CMP sp@player
   BCC @blocked
-  ; dialog:damages
-  LDA #$0B
+  LDA #$0B                     ; dialog:damages
   JSR show@dialog
   ; load damages(partial)
   LDA card_last_value
@@ -202,8 +189,7 @@ runAttack:                     ;
   ; damage shield
   LDA card_last_value
   STA dp@player
-  ; dialog:blocked
-  LDA #$0A
+  LDA #$0A                     ; dialog:blocked
   JSR show@dialog
   RTS
 
@@ -218,8 +204,7 @@ runDamages:                    ;
   STA hp@player
   STA sp@player
   STA xp@player
-  ; dialog:death
-  LDA #$03
+  LDA #$03                     ; dialog:death
   JSR show@dialog
   RTS                          ; stop attack phase
 @survive:                      ; 
