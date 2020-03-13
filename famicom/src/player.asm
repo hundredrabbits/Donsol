@@ -8,7 +8,6 @@ reset@player:                  ;
   LDA #$00
   STA sp@player
   STA dp@player
-  STA xp@player
   STA sickness@player
   RTS
 
@@ -24,14 +23,6 @@ addSickness@player:            ;
 removeSickness@player:         ; 
   LDA #$00
   STA sickness@player
-  RTS
-
-;;
-
-add_xp@player:                 ; 
-  INC xp@player
-  LDA #$01
-  STA reqdraw_xp
   RTS
 
 ;;
@@ -102,4 +93,16 @@ run@player:                    ;
   ; dialog:cannot_run
   LDA #$04
   JSR show@dialog
+  RTS
+
+;;
+
+loadExperience@player:         ; () -> a:xp
+  ; load cards left
+  JSR loadCoundCardsLeft@room  ; stores counts in x
+  STX id@temp
+  LDA #$36                     ; cards max
+  CLC
+  SBC length@deck              ; minus length
+  SBC id@temp                  ; minus cards left
   RTS

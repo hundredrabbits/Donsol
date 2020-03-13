@@ -81,19 +81,16 @@ pickCard:                      ; (y:card_id)
   BNE @diamond
   JSR runPotion
   JSR addSickness@player
-  JSR add_xp@player
   RTS
 @diamond:                      ; 
   CMP #$01
   BNE @enemies
   JSR runShield
   JSR removeSickness@player
-  JSR add_xp@player
   RTS
 @enemies:                      ; 
   JSR runAttack
   JSR removeSickness@player
-  JSR add_xp@player
 @done:                         ; 
   RTS
 
@@ -203,7 +200,6 @@ runDamages:                    ;
   LDA #$00
   STA hp@player
   STA sp@player
-  STA xp@player
   LDA #$03                     ; dialog:death
   JSR show@dialog
   RTS                          ; stop attack phase

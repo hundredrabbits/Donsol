@@ -14,8 +14,6 @@ show@game:                     ;
   JSR loadAttributes@game
   JSR restart@game
   JSR start@renderer
-  ; autoplay
-  JSR walkthrough@game
   RTS
 
 ;;
@@ -24,6 +22,8 @@ restart@game:                  ;
   ; deck
   JSR init@deck
   JSR shuffle@deck
+  ; autoplay
+  ; JSR walkthrough@game
   ; player
   JSR reset@player
   JSR enter@room
@@ -177,6 +177,57 @@ loadAttributes@game:           ;
 ;;
 
 walkthrough@game:              ; 
-  LDX #$01
-  JSR flip@room
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  JSR pull@deck
+  ; JSR pull@deck
+  ; JSR enter@room
+  ; JSR enter@room
+  ; get shield
+  ; LDA #$05
+  ; JSR requestUpdateStats
   RTS

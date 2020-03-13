@@ -112,6 +112,33 @@ enemiesLeft@room:              ; () -> a:count
   TXA
   RTS
 
+;; count cards left in play
+
+loadCoundCardsLeft@room:       ; () -> x:count
+  LDX #$04
+@card1:                        ; 
+  LDA card1@room
+  CMP #$36
+  BNE @card2
+  DEX
+@card2:                        ; 
+  LDA card2@room
+  CMP #$36
+  BNE @card3
+  DEX
+@card3:                        ; 
+  LDA card3@room
+  CMP #$36
+  BNE @card4
+  DEX
+@card4:                        ; 
+  LDA card4@room
+  CMP #$36
+  BNE @done
+  DEX
+@done:                         ; 
+  RTS
+
 ;; return non-flipped cards back to the end of the deck
 
 returnCards@room:              ; 

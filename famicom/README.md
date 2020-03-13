@@ -5,6 +5,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Fix issue with experience bar?!
+
 - Implement deck shuffling
   - Implement shuffle seed
   - Can reshuffle on first hand

@@ -142,10 +142,11 @@ updateScore@splash:            ;
 ;;
 
 checkScore@splash:             ; 
-  LDA xp@player
+  ; load xp
+  JSR loadExperience@player    ; load in regA
   CMP highscore@splash
   BCC @done
-  LDA xp@player
+  JSR loadExperience@player    ; load in regA
   STA highscore@splash
 @done:                         ; 
   RTS

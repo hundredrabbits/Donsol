@@ -210,8 +210,8 @@ updateRun:                     ;
   JSR loadRun@player           ; load canRun in regA
   CMP #$01
   BNE @hide
-  LDA xp@player
-  CMP #$00
+  LDA length@deck              ; don't display the run butto on first hand
+  CMP #$31                     ; deck is $36 - 4(first hand)
   BEQ @hide
 @show:                         ; RUN: $1c,$1f,$18
   LDA #$21
@@ -367,12 +367,13 @@ updateExperience:              ;
   STA PPUADDR                  ; write the high byte
   LDA #$15
   STA PPUADDR                  ; write the low byte
+  ; load xp
+  JSR loadExperience@player
+  TAX
   ; digit 1
-  LDX xp@player
   LDA number_high, x
   STA PPUDATA
   ; digit 2
-  LDX xp@player
   LDA number_low, x
   STA PPUDATA
   JSR start@renderer
@@ -382,7 +383,9 @@ updateExperience:              ;
 
 updateExperienceBar:           ; 
   LDX #$00
-  LDY xp@player
+  ; load xp
+  JSR loadExperience@player    ; load in x
+  TAY
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
   JSR stop@renderer
