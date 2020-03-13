@@ -368,7 +368,7 @@ updateExperience:              ;
   LDA #$15
   STA PPUADDR                  ; write the low byte
   ; load xp
-  JSR loadExperience@player
+  JSR loadExperience@player    ; load in
   TAX
   ; digit 1
   LDA number_high, x
@@ -382,13 +382,14 @@ updateExperience:              ;
 ;; experience bar
 
 updateExperienceBar:           ; 
-  LDX #$00
   ; load xp
-  JSR loadExperience@player    ; load in x
+  JSR loadExperience@player    ; load in a
   TAY
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
+  STA $40
   JSR stop@renderer
+  LDX #$00
 @loop:                         ; 
   LDA #$20
   STA PPUADDR                  ; write the high byte
