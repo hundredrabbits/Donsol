@@ -387,7 +387,6 @@ updateExperienceBar:           ;
   TAY
   LDA experiencebarpos, y      ; regA has sprite offset
   TAY                          ; regY has sprite offset
-  STA $40
   JSR stop@renderer
   LDX #$00
 @loop:                         ; 

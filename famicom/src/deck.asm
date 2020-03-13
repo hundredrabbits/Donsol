@@ -17,9 +17,18 @@ init@deck:                     ;
 ;; take last card from the deck
 
 pull@deck:                     ; 
+  LDA length@deck
+  CMP #$00
+  BEQ @finished
+  ; when cards are left
   LDA $80
   STA hand@deck
   JSR shift@deck
+  RTS
+@finished:                     ; 
+  ; when reached the end
+  LDA #$36
+  STA hand@deck
   RTS
 
 ;; return card to deck

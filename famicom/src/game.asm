@@ -224,6 +224,7 @@ walkthrough@game:              ;
   JSR pull@deck
   JSR pull@deck
   JSR pull@deck
+  JSR pull@deck
   ; JSR pull@deck
   ; JSR enter@room
   ; JSR enter@room
