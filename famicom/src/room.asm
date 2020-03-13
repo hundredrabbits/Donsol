@@ -5,16 +5,16 @@ update@room:                   ; update from the nmi
   ; look for unflipped cards
   LDA card1@room
   CMP #$36
-  BNE @incomplete
+  BNE @done
   LDA card2@room
   CMP #$36
-  BNE @incomplete
+  BNE @done
   LDA card3@room
   CMP #$36
-  BNE @incomplete
+  BNE @done
   LDA card4@room
   CMP #$36
-  BNE @incomplete
+  BNE @done
   ; when the room is complete
   LDA timer@room
   CMP #$00
@@ -22,6 +22,15 @@ update@room:                   ; update from the nmi
   DEC timer@room
   RTS
 @proceed:                      ; 
+  ; check if game is complete
+  JSR loadExperience@player    ; store in a:xp
+  CMP #$35
+  BNE @incomplete
+  ; when dungeon is complete
+  LDA #$10                     ; dialog:sickness
+  JSR show@dialog
+  RTS
+@incomplete
   ; reset ran flag
   LDA #$00
   STA has_run@player
@@ -30,7 +39,7 @@ update@room:                   ; update from the nmi
   STA timer@room
   ; go on..
   JSR enter@room
-@incomplete:                   ; 
+@done:                         ; 
   RTS
 
 ;;

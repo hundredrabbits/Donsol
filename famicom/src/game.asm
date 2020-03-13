@@ -23,7 +23,7 @@ restart@game:                  ;
   JSR init@deck
   JSR shuffle@deck
   ; autoplay
-  ; JSR walkthrough@game
+  JSR walkthrough@game
   ; player
   JSR reset@player
   JSR enter@room

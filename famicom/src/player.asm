@@ -72,6 +72,11 @@ run@player:                    ;
   LDA hp@player
   CMP #$00
   BEQ @respawn                 ; 
+  ; when alive, check for victory
+  JSR loadExperience@player    ; store in a:xp
+  CMP #$35
+  BEQ @victory
+  CMP #$36
   ; when alive
   JSR loadRun@player           ; load canRun in regA
   CMP #$01
@@ -85,6 +90,12 @@ run@player:                    ;
   ; dialog:run
   LDA #$0C
   JSR show@dialog
+  RTS
+@victory:                      ; 
+  ; dialog:run
+  LDA #$00
+  JSR show@dialog
+  JSR show@splash
   RTS
 @respawn:                      ; 
   JSR restart@game

@@ -18,7 +18,7 @@ init@deck:                     ;
 
 pull@deck:                     ; 
   LDA length@deck
-  CMP #$00
+  CMP #$FF
   BEQ @finished
   ; when cards are left
   LDA $80
