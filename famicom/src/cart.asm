@@ -12,7 +12,7 @@
 
 PPUCTRL             .equ $2000
 PPUMASK             .equ $2001
-PPUSTATUS           .equ $2002
+PPUSTATUS           .equ $2002 ; Using BIT PPUSTATUS preserves the previous contents of A.
 SPRADDR             .equ $2003
 PPUSCROLL           .equ $2005
 PPUADDR             .equ $2006

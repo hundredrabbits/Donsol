@@ -17,7 +17,6 @@ show@game:                     ;
   RTS
 
 ;;
-
 restart@game:                  ; 
   ; deck
   JSR init@deck
@@ -27,8 +26,6 @@ restart@game:                  ;
   ; player
   JSR reset@player
   JSR enter@room
-  JSR requestUpdateStats
-  JSR requestUpdateName
   ; dialog:difficulty
   LDA #$0D
   CLC
@@ -43,7 +40,7 @@ restart@game:                  ;
 
 load@game:                     ; 
   ; clear background
-  LDA PPUSTATUS                ; reset latch
+  BIT PPUSTATUS                ; reset latch
   LDA #$20
   STA PPUADDR
   LDA #$00
@@ -60,36 +57,30 @@ load@game:                     ;
   CPX #$04
   BNE @loop
 @interface:                    ; 
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
-  ; HP H
-  LDA #$21
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
+  LDA #$21                     ; HP H
   STA PPUADDR                  ; write the high byte
   LDA #$03
   STA PPUADDR                  ; write the low byte
   LDA #$12
   STA PPUDATA
-  ; HP P
-  LDA #$1A
+  LDA #$1A                     ; HP P
   STA PPUDATA
-  ; SP S
-  LDA #$21
+  LDA #$21                     ; SP S
   STA PPUADDR                  ; write the high byte
   LDA #$0A
   STA PPUADDR                  ; write the low byte
   LDA #$1D
   STA PPUDATA
-  ; SP P
-  LDA #$1A
+  LDA #$1A                     ; SP P
   STA PPUDATA
-  ; XP X
-  LDA #$21
+  LDA #$21                     ; XP X
   STA PPUADDR                  ; write the high byte
   LDA #$11
   STA PPUADDR                  ; write the low byte
   LDA #$22
   STA PPUDATA
-  ; XP P
-  LDA #$1A
+  LDA #$1A                     ; XP P
   STA PPUDATA
   RTS
 
@@ -106,7 +97,6 @@ selectNext@game:               ;
   STA cursor@game
 @done:                         ; 
   JSR updateCursor@game
-  JSR requestUpdateName
   RTS
 
 ;;
@@ -122,7 +112,6 @@ selectPrev@game:               ;
   STA cursor@game
 @done:                         ; 
   JSR updateCursor@game
-  JSR requestUpdateName
   RTS
 
 ;;
@@ -155,12 +144,14 @@ updateCursor@game:             ;
   CLC
   ADC #$08
   STA $0207                    ; set tile.x pos
+  LDA #$01                     ; request redraw
+  STA reqdraw_name
   RTS
 
 ;;
 
 loadAttributes@game:           ; 
-  LDA PPUSTATUS
+  BIT PPUSTATUS
   LDA #$23
   STA PPUADDR
   LDA #$C0
@@ -179,7 +170,7 @@ loadAttributes@game:           ;
 redrawHealth@game:             ; 
   JSR stop@renderer
   LDY ui_health
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
   LDA #$21
   STA PPUADDR                  ; write the high byte
@@ -229,7 +220,7 @@ redrawHealth@game:             ;
 redrawShield@game:             ; 
   JSR stop@renderer
   LDY ui_shield
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
   LDA #$21
   STA PPUADDR                  ; write the high byte
@@ -271,7 +262,7 @@ redrawShield@game:             ;
 redrawExperience@game:         ; 
   JSR stop@renderer
   LDY xp@player
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
   LDA #$21
   STA PPUADDR                  ; write the high byte
@@ -304,7 +295,7 @@ redrawExperience@game:         ;
 
 redrawName@game:               ; 
   JSR stop@renderer
-  LDA PPUSTATUS
+  BIT PPUSTATUS
   LDA #$21
   STA PPUADDR
   LDA #$43
@@ -390,5 +381,4 @@ walkthrough@game:              ;
   ; JSR enter@room
   ; get shield
   ; LDA #$05
-  ; JSR requestUpdateStats
   RTS

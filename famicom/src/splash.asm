@@ -19,11 +19,11 @@ show@splash:                   ;
 ;;
 
 load@splash:                   ; 
-  LDA $2002
+  BIT PPUSTATUS
   LDA #$20
-  STA $2006
+  STA PPUADDR
   LDA #$00
-  STA $2006
+  STA PPUADDR
   LDA #<data@splash
   STA lb@temp
   LDA #>data@splash
@@ -32,7 +32,7 @@ load@splash:                   ;
   LDY #$00
 @loop:                         ; 
   LDA (lb@temp), y
-  STA $2007
+  STA PPUDATA
   INY
   CPY #$00
   BNE @loop
@@ -45,7 +45,7 @@ load@splash:                   ;
 ;;
 
 loadAttributes@splash:         ; 
-  LDA PPUSTATUS
+  BIT PPUSTATUS
   LDA #$23
   STA PPUADDR
   LDA #$C0
@@ -121,7 +121,7 @@ updateCursor@splash:           ;
 ;;
 
 redrawScore@splash:            ; 
-  LDA PPUSTATUS
+  BIT PPUSTATUS
   LDA #$20
   STA PPUADDR
   LDA #$EF

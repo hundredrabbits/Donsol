@@ -62,8 +62,16 @@ enter@room:                    ;
   TYA
   STA card4@room
   ; etcs
-  JSR requestUpdateRun
-  JSR requestUpdateCards
+  ; need redraws
+  LDA #$01
+  STA reqdraw_card1
+  STA reqdraw_card2
+  STA reqdraw_card3
+  STA reqdraw_card4
+  STA reqdraw_run
+  STA reqdraw_hp
+  STA reqdraw_sp
+  STA reqdraw_xp
   RTS
 
 ;; flip card from the table, used in controls when press
@@ -88,7 +96,12 @@ flip@room:                     ; (x:card_pos) ->
   JSR loadExperience@player
   STA xp@player
   JSR updateScore@splash       ; update highscore
-  JSR requestUpdateStats       ; update stats
+  ; need redraws
+  LDA #$01
+  STA reqdraw_run
+  STA reqdraw_hp
+  STA reqdraw_sp
+  STA reqdraw_xp
   RTS
 
 ;; TODO no need to count, could just check if there is any monster left.

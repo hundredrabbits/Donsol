@@ -23,7 +23,7 @@ run@tests:                     ; [skip]
 ;;
 
 pass@tests:                    ; 
-  LDA $2000                    ; read PPU status to reset the high/low latch
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   LDA #$20
   STA PPUADDR                  ; write the high byte
   LDA count@tests
@@ -40,7 +40,7 @@ pass@tests:                    ;
 
 fail@tests:                    ; 
   LDX count@tests
-  LDA $2000                    ; read PPU status to reset the high/low latch
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   LDA #$20
   STA PPUADDR                  ; write the high byte
   LDA count@tests

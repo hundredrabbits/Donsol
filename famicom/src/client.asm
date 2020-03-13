@@ -1,32 +1,6 @@
 
 ;; client
 
-requestUpdateStats:            ; 
-  LDA #$01
-  STA reqdraw_hp
-  STA reqdraw_sp
-  STA reqdraw_xp
-  RTS
-requestUpdateDialog:           ; 
-  LDA #$01
-  STA reqdraw_dialog
-  RTS
-requestUpdateRun:              ; 
-  LDA #$01
-  STA reqdraw_run
-  RTS
-requestUpdateName:             ; 
-  LDA #$01
-  STA reqdraw_name
-  RTS
-requestUpdateCards:            ; 
-  LDA #$01
-  STA reqdraw_card1
-  STA reqdraw_card2
-  STA reqdraw_card3
-  STA reqdraw_card4
-  RTS
-
 ;; interpolate
 
 interpolateStats:              ; 
@@ -153,7 +127,7 @@ update@client:                 ; during nmi
   LDA reqdraw_run
   CMP #$00
   BEQ @checkReqDialog
-  JSR updateRun
+  JSR redrawRun@game
   LDA #$00
   STA reqdraw_run
   INC reqdraws
@@ -162,7 +136,7 @@ update@client:                 ; during nmi
   LDA reqdraw_dialog
   CMP #$00
   BEQ @checkReqScore
-  JSR update@dialog
+  JSR redraw@dialog
   LDA #$00
   STA reqdraw_dialog
   INC reqdraws
@@ -181,8 +155,7 @@ update@client:                 ; during nmi
 
 ;;
 
-updateRun:                     ; 
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+redrawRun@game:                ; 
   JSR stop@renderer
   JSR loadRun@player           ; load canRun in regA
   CMP #$01
@@ -191,6 +164,7 @@ updateRun:                     ;
   CMP #$31                     ; deck is $36 - 4(first hand)
   BEQ @hide
 @show:                         ; RUN: $1c,$1f,$18
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$18
@@ -208,6 +182,7 @@ updateRun:                     ;
   JSR start@renderer
   RTS
 @hide:                         ; 
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   LDA #$21
   STA PPUADDR                  ; write the high byte
   LDA #$18

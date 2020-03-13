@@ -2,7 +2,7 @@
 ;; core
 
 clearBackground:               ; [skip]
-  LDA PPUSTATUS                ; reset latch
+  BIT PPUSTATUS                ; reset latch
   LDA #$20
   STA PPUADDR
   LDA #$00
@@ -23,7 +23,7 @@ clearBackground:               ; [skip]
 ;; Palettes
 
 loadPalettes:                  ; 
-  LDA PPUSTATUS
+  BIT PPUSTATUS
   LDA #$3F
   STA PPUADDR
   LDA #$00
