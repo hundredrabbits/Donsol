@@ -81,7 +81,7 @@ update@client:                 ; during nmi
   LDA reqdraw_name
   CMP #$00
   BEQ @checkReqCard1
-  JSR updateName
+  JSR redrawName@game
   LDA #$00
   STA reqdraw_name
   INC reqdraws
@@ -126,8 +126,7 @@ update@client:                 ; during nmi
   LDA reqdraw_hp
   CMP #$00
   BEQ @checkReqSP
-  JSR updateHealth
-  JSR updateHealthBar
+  JSR redrawHealth@game
   LDA #$00
   STA reqdraw_hp
   INC reqdraws
@@ -136,8 +135,7 @@ update@client:                 ; during nmi
   LDA reqdraw_sp
   CMP #$00
   BEQ @checkReqXP
-  JSR updateShield
-  JSR updateShieldBar
+  JSR redrawShield@game
   LDA #$00
   STA reqdraw_sp
   INC reqdraws
@@ -183,26 +181,6 @@ update@client:                 ; during nmi
 
 ;;
 
-updateName:                    ; 
-  LDA PPUSTATUS
-  LDA #$21
-  STA PPUADDR
-  LDA #$43
-  STA PPUADDR
-  LDX #$00
-  JSR stop@renderer
-@loop:                         ; 
-  LDY #$01                     ; load card id
-  JSR loadCardName
-  STA PPUDATA
-  INX
-  CPX #$10
-  BNE @loop
-  JSR start@renderer
-  RTS
-
-;;
-
 updateRun:                     ; 
   LDA PPUCTRL                  ; read PPU status to reset the high/low latch
   JSR stop@renderer
@@ -240,118 +218,6 @@ updateRun:                     ;
   STA PPUDATA
   STA PPUDATA
   STA PPUDATA
-  JSR start@renderer
-  RTS
-
-;; health value
-
-updateHealth:                  ; 
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
-  LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
-  JSR stop@renderer
-  ; pos
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$07
-  STA PPUADDR                  ; write the low byte
-  ; digit 1
-  LDX ui_health
-  LDA number_high, x
-  STA PPUDATA
-  ; digit 2
-  LDX ui_health
-  LDA number_low, x
-  STA PPUDATA
-  ; sickness
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$05
-  STA PPUADDR                  ; write the low byte
-  LDA sickness@player
-  CMP #$01
-  BNE @false
-  ; sickness icon
-  LDA #$3F
-  STA PPUDATA
-  JSR @done
-@false:                        ; 
-  LDA #$00
-  STA PPUDATA
-@done:                         ; 
-  JSR stop@renderer
-  RTS
-
-;; health bar
-
-updateHealthBar:               ; 
-  LDX #$00
-  LDY ui_health
-  LDA healthbarpos, y          ; regA has sprite offset
-  TAY                          ; regY has sprite offset
-  JSR stop@renderer
-@loop:                         ; 
-  LDA #$20
-  STA PPUADDR                  ; write the high byte
-  LDA healthbaroffset, x
-  STA PPUADDR                  ; write the low byte
-  LDA progressbar, y           ; regA has sprite id
-  INY
-  STA PPUDATA
-  INX
-  CPX #$06
-  BNE @loop
-  JSR start@renderer
-  RTS
-
-;; shield value
-
-updateShield:                  ; 
-  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
-  LDX #$00                     ; Not quite sure why this is needed, but breaks otherwise
-  JSR stop@renderer
-  ; pos
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$0E
-  STA PPUADDR                  ; write the low byte
-  ; digit 1
-  LDX ui_shield
-  LDA number_high, x
-  STA PPUDATA
-  ; digit 2
-  LDX ui_shield
-  LDA number_low, x
-  STA PPUDATA
-  ; durability
-  LDA #$21
-  STA PPUADDR                  ; write the high byte
-  LDA #$0C
-  STA PPUADDR                  ; write the low byte
-  LDX dp@player
-  LDA card_glyphs, x
-  STA PPUDATA
-  JSR start@renderer
-  RTS
-
-;; shield bar
-
-updateShieldBar:               ; 
-  LDX #$00
-  LDY ui_shield
-  LDA shieldbarpos, y          ; regA has sprite offset
-  TAY                          ; regY has sprite offset
-  JSR stop@renderer
-@loop:                         ; 
-  LDA #$20
-  STA PPUADDR                  ; write the high byte
-  LDA shieldbaroffset, x
-  STA PPUADDR                  ; write the low byte
-  LDA progressbar, y           ; regA has sprite id
-  INY
-  STA PPUDATA
-  INX
-  CPX #$06
-  BNE @loop
   JSR start@renderer
   RTS
 
@@ -449,28 +315,6 @@ updateCard4:                   ;
 ;   
 ; If $B4 contains $EE AND $B5 contains $12 then the value at memory 
 ; location $12EE + Y (6) = $12F4 is fetched AND put in the accumulator.
-
-;;
-
-loadCardName:                  ; (y:card_id)
-  ; figure out y
-  LDY cursor@game
-  LDA card1@room, y
-  TAY
-  ; find name offset
-  LDA card_names_offset_lb,y
-  STA lb@temp
-  LDA card_names_offset_hb,y
-  STA hb@temp
-  ; add y + x registers
-  TYA
-  STX id@temp
-  CLC
-  ADC id@temp
-  TAY
-  ; load dialog sprite
-  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
-  RTS
 
 ;; card sprites
 

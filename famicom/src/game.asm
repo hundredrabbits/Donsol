@@ -176,6 +176,96 @@ loadAttributes@game:           ;
 
 ;; redraw
 
+redrawHealth@game:             ; 
+  JSR stop@renderer
+  LDY ui_health
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+  ; pos
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$07
+  STA PPUADDR                  ; write the low byte
+  ; digits
+  LDA number_high, y
+  STA PPUDATA
+  LDA number_low, y
+  STA PPUDATA
+  ; progress bar
+  LDA healthbarpos, y          ; regA has sprite offset
+  TAY                          ; regY has sprite offset
+  LDX #$00
+@loop:                         ; 
+  LDA #$20
+  STA PPUADDR                  ; write the high byte
+  LDA healthbaroffset, x
+  STA PPUADDR                  ; write the low byte
+  LDA progressbar, y           ; regA has sprite id
+  STA PPUDATA
+  INY
+  INX
+  CPX #$06
+  BNE @loop
+  ; sickness
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$05
+  STA PPUADDR                  ; write the low byte
+  LDA sickness@player
+  CMP #$01
+  BNE @false
+  ; sickness icon
+  LDA #$3F
+  STA PPUDATA
+  JSR @done
+@false:                        ; 
+  LDA #$00
+  STA PPUDATA
+@done:                         ; 
+  JSR start@renderer
+  RTS
+
+;; shield value
+
+redrawShield@game:             ; 
+  JSR stop@renderer
+  LDY ui_shield
+  LDA PPUCTRL                  ; read PPU status to reset the high/low latch
+  ; pos
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$0E
+  STA PPUADDR                  ; write the low byte
+  ; digit 1
+  LDA number_high, y
+  STA PPUDATA
+  LDA number_low, y
+  STA PPUDATA
+  ; 
+  LDA shieldbarpos, y          ; regA has sprite offset
+  TAY                          ; regY has sprite offset
+  LDX #$00
+@loop:                         ; 
+  LDA #$20
+  STA PPUADDR                  ; write the high byte
+  LDA shieldbaroffset, x
+  STA PPUADDR                  ; write the low byte
+  LDA progressbar, y           ; regA has sprite id
+  STA PPUDATA
+  INY
+  INX
+  CPX #$06
+  BNE @loop
+  ; durability
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$0C
+  STA PPUADDR                  ; write the low byte
+  LDX dp@player
+  LDA card_glyphs, x
+  STA PPUDATA
+  JSR start@renderer
+  RTS
+
 ;; experience value
 
 redrawExperience@game:         ; 
@@ -206,6 +296,40 @@ redrawExperience@game:         ;
   INY
   INX
   CPX #$06
+  BNE @loop
+  JSR start@renderer
+  RTS
+
+;;
+
+redrawName@game:               ; 
+  JSR stop@renderer
+  LDA PPUSTATUS
+  LDA #$21
+  STA PPUADDR
+  LDA #$43
+  STA PPUADDR
+  LDX #$00
+@loop:                         ; 
+  LDY #$01                     ; load card id
+  ; load card name
+  LDY cursor@game
+  LDA card1@room, y
+  TAY
+  LDA card_names_offset_lb,y
+  STA lb@temp
+  LDA card_names_offset_hb,y
+  STA hb@temp
+  TYA
+  STX id@temp
+  CLC
+  ADC id@temp
+  TAY
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
+  ; draw sprite
+  STA PPUDATA
+  INX
+  CPX #$10
   BNE @loop
   JSR start@renderer
   RTS
