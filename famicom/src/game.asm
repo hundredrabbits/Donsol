@@ -168,7 +168,6 @@ loadAttributes@game:           ;
 ;; redraw
 
 redrawHealth@game:             ; 
-  JSR stop@renderer
   LDY ui_health
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
@@ -212,13 +211,11 @@ redrawHealth@game:             ;
   LDA #$00
   STA PPUDATA
 @done:                         ; 
-  JSR start@renderer
   RTS
 
 ;; shield value
 
 redrawShield@game:             ; 
-  JSR stop@renderer
   LDY ui_shield
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
@@ -254,13 +251,11 @@ redrawShield@game:             ;
   LDX dp@player
   LDA card_glyphs, x
   STA PPUDATA
-  JSR start@renderer
   RTS
 
 ;; experience value
 
 redrawExperience@game:         ; 
-  JSR stop@renderer
   LDY xp@player
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
@@ -288,13 +283,11 @@ redrawExperience@game:         ;
   INX
   CPX #$06
   BNE @loop
-  JSR start@renderer
   RTS
 
 ;;
 
 redrawName@game:               ; 
-  JSR stop@renderer
   BIT PPUSTATUS
   LDA #$21
   STA PPUADDR
@@ -322,7 +315,6 @@ redrawName@game:               ;
   INX
   CPX #$10
   BNE @loop
-  JSR start@renderer
   RTS
 
 ;;

@@ -10,7 +10,6 @@ show@dialog:                   ; (a:id@dialog)
 ;;
 
 redraw@dialog:                 ; 
-  JSR stop@renderer
   BIT PPUSTATUS
   LDA #$23
   STA PPUADDR
@@ -33,5 +32,4 @@ redraw@dialog:                 ;
   INX
   CPX #$18
   BNE @loop
-  JSR start@renderer
   RTS

@@ -127,7 +127,6 @@ redrawScore@splash:            ;
   LDA #$EF
   STA PPUADDR
   LDX #$00
-  JSR stop@renderer
   ; digit 1
   LDX highscore@splash
   LDA number_high, x
@@ -136,7 +135,6 @@ redrawScore@splash:            ;
   LDX highscore@splash
   LDA number_low, x
   STA PPUDATA
-  JSR start@renderer
   RTS
 
 ;;

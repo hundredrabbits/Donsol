@@ -56,6 +56,7 @@ update@client:                 ; during nmi
   CMP #$00
   BEQ @checkReqCard1
   JSR redrawName@game
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_name
   INC reqdraws
@@ -64,7 +65,9 @@ update@client:                 ; during nmi
   LDA reqdraw_card1
   CMP #$00
   BEQ @checkReqCard2
+  JSR stop@renderer
   JSR updateCard1
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card1
   INC reqdraws
@@ -73,7 +76,9 @@ update@client:                 ; during nmi
   LDA reqdraw_card2
   CMP #$00
   BEQ @checkReqCard3
+  JSR stop@renderer
   JSR updateCard2
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card2
   INC reqdraws
@@ -82,7 +87,9 @@ update@client:                 ; during nmi
   LDA reqdraw_card3
   CMP #$00
   BEQ @checkReqCard4
+  JSR stop@renderer
   JSR updateCard3
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card3
   INC reqdraws
@@ -91,7 +98,9 @@ update@client:                 ; during nmi
   LDA reqdraw_card4
   CMP #$00
   BEQ @checkReqHP
+  JSR stop@renderer
   JSR updateCard4
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card4
   INC reqdraws
@@ -101,6 +110,7 @@ update@client:                 ; during nmi
   CMP #$00
   BEQ @checkReqSP
   JSR redrawHealth@game
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_hp
   INC reqdraws
@@ -110,6 +120,7 @@ update@client:                 ; during nmi
   CMP #$00
   BEQ @checkReqXP
   JSR redrawShield@game
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_sp
   INC reqdraws
@@ -119,6 +130,7 @@ update@client:                 ; during nmi
   CMP #$00
   BEQ @checkReqRun
   JSR redrawExperience@game
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_xp
   INC reqdraws
@@ -128,6 +140,7 @@ update@client:                 ; during nmi
   CMP #$00
   BEQ @checkReqDialog
   JSR redrawRun@game
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_run
   INC reqdraws
@@ -137,6 +150,7 @@ update@client:                 ; during nmi
   CMP #$00
   BEQ @checkReqScore
   JSR redraw@dialog
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_dialog
   INC reqdraws
@@ -146,6 +160,7 @@ update@client:                 ; during nmi
   CMP #$00
   BEQ @done
   JSR redrawScore@splash
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_score
   INC reqdraws
@@ -156,7 +171,6 @@ update@client:                 ; during nmi
 ;;
 
 redrawRun@game:                ; 
-  JSR stop@renderer
   JSR loadRun@player           ; load canRun in regA
   CMP #$01
   BNE @hide
@@ -179,7 +193,6 @@ redrawRun@game:                ;
   STA PPUDATA
   LDA #$18                     ; N
   STA PPUDATA
-  JSR start@renderer
   RTS
 @hide:                         ; 
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
@@ -201,7 +214,6 @@ redrawRun@game:                ;
 updateCard1:                   ; 
   LDA #$00
   LDX #$00
-  JSR stop@renderer
 @loop:                         ; 
   LDA card1pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -214,7 +226,6 @@ updateCard1:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR start@renderer
   RTS
 
 ;;
@@ -222,7 +233,6 @@ updateCard1:                   ;
 updateCard2:                   ; 
   LDA #$00
   LDX #$00
-  JSR stop@renderer
 @loop:                         ; 
   LDA card1pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -235,7 +245,6 @@ updateCard2:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR start@renderer
   RTS
 
 ;;
@@ -243,7 +252,6 @@ updateCard2:                   ;
 updateCard3:                   ; 
   LDA #$00
   LDX #$00
-  JSR stop@renderer
 @loop:                         ; 
   LDA card3pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -256,7 +264,6 @@ updateCard3:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR start@renderer
   RTS
 
 ;;
@@ -264,7 +271,6 @@ updateCard3:                   ;
 updateCard4:                   ; 
   LDA #$00
   LDX #$00
-  JSR stop@renderer
 @loop:                         ; 
   LDA card3pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -277,7 +283,6 @@ updateCard4:                   ;
   INX
   CPX #$36
   BNE @loop
-  JSR start@renderer
   RTS
 
 ;;
@@ -307,4 +312,38 @@ loadCardSprite:                ; (x:tile_id, y:card_id)
   TAY
   ; load card sprite
   LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
+  RTS
+
+;; renderer
+
+start@renderer:                ; 
+  LDA #%10010000               ; enable NMI, sprites from Pattern Table 0, background from Pattern Table 1
+  STA PPUCTRL
+  LDA #%00011000               ; enable sprites, enable background, no clipping on left side
+  STA PPUMASK
+  LDA #$00                     ; No background scrolling
+  STA PPUADDR
+  STA PPUADDR
+  STA PPUSCROLL
+  STA PPUSCROLL
+  RTS
+
+;;
+
+stop@renderer:                 ; 
+  LDA #%10000000               ; disable NMI, sprites from Pattern Table 0
+  STA PPUCTRL
+  LDA #%00000000               ; disable sprites
+  STA PPUMASK
+  RTS
+
+;;
+
+fix@renderer:                  ; 
+  BIT PPUSTATUS
+  LDA #$00                     ; No background scrolling
+  STA PPUADDR
+  STA PPUADDR
+  STA PPUSCROLL
+  STA PPUSCROLL
   RTS
