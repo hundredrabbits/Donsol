@@ -67,53 +67,43 @@ loadRun@player:                ; () -> a:canRun
 
 ;;
 
-run@player:                    ; 
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @respawn                 ; 
-  ; when alive, check for victory
-  LDA xp@player
-  CMP #$35
-  BEQ @victory
-  CMP #$36
-  ; when alive
-  JSR loadRun@player           ; load canRun in regA
-  CMP #$01
-  BNE @unable
-  ; success! draw cards for next room
-  JSR returnCards@room
-  JSR enter@room
-  ; record running
-  LDA #$01
-  STA has_run@player
-  ; dialog:run
-  LDA #$0C
-  JSR show@dialog
-  RTS
-@victory:                      ; 
-  ; dialog:clear
-  LDA #$00
-  JSR show@dialog
-  JSR show@splash
-  RTS
-@respawn:                      ; 
-  JSR restart@game
-  RTS
-@unable:                       ; 
-  ; dialog:cannot_run
-  LDA #$04
-  JSR show@dialog
+loadExperience@player:         ; () -> a:xp
+  JSR loadCoundCardsLeft@room  ; load cards left, stores counts in x
+  STX id@temp
+  LDA #$36                     ; cards max
+  SEC
+  SBC length@deck              ; minus length
+  SBC id@temp                  ; minus cards left
   RTS
 
 ;;
 
-loadExperience@player:         ; () -> a:xp
-  ; load cards left
-  JSR loadCoundCardsLeft@room  ; stores counts in x
-  STX id@temp
-  LDA #$36                     ; cards max
-  CLC
-  SBC length@deck              ; minus length
-  SBC id@temp                  ; minus cards left
+run@player:                    ; 
+  LDA hp@player                ; check if player is alive
+  CMP #$00
+  BEQ @onDead                  ; 
+  LDA xp@player                ; when alive, check for victory
+  CMP #$35
+  BEQ @onVictory
+  JSR loadRun@player           ; load canRun in regA when alive, check for escape
+  CMP #$01
+  BEQ @onEscape
+  LDA #$04                     ; dialog: cannot_run when unable, display dialog
+  JSR show@dialog
   RTS
+@onEscape:                     ; 
+  JSR returnCards@room         ; draw cards for next room
+  JSR enter@room
+  LDA #$01                     ; record running
+  STA has_run@player
+  LDA #$0C                     ; dialog:run
+  JSR show@dialog
+  RTS
+@onVictory:                    ; 
+  LDA #$00                     ; dialog:clear
+  JSR show@dialog
+  JSR show@splash
+  RTS
+@onDead:                       ; 
+  JSR restart@game
+  RTS                          ; 

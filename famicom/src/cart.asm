@@ -118,10 +118,7 @@ NMI:                           ;
   CMP #$00
   BNE @locked
   INC seed@deck
-
-;; skip latch if input is locked
-
-@locked
+@locked                        ; skip latch if input is locked
   LDA timer@input
   CMP #$00
   BEQ @latch

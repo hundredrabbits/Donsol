@@ -12,8 +12,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Fix issue with experience bar?!
-
 - Implement deck shuffling
   - Implement shuffle seed
   - Can reshuffle on first hand
@@ -24,13 +22,12 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
   - Test dungeon complete
   - Test difficulty?
 - Implement onscreen guide
-- When shield break, display cyan star next to SP
 - Implement sounds
 
 ## Rules
 
-- Easy: Can escape if when no monsters present or when has not escaped before.
-- Normal: Can escape when has not escaped before.
+- Easy: Can escape if when no monsters present or when the player has not escaped before.
+- Normal: Can escape when the player has not escaped before.
 - Hard: Can escape if there are no monsters present.
 
 ## Card IDs
