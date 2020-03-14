@@ -1,6 +1,17 @@
 
 ;; splash | holds the highscore count
 
+main@splash:                   ; 
+  LDA view@game
+  CMP #$00
+  BNE @done
+  ; when is on splash
+  INC seed@deck                ; increment random seed
+@done
+  RTS
+
+;;
+
 show@splash:                   ; 
   ; set splash mode
   LDA #$00

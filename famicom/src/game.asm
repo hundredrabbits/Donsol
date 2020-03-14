@@ -1,6 +1,11 @@
 
 ;;
 
+main@game:                     ; 
+  RTS
+
+;;
+
 show@game:                     ; 
   ; set game mode
   LDA #$01
@@ -17,6 +22,7 @@ show@game:                     ;
   RTS
 
 ;;
+
 restart@game:                  ; 
   ; deck
   JSR init@deck

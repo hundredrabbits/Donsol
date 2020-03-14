@@ -1,7 +1,7 @@
 
 ;;
 
-read@input:                    ; run from nmi
+main@input:                    ; run from nmi
   LDA last@input
   CMP BUTTON_A
   BEQ onA@input
@@ -15,6 +15,16 @@ read@input:                    ; run from nmi
   BEQ onLEFT@input
   CMP BUTTON_RIGHT
   BEQ onRIGHT@input
+  RTS
+
+;;
+
+nmi@input:                     ; 
+  LDA timer@input
+  CMP #$00
+  BEQ @done
+  DEC timer@input
+@done
   RTS
 
 ;;

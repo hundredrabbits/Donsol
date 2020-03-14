@@ -6,26 +6,21 @@
   LDA #$02
   STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
 
+;; input
+
+  JSR nmi@input
+
 ;;render frame & timers
 
 @frame:                        ; 
-  JSR update@room
   JSR update@client            ; in client
-
-;; increment random seed in splash
-
-  LDA view@game
-  CMP #$00
-  BNE @locked
-  INC seed@deck
-@locked                        ; skip latch if input is locked
+; check input lock
   LDA timer@input
   CMP #$00
   BEQ @latch
-  DEC timer@input
   RTI
 
-;; latch
+;; controllers
 
 @latch:                        ; 
   LDA #$01

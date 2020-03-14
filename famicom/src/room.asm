@@ -1,7 +1,7 @@
 
 ;; room
 
-update@room:                   ; update from the nmi
+main@room:                     ; update from the nmi
   ; look for unflipped cards
   LDA card1@room
   CMP #$36
