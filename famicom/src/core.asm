@@ -20,23 +20,6 @@ clearBackground:               ; [skip]
   BNE @loop
   RTS
 
-;; Palettes
-
-loadPalettes:                  ; 
-  BIT PPUSTATUS
-  LDA #$3F
-  STA PPUADDR
-  LDA #$00
-  STA PPUADDR
-  LDX #$00
-@loop:                         ; 
-  LDA palettes, x
-  STA PPUDATA
-  INX
-  CPX #$20
-  BNE @loop
-  RTS
-
 ;; Interface
 
 ;; Pick card from the deck

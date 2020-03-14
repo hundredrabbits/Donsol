@@ -1,45 +1,6 @@
+  include "src/head.asm"
 
-;; iNES header
-
-  .db  "NES", $1a              ; identification of the iNES header
-  .db  1                       ; number of 16KB PRG-ROM pages
-  .db  $01                     ; number of 8KB CHR-ROM pages
-  .db  $70|%0001               ; mapper 7
-  .dsb $09,$00                 ; clear the remaining bytes
-  .fillvalue $FF               ; Sets all unused space in rom to value $FF
-
-;; constants
-
-PPUCTRL             .equ $2000
-PPUMASK             .equ $2001
-PPUSTATUS           .equ $2002 ; Using BIT PPUSTATUS preserves the previous contents of A.
-SPRADDR             .equ $2003
-PPUSCROLL           .equ $2005
-PPUADDR             .equ $2006
-PPUDATA             .equ $2007
-SPRDMA              .equ $4014
-SNDCHN              .equ $4015
-JOY1                .equ $4016
-JOY2                .equ $4017
-
-;;
-
-BUTTON_A            .equ #$10
-BUTTON_B            .equ #$11
-BUTTON_SELECT       .equ #$12
-BUTTON_START        .equ #$13
-BUTTON_UP           .equ #$14
-BUTTON_DOWN         .equ #$15
-BUTTON_LEFT         .equ #$16
-BUTTON_RIGHT        .equ #$17
-
-;; variables
-
-  .enum $0000                  ; Zero Page variables
-include "src/variables.asm"
-  .ende
-
-;;
+;; Begin
 
   .org $C000
 
@@ -59,9 +20,6 @@ RESET:                         ;
 @vwait1:                       ; First wait for vblank to make sure PPU is ready
   BIT PPUSTATUS
   BPL @vwait1
-@vwait2:                       ; Second wait for vblank, PPU is ready after this
-  BIT PPUSTATUS
-  BPL @vwait2
 @clear:                        ; 
   LDA #$00
   STA $0000, x
@@ -75,12 +33,30 @@ RESET:                         ;
   STA $0200, x                 ; move all sprites off screen
   INX
   BNE @clear
+@vwait2:                       ; Second wait for vblank, PPU is ready after this
+  BIT PPUSTATUS
+  BPL @vwait2
 
-;; Setup
+;; Init
 
-  JSR loadPalettes
+  ; Load Palettes
+  BIT PPUSTATUS
+  LDA #$3F
+  STA PPUADDR
+  LDA #$00
+  STA PPUADDR
+  LDX #$00
+@loop:                         ; 
+  LDA palettes, x
+  STA PPUDATA
+  INX
+  CPX #$20
+  BNE @loop
+  ; show splash
   JSR show@splash
-  ; tests
+
+;; Run tests
+
   ; JSR run@tests
 
 ;; jump back to Forever, infinite loop
@@ -183,17 +159,17 @@ NMI:                           ;
 
 ;; includes
 
-include "src/splash.asm"
-include "src/game.asm"
-include "src/input.asm"
-include "src/core.asm"
-include "src/deck.asm"
-include "src/player.asm"
-include "src/room.asm"
-include "src/client.asm"
-include "src/dialog.asm"
-include "src/tests.asm"
-include "src/tables.asm"
+  include "src/splash.asm"
+  include "src/game.asm"
+  include "src/input.asm"
+  include "src/core.asm"
+  include "src/deck.asm"
+  include "src/player.asm"
+  include "src/room.asm"
+  include "src/client.asm"
+  include "src/dialog.asm"
+  include "src/tests.asm"
+  include "src/tables.asm"
 
 ;; vectors
 

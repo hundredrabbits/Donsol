@@ -36,7 +36,7 @@ pull@deck:                     ;
 return@deck:                   ; (a:card_id)
   LDX length@deck
   INX
-  STA $80,x
+  STA $80, x
   INC length@deck
   RTS
 

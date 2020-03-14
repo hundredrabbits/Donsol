@@ -72,6 +72,7 @@ enter@room:                    ;
   STA reqdraw_hp
   STA reqdraw_sp
   STA reqdraw_xp
+  STA reqdraw_name
   RTS
 
 ;; flip card from the table, used in controls when press
@@ -166,25 +167,14 @@ loadCoundCardsLeft@room:       ; () -> x:count
 ;; return non-flipped cards back to the end of the deck
 
 returnCards@room:              ; 
-@return1:                      ; 
-  LDA card1@room
+  LDY #$00
+@loop
+  LDA card1@room, y
   CMP #$36
-  BEQ @return2
-  JSR return@deck
-@return2:                      ; 
-  LDA card2@room
-  CMP #$36
-  BEQ @return3
-  JSR return@deck
-@return3:                      ; 
-  LDA card3@room
-  CMP #$36
-  BEQ @return4
-  JSR return@deck
-@return4:                      ; 
-  LDA card4@room
-  CMP #$36
-  BEQ @done
-  JSR return@deck
-@done
+  BEQ @continue
+  JSR return@deck              ; warning: write on regX
+@continue
+  INY
+  CPY #$04
+  BNE @loop
   RTS

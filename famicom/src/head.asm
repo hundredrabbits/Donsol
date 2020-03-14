@@ -1,5 +1,43 @@
 
-;; variables
+;; iNES header
+
+  .db  "NES", $1a              ; identification of the iNES header
+  .db  1                       ; number of 16KB PRG-ROM pages
+  .db  $01                     ; number of 8KB CHR-ROM pages
+  .db  $70|%0001               ; mapper 7
+  .dsb $09,$00                 ; clear the remaining bytes
+  .fillvalue $FF               ; Sets all unused space in rom to value $FF
+
+;; constants
+
+PPUCTRL             .equ $2000
+PPUMASK             .equ $2001
+PPUSTATUS           .equ $2002 ; Using BIT PPUSTATUS preserves the previous contents of A.
+SPRADDR             .equ $2003
+PPUSCROLL           .equ $2005
+PPUADDR             .equ $2006
+PPUDATA             .equ $2007
+SPRDMA              .equ $4014
+SNDCHN              .equ $4015
+JOY1                .equ $4016
+JOY2                .equ $4017
+
+;;
+
+BUTTON_A            .equ #$10
+BUTTON_B            .equ #$11
+BUTTON_SELECT       .equ #$12
+BUTTON_START        .equ #$13
+BUTTON_UP           .equ #$14
+BUTTON_DOWN         .equ #$15
+BUTTON_LEFT         .equ #$16
+BUTTON_RIGHT        .equ #$17
+
+;;
+
+  .enum $0000    
+
+;;
 
 hp@player               .dsb 1 ; health points
 sp@player               .dsb 1 ; shield points
@@ -48,3 +86,7 @@ reqdraw_dialog          .dsb 1
 reqdraw_run             .dsb 1
 reqdraw_name            .dsb 1
 reqdraw_score           .dsb 1
+
+;;
+
+  .ende
