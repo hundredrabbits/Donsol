@@ -105,75 +105,50 @@ flip@room:                     ; (x:card_pos) ->
   STA reqdraw_xp
   RTS
 
-;; TODO no need to count, could just check if there is any monster left.
+;; count enemy cards left in play
 
-enemiesLeft@room:              ; () -> a:count
-  LDX #$00
-@card1:                        ; 
-  LDY card1@room
-  LDA card_enemies, y
-  CMP #$01
-  BNE @card2
+loadEnemiesLeft@room:          ; () -> x:count
+  LDX #$00                     ; count
+  LDY #$00                     ; increment
+@loop
+  LDA card1@room, y
+  CMP #$20
+  BCC @skip                    ; heart/diamonds
+  CMP #$36
+  BEQ @skip                    ; don't count flipped cards
   INX
-@card2:                        ; 
-  LDY card2@room
-  LDA card_enemies, y
-  CMP #$01
-  BNE @card3
-  INX
-@card3:                        ; 
-  LDY card3@room
-  LDA card_enemies, y
-  CMP #$01
-  BNE @card4
-  INX
-@card4:                        ; 
-  LDY card4@room
-  LDA card_enemies, y
-  CMP #$01
-  BNE @done
-  INX
-@done:                         ; 
-  TXA
+@skip
+  INY
+  CPY #$04
+  BNE @loop
   RTS
 
 ;; count cards left in play
 
-loadCoundCardsLeft@room:       ; () -> x:count
-  LDX #$04
-@card1:                        ; 
-  LDA card1@room
+loadCardsLeft@room:            ; () -> x:count
+  LDX #$00                     ; count
+  LDY #$00                     ; increment
+@loop
+  LDA card1@room, y
   CMP #$36
-  BNE @card2
-  DEX
-@card2:                        ; 
-  LDA card2@room
-  CMP #$36
-  BNE @card3
-  DEX
-@card3:                        ; 
-  LDA card3@room
-  CMP #$36
-  BNE @card4
-  DEX
-@card4:                        ; 
-  LDA card4@room
-  CMP #$36
-  BNE @done
-  DEX
-@done:                         ; 
+  BEQ @skip
+  INX
+@skip
+  INY
+  CPY #$04
+  BNE @loop
   RTS
 
 ;; return non-flipped cards back to the end of the deck
 
 returnCards@room:              ; 
-  LDY #$00
+  LDY #$00                     ; increment
 @loop
   LDA card1@room, y
   CMP #$36
-  BEQ @continue
+  BEQ @skip
   JSR return@deck              ; warning: write on regX
-@continue
+@skip
   INY
   CPY #$04
   BNE @loop

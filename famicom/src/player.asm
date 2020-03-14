@@ -38,8 +38,9 @@ loadRun@player:                ; () -> a:canRun
   CMP #$02
   BEQ @Hard
 @Easy:                         ; RULE | can escape if when no monsters present or when has not escaped before
-  JSR enemiesLeft@room
-  CMP #$00
+  JSR loadEnemiesLeft@room
+  STX $40
+  CPX #$00
   BEQ @enableRun               ; when monsters left
   LDA has_run@player
   CMP #$01
@@ -53,8 +54,8 @@ loadRun@player:                ; () -> a:canRun
   JSR @enableRun
   RTS
 @Hard:                         ; RULE | can escape if there are no monsters present
-  JSR enemiesLeft@room
-  CMP #$00
+  JSR loadEnemiesLeft@room
+  CPX #$00
   BNE @disableRun              ; when no monsters present
   JSR @enableRun
   RTS
@@ -68,9 +69,9 @@ loadRun@player:                ; () -> a:canRun
 ;;
 
 loadExperience@player:         ; () -> a:xp
-  JSR loadCoundCardsLeft@room  ; load cards left, stores counts in x
+  JSR loadCardsLeft@room       ; load cards left, stores counts in x
   STX id@temp
-  LDA #$36                     ; cards max
+  LDA #$35                     ; cards max
   SEC
   SBC length@deck              ; minus length
   SBC id@temp                  ; minus cards left
