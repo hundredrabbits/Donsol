@@ -1,7 +1,7 @@
 
 ;;
 
-update@input:                  ; run from nmi
+read@input:                    ; run from nmi
   LDA last@input
   CMP BUTTON_A
   BEQ onA@input
