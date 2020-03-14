@@ -4,6 +4,15 @@
 ;; check for updates required
 
 nmi@client:                    ; during nmi
+  LDA timer@renderer
+  CMP #$00
+  BEQ @allowed
+  DEC timer@renderer
+  RTS
+@allowed:
+  LDA #$10
+  STA timer@renderer
+@beginDrawing:
   ; draw name
   LDA reqdraw_name
   CMP #$00

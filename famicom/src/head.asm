@@ -66,6 +66,7 @@ highscore@splash        .dsb 1 ; keep highscore
 lb@temp                 .dsb 1 ; utils
 hb@temp                 .dsb 1
 id@temp                 .dsb 1
+timer@renderer .dsb 1
 ; misc
 ui_health               .dsb 1
 ui_shield               .dsb 1
