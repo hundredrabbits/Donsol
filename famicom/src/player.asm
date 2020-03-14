@@ -13,6 +13,39 @@ reset@player:                  ;
 
 ;;
 
+nmi@player:                    ; 
+  ; interpolate health
+  LDA ui_health                ; follower x
+  CMP hp@player                ; sprite x
+  BEQ @done
+  BCC @incHealth
+  DEC ui_health
+  LDA #$01                     ; request redraw
+  STA reqdraw_hp
+  JMP @doneHealth
+@incHealth:                    ; 
+  INC ui_health
+  LDA #$01                     ; request redraw
+  STA reqdraw_hp
+@doneHealth:                   ; 
+  ; interpolate shield
+  LDA ui_shield                ; follower x
+  CMP sp@player                ; sprite x
+  BEQ @done
+  BCC @incShield
+  DEC ui_shield
+  LDA #$01                     ; request redraw
+  STA reqdraw_sp
+  JMP @done
+@incShield:                    ; 
+  INC ui_shield
+  LDA #$01                     ; request redraw
+  STA reqdraw_sp
+@done:                         ; 
+  RTS
+
+;;
+
 addSickness@player:            ; 
   LDA #$01
   STA sickness@player

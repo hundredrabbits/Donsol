@@ -1,56 +1,9 @@
 
 ;; client
 
-;; interpolate
-
-interpolateStats:              ; 
-  JSR interpolateHealth
-  JSR interpolateShield
-  RTS
-
-;;
-
-interpolateHealth:             ; 
-  LDA ui_health                ; follower x
-  CMP hp@player                ; sprite x
-  BEQ @done
-  BCC @inc
-  DEC ui_health
-  ; request redraw
-  LDA #$01
-  STA reqdraw_hp
-  RTS
-@inc:                          ; 
-  INC ui_health
-  ; request redraw
-  LDA #$01
-  STA reqdraw_hp
-@done:                         ; 
-  RTS
-
-;;
-
-interpolateShield:             ; 
-  LDA ui_shield                ; follower x
-  CMP sp@player                ; sprite x
-  BEQ @done
-  BCC @inc
-  DEC ui_shield
-  ; request redraw
-  LDA #$01
-  STA reqdraw_sp
-  RTS
-@inc:                          ; 
-  INC ui_shield
-  ; request redraw
-  LDA #$01
-  STA reqdraw_sp
-@done:                         ; 
-  RTS
-
 ;; check for updates required
 
-update@client:                 ; during nmi
+nmi@client:                    ; during nmi
   ; draw name
   LDA reqdraw_name
   CMP #$00

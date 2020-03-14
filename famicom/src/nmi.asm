@@ -9,12 +9,12 @@
 ;; input
 
   JSR nmi@input
+  JSR nmi@player
+  JSR nmi@client               ; in client
 
-;;render frame & timers
+;;
 
-@frame:                        ; 
-  JSR update@client            ; in client
-; check input lock
+checkLock:                     ; 
   LDA timer@input
   CMP #$00
   BEQ @latch

@@ -1,3 +1,6 @@
+
+;; init
+
   SEI                          ; disable IRQs
   CLD                          ; disable decimal mode
   LDX #$40

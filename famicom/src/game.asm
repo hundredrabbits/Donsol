@@ -2,6 +2,12 @@
 ;;
 
 main@game:                     ; 
+  LDA view@game
+  CMP #$01
+  BNE @done
+  ; when is on table
+  NOP                          ; do nothing
+@done
   RTS
 
 ;;

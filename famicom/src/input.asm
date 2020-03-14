@@ -19,7 +19,7 @@ main@input:                    ; run from nmi
 
 ;;
 
-nmi@input:                     ; 
+nmi@input:                     ; use the nmi to decrement lock
   LDA timer@input
   CMP #$00
   BEQ @done
