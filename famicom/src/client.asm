@@ -10,7 +10,7 @@ nmi@client:                    ; during nmi
   DEC timer@renderer
   RTS
 @allowed:                      ; 
-  LDA #$10
+  LDA #$02
   STA timer@renderer
 @beginDrawing:                 ; 
   ; draw name
