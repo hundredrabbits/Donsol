@@ -10,7 +10,7 @@
 
   JSR nmi@input
   JSR nmi@player
-  JSR nmi@client               ; in client
+  JSR nmi@game                 ; in client
   JSR nmi@room
 
 ;;

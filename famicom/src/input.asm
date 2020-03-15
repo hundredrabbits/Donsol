@@ -111,7 +111,7 @@ onRIGHT@input:                 ;
 ;; lock
 
 lock@input:                    ; 
-  LDA #$06
+  LDA #$07
   STA timer@input
   ; release
   LDA #$00

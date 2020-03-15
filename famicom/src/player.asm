@@ -4,7 +4,7 @@
 reset@player:                  ; 
   LDA #$15
   STA hp@player
-  STA ui_health
+  STA hpui@game
   LDA #$00
   STA sp@player
   STA dp@player
@@ -15,33 +15,33 @@ reset@player:                  ;
 
 nmi@player:                    ; 
 ; interpolate shield
-  LDA ui_shield                ; follower x
+  LDA spui@game                ; follower x
   CMP sp@player                ; sprite x
   BEQ @skip
   BCC @incShield
 @decShield:                    ; 
-  DEC ui_shield
+  DEC spui@game
   LDA #$01                     ; request redraw
   STA reqdraw_sp
   RTS
 @incShield:                    ; 
-  INC ui_shield
+  INC spui@game
   LDA #$01                     ; request redraw
   STA reqdraw_sp
   RTS
 @skip:                         ; 
   ; interpolate health
-  LDA ui_health                ; follower x
+  LDA hpui@game                ; follower x
   CMP hp@player                ; sprite x
   BEQ @done
   BCC @incHealth
 @decHealth:                    ; 
-  DEC ui_health
+  DEC hpui@game
   LDA #$01                     ; request redraw
   STA reqdraw_hp
   RTS
 @incHealth:                    ; 
-  INC ui_health
+  INC hpui@game
   LDA #$01                     ; request redraw
   STA reqdraw_hp
   RTS
@@ -145,3 +145,14 @@ run@player:                    ;
 @onDead:                       ; 
   JSR restart@game
   RTS                          ; 
+
+;;
+
+clampHealth@player:            ; 
+  LDA hp@player
+  CMP #$15
+  BCC @done
+  LDA #$15
+  STA hp@player
+@done:                         ; 
+  RTS

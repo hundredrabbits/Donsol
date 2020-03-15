@@ -4,10 +4,134 @@
 main@game:                     ; 
   LDA view@game
   CMP #$01
-  BNE @done
+  BEQ @inView
   ; when is on table
   NOP                          ; do nothing
-@done
+@inView
+  RTS
+
+;;
+
+nmi@game:                      ; during nmi
+  LDA view@game
+  CMP #$01
+  BEQ @inView
+  RTS
+@inView:                       ; when is on game
+  LDA timer@renderer
+  CMP #$00
+  BEQ @whenRender
+  DEC timer@renderer
+  RTS
+@whenRender:                   ; 
+  LDA #$02                     ; reset render timer to 2 frames
+  STA timer@renderer
+@beginDrawing:                 ; 
+  ; draw name
+  LDA reqdraw_name
+  CMP #$00
+  BEQ @checkReqCard1
+  JSR redrawName@game
+  JSR fix@renderer
+  LDA #$00
+  STA reqdraw_name
+  INC reqdraws
+  RTS
+@checkReqCard1:                ; 
+  LDA reqdraw_card1
+  CMP #$00
+  BEQ @checkReqCard2
+  JSR stop@renderer
+  JSR redrawCard1@game
+  JSR start@renderer
+  LDA #$00
+  STA reqdraw_card1
+  INC reqdraws
+  RTS
+@checkReqCard2:                ; 
+  LDA reqdraw_card2
+  CMP #$00
+  BEQ @checkReqCard3
+  JSR stop@renderer
+  JSR redrawCard2@game
+  JSR start@renderer
+  LDA #$00
+  STA reqdraw_card2
+  INC reqdraws
+  RTS
+@checkReqCard3:                ; 
+  LDA reqdraw_card3
+  CMP #$00
+  BEQ @checkReqCard4
+  JSR stop@renderer
+  JSR redrawCard3@game
+  JSR start@renderer
+  LDA #$00
+  STA reqdraw_card3
+  INC reqdraws
+  RTS
+@checkReqCard4:                ; 
+  LDA reqdraw_card4
+  CMP #$00
+  BEQ @checkReqHP
+  JSR stop@renderer
+  JSR redrawCard4@game
+  JSR start@renderer
+  LDA #$00
+  STA reqdraw_card4
+  INC reqdraws
+  RTS
+@checkReqHP:                   ; 
+  LDA reqdraw_hp
+  CMP #$00
+  BEQ @checkReqSP
+  JSR redrawHealth@game
+  JSR fix@renderer
+  LDA #$00
+  STA reqdraw_hp
+  INC reqdraws
+  RTS
+@checkReqSP:                   ; 
+  LDA reqdraw_sp
+  CMP #$00
+  BEQ @checkReqXP
+  JSR redrawShield@game
+  JSR fix@renderer
+  LDA #$00
+  STA reqdraw_sp
+  INC reqdraws
+  RTS
+@checkReqXP:                   ; 
+  LDA reqdraw_xp
+  CMP #$00
+  BEQ @checkReqRun
+  JSR redrawExperience@game
+  JSR fix@renderer
+  LDA #$00
+  STA reqdraw_xp
+  INC reqdraws
+  RTS
+@checkReqRun:                  ; 
+  LDA reqdraw_run
+  CMP #$00
+  BEQ @checkReqDialog
+  JSR redrawRun@game
+  JSR fix@renderer
+  LDA #$00
+  STA reqdraw_run
+  INC reqdraws
+  RTS
+@checkReqDialog:               ; 
+  LDA reqdraw_dialog
+  CMP #$00
+  BEQ @done
+  JSR redraw@dialog
+  JSR fix@renderer
+  LDA #$00
+  STA reqdraw_dialog
+  INC reqdraws
+  RTS
+@done:                         ; 
   RTS
 
 ;;
@@ -180,7 +304,7 @@ loadAttributes@game:           ;
 ;; redraw
 
 redrawHealth@game:             ; 
-  LDY ui_health
+  LDY hpui@game
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
   LDA #$21
@@ -228,7 +352,7 @@ redrawHealth@game:             ;
 ;; shield value
 
 redrawShield@game:             ; 
-  LDY ui_shield
+  LDY spui@game
   STY $40
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos

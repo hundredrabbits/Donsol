@@ -29,7 +29,6 @@ __NMI:                         ;
   include "src/splash.asm"
   include "src/game.asm"
   include "src/input.asm"
-  include "src/core.asm"
   include "src/deck.asm"
   include "src/player.asm"
   include "src/room.asm"

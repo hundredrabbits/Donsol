@@ -88,7 +88,7 @@ flip@room:                     ; (x:card_pos) ->
   BEQ @skip
   ; when card is not flipped
   TAY                          ; pick card
-  JSR pickCard
+  JSR pick@deck
   LDA #$36                     ; flip card
   STA card1@room, x
   LDA #$01                     ; request draw

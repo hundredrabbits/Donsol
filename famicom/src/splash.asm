@@ -11,7 +11,6 @@ main@splash:                   ;
   RTS
 
 ;;
-
 show@splash:                   ; 
   ; set splash mode
   LDA #$00
@@ -22,8 +21,23 @@ show@splash:                   ;
   ; display
   JSR stop@renderer
   JSR load@splash
-  JSR redrawScore@splash
   JSR loadAttributes@splash
+  ; draw score on splash
+  BIT PPUSTATUS
+  LDA #$20
+  STA PPUADDR
+  LDA #$EF
+  STA PPUADDR
+  LDX #$00
+  ; digit 1
+  LDX highscore@splash
+  LDA number_high, x
+  STA PPUDATA
+  ; digit 2
+  LDX highscore@splash
+  LDA number_low, x
+  STA PPUDATA
+  ; done
   JSR start@renderer
   RTS
 
@@ -127,25 +141,6 @@ updateCursor@splash:           ;
   CLC
   ADC #$08
   STA $0207                    ; set tile.x pos
-  RTS
-
-;;
-
-redrawScore@splash:            ; 
-  BIT PPUSTATUS
-  LDA #$20
-  STA PPUADDR
-  LDA #$EF
-  STA PPUADDR
-  LDX #$00
-  ; digit 1
-  LDX highscore@splash
-  LDA number_high, x
-  STA PPUDATA
-  ; digit 2
-  LDX highscore@splash
-  LDA number_low, x
-  STA PPUDATA
   RTS
 
 ;;
