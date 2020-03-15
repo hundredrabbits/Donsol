@@ -229,6 +229,7 @@ redrawHealth@game:             ;
 
 redrawShield@game:             ; 
   LDY ui_shield
+  STY $40
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
   LDA #$21
