@@ -1,7 +1,7 @@
 
 ;; room
 
-main@room:                     ; update from the nmi
+nmi@room:                      ; update from the nmi
   ; look for unflipped cards
   LDA card1@room
   CMP #$36
@@ -81,11 +81,11 @@ enter@room:                    ;
 flip@room:                     ; (x:card_pos) ->
   LDA hp@player
   CMP #$00
-  BEQ @done
+  BEQ @skip
   ; when player is alive
   LDA card1@room, x
   CMP #$36
-  BEQ @done
+  BEQ @skip
   ; when card is not flipped
   TAY                          ; pick card
   JSR pickCard
@@ -93,11 +93,10 @@ flip@room:                     ; (x:card_pos) ->
   STA card1@room, x
   LDA #$01                     ; request draw
   STA reqdraw_card1, x
-  JSR updateBuffers@room
 @done:                         ; 
-  ; update experience
-  JSR loadExperience@player
-  STA xp@player
+  JSR updateBuffers@room       ; update card buffers
+  JSR loadExperience@player    ; update experience
+  STA xp@player                ; load xp AND update high score
   JSR updateScore@splash       ; update highscore
   ; need redraws
   LDA #$01
@@ -105,6 +104,7 @@ flip@room:                     ; (x:card_pos) ->
   STA reqdraw_hp
   STA reqdraw_sp
   STA reqdraw_xp
+@skip
   RTS
 
 ;; count enemy cards left in play
@@ -169,7 +169,7 @@ returnCards@room:              ;
 
 ;;
 
-updateBuffers@room:            ; 
+updateBuffers@room:            ; TODO maybe turn into a loop..
   ; card 1 buffer
   LDA #$00
   STA id@temp

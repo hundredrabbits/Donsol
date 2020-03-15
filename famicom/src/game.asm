@@ -333,7 +333,6 @@ redrawName@game:               ;
 ;; to merge into a single routine
 
 redrawCard1@game:              ; 
-  LDA #$00
   LDX #$00
 @loop:                         ; 
   LDA card1pos_high, x
@@ -350,7 +349,6 @@ redrawCard1@game:              ;
 ;;
 
 redrawCard2@game:              ; 
-  LDA #$00
   LDX #$00
 @loop:                         ; 
   LDA card1pos_high, x
@@ -367,7 +365,6 @@ redrawCard2@game:              ;
 ;;
 
 redrawCard3@game:              ; 
-  LDA #$00
   LDX #$00
 @loop:                         ; 
   LDA card3pos_high, x

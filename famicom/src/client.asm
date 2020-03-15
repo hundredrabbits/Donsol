@@ -27,8 +27,9 @@ nmi@client:                    ; during nmi
   LDA reqdraw_card1
   CMP #$00
   BEQ @checkReqCard2
+  JSR stop@renderer
   JSR redrawCard1@game
-  JSR fix@renderer
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card1
   INC reqdraws
@@ -37,8 +38,9 @@ nmi@client:                    ; during nmi
   LDA reqdraw_card2
   CMP #$00
   BEQ @checkReqCard3
+  JSR stop@renderer
   JSR redrawCard2@game
-  JSR fix@renderer
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card2
   INC reqdraws
@@ -47,8 +49,9 @@ nmi@client:                    ; during nmi
   LDA reqdraw_card3
   CMP #$00
   BEQ @checkReqCard4
+  JSR stop@renderer
   JSR redrawCard3@game
-  JSR fix@renderer
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card3
   INC reqdraws
@@ -57,8 +60,9 @@ nmi@client:                    ; during nmi
   LDA reqdraw_card4
   CMP #$00
   BEQ @checkReqHP
+  JSR stop@renderer
   JSR redrawCard4@game
-  JSR fix@renderer
+  JSR start@renderer
   LDA #$00
   STA reqdraw_card4
   INC reqdraws
