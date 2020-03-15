@@ -22,6 +22,13 @@ SNDCHN              .equ $4015
 JOY1                .equ $4016
 JOY2                .equ $4017
 
+;; buffers
+
+card1@buffers       .equ $0300
+card2@buffers       .equ $0340
+card3@buffers       .equ $0380
+card4@buffers       .equ $03c0
+
 ;;
 
 BUTTON_A            .equ #$10
@@ -66,7 +73,7 @@ highscore@splash        .dsb 1 ; keep highscore
 lb@temp                 .dsb 1 ; utils
 hb@temp                 .dsb 1
 id@temp                 .dsb 1
-timer@renderer .dsb 1
+timer@renderer          .dsb 1
 ; misc
 ui_health               .dsb 1
 ui_shield               .dsb 1

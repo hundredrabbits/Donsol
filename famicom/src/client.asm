@@ -9,10 +9,10 @@ nmi@client:                    ; during nmi
   BEQ @allowed
   DEC timer@renderer
   RTS
-@allowed:
+@allowed:                      ; 
   LDA #$10
   STA timer@renderer
-@beginDrawing:
+@beginDrawing:                 ; 
   ; draw name
   LDA reqdraw_name
   CMP #$00
@@ -27,9 +27,10 @@ nmi@client:                    ; during nmi
   LDA reqdraw_card1
   CMP #$00
   BEQ @checkReqCard2
-  JSR stop@renderer
+  ; JSR stop@renderer
   JSR redrawCard1@game
-  JSR start@renderer
+  ; JSR start@renderer
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_card1
   INC reqdraws
@@ -38,9 +39,10 @@ nmi@client:                    ; during nmi
   LDA reqdraw_card2
   CMP #$00
   BEQ @checkReqCard3
-  JSR stop@renderer
+  ; JSR stop@renderer
   JSR redrawCard2@game
-  JSR start@renderer
+  ; JSR start@renderer
+  JSR fix@renderer
   LDA #$00
   STA reqdraw_card2
   INC reqdraws

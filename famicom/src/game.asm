@@ -339,9 +339,7 @@ redrawCard1@game:              ;
   STA PPUADDR                  ; write the high byte
   LDA card1pos_low, x
   STA PPUADDR                  ; write the low byte
-  ; load card in regY
-  LDY card1@room
-  JSR loadCardSprite@game      ; require regX(tile) regY(card_id)
+  LDA card1@buffers, x
   STA PPUDATA                  ; set tile.x pos
   INX
   CPX #$36
@@ -358,10 +356,8 @@ redrawCard2@game:              ;
   STA PPUADDR                  ; write the high byte
   LDA card2pos_low, x
   STA PPUADDR                  ; write the low byte
-  ; load card in regY
-  LDY card2@room
-  JSR loadCardSprite@game      ; require regX(tile) regY(card_id)
-  STA PPUDATA                  ; set tile.x pos
+  LDA card2@buffers, x
+  STA PPUDATA
   INX
   CPX #$36
   BNE @loop
@@ -377,10 +373,8 @@ redrawCard3@game:              ;
   STA PPUADDR                  ; write the high byte
   LDA card3pos_low, x
   STA PPUADDR                  ; write the low byte
-  ; load card in regY
-  LDY card3@room
-  JSR loadCardSprite@game      ; require regX(tile) regY(card_id)
-  STA PPUDATA                  ; set tile.x pos
+  LDA card3@buffers, x
+  STA PPUDATA
   INX
   CPX #$36
   BNE @loop
@@ -396,40 +390,14 @@ redrawCard4@game:              ;
   STA PPUADDR                  ; write the high byte
   LDA card4pos_low, x
   STA PPUADDR                  ; write the low byte
-  ; load card in regY
-  LDY card4@room
-  JSR loadCardSprite@game      ; require regX(tile) regY(card_id)
-  STA PPUDATA                  ; set tile.x pos
+  LDA card4@buffers, x
+  STA PPUDATA
   INX
   CPX #$36
   BNE @loop
   RTS
 
-;; notes
-
-; Form a 16-bit address contained in the given location, AND the one 
-; following.  Add to that address the contents of the Y register.  
-; Fetch the value stored at that address.
-; 
-;   LDA ($B4),Y  where Y contains 6
-;   
-; If $B4 contains $EE AND $B5 contains $12 then the value at memory 
-; location $12EE + Y (6) = $12F4 is fetched AND put in the accumulator.
-
 ;; card sprites
-
-loadCardSprite@game:           ; (x:tile_id, y:card_id) -> a:sprite_id
-  LDA cards_offset_low,y       ; find card offset
-  STA lb@temp
-  LDA cards_offset_high,y
-  STA hb@temp
-  TYA                          ; add y + x registers
-  STX id@temp
-  CLC
-  ADC id@temp
-  TAY
-  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
-  RTS
 
 ;;
 

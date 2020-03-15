@@ -62,6 +62,7 @@ enter@room:                    ;
   TYA
   STA card4@room
   ; etcs
+  JSR updateBuffers@room
   ; need redraws
   LDA #$01
   STA reqdraw_card1
@@ -92,6 +93,7 @@ flip@room:                     ; (x:card_pos) ->
   STA card1@room, x
   LDA #$01                     ; request draw
   STA reqdraw_card1, x
+  JSR updateBuffers@room
 @done:                         ; 
   ; update experience
   JSR loadExperience@player
@@ -152,4 +154,88 @@ returnCards@room:              ;
   INY
   CPY #$04
   BNE @loop
+  RTS
+
+;; notes
+
+; Form a 16-bit address contained in the given location, AND the one 
+; following.  Add to that address the contents of the Y register.  
+; Fetch the value stored at that address.
+; 
+;   LDA ($B4),Y  where Y contains 6
+;   
+; If $B4 contains $EE AND $B5 contains $12 then the value at memory 
+; location $12EE + Y (6) = $12F4 is fetched AND put in the accumulator.
+
+;;
+
+updateBuffers@room:            ; 
+  ; card 1 buffer
+  LDA #$00
+  STA id@temp
+  LDX #$00
+  LDY card1@room, x
+  LDA cards_offset_low, y      ; find card offset
+  STA lb@temp
+  LDA cards_offset_high, y
+  STA hb@temp
+@loop1
+  LDY id@temp
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
+  STA card1@buffers, y         ; store in buffer
+  INC id@temp
+  LDA id@temp
+  CMP #$36
+  BNE @loop1
+  ; card 2 buffer
+  LDA #$00
+  STA id@temp
+  LDX #$01
+  LDY card1@room, x
+  LDA cards_offset_low, y      ; find card offset
+  STA lb@temp
+  LDA cards_offset_high, y
+  STA hb@temp
+@loop2
+  LDY id@temp
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
+  STA card2@buffers, y         ; store in buffer
+  INC id@temp
+  LDA id@temp
+  CMP #$36
+  BNE @loop2
+  ; card 3 buffer
+  LDA #$00
+  STA id@temp
+  LDX #$02
+  LDY card1@room, x
+  LDA cards_offset_low, y      ; find card offset
+  STA lb@temp
+  LDA cards_offset_high, y
+  STA hb@temp
+@loop3
+  LDY id@temp
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
+  STA card3@buffers, y         ; store in buffer
+  INC id@temp
+  LDA id@temp
+  CMP #$36
+  BNE @loop3
+  ; card 4 buffer
+  LDA #$00
+  STA id@temp
+  LDX #$03
+  LDY card1@room, x
+  LDA cards_offset_low, y      ; find card offset
+  STA lb@temp
+  LDA cards_offset_high, y
+  STA hb@temp
+@loop4
+  LDY id@temp
+  LDA (lb@temp), y             ; load value at 16-bit address from (lb@temp + hb@temp) + y
+  STA card4@buffers, y         ; store in buffer
+  INC id@temp
+  LDA id@temp
+  CMP #$36
+  BNE @loop4
   RTS
