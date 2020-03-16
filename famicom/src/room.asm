@@ -2,6 +2,15 @@
 ;; room
 
 nmi@room:                      ; update from the nmi
+  LDA view@game
+  CMP #$01                     ; 
+  BEQ @inView
+  RTS
+@inView:                       ; 
+  ; check if player is alive
+  LDA hp@player
+  CMP #$00
+  BEQ @death
   ; look for unflipped cards
   LDA card1@room
   CMP #$36
@@ -20,6 +29,8 @@ nmi@room:                      ; update from the nmi
   CMP #$00
   BEQ @proceed
   DEC timer@room
+  RTS
+@death:                        ; 
   RTS
 @proceed:                      ; 
   ; check if game is complete
@@ -87,15 +98,13 @@ flip@room:                     ; (x:card_pos) ->
   JSR pick@deck
   LDA #$36                     ; flip card
   STA card1@room, x
-  ; LDA #$01                     ; request draw
-  ; STA reqdraw_card1, x ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
 @done:                         ; 
   JSR updateBuffers@room       ; update card buffers
   JSR loadExperience@player    ; update experience
   STA xp@player                ; load xp AND update high score
   JSR updateScore@splash       ; update highscore
   ; need redraws
-  LDA #$FF
+  LDA #$FF                     ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
   STA redraws@game
 @skip
   RTS

@@ -152,8 +152,6 @@ restart@game:                  ;
   ; deck
   JSR init@deck
   JSR shuffle@deck
-  ; autoplay
-  ; JSR walkthrough@game
   ; player
   JSR reset@player
   JSR enter@room
