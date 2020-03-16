@@ -68,7 +68,6 @@ enter@room:                    ;
   STA reqdraw_card1
   STA reqdraw_card2
   STA reqdraw_card3
-  STA reqdraw_card4
   STA reqdraw_name
   ; new draws
   LDA redraws@game

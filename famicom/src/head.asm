@@ -99,7 +99,6 @@ reqdraws                .dsb 1
 reqdraw_card1           .dsb 1
 reqdraw_card2           .dsb 1
 reqdraw_card3           .dsb 1
-reqdraw_card4           .dsb 1
 ;
 reqdraw_dialog          .dsb 1
 reqdraw_name            .dsb 1

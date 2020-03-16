@@ -71,14 +71,15 @@ nmi@game:                      ; during nmi
   INC reqdraws
   RTS
 @checkReqCard4:                ; 
-  LDA reqdraw_card4
-  CMP #$00
+  LDA redraws@game
+  AND REQ_CARD1
   BEQ @checkReqHP
+  LDA redraws@game
+  EOR REQ_HP
+  STA redraws@game
   JSR stop@renderer
   JSR redrawCard4@game
   JSR start@renderer
-  LDA #$00
-  STA reqdraw_card4
   INC reqdraws
   RTS
 @checkReqHP:                   ; 
