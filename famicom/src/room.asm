@@ -95,7 +95,6 @@ flip@room:                     ; (x:card_pos) ->
   STA xp@player                ; load xp AND update high score
   JSR updateScore@splash       ; update highscore
   ; need redraws
-  LDA #$01
   LDA #$FF
   STA redraws@game
 @skip

@@ -27,7 +27,25 @@ nmi@game:                      ; during nmi
   LDA #$02                     ; reset render timer to 2 frames
   STA timer@renderer
 @beginDrawing:                 ; 
-  ; draw name
+@checkReqSP:                   ; [skip]
+  LDA redraws@game
+  AND REQ_SP
+  BEQ @checkReqHP
+  LDA redraws@game
+  EOR REQ_SP
+  STA redraws@game
+  JSR redrawShield@game
+  RTS
+@checkReqHP:                   ; 
+  LDA redraws@game
+  AND REQ_HP
+  BEQ @checkName
+  LDA redraws@game
+  EOR REQ_HP
+  STA redraws@game
+  JSR redrawHealth@game
+  RTS
+@checkName
   LDA reqdraw_name
   CMP #$00
   BEQ @checkReqCard1
@@ -72,31 +90,13 @@ nmi@game:                      ; during nmi
 @checkReqCard4:                ; 
   LDA redraws@game
   AND REQ_CARD4
-  BEQ @checkReqHP
+  BEQ @checkReqXP
   LDA redraws@game
   EOR REQ_CARD4
   STA redraws@game
   JSR stop@renderer
   JSR redrawCard4@game
   JSR start@renderer
-  RTS
-@checkReqHP:                   ; 
-  LDA redraws@game
-  AND REQ_HP
-  BEQ @checkReqSP
-  LDA redraws@game
-  EOR REQ_HP
-  STA redraws@game
-  JSR redrawHealth@game
-  RTS
-@checkReqSP:                   ; 
-  LDA redraws@game
-  AND REQ_SP
-  BEQ @checkReqXP
-  LDA redraws@game
-  EOR REQ_SP
-  STA redraws@game
-  JSR redrawShield@game
   RTS
 @checkReqXP:                   ; 
   LDA redraws@game
@@ -349,7 +349,6 @@ redrawHealth@game:             ;
 
 redrawShield@game:             ; 
   LDY spui@game
-  STY $40
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
   LDA #$21
