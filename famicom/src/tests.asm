@@ -62,7 +62,7 @@ potion@tests:                  ;
   STA hp@player
   ; pick
   LDY #$02                     ; Hearts 3
-  JSR pick@deck
+  JSR pickCard@deck
   ; test health
   LDA hp@player
   CMP #$13                     ; health = $13(18)
@@ -83,9 +83,9 @@ sickness@tests:                ;
   STA hp@player
   ; drink two potions
   LDY #$04                     ; Hearts 5
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$05                     ; Hearts 6
-  JSR pick@deck
+  JSR pickCard@deck
   ; test health
   LDA hp@player
   CMP #$09                     ; health = $09(09)[4hp + 5hp]
@@ -107,7 +107,7 @@ shield@tests:                  ;
   JSR reset@player
   ; pick
   LDY #$0E                     ; Diamonds 2
-  JSR pick@deck
+  JSR pickCard@deck
   ; test health
   LDA sp@player
   CMP #$02                     ; shield = $02(02)
@@ -125,7 +125,7 @@ attack@tests:                  ;
   JSR reset@player
   ; pick
   LDY #$1F                     ; Spades 6
-  JSR pick@deck
+  JSR pickCard@deck
   ; test health
   LDA hp@player
   CMP #$0F                     ; shield = $0f(15)
@@ -146,7 +146,7 @@ death@tests:                   ;
   STA hp@player
   ; pick
   LDY #$1F                     ; Spades 6
-  JSR pick@deck
+  JSR pickCard@deck
   ; test health
   LDA hp@player
   CMP #$00                     ; health = $00(00)
@@ -164,9 +164,9 @@ testAttackShieldBlock:         ;
   JSR reset@player
   ; pick
   LDY #$12                     ; Diamond 6
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$1D                     ; Spades 4
-  JSR pick@deck
+  JSR pickCard@deck
   ; loose 3hp
   LDA hp@player
   CMP #$15
@@ -188,9 +188,9 @@ testAttackShieldOverflow:      ;
   JSR reset@player
   ; pick
   LDY #$0F                     ; Diamond 3
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$1F                     ; Spades 6
-  JSR pick@deck
+  JSR pickCard@deck
   ; loose 3hp
   LDA hp@player
   CMP #$12
@@ -215,9 +215,9 @@ testAttackShieldOverflowDeath: ;
   STA hp@player
   ; pick
   LDY #$0F                     ; Diamond 3
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$1F                     ; Spades 6
-  JSR pick@deck
+  JSR pickCard@deck
   ; loose 3hp
   LDA hp@player
   CMP #$00
@@ -239,11 +239,11 @@ break@tests:                   ;
   JSR reset@player
   ; pick
   LDY #$10                     ; Diamond 4
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$1C                     ; Spades 3
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$1D                     ; Spades 4
-  JSR pick@deck
+  JSR pickCard@deck
   ; loose 4hp
   LDA hp@player
   CMP #$11
@@ -272,11 +272,11 @@ testAttackShieldBreakDeath:    ;
   STA hp@player
   ; pick
   LDY #$10                     ; Diamond 4
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$1C                     ; Spades 3
-  JSR pick@deck
+  JSR pickCard@deck
   LDY #$1D                     ; Spades 4
-  JSR pick@deck
+  JSR pickCard@deck
   ; loose 4hp
   LDA hp@player
   CMP #$00

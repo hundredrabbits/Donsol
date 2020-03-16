@@ -76,6 +76,11 @@ removeSickness@player:         ;
 ;; running
 
 loadRun@player:                ; () -> a:canRun
+  ; check if player is alive
+  LDA hp@player
+  CMP #$00
+  BEQ @disableRun
+  ; 
   LDA difficulty@player
   CMP #$00
   BEQ @Easy

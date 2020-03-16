@@ -12,7 +12,7 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- hard mode, can't escape when injured?
+- Hide the run button on death
 - Implement deck shuffling
   - Implement shuffle seed
   - Can reshuffle on first hand
@@ -24,12 +24,14 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
   - Test difficulty?
 - Implement onscreen guide
 - Implement sounds
+- Implement special mode
 
 ## Rules
 
 - Easy: Can escape if when no monsters present or when the player has not escaped before.
 - Normal: Can escape when the player has not escaped before.
 - Hard: Can escape if there are no monsters present.
+- special mode, can't escape when injured?
 
 ## Card IDs
 

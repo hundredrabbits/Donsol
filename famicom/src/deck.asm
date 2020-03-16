@@ -16,7 +16,7 @@ init@deck:                     ;
 
 ;; take last card from the deck
 
-pull@deck:                     ; 
+pullCard@deck:                 ; 
   LDA length@deck
   CMP #$FF
   BEQ @finished
@@ -33,7 +33,7 @@ pull@deck:                     ;
 
 ;; return card to deck
 
-return@deck:                   ; (a:card_id)
+returnCard@deck:               ; (a:card_id)
   LDX length@deck
   INX
   STA $80, x
@@ -73,7 +73,7 @@ shuffle@deck:                  ;
 
 ;; Pick card from the deck
 
-pick@deck:                     ; (y:card_id)
+pickCard@deck:                 ; (y:card_id)
   TYA                          ; transfer from Y to A
   ; check if card is flipped
   CMP #$36                     ; if card is $36(flipped)

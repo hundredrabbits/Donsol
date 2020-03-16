@@ -36,7 +36,7 @@ nmi@room:                      ; update from the nmi
   STA card2@room
   STA card3@room
   STA card4@room
-  JSR updateBuffers@room ; update buffers
+  JSR updateBuffers@room       ; update buffers
   RTS
 @proceed:                      ; 
   ; check if game is complete
@@ -62,19 +62,19 @@ nmi@room:                      ; update from the nmi
 ;;
 
 enter@room:                    ; 
-  JSR pull@deck                ; pull card1
+  JSR pullCard@deck            ; pull card1
   LDY hand@deck
   TYA
   STA card1@room
-  JSR pull@deck                ; pull card2
+  JSR pullCard@deck            ; pull card2
   LDY hand@deck
   TYA
   STA card2@room
-  JSR pull@deck                ; pull card3
+  JSR pullCard@deck            ; pull card3
   LDY hand@deck
   TYA
   STA card3@room
-  JSR pull@deck                ; pull card4
+  JSR pullCard@deck            ; pull card4
   LDY hand@deck
   TYA
   STA card4@room
@@ -101,7 +101,7 @@ flipCard@room:                 ; (x:card_pos) ->
   BEQ @skip
   ; when card is not flipped
   TAY                          ; pick card
-  JSR pick@deck
+  JSR pickCard@deck
   LDA #$36                     ; flip card
   STA card1@room, x
 @done:                         ; post picking a card
@@ -109,9 +109,24 @@ flipCard@room:                 ; (x:card_pos) ->
   JSR updateExperience@player  ; update experience
   JSR updateScore@splash       ; update highscore
   ; need redraws
-  LDA #%11111111                    ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
+  LDA #%11111111               ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
   STA redraws@game
 @skip
+  RTS
+
+;; return non-flipped cards back to the end of the deck
+
+returnCards@room:              ; 
+  LDY #$00                     ; increment
+@loop
+  LDA card1@room, y
+  CMP #$36
+  BEQ @skip
+  JSR returnCard@deck          ; warning: write on regX
+@skip
+  INY
+  CPY #$04
+  BNE @loop
   RTS
 
 ;; count enemy cards left in play
@@ -142,21 +157,6 @@ loadCardsLeft@room:            ; () -> x:count
   CMP #$36
   BEQ @skip
   INX
-@skip
-  INY
-  CPY #$04
-  BNE @loop
-  RTS
-
-;; return non-flipped cards back to the end of the deck
-
-returnCards@room:              ; 
-  LDY #$00                     ; increment
-@loop
-  LDA card1@room, y
-  CMP #$36
-  BEQ @skip
-  JSR return@deck              ; warning: write on regX
 @skip
   INY
   CPY #$04

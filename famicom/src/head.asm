@@ -89,13 +89,12 @@ id@temp                 .dsb 1
 timer@renderer          .dsb 1
 damages@player          .dsb 1 ; TODO: check if necessary?
 
-;;
+;; TODO | cleanup
 
 card_last               .dsb 1
 card_last_type          .dsb 1
 card_last_value         .dsb 1
-; redraws flags TODO combine 8 in a single flag
-;
+; TODO | merge remaining flags
 reqdraw_dialog          .dsb 1
 reqdraw_name            .dsb 1
 
