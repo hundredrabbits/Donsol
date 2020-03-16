@@ -61,7 +61,6 @@ hp@player               .dsb 1 ; health points
 sp@player               .dsb 1 ; shield points
 dp@player               .dsb 1 ; durability points(max $16)
 xp@player               .dsb 1
-damages@player          .dsb 1 ; TODO: check if necessary?
 difficulty@player       .dsb 1
 sickness@player         .dsb 1
 has_run@player          .dsb 1
@@ -88,6 +87,7 @@ lb@temp                 .dsb 1 ; utils
 hb@temp                 .dsb 1
 id@temp                 .dsb 1
 timer@renderer          .dsb 1
+damages@player          .dsb 1 ; TODO: check if necessary?
 
 ;;
 
@@ -95,10 +95,6 @@ card_last               .dsb 1
 card_last_type          .dsb 1
 card_last_value         .dsb 1
 ; redraws flags TODO combine 8 in a single flag
-reqdraws                .dsb 1
-reqdraw_card1           .dsb 1
-reqdraw_card2           .dsb 1
-reqdraw_card3           .dsb 1
 ;
 reqdraw_dialog          .dsb 1
 reqdraw_name            .dsb 1

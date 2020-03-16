@@ -65,9 +65,6 @@ enter@room:                    ;
   JSR updateBuffers@room
   ; need redraws
   LDA #$01
-  STA reqdraw_card1
-  STA reqdraw_card2
-  STA reqdraw_card3
   STA reqdraw_name
   ; new draws
   LDA redraws@game
@@ -90,8 +87,8 @@ flip@room:                     ; (x:card_pos) ->
   JSR pick@deck
   LDA #$36                     ; flip card
   STA card1@room, x
-  LDA #$01                     ; request draw
-  STA reqdraw_card1, x
+  ; LDA #$01                     ; request draw
+  ; STA reqdraw_card1, x ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
 @done:                         ; 
   JSR updateBuffers@room       ; update card buffers
   JSR loadExperience@player    ; update experience
@@ -99,8 +96,7 @@ flip@room:                     ; (x:card_pos) ->
   JSR updateScore@splash       ; update highscore
   ; need redraws
   LDA #$01
-  LDA redraws@game
-  ORA #%00001111
+  LDA #$FF
   STA redraws@game
 @skip
   RTS

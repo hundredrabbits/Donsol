@@ -35,52 +35,50 @@ nmi@game:                      ; during nmi
   JSR fix@renderer
   LDA #$00
   STA reqdraw_name
-  INC reqdraws
   RTS
 @checkReqCard1:                ; 
-  LDA reqdraw_card1
-  CMP #$00
+  LDA redraws@game
+  AND REQ_CARD1
   BEQ @checkReqCard2
+  LDA redraws@game
+  EOR REQ_CARD1
+  STA redraws@game
   JSR stop@renderer
   JSR redrawCard1@game
   JSR start@renderer
-  LDA #$00
-  STA reqdraw_card1
-  INC reqdraws
   RTS
 @checkReqCard2:                ; 
-  LDA reqdraw_card2
-  CMP #$00
+  LDA redraws@game
+  AND REQ_CARD2
   BEQ @checkReqCard3
+  LDA redraws@game
+  EOR REQ_CARD2
+  STA redraws@game
   JSR stop@renderer
   JSR redrawCard2@game
   JSR start@renderer
-  LDA #$00
-  STA reqdraw_card2
-  INC reqdraws
   RTS
 @checkReqCard3:                ; 
-  LDA reqdraw_card3
-  CMP #$00
+  LDA redraws@game
+  AND REQ_CARD3
   BEQ @checkReqCard4
+  LDA redraws@game
+  EOR REQ_CARD3
+  STA redraws@game
   JSR stop@renderer
   JSR redrawCard3@game
   JSR start@renderer
-  LDA #$00
-  STA reqdraw_card3
-  INC reqdraws
   RTS
 @checkReqCard4:                ; 
   LDA redraws@game
-  AND REQ_CARD1
+  AND REQ_CARD4
   BEQ @checkReqHP
   LDA redraws@game
-  EOR REQ_HP
+  EOR REQ_CARD4
   STA redraws@game
   JSR stop@renderer
   JSR redrawCard4@game
   JSR start@renderer
-  INC reqdraws
   RTS
 @checkReqHP:                   ; 
   LDA redraws@game
@@ -90,7 +88,6 @@ nmi@game:                      ; during nmi
   EOR REQ_HP
   STA redraws@game
   JSR redrawHealth@game
-  INC reqdraws
   RTS
 @checkReqSP:                   ; 
   LDA redraws@game
@@ -100,7 +97,6 @@ nmi@game:                      ; during nmi
   EOR REQ_SP
   STA redraws@game
   JSR redrawShield@game
-  INC reqdraws
   RTS
 @checkReqXP:                   ; 
   LDA redraws@game
@@ -110,7 +106,6 @@ nmi@game:                      ; during nmi
   EOR REQ_XP
   STA redraws@game
   JSR redrawExperience@game
-  INC reqdraws
   RTS
 @checkReqRun:                  ; 
   LDA redraws@game
@@ -121,7 +116,6 @@ nmi@game:                      ; during nmi
   STA redraws@game
   JSR redrawRun@game
   JSR fix@renderer
-  INC reqdraws
   RTS
 @checkReqDialog:               ; 
   LDA reqdraw_dialog
@@ -131,7 +125,6 @@ nmi@game:                      ; during nmi
   JSR fix@renderer
   LDA #$00
   STA reqdraw_dialog
-  INC reqdraws
   RTS
 @done:                         ; 
   RTS
