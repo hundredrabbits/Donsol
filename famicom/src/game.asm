@@ -82,23 +82,25 @@ nmi@game:                      ; during nmi
   INC reqdraws
   RTS
 @checkReqHP:                   ; 
-  LDA reqdraw_hp
-  CMP #$00
+  LDA redraws@game
+  AND REQ_HP
   BEQ @checkReqSP
+  LDA redraws@game
+  EOR REQ_HP
+  STA redraws@game
   JSR redrawHealth@game
   JSR fix@renderer
-  LDA #$00
-  STA reqdraw_hp
   INC reqdraws
   RTS
 @checkReqSP:                   ; 
-  LDA reqdraw_sp
-  CMP #$00
+  LDA redraws@game
+  AND REQ_SP
   BEQ @checkReqXP
+  LDA redraws@game
+  EOR REQ_SP
+  STA redraws@game
   JSR redrawShield@game
   JSR fix@renderer
-  LDA #$00
-  STA reqdraw_sp
   INC reqdraws
   RTS
 @checkReqXP:                   ; 

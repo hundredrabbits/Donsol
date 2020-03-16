@@ -21,13 +21,15 @@ nmi@player:                    ;
   BCC @incShield
 @decShield:                    ; 
   DEC spui@game
-  LDA #$01                     ; request redraw
-  STA reqdraw_sp
+  LDA redraws@game             ; request redraw
+  ORA REQ_SP
+  STA redraws@game
   RTS
 @incShield:                    ; 
   INC spui@game
-  LDA #$01                     ; request redraw
-  STA reqdraw_sp
+  LDA redraws@game             ; request redraw
+  ORA REQ_SP
+  STA redraws@game
   RTS
 @skip:                         ; 
   ; interpolate health
@@ -37,13 +39,15 @@ nmi@player:                    ;
   BCC @incHealth
 @decHealth:                    ; 
   DEC hpui@game
-  LDA #$01                     ; request redraw
-  STA reqdraw_hp
+  LDA redraws@game             ; request redraw
+  ORA REQ_HP
+  STA redraws@game
   RTS
 @incHealth:                    ; 
   INC hpui@game
-  LDA #$01                     ; request redraw
-  STA reqdraw_hp
+  LDA redraws@game             ; request redraw
+  ORA REQ_HP
+  STA redraws@game
   RTS
 @done:                         ; 
   RTS

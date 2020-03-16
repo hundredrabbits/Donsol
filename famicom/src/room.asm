@@ -70,10 +70,12 @@ enter@room:                    ;
   STA reqdraw_card3
   STA reqdraw_card4
   STA reqdraw_run
-  STA reqdraw_hp
-  STA reqdraw_sp
   STA reqdraw_xp
   STA reqdraw_name
+  ; new draws
+  LDA redraws@game
+  ORA #%11111111
+  STA redraws@game
   RTS
 
 ;; flip card from the table, used in controls when press
@@ -101,9 +103,10 @@ flip@room:                     ; (x:card_pos) ->
   ; need redraws
   LDA #$01
   STA reqdraw_run
-  STA reqdraw_hp
-  STA reqdraw_sp
   STA reqdraw_xp
+  LDA redraws@game
+  ORA #%00001111
+  STA redraws@game
 @skip
   RTS
 

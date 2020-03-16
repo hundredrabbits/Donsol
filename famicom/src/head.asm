@@ -33,6 +33,17 @@ BUTTON_DOWN         .equ #$15
 BUTTON_LEFT         .equ #$16
 BUTTON_RIGHT        .equ #$17
 
+;; redraw flags
+
+REQ_HP              .equ #%00000001
+REQ_SP              .equ #%00000010
+REQ_XP              .equ #%00000100
+REQ_RUN             .equ #%00001000
+REQ_CARD1           .equ #%00010000
+REQ_CARD2           .equ #%00100000
+REQ_CARD3           .equ #%01000000
+REQ_CARD4           .equ #%10000000
+
 ;; sprite buffers
 
 card1@buffers       .equ $0300
@@ -70,6 +81,7 @@ cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode
 hpui@game               .dsb 1
 spui@game               .dsb 1
+redraws@game            .dsb 1
 cursor@splash           .dsb 1
 highscore@splash        .dsb 1 ; keep highscore
 lb@temp                 .dsb 1 ; utils
@@ -84,8 +96,6 @@ card_last_type          .dsb 1
 card_last_value         .dsb 1
 ; redraws flags TODO combine 8 in a single flag
 reqdraws                .dsb 1
-reqdraw_hp              .dsb 1
-reqdraw_sp              .dsb 1
 reqdraw_xp              .dsb 1
 reqdraw_card1           .dsb 1
 reqdraw_card2           .dsb 1
