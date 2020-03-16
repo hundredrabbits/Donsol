@@ -11,34 +11,28 @@ main@splash:                   ;
   RTS
 
 ;;
+
 show@splash:                   ; 
-  ; set splash mode
-  LDA #$00
+  LDA #$00                     ; set splash mode
   STA view@game
-  ; setup cursor
-  JSR initCursor@splash
+  JSR initCursor@splash        ; setup cursor
   JSR updateCursor@splash
-  ; display
-  JSR stop@renderer
+  JSR stop@renderer            ; display
   JSR load@splash
   JSR loadAttributes@splash
-  ; draw score on splash
-  BIT PPUSTATUS
+  BIT PPUSTATUS                ; draw score on splash
   LDA #$20
   STA PPUADDR
   LDA #$EF
   STA PPUADDR
   LDX #$00
-  ; digit 1
-  LDX highscore@splash
+  LDX highscore@splash         ; digit 1
   LDA number_high, x
   STA PPUDATA
-  ; digit 2
-  LDX highscore@splash
+  LDX highscore@splash         ; digit 2
   LDA number_low, x
   STA PPUDATA
-  ; done
-  JSR start@renderer
+  JSR start@renderer           ; done
   RTS
 
 ;;
@@ -123,13 +117,12 @@ initCursor@splash:             ;
   STA $0201                    ; (part1)set tile.id
   LDA #$88
   STA $0203                    ; (part1)set tile.x pos
-  ; off everything else
   LDA #$00
-  STA $0202                    ; (part1)set tile.attribute
-  STA $0204                    ; (part2)set tile.y pos
-  STA $0205                    ; (part2)set tile.id
-  STA $0206                    ; (part2)set tile.attribute
-  STA $0207                    ; (part2)set tile.x pos
+  STA $0202                    ; (part1)set tile.attribute[off]
+  STA $0204                    ; (part2)set tile.y pos[off]
+  STA $0205                    ; (part2)set tile.id[off]
+  STA $0206                    ; (part2)set tile.attribute[off]
+  STA $0207                    ; (part2)set tile.x pos[off]
   RTS
 
 ;;
@@ -146,8 +139,7 @@ updateCursor@splash:           ;
 ;;
 
 updateScore@splash:            ; 
-  ; load xp
-  LDA xp@player
+  LDA xp@player                ; load xp
   CMP highscore@splash
   BCC @done
   STA highscore@splash

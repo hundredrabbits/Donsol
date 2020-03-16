@@ -31,6 +31,12 @@ nmi@room:                      ; update from the nmi
   DEC timer@room
   RTS
 @death:                        ; 
+  LDA #$36                     ; flip all cards
+  STA card1@room
+  STA card2@room
+  STA card3@room
+  STA card4@room
+  JSR updateBuffers@room ; update buffers
   RTS
 @proceed:                      ; 
   ; check if game is complete
@@ -85,7 +91,7 @@ enter@room:                    ;
 
 ;; flip card from the table, used in controls when press
 
-flip@room:                     ; (x:card_pos) ->
+flipCard@room:                 ; (x:card_pos) ->
   LDA hp@player
   CMP #$00
   BEQ @skip
@@ -98,13 +104,12 @@ flip@room:                     ; (x:card_pos) ->
   JSR pick@deck
   LDA #$36                     ; flip card
   STA card1@room, x
-@done:                         ; 
+@done:                         ; post picking a card
   JSR updateBuffers@room       ; update card buffers
-  JSR loadExperience@player    ; update experience
-  STA xp@player                ; load xp AND update high score
+  JSR updateExperience@player  ; update experience
   JSR updateScore@splash       ; update highscore
   ; need redraws
-  LDA #$FF                     ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
+  LDA #%11111111                    ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
   STA redraws@game
 @skip
   RTS

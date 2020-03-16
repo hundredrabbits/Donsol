@@ -108,7 +108,7 @@ onA@input:                     ;
   BEQ @splash
 @game:                         ; 
   LDX cursor@game
-  JSR flip@room                ; flip selected card
+  JSR flipCard@room            ; flip selected card
   JSR lock@input
   RTS
 @splash:                       ; 

@@ -114,13 +114,14 @@ loadRun@player:                ; () -> a:canRun
 
 ;;
 
-loadExperience@player:         ; () -> a:xp
+updateExperience@player:       ; () -> a:xp
   JSR loadCardsLeft@room       ; load cards left, stores counts in x
   STX id@temp
   LDA #$35                     ; cards max
   SEC
   SBC length@deck              ; minus length
   SBC id@temp                  ; minus cards left
+  STA xp@player                ; load xp AND update high score
   RTS
 
 ;;
