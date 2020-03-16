@@ -33,7 +33,7 @@
 
 ;; Init
 
-loadPalette:                   ; 
+loadPalette:                   ; [skip]
   BIT PPUSTATUS
   LDA #$3F
   STA PPUADDR

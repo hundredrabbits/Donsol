@@ -13,9 +13,8 @@
   JSR nmi@game                 ; in client
   JSR nmi@room
 
-;;
+;; check if input timer is ready
 
-checkLock:                     ; 
   LDA timer@input
   CMP #$00
   BEQ @latch

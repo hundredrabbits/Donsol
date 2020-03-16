@@ -422,6 +422,47 @@ redrawExperience@game:         ;
 
 ;;
 
+redrawRun@game:                ; 
+  LDA length@deck              ; don't display the run butto on first hand
+  CMP #$31                     ; deck is $36 - 4(first hand)
+  BEQ @hide
+  JSR loadRun@player           ; load canRun in regA
+  CMP #$01
+  BNE @hide
+@show:                         ; RUN: $1c,$1f,$18
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$18
+  STA PPUADDR                  ; write the low byte
+  LDA #$6D                     ; Button(B)
+  STA PPUDATA
+  LDA #$00                     ; Blank
+  STA PPUDATA
+  LDA #$1C                     ; R
+  STA PPUDATA
+  LDA #$1F                     ; U
+  STA PPUDATA
+  LDA #$18                     ; N
+  STA PPUDATA
+  RTS
+@hide:                         ; 
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
+  LDA #$21
+  STA PPUADDR                  ; write the high byte
+  LDA #$18
+  STA PPUADDR                  ; write the low byte
+  LDA #$00                     ; R
+  STA PPUDATA
+  STA PPUDATA
+  STA PPUDATA
+  STA PPUDATA
+  STA PPUDATA
+  JSR start@renderer
+  RTS
+
+;;
+
 redrawName@game:               ; 
   BIT PPUSTATUS
   LDA #$21
@@ -515,64 +556,4 @@ redrawCard4@game:              ;
   INX
   CPX #$36
   BNE @loop
-  RTS
-
-;; card sprites
-
-;;
-
-walkthrough@game:              ; 
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  JSR pull@deck
-  ; JSR pull@deck
-  ; JSR enter@room
-  ; JSR enter@room
-  ; get shield
-  ; LDA #$05
   RTS

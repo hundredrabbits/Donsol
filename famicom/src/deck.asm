@@ -54,7 +54,7 @@ shift@deck:                    ;
   INX
   CPX #$36
   BNE @loop
-@done
+@done:                         ; 
   RTS
 
 ;; Shuffle

@@ -26,14 +26,12 @@ __NMI:                         ;
 
 ;; includes
 
+  include "src/helpers.asm"
   include "src/splash.asm"
   include "src/game.asm"
-  include "src/input.asm"
   include "src/deck.asm"
   include "src/player.asm"
   include "src/room.asm"
-  include "src/client.asm"
-  include "src/dialog.asm"
   include "src/tests.asm"
   include "src/tables.asm"
 

@@ -7,7 +7,7 @@ main@splash:                   ;
   BNE @done
   ; when is on splash
   INC seed@deck                ; increment random seed
-@done
+@done:                         ; 
   RTS
 
 ;;
