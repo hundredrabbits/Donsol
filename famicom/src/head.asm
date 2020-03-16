@@ -96,12 +96,10 @@ card_last_type          .dsb 1
 card_last_value         .dsb 1
 ; redraws flags TODO combine 8 in a single flag
 reqdraws                .dsb 1
-reqdraw_xp              .dsb 1
 reqdraw_card1           .dsb 1
 reqdraw_card2           .dsb 1
 reqdraw_card3           .dsb 1
 reqdraw_card4           .dsb 1
-reqdraw_run             .dsb 1
 ;
 reqdraw_dialog          .dsb 1
 reqdraw_name            .dsb 1

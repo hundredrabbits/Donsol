@@ -69,8 +69,6 @@ enter@room:                    ;
   STA reqdraw_card2
   STA reqdraw_card3
   STA reqdraw_card4
-  STA reqdraw_run
-  STA reqdraw_xp
   STA reqdraw_name
   ; new draws
   LDA redraws@game
@@ -102,8 +100,6 @@ flip@room:                     ; (x:card_pos) ->
   JSR updateScore@splash       ; update highscore
   ; need redraws
   LDA #$01
-  STA reqdraw_run
-  STA reqdraw_xp
   LDA redraws@game
   ORA #%00001111
   STA redraws@game

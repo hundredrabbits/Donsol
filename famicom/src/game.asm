@@ -89,7 +89,6 @@ nmi@game:                      ; during nmi
   EOR REQ_HP
   STA redraws@game
   JSR redrawHealth@game
-  JSR fix@renderer
   INC reqdraws
   RTS
 @checkReqSP:                   ; 
@@ -100,27 +99,27 @@ nmi@game:                      ; during nmi
   EOR REQ_SP
   STA redraws@game
   JSR redrawShield@game
-  JSR fix@renderer
   INC reqdraws
   RTS
 @checkReqXP:                   ; 
-  LDA reqdraw_xp
-  CMP #$00
+  LDA redraws@game
+  AND REQ_XP
   BEQ @checkReqRun
+  LDA redraws@game
+  EOR REQ_XP
+  STA redraws@game
   JSR redrawExperience@game
-  JSR fix@renderer
-  LDA #$00
-  STA reqdraw_xp
   INC reqdraws
   RTS
 @checkReqRun:                  ; 
-  LDA reqdraw_run
-  CMP #$00
+  LDA redraws@game
+  AND REQ_RUN
   BEQ @checkReqDialog
+  LDA redraws@game
+  EOR REQ_RUN
+  STA redraws@game
   JSR redrawRun@game
   JSR fix@renderer
-  LDA #$00
-  STA reqdraw_run
   INC reqdraws
   RTS
 @checkReqDialog:               ; 
@@ -349,6 +348,7 @@ redrawHealth@game:             ;
   LDA #$00
   STA PPUDATA
 @done:                         ; 
+  JSR fix@renderer
   RTS
 
 ;; shield value
@@ -390,6 +390,7 @@ redrawShield@game:             ;
   LDX dp@player
   LDA card_glyphs, x
   STA PPUDATA
+  JSR fix@renderer
   RTS
 
 ;; experience value
@@ -422,6 +423,7 @@ redrawExperience@game:         ;
   INX
   CPX #$06
   BNE @loop
+  JSR fix@renderer
   RTS
 
 ;;
