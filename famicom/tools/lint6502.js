@@ -178,6 +178,7 @@ const fs = require('fs')
 const folder = 'src'
 const defs = []
 const calls = {}
+let loc = 0
 
 if (fs.existsSync(folder)) {
   fs.readdirSync(folder).forEach(file => {
@@ -185,9 +186,10 @@ if (fs.existsSync(folder)) {
       const path = folder + '/' + file
       const contents = fs.readFileSync(path, 'utf8')
       const linted = lint6502(contents)
+      loc += contents.split('\n').length
       if (contents !== linted) {
         console.log(`Linting ${path}`)
-        fs.writeFileSync(path, lint6502(contents))
+        fs.writeFileSync(path, linted)
       }
       findDefs(defs, contents, path)
       findCalls(calls, contents, path)
@@ -195,6 +197,7 @@ if (fs.existsSync(folder)) {
   })
   //
   findUncalledDefs(defs, calls)
+  console.log(`Linted ${loc} lines of code.`)
 } else {
   console.error('Error: Could not open folder /' + folder)
 }

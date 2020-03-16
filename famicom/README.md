@@ -12,16 +12,11 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Hide the run button on death
 - Implement deck shuffling
   - Implement shuffle seed
   - Can reshuffle on first hand
 - Implement dungeon complete
   - Last rooms should check if card exists or display a folded card.
-- Implement more tests
-  - Test running?
-  - Test dungeon complete
-  - Test difficulty?
 - Implement onscreen guide
 - Implement sounds
 - Implement special mode
