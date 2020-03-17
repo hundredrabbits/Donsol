@@ -122,7 +122,7 @@ loadRun@player:                ; () -> a:canRun
 updateExperience@player:       ; () -> a:xp
   JSR loadCardsLeft@room       ; load cards left, stores counts in x
   STX id@temp
-  LDA #$35                     ; cards max
+  LDA #$36                     ; cards max
   SEC
   SBC length@deck              ; minus length
   SBC id@temp                  ; minus cards left
@@ -136,7 +136,7 @@ run@player:                    ;
   CMP #$00
   BEQ @onDead                  ; 
   LDA xp@player                ; when alive, check for victory
-  CMP #$35
+  CMP #$36
   BEQ @onVictory
   JSR loadRun@player           ; load canRun in regA when alive, check for escape
   CMP #$01

@@ -18,7 +18,7 @@ init@deck:                     ;
 
 pullCard@deck:                 ; 
   LDA length@deck
-  CMP #$FF
+  CMP #$00
   BEQ @finished
   ; when cards are left
   LDA $80
@@ -235,7 +235,7 @@ hack@deck:                     ;
   ; room 2
   LDA #$1E
   STA $84
-  LDA #$0B
+  LDA #$15
   STA $85
   LDA #$34
   STA $86

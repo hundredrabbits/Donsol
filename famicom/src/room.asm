@@ -41,7 +41,7 @@ nmi@room:                      ; update from the nmi
 @proceed:                      ; 
   ; check if game is complete
   LDA xp@player
-  CMP #$35
+  CMP #$36
   BNE @incomplete
   ; when dungeon is complete
   LDA #$10                     ; dialog:sickness
