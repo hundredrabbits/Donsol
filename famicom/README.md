@@ -12,7 +12,6 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Record difficulty in highscore.
 - Add marker on screen for special mode.
 - Screen tear when returning to splash
 - Implement deck shuffling

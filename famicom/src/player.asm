@@ -10,6 +10,7 @@ reset@player:                  ;
   STA spui@game
   STA dp@player
   STA sickness@player
+  STA has_run@player
   RTS
 
 ;;
@@ -84,12 +85,14 @@ loadRun@player:                ; () -> a:canRun
   ; 
   LDA difficulty@player
   CMP #$00
-  BEQ @Easy
+  BEQ @easy
   CMP #$01
-  BEQ @Normal
+  BEQ @normal
   CMP #$02
-  BEQ @Hard
-@Easy:                         ; RULE | can escape if when no monsters present or when has not escaped before
+  BEQ @hard
+  CMP #$03
+  BEQ @special
+@easy:                         ; RULE | can escape if when no monsters present or when has not escaped before
   JSR loadEnemiesLeft@room
   CPX #$00
   BEQ @enableRun               ; when monsters left
@@ -98,16 +101,22 @@ loadRun@player:                ; () -> a:canRun
   BEQ @disableRun              ; when has not escaped
   JSR @enableRun
   RTS
-@Normal:                       ; RULE | can escape when has not escaped before
+@normal:                       ; RULE | can escape when has not escaped before
   LDA has_run@player
   CMP #$01
   BEQ @disableRun              ; when has not escaped
   JSR @enableRun
   RTS
-@Hard:                         ; RULE | can escape if there are no monsters present
+@hard:                         ; RULE | can escape if there are no monsters present
   JSR loadEnemiesLeft@room
   CPX #$00
   BNE @disableRun              ; when no monsters present
+  JSR @enableRun
+  RTS
+@special:                      ; RULE | can escape if not injured
+  LDA hp@player
+  CMP #$15
+  BNE @disableRun              ; when hp is not full
   JSR @enableRun
   RTS
 @enableRun:                    ; 
