@@ -151,7 +151,8 @@ show@game:                     ;
 restart@game:                  ; 
   ; deck
   JSR init@deck
-  JSR shuffle@deck
+  ; JSR shuffle@deck ; TODO re-add shuffle
+  JSR hack@deck                ; TODO remove
   ; player
   JSR reset@player
   JSR enter@room

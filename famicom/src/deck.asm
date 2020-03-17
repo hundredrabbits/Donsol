@@ -52,7 +52,7 @@ shift@deck:                    ;
   LDA $80, y
   STA $80, x
   INX
-  CPX #$36
+  CPX #$36                     ; TODO only shift cards up to deck length
   BNE @loop
 @done:                         ; 
   RTS
@@ -217,4 +217,36 @@ runDamages:                    ;
   SEC
   SBC damages@player
   STA hp@player
+  RTS
+
+;;
+
+hack@deck:                     ; 
+  ; $03,$10,$18,$23,$32,$0f,$06,$2a,$1e,$0b,$34
+  ; hand
+  LDA #$03
+  STA $80
+  LDA #$10
+  STA $81
+  LDA #$18
+  STA $82
+  LDA #$23
+  STA $83
+  ; room 2
+  LDA #$1E
+  STA $84
+  LDA #$0B
+  STA $85
+  LDA #$34
+  STA $86
+  ; room 3
+  LDA #$00
+  STA $87
+  STA $88
+  STA $89
+  STA $8a
+  STA $8b
+  ; trim deck
+  LDA #$07
+  STA length@deck
   RTS

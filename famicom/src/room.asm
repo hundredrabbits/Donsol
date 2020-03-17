@@ -80,6 +80,7 @@ enter@room:                    ;
   STA card4@room
   ; etcs
   JSR updateBuffers@room
+  JSR updateExperience@player  ; update experience
   ; need redraws
   LDA #$01
   STA reqdraw_name
