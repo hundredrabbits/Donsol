@@ -12,8 +12,8 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
+- Fix issue with returning cards to end of deck
 - Screen tear when returning to splash
-- Fix deck XP count on complete
 - Add necomedre on the splash after complete
 - Implement deck shuffling
   - Implement shuffle seed
