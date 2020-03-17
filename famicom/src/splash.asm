@@ -182,3 +182,8 @@ addNecomedre@splash:           ; $6a,$6b,$6e
   STA PPUDATA
 @skip:                         ; 
   RTS
+
+;;
+
+  ; .db $80,$00
+  ; .db $84,$94
