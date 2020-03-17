@@ -22,6 +22,7 @@ show@splash:                   ;
   JSR loadAttributes@splash
   JSR addScore@splash
   JSR addNecomedre@splash
+  JSR addPolycat@splash
   JSR start@renderer           ; done
   RTS
 
@@ -193,23 +194,23 @@ addPolycat@splash:             ; $6a,$6b,$6e
   ; head
   LDA #$22
   STA PPUADDR
-  LDA #$48
+  LDA #$77
   STA PPUADDR
-  LDA #$6A
+  LDA #$80
   STA PPUDATA
   ; torso
   LDA #$22
   STA PPUADDR
-  LDA #$68
+  LDA #$98
   STA PPUADDR
-  LDA #$6B
+  LDA #$94
   STA PPUDATA
   ; legs
   LDA #$22
   STA PPUADDR
-  LDA #$88
+  LDA #$97
   STA PPUADDR
-  LDA #$6E
+  LDA #$84
   STA PPUDATA
 @skip:                         ; 
   RTS
