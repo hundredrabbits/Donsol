@@ -185,5 +185,36 @@ addNecomedre@splash:           ; $6a,$6b,$6e
 
 ;;
 
+addPolycat@splash:             ; $6a,$6b,$6e
+  LDA highscore@splash
+  CMP #$36
+  BNE @skip
+  BIT PPUSTATUS                ; draw score on splash
+  ; head
+  LDA #$22
+  STA PPUADDR
+  LDA #$48
+  STA PPUADDR
+  LDA #$6A
+  STA PPUDATA
+  ; torso
+  LDA #$22
+  STA PPUADDR
+  LDA #$68
+  STA PPUADDR
+  LDA #$6B
+  STA PPUDATA
+  ; legs
+  LDA #$22
+  STA PPUADDR
+  LDA #$88
+  STA PPUADDR
+  LDA #$6E
+  STA PPUDATA
+@skip:                         ; 
+  RTS
+
+;;
+
   ; .db $80,$00
   ; .db $84,$94
