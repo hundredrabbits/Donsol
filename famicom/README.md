@@ -12,16 +12,13 @@ Each suit contains 13 cards: Ace, 2, 3, 4, 5, 6, 7, 8, 9, 10, Jack, Queen, King.
 
 ## TODOs
 
-- Fix issue with returning cards to end of deck
 - Screen tear when returning to splash
-- Add necomedre on the splash after complete
 - Implement deck shuffling
   - Implement shuffle seed
   - Can reshuffle on first hand
-- Implement dungeon complete
-  - Last rooms should check if card exists or display a folded card.
 - Implement onscreen guide
 - Implement sounds
+
 - Implement special mode
 
 ## Rules

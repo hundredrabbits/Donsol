@@ -20,18 +20,8 @@ show@splash:                   ;
   JSR stop@renderer            ; display
   JSR load@splash
   JSR loadAttributes@splash
-  BIT PPUSTATUS                ; draw score on splash
-  LDA #$20
-  STA PPUADDR
-  LDA #$EF
-  STA PPUADDR
-  LDX #$00
-  LDX highscore@splash         ; digit 1
-  LDA number_high, x
-  STA PPUDATA
-  LDX highscore@splash         ; digit 2
-  LDA number_low, x
-  STA PPUDATA
+  JSR addScore@splash
+  JSR addNecomedre@splash
   JSR start@renderer           ; done
   RTS
 
@@ -144,4 +134,51 @@ updateScore@splash:            ;
   BCC @done
   STA highscore@splash
 @done:                         ; 
+  RTS
+
+;;
+
+addScore@splash:               ; 
+  BIT PPUSTATUS                ; draw score on splash
+  LDA #$20
+  STA PPUADDR
+  LDA #$EF
+  STA PPUADDR
+  LDX #$00
+  LDX highscore@splash         ; digit 1
+  LDA number_high, x
+  STA PPUDATA
+  LDA number_low, x
+  STA PPUDATA
+  RTS
+
+;;
+
+addNecomedre@splash:           ; $6a,$6b,$6e
+  LDA highscore@splash
+  CMP #$36
+  BNE @skip
+  BIT PPUSTATUS                ; draw score on splash
+  ; head
+  LDA #$22
+  STA PPUADDR
+  LDA #$48
+  STA PPUADDR
+  LDA #$6A
+  STA PPUDATA
+  ; torso
+  LDA #$22
+  STA PPUADDR
+  LDA #$68
+  STA PPUADDR
+  LDA #$6B
+  STA PPUDATA
+  ; legs
+  LDA #$22
+  STA PPUADDR
+  LDA #$88
+  STA PPUADDR
+  LDA #$6E
+  STA PPUDATA
+@skip:                         ; 
   RTS
