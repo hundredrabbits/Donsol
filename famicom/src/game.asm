@@ -149,8 +149,7 @@ show@game:                     ;
 
 restart@game:                  ; 
   JSR init@deck                ; deck
-  JSR hack@deck                ; TODO remove
-                               ; TODO readd JSR shuffle@deck
+  JSR shuffle@deck
   JSR reset@player             ; player
   JSR enter@room
   LDA #$0D
