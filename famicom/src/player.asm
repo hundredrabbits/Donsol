@@ -7,6 +7,7 @@ reset@player:                  ;
   STA hpui@game
   LDA #$00
   STA sp@player
+  STA spui@game
   STA dp@player
   STA sickness@player
   RTS
@@ -90,7 +91,6 @@ loadRun@player:                ; () -> a:canRun
   BEQ @Hard
 @Easy:                         ; RULE | can escape if when no monsters present or when has not escaped before
   JSR loadEnemiesLeft@room
-  STX $40
   CPX #$00
   BEQ @enableRun               ; when monsters left
   LDA has_run@player

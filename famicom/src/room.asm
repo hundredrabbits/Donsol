@@ -44,7 +44,7 @@ nmi@room:                      ; update from the nmi
   CMP #$36
   BNE @incomplete
   ; when dungeon is complete
-  LDA #$10                     ; dialog:sickness
+  LDA #$10                     ; dialog:victory
   JSR show@dialog
   RTS
 @incomplete
@@ -105,14 +105,32 @@ flipCard@room:                 ; (x:card_pos) ->
   JSR pickCard@deck
   LDA #$36                     ; flip card
   STA card1@room, x
-@done:                         ; post picking a card
+@done:                         ; post flipping a card
   JSR updateBuffers@room       ; update card buffers
   JSR updateExperience@player  ; update experience
-  JSR updateScore@splash       ; update highscore
   ; need redraws
   LDA #%11111111               ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
   STA redraws@game
+  ; is it the last card?
+  JSR loadCardsLeft@room
+  CPX #$00
+  BEQ onLastCard@room
 @skip
+  RTS
+
+;;
+
+onLastCard@room:               ; 
+  LDA xp@player                ; load xp
+  CMP highscore@splash
+  BCC @difficulty
+  STA highscore@splash         ; store highscore
+@difficulty:                   ; 
+  LDA difficulty@player        ; load difficulty
+  CMP difficulty@splash
+  BCC @done
+  STA difficulty@splash        ; store difficulty
+@done
   RTS
 
 ;; return non-flipped cards back to the end of the deck

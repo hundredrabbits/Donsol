@@ -115,7 +115,6 @@ nmi@game:                      ; during nmi
   EOR REQ_RUN
   STA redraws@game
   JSR redrawRun@game
-  JSR fix@renderer
   RTS
 @checkReqDialog:               ; 
   LDA reqdraw_dialog
@@ -149,21 +148,18 @@ show@game:                     ;
 ;;
 
 restart@game:                  ; 
-  ; deck
-  JSR init@deck
-  ; JSR shuffle@deck ; TODO re-add shuffle
+  JSR init@deck                ; deck
   JSR hack@deck                ; TODO remove
-  ; player
-  JSR reset@player
+                               ; TODO readd JSR shuffle@deck
+  JSR reset@player             ; player
   JSR enter@room
-  ; dialog:difficulty
   LDA #$0D
   CLC
   ADC difficulty@player        ; reflect difficulty
-  JSR show@dialog
-  ; reset room timer
-  LDA #$30
+  JSR show@dialog              ; dialog:difficulty
+  LDA #$30                     ; reset room timer
   STA timer@room
+  ; reset uistats
   RTS
 
 ;;
@@ -421,12 +417,16 @@ redrawExperience@game:         ;
 ;;
 
 redrawRun@game:                ; 
+  JSR stop@renderer
   LDA length@deck              ; don't display the run butto on first hand
   CMP #$31                     ; deck is $36 - 4(first hand)
   BEQ @hide
   JSR loadRun@player           ; load canRun in regA
   CMP #$01
   BNE @hide
+  LDA length@deck              ; Can't run the last room
+  CMP #$00
+  BEQ @hide
 @show:                         ; RUN: $1c,$1f,$18
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   LDA #$21
@@ -443,6 +443,7 @@ redrawRun@game:                ;
   STA PPUDATA
   LDA #$18                     ; N
   STA PPUDATA
+  JSR start@renderer
   RTS
 @hide:                         ; 
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch

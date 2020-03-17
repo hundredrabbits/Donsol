@@ -83,6 +83,7 @@ spui@game               .dsb 1
 redraws@game            .dsb 1
 cursor@splash           .dsb 1
 highscore@splash        .dsb 1 ; keep highscore
+difficulty@splash       .dsb 1 ; keep difficulty in highscore
 lb@temp                 .dsb 1 ; utils
 hb@temp                 .dsb 1
 id@temp                 .dsb 1

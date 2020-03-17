@@ -129,16 +129,6 @@ updateCursor@splash:           ;
 
 ;;
 
-updateScore@splash:            ; 
-  LDA xp@player                ; load xp
-  CMP highscore@splash
-  BCC @done
-  STA highscore@splash
-@done:                         ; 
-  RTS
-
-;;
-
 addScore@splash:               ; 
   BIT PPUSTATUS                ; draw score on splash
   LDA #$20
@@ -156,9 +146,9 @@ addScore@splash:               ;
 ;;
 
 addNecomedre@splash:           ; $6a,$6b,$6e
-  LDA highscore@splash
-  CMP #$36
-  BNE @skip
+  LDA difficulty@splash
+  CMP #$00
+  BEQ @skip
   BIT PPUSTATUS                ; draw score on splash
   ; head
   LDA #$22
@@ -187,9 +177,11 @@ addNecomedre@splash:           ; $6a,$6b,$6e
 ;;
 
 addPolycat@splash:             ; $6a,$6b,$6e
-  LDA highscore@splash
-  CMP #$36
-  BNE @skip
+  LDA difficulty@splash
+  CMP #$00
+  BEQ @skip
+  CMP #$01
+  BEQ @skip
   BIT PPUSTATUS                ; draw score on splash
   ; head
   LDA #$22
@@ -214,8 +206,3 @@ addPolycat@splash:             ; $6a,$6b,$6e
   STA PPUDATA
 @skip:                         ; 
   RTS
-
-;;
-
-  ; .db $80,$00
-  ; .db $84,$94
