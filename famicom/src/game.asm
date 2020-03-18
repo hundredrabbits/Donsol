@@ -1,6 +1,21 @@
 
 ;;
 
+init@game:                     ; 
+  JSR init@deck                ; deck
+  JSR shuffle@deck
+  JSR reset@player             ; player
+  JSR enter@room
+  LDA #$0D
+  CLC
+  ADC difficulty@player        ; reflect difficulty
+  JSR show@dialog              ; dialog:difficulty
+  LDA #$30                     ; reset room timer
+  STA timer@room
+  ; reset uistats
+  RTS
+
+;;
 main@game:                     ; 
   LDA view@game
   CMP #$01
@@ -11,122 +26,6 @@ main@game:                     ;
   RTS
 
 ;;
-
-nmi@game:                      ; during nmi
-  LDA view@game
-  CMP #$01
-  BEQ @inView
-  RTS
-@inView:                       ; when is on game
-  LDA timer@renderer
-  CMP #$00
-  BEQ @whenRender
-  DEC timer@renderer
-  RTS
-@whenRender:                   ; 
-  LDA #$02                     ; reset render timer to 2 frames
-  STA timer@renderer
-@beginDrawing:                 ; 
-@checkReqSP:                   ; [skip]
-  LDA redraws@game
-  AND REQ_SP
-  BEQ @checkReqHP
-  LDA redraws@game
-  EOR REQ_SP
-  STA redraws@game
-  JSR redrawShield@game
-  RTS
-@checkReqHP:                   ; 
-  LDA redraws@game
-  AND REQ_HP
-  BEQ @checkName
-  LDA redraws@game
-  EOR REQ_HP
-  STA redraws@game
-  JSR redrawHealth@game
-  RTS
-@checkName
-  LDA reqdraw_name
-  CMP #$00
-  BEQ @checkReqCard1
-  JSR redrawName@game
-  JSR fix@renderer
-  LDA #$00
-  STA reqdraw_name
-  RTS
-@checkReqCard1:                ; 
-  LDA redraws@game
-  AND REQ_CARD1
-  BEQ @checkReqCard2
-  LDA redraws@game
-  EOR REQ_CARD1
-  STA redraws@game
-  JSR stop@renderer
-  JSR redrawCard1@game
-  JSR start@renderer
-  RTS
-@checkReqCard2:                ; 
-  LDA redraws@game
-  AND REQ_CARD2
-  BEQ @checkReqCard3
-  LDA redraws@game
-  EOR REQ_CARD2
-  STA redraws@game
-  JSR stop@renderer
-  JSR redrawCard2@game
-  JSR start@renderer
-  RTS
-@checkReqCard3:                ; 
-  LDA redraws@game
-  AND REQ_CARD3
-  BEQ @checkReqCard4
-  LDA redraws@game
-  EOR REQ_CARD3
-  STA redraws@game
-  JSR stop@renderer
-  JSR redrawCard3@game
-  JSR start@renderer
-  RTS
-@checkReqCard4:                ; 
-  LDA redraws@game
-  AND REQ_CARD4
-  BEQ @checkReqXP
-  LDA redraws@game
-  EOR REQ_CARD4
-  STA redraws@game
-  JSR stop@renderer
-  JSR redrawCard4@game
-  JSR start@renderer
-  RTS
-@checkReqXP:                   ; 
-  LDA redraws@game
-  AND REQ_XP
-  BEQ @checkReqRun
-  LDA redraws@game
-  EOR REQ_XP
-  STA redraws@game
-  JSR redrawExperience@game
-  RTS
-@checkReqRun:                  ; 
-  LDA redraws@game
-  AND REQ_RUN
-  BEQ @checkReqDialog
-  LDA redraws@game
-  EOR REQ_RUN
-  STA redraws@game
-  JSR redrawRun@game
-  RTS
-@checkReqDialog:               ; 
-  LDA reqdraw_dialog
-  CMP #$00
-  BEQ @done
-  JSR redraw@dialog
-  JSR fix@renderer
-  LDA #$00
-  STA reqdraw_dialog
-  RTS
-@done:                         ; 
-  RTS
 
 ;;
 
@@ -141,24 +40,8 @@ show@game:                     ;
   JSR stop@renderer
   JSR load@game
   JSR loadAttributes@game
-  JSR restart@game
+  JSR init@game
   JSR start@renderer
-  RTS
-
-;;
-
-restart@game:                  ; 
-  JSR init@deck                ; deck
-  JSR shuffle@deck
-  JSR reset@player             ; player
-  JSR enter@room
-  LDA #$0D
-  CLC
-  ADC difficulty@player        ; reflect difficulty
-  JSR show@dialog              ; dialog:difficulty
-  LDA #$30                     ; reset room timer
-  STA timer@room
-  ; reset uistats
   RTS
 
 ;;

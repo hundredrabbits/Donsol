@@ -1,6 +1,8 @@
 
 ;; splash | holds the highscore count
 
+;;
+
 main@splash:                   ; 
   LDA view@game
   CMP #$00
@@ -15,20 +17,27 @@ main@splash:                   ;
 show@splash:                   ; 
   LDA #$00                     ; set splash mode
   STA view@game
-  JSR initCursor@splash        ; setup cursor
-  JSR updateCursor@splash
-  JSR stop@renderer            ; display
-  JSR load@splash
-  JSR loadAttributes@splash
-  JSR addScore@splash
-  JSR addNecomedre@splash
-  JSR addPolycat@splash
-  JSR start@renderer           ; done
+  LDA #$01
+  STA reqdraw_splash
   RTS
 
 ;;
 
 load@splash:                   ; 
+  ; attributes
+  BIT PPUSTATUS
+  LDA #$23
+  STA PPUADDR
+  LDA #$C0
+  STA PPUADDR
+  LDX #$00
+@loopAttribues:                ; 
+  LDA attributes@splash, x
+  STA PPUDATA
+  INX
+  CPX #$40
+  BNE @loopAttribues
+  ; tiles
   BIT PPUSTATUS
   LDA #$20
   STA PPUADDR
@@ -40,33 +49,16 @@ load@splash:                   ;
   STA hb@temp
   LDX #$00
   LDY #$00
-@loop:                         ; 
+@loopTiles:                    ; 
   LDA (lb@temp), y
   STA PPUDATA
   INY
   CPY #$00
-  BNE @loop
+  BNE @loopTiles
   INC hb@temp
   INX
   CPX #$04
-  BNE @loop
-  RTS
-
-;;
-
-loadAttributes@splash:         ; 
-  BIT PPUSTATUS
-  LDA #$23
-  STA PPUADDR
-  LDA #$C0
-  STA PPUADDR
-  LDX #$00
-@loop:                         ; 
-  LDA attributes@splash, x
-  STA PPUDATA
-  INX
-  CPX #$40
-  BNE @loop
+  BNE @loopTiles
   RTS
 
 ;;

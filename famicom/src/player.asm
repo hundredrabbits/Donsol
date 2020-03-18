@@ -15,52 +15,6 @@ reset@player:                  ;
 
 ;;
 
-nmi@player:                    ; 
-  LDA view@game
-  CMP #$01                     ; 
-  BEQ @inView
-  RTS
-@inView:                       ; 
-; interpolate shield
-  LDA spui@game                ; follower x
-  CMP sp@player                ; sprite x
-  BEQ @skip
-  BCC @incShield
-@decShield:                    ; 
-  DEC spui@game
-  LDA redraws@game             ; request redraw
-  ORA REQ_SP
-  STA redraws@game
-  RTS
-@incShield:                    ; 
-  INC spui@game
-  LDA redraws@game             ; request redraw
-  ORA REQ_SP
-  STA redraws@game
-  RTS
-@skip:                         ; 
-  ; interpolate health
-  LDA hpui@game                ; follower x
-  CMP hp@player                ; sprite x
-  BEQ @done
-  BCC @incHealth
-@decHealth:                    ; 
-  DEC hpui@game
-  LDA redraws@game             ; request redraw
-  ORA REQ_HP
-  STA redraws@game
-  RTS
-@incHealth:                    ; 
-  INC hpui@game
-  LDA redraws@game             ; request redraw
-  ORA REQ_HP
-  STA redraws@game
-  RTS
-@done:                         ; 
-  RTS
-
-;;
-
 addSickness@player:            ; 
   LDA #$01
   STA sickness@player
@@ -167,7 +121,7 @@ run@player:                    ;
   JSR show@splash
   RTS
 @onDead:                       ; 
-  JSR restart@game
+  JSR init@game
   RTS                          ; 
 
 ;;

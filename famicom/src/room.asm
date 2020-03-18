@@ -1,66 +1,6 @@
 
 ;; room
 
-nmi@room:                      ; update from the nmi
-  LDA view@game
-  CMP #$01                     ; 
-  BEQ @inView
-  RTS
-@inView:                       ; 
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @death
-  ; look for unflipped cards
-  LDA card1@room
-  CMP #$36
-  BNE @done
-  LDA card2@room
-  CMP #$36
-  BNE @done
-  LDA card3@room
-  CMP #$36
-  BNE @done
-  LDA card4@room
-  CMP #$36
-  BNE @done
-  ; when the room is complete
-  LDA timer@room
-  CMP #$00
-  BEQ @proceed
-  DEC timer@room
-  RTS
-@death:                        ; 
-  LDA #$36                     ; flip all cards
-  STA card1@room
-  STA card2@room
-  STA card3@room
-  STA card4@room
-  JSR updateBuffers@room       ; update buffers
-  RTS
-@proceed:                      ; 
-  ; check if game is complete
-  LDA xp@player
-  CMP #$36
-  BNE @incomplete
-  ; when dungeon is complete
-  LDA #$10                     ; dialog:victory
-  JSR show@dialog
-  RTS
-@incomplete
-  ; reset ran flag
-  LDA #$00
-  STA has_run@player
-  ; reset timer
-  LDA #$30
-  STA timer@room
-  ; go on..
-  JSR enter@room
-@done:                         ; 
-  RTS
-
-;;
-
 enter@room:                    ; 
   JSR pullCard@deck            ; pull card1
   LDY hand@deck
