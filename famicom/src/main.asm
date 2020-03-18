@@ -1,98 +1,113 @@
 
 ;; main, ends on [JMP __MAIN]
 
-;; input stuff
-
 handlejoy:                     ; 
-  ; read buttons
-  LDA timer@input
+  LDA trigger@input
   CMP #$00
-  BNE doTheRest
-  ;
-  LDA last@input
+  BEQ @skip
   CMP #$01
   BEQ onRight@input
+  CMP #$02
+  BEQ onLeft@input
+  CMP #$10
+  BEQ onStart@input
+  CMP #$20
+  BEQ onSelect@input
+  CMP #$40
+  BEQ onB@input
+  CMP #$80
+  BEQ onA@input
+@skip:                         ; 
+
+;; input stuff
+
+doTheRest:                     ; 
+  JSR main@splash
+  JSR main@game
   JMP __MAIN
 
 ;;
 
 onRight@input:                 ; 
-  LDA view@game
+  LDA #$00                     ; release trigger
+  STA trigger@input
+  LDA view@game                ; check view
   CMP #$00
   BEQ @splash
+@game:                         ; 
   JSR selectNext@game
-  RTS
-@splash:                       ; 
-  INC $40
-  JSR selectNext@splash
-  LDA #$00
-  STA last@input
   JMP doTheRest
-  RTS
+@splash:                       ; 
+  JSR selectNext@splash
+  JMP doTheRest
+
+;;
+
+onLeft@input:                  ; 
+  LDA #$00                     ; release trigger
+  STA trigger@input
+  LDA view@game                ; check view
+  CMP #$00
+  BEQ @splash
+@game:                         ; 
+  JSR selectPrev@game
+  JMP doTheRest
+@splash:                       ; 
+  JSR selectPrev@splash
+  JMP doTheRest
+
+;;
+
+onSelect@input:                ; 
+  LDA #$00                     ; release trigger
+  STA trigger@input
+  LDA view@game                ; check view
+  CMP #$00
+  BEQ @splash
+@game:                         ; 
+  JSR show@splash
+  JMP doTheRest
+@splash:                       ; 
+  JMP doTheRest
+
+;;
+
+onStart@input:                 ; 
+  LDA #$00                     ; release trigger
+  STA trigger@input
+  JMP doTheRest
+
+;;
+
+onB@input:                     ; 
+  LDA #$00                     ; release trigger
+  STA trigger@input
+  LDA view@game                ; check view
+  CMP #$00
+  BEQ @splash
+@game:                         ; 
+  JSR run@player
+  JMP doTheRest
+@splash:                       ; 
+  LDA cursor@splash
+  STA difficulty@player        ; store difficulty
+  JSR show@game
+  JMP doTheRest
 
 ;;
 
 onA@input:                     ; 
-  LDA view@game
+  LDA #$00                     ; release trigger
+  STA trigger@input
+  LDA view@game                ; check view
   CMP #$00
   BEQ @splash
 @game:                         ; 
   LDX cursor@game
   JSR flipCard@room            ; flip selected card
-  RTS
+  JMP doTheRest
 @splash:                       ; 
   LDA cursor@splash
   STA difficulty@player        ; store difficulty
   JSR show@game
-  RTS
-
-;;
-
-onB@input:                     ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-@game:                         ; 
-  JSR run@player
-  RTS
-@splash:                       ; 
-  LDA cursor@splash
-  STA difficulty@player        ; store difficulty
-  JSR show@game
-  RTS
-
-;;
-
-onSelect@input:                ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-  JSR show@splash
-  RTS
-@splash:                       ; 
-  NOP
-  RTS
-
-;;
-
-onStart@input:                 ; 
-  RTS
-
-;;
-
-onLeft@input:                  ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-  JSR selectPrev@game
-  RTS
-@splash:                       ; 
-  JSR selectPrev@splash
-  RTS
-
-;;
-
-doTheRest:                     ; 
-                               ; 
-  JSR main@splash
-  JSR main@game
+  JMP doTheRest

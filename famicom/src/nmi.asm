@@ -8,6 +8,33 @@
 
 ;;
 
+readJoy:                       ; 
+  LDA #$01
+  STA JOY1                     ; start reading
+  STA down@input
+  LSR a
+  STA JOY1
+@loop:                         ; 
+  LDA JOY1
+  LSR a
+  ROL down@input
+  BCC @loop
+
+;;
+
+handleJoy:                     ; 
+  LDA down@input
+  CMP last@input               ; is down
+  BEQ @skip                    ; skip when repeat
+  STA last@input
+  CMP #$00
+  BEQ @skip                    ; don't write empty triggers
+  STA trigger@input
+@skip:                         ; 
+
+;;
+
+otherThings:                   ; 
   LDA view@game
   CMP #$01
   BEQ nmi@game
@@ -30,7 +57,7 @@ nmi@splash:                    ;
   LDA #$00
   STA reqdraw_splash
 @skip:                         ; 
-  JMP unlockJoy
+  RTI
 
 ;;
 
@@ -249,37 +276,4 @@ nmi@room:                      ; update from the nmi
   JSR enter@room
 @done:                         ; 
   RTS
-
-;; run input timer
-
-unlockJoy:                     ; 
-  LDA timer@input              ; set in main
-  CMP #$00
-  BEQ @done
-  DEC timer@input              ; timer is locked
-  RTI
-@done:                         ; 
-
-;;
-
-readJoy:                       ; 
-  LDA #$01
-  STA JOY1
-  STA buttons
-  LSR a
-  STA JOY1
-@loop:                         ; 
-  LDA JOY1
-  LSR a
-  ROL buttons
-  BCC @loop
-@trigger
-  LDA buttons
-  CMP #$00
-  BEQ @done
-  LDA #$04                     ; timer length
-  STA timer@input
-  LDA buttons
-  STA last@input
-@done:                         ; 
   RTI

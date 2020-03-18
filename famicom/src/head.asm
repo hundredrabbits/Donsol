@@ -73,8 +73,9 @@ card1@room              .dsb 1
 card2@room              .dsb 1
 card3@room              .dsb 1
 card4@room              .dsb 1
-timer@input             .dsb 1 ; input
+down@input              .dsb 1
 last@input              .dsb 1
+trigger@input           .dsb 1
 id@dialog               .dsb 1 ; dialog
 cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode
@@ -99,7 +100,6 @@ card_last_value         .dsb 1
 reqdraw_dialog          .dsb 1
 reqdraw_name            .dsb 1
 reqdraw_splash          .dsb 1
-buttons                 .dsb 1
 
 ;;
 
