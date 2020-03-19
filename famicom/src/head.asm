@@ -24,14 +24,12 @@ JOY2                .equ $4017
 
 ;;
 
-BUTTON_A            .equ #$10
-BUTTON_B            .equ #$11
-BUTTON_SELECT       .equ #$12
-BUTTON_START        .equ #$13
-BUTTON_UP           .equ #$14
-BUTTON_DOWN         .equ #$15
-BUTTON_LEFT         .equ #$16
-BUTTON_RIGHT        .equ #$17
+BUTTON_A            .equ #$80
+BUTTON_B            .equ #$40
+BUTTON_SELECT       .equ #$20
+BUTTON_START        .equ #$10
+BUTTON_LEFT         .equ #$02
+BUTTON_RIGHT        .equ #$01
 
 ;; redraw flags
 
