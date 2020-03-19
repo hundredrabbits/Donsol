@@ -24,12 +24,14 @@ JOY2                .equ $4017
 
 ;;
 
-BUTTON_A            .equ #$80
-BUTTON_B            .equ #$40
-BUTTON_SELECT       .equ #$20
-BUTTON_START        .equ #$10
-BUTTON_LEFT         .equ #$02
 BUTTON_RIGHT        .equ #$01
+BUTTON_LEFT         .equ #$02
+BUTTON_DOWN         .equ #$04
+BUTTON_UP           .equ #$08
+BUTTON_START        .equ #$10
+BUTTON_SELECT       .equ #$20
+BUTTON_B            .equ #$40
+BUTTON_A            .equ #$80
 
 ;; redraw flags
 
@@ -71,8 +73,9 @@ card1@room              .dsb 1
 card2@room              .dsb 1
 card3@room              .dsb 1
 card4@room              .dsb 1
-timer@input             .dsb 1 ; input
+down@input              .dsb 1
 last@input              .dsb 1
+next@input              .dsb 1
 id@dialog               .dsb 1 ; dialog
 cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode

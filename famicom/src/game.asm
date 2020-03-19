@@ -1,17 +1,6 @@
 
 ;;
 
-main@game:                     ; 
-  LDA view@game
-  CMP #$01
-  BEQ @inView
-  ; when is on table
-  NOP                          ; do nothing
-@inView
-  RTS
-
-;;
-
 nmi@game:                      ; during nmi
   LDA view@game
   CMP #$01
