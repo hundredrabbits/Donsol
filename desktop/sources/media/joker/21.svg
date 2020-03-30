@@ -1,5 +1,0 @@
-<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
-  <path d="M25,175 a100,120 0 0,0 150,0 a100,120 0 0,0 -150,0 " class="fill_red"></path>
-  <circle cx="100" cy="175" r="25" class="fill_white"/>
-  <circle cx="100" cy="175" r="15" class="fill_black"/>
-</svg>

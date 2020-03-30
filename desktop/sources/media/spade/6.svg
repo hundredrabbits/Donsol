@@ -1,8 +1,0 @@
-<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
-  <path d="M50,175 l-25,25 a25,25 0 0,1 25,25 a25,25 0 0,1 25,-25" class="fill_black"/>
-  <path d="M100,175 l-25,25 a25,25 0 0,1 25,25 a25,25 0 0,1 25,-25" class="fill_black"/>
-  <path d="M150,175 l-25,25 a25,25 0 0,1 25,25 a25,25 0 0,1 25,-25" class="fill_black"/>
-  <path d="M50,125 l-25,25 a25,25 0 0,1 25,25 a25,25 0 0,1 25,-25" class="fill_black"/>
-  <path d="M100,125 l-25,25 a25,25 0 0,1 25,25 a25,25 0 0,1 25,-25" class="fill_black"/>
-  <path d="M150,125 l-25,25 a25,25 0 0,1 25,25 a25,25 0 0,1 25,-25" class="fill_black"/>
-</svg>

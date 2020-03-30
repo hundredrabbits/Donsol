@@ -1,9 +1,0 @@
-<svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="200" height="300">
-  <circle cx="150" cy="125" r="25" class="fill_black"/>
-  <circle cx="50"  cy="125" r="25" class="fill_black"/>
-  <circle cx="100" cy="175" r="25" class="fill_black"/>
-  <circle cx="150" cy="175" r="25" class="fill_black"/>
-  <circle cx="50"  cy="175" r="25" class="fill_black"/>
-  <circle cx="150" cy="225" r="25" class="fill_black"/>
-  <circle cx="50"  cy="225" r="25" class="fill_black"/>
-</svg>
