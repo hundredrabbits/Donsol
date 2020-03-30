@@ -8,6 +8,7 @@
 
 ;; input
 
+  JSR nmi@splash
   JSR nmi@player
   JSR nmi@game                 ; in client
   JSR nmi@room

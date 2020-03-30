@@ -66,7 +66,8 @@ sickness@player         .dsb 1
 has_run@player          .dsb 1
 length@deck             .dsb 1 ; deck
 hand@deck               .dsb 1
-seed@deck               .dsb 1 ; The seed for the random shuffle
+seed1@deck              .dsb 1 ; The seed for the random shuffle(nmi)
+seed2@deck              .dsb 1 ; The seed for the random shuffle(main)
 count@tests             .dsb 1 ; tests
 timer@room              .dsb 1 ; room
 card1@room              .dsb 1
@@ -99,6 +100,8 @@ card_last_value         .dsb 1
 ; TODO | merge remaining flags
 reqdraw_dialog          .dsb 1
 reqdraw_name            .dsb 1
+reqdraw_game            .dsb 1
+reqdraw_splash          .dsb 1
 
 ;;
 

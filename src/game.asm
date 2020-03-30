@@ -16,6 +16,20 @@ nmi@game:                      ; during nmi
   LDA #$02                     ; reset render timer to 2 frames
   STA timer@renderer
 @beginDrawing:                 ; 
+@checkReqGame:                 ; 
+  LDA reqdraw_game
+  CMP #$00
+  BEQ @checkReqSP
+  JSR stop@renderer
+  ; display
+  JSR load@game
+  JSR loadAttributes@game
+  JSR initCursor@game
+  JSR updateCursor@game
+  JSR start@renderer
+  LDA #$00
+  STA reqdraw_game
+  RTS
 @checkReqSP:                   ; [skip]
   LDA redraws@game
   AND REQ_SP
@@ -123,15 +137,8 @@ show@game:                     ;
   ; set game mode
   LDA #$01
   STA view@game
-  ; setup cursor
-  JSR initCursor@game
-  JSR updateCursor@game
-  ; display
-  JSR stop@renderer
-  JSR load@game
-  JSR loadAttributes@game
+  STA reqdraw_game
   JSR restart@game
-  JSR start@renderer
   RTS
 
 ;;

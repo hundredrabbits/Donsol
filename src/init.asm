@@ -50,6 +50,7 @@ loadPalette:                   ; [skip]
 ;;
 
   JSR show@splash
+  JSR start@renderer
 
 ;; Run tests
 

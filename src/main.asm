@@ -5,8 +5,9 @@ incrementSeed:                 ; [skip]
   LDA view@game
   CMP #$00                     ; if is on splash
   BNE @done
-  INC seed@deck                ; increment random seed
+  INC seed1@deck               ; increment random seed
 @done:                         ; 
+  INC seed2@deck
 
 ;;
 

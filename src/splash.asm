@@ -1,18 +1,36 @@
 
-;; splash | holds the highscore count
+;;
 
-show@splash:                   ; 
-  LDA #$00                     ; set splash mode
-  STA view@game
-  JSR initCursor@splash        ; setup cursor
-  JSR updateCursor@splash
-  JSR stop@renderer            ; display
+nmi@splash:                    ; during nmi
+  LDA view@game
+  CMP #$00
+  BEQ @inView
+  RTS
+@inView:                       ; 
+  LDA reqdraw_splash
+  CMP #$00
+  BEQ @done
+  JSR stop@renderer
   JSR load@splash
   JSR loadAttributes@splash
   JSR addScore@splash
   JSR addNecomedre@splash
   JSR addPolycat@splash
-  JSR start@renderer           ; done
+  JSR initCursor@splash        ; setup cursor
+  JSR updateCursor@splash
+  JSR start@renderer
+  LDA #$00
+  STA reqdraw_splash
+@done:                         ; 
+  RTS
+
+;; splash | holds the highscore count
+
+show@splash:                   ; 
+  LDA #$00                     ; set splash mode
+  STA view@game
+  LDA #$01
+  STA reqdraw_splash
   RTS
 
 ;;
