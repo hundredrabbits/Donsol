@@ -1,23 +1,26 @@
 
 ;; main
 
-incrementSeed:                 ; [skip]
-  LDA view@game
-  CMP #$00                     ; if is on splash
-  BNE @done
-  INC seed1@deck               ; increment random seed
-@done:                         ; 
-  INC seed2@deck
+;; skip if no input
 
-;;
-
-handleJoy:                     ; [skip]
+handleJoy:                     ; 
   LDA next@input
   CMP #$00
-  BEQ @done
+  BNE releaseJoy
+  INC seed1@deck               ; increment seed1
+  JMP __MAIN
+
+;; release input, store in regA
+
+releaseJoy:                    ; 
   LDA next@input
   LDX #$00                     ; release
   STX next@input
+  INC seed2@deck               ; increment seed2 on input
+
+;;
+
+checkJoy:
   CMP BUTTON_RIGHT
   BEQ onRight@input            ; skip on #$00
   CMP BUTTON_LEFT
