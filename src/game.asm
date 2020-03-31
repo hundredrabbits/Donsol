@@ -16,13 +16,7 @@ nmi@game:                      ; during nmi
   LDA reqdraw_game
   CMP #$00
   BEQ @checkReqSP
-  JSR stop@renderer
-  ; display
-  JSR load@game
-  JSR loadAttributes@game
-  JSR start@renderer
-  LDA #$00
-  STA reqdraw_game
+  JSR redrawScreen@game
   RTS
 @checkReqSP:                   ; [skip]
   LDA redraws@game
@@ -122,54 +116,6 @@ restart@game:                  ;
 
 ;;
 
-load@game:                     ; 
-  ; clear background
-  BIT PPUSTATUS                ; reset latch
-  LDA #$20
-  STA PPUADDR
-  LDA #$00
-  STA PPUADDR
-  LDX #$00
-  LDY #$00
-@loop:                         ; 
-  LDA #$00                     ; sprite id
-  STA PPUDATA
-  INY
-  CPY #$00
-  BNE @loop
-  INX
-  CPX #$04
-  BNE @loop
-@interface:                    ; 
-  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
-  LDA #$21                     ; HP H
-  STA PPUADDR                  ; write the high byte
-  LDA #$03
-  STA PPUADDR                  ; write the low byte
-  LDA #$12
-  STA PPUDATA
-  LDA #$1A                     ; HP P
-  STA PPUDATA
-  LDA #$21                     ; SP S
-  STA PPUADDR                  ; write the high byte
-  LDA #$0A
-  STA PPUADDR                  ; write the low byte
-  LDA #$1D
-  STA PPUDATA
-  LDA #$1A                     ; SP P
-  STA PPUDATA
-  LDA #$21                     ; XP X
-  STA PPUADDR                  ; write the high byte
-  LDA #$11
-  STA PPUADDR                  ; write the low byte
-  LDA #$22
-  STA PPUDATA
-  LDA #$1A                     ; XP P
-  STA PPUDATA
-  RTS
-
-;;
-
 interpolateStats@game:         ; 
   LDA spui@game                ; 
   CMP sp@player                ; sprite x
@@ -202,23 +148,67 @@ interpolateStats@game:         ;
 
 ;;
 
-redrawCursor@game:             ; 
-  ; remove flag
+redrawScreen@game:             ; 
+; remove flag
   LDA #$00
-  STA reqdraw_cursor
-  ; setup
-  LDA #$B0
-  STA $0200                    ; (part1)set tile.y pos
-  LDA #$13
-  STA $0201                    ; (part1)set tile.id
-  LDA #$00
-  STA $0202                    ; (part1)set tile.attribute[off]
+  STA reqdraw_game
   ;
-  LDX cursor@game
-  LDA selections@game, x
-  STA $0203                    ; set tile.x pos
-  JSR sprites@renderer
-@done:                         ; 
+  JSR stop@renderer
+  JSR load@game
+  JSR loadInterface@game
+  JSR loadAttributes@game
+  JSR start@renderer
+  RTS
+
+;;
+
+load@game:                     ; 
+  BIT PPUSTATUS                ; reset latch
+  LDA #$20
+  STA PPUADDR
+  LDA #$00
+  STA PPUADDR
+  LDX #$00
+  LDY #$00
+@loop:                         ; 
+  LDA #$00                     ; sprite id
+  STA PPUDATA
+  INY
+  CPY #$00
+  BNE @loop
+  INX
+  CPX #$04
+  BNE @loop
+  RTS
+
+;;
+
+loadInterface@game:            ; 
+  BIT PPUSTATUS                ; read PPU status to reset the high/low latch
+  LDA #$21                     ; HP H
+  STA PPUADDR                  ; write the high byte
+  LDA #$03
+  STA PPUADDR                  ; write the low byte
+  LDA #$12
+  STA PPUDATA
+  LDA #$1A                     ; HP P
+  STA PPUDATA
+  LDA #$21                     ; SP S
+  STA PPUADDR                  ; write the high byte
+  LDA #$0A
+  STA PPUADDR                  ; write the low byte
+  LDA #$1D
+  STA PPUDATA
+  LDA #$1A                     ; SP P
+  STA PPUDATA
+  LDA #$21                     ; XP X
+  STA PPUADDR                  ; write the high byte
+  LDA #$11
+  STA PPUADDR                  ; write the low byte
+  LDA #$22
+  STA PPUDATA
+  LDA #$1A                     ; XP P
+  STA PPUDATA
   RTS
 
 ;;
@@ -236,6 +226,27 @@ loadAttributes@game:           ;
   INX
   CPX #$40
   BNE @loop
+  RTS
+
+;;
+
+redrawCursor@game:             ; 
+  ; remove flag
+  LDA #$00
+  STA reqdraw_cursor
+  ; setup
+  LDA #$B0
+  STA $0200                    ; (part1)set tile.y pos
+  LDA #$13
+  STA $0201                    ; (part1)set tile.id
+  LDA #$00
+  STA $0202                    ; (part1)set tile.attribute[off]
+  ;
+  LDX cursor@game
+  LDA selections@game, x
+  STA $0203                    ; set tile.x pos
+  JSR sprites@renderer
+@done:                         ; 
   RTS
 
 ;; redraw

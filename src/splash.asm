@@ -31,6 +31,46 @@ show@splash:                   ;
   STA reqdraw_cursor
   RTS
 
+;;
+
+redrawCursor@splash:           ; 
+  ; remove flag
+  LDA #$00
+  STA reqdraw_cursor
+  ; setup
+  LDA #$C8
+  STA $0200                    ; (part1)set tile.y pos
+  LDA #$12
+  STA $0201                    ; (part1)set tile.id
+  LDA #$00
+  STA $0202                    ; (part1)set tile.attribute[off]
+  ; 
+  LDX cursor@splash
+  LDA selections@splash, x
+  STA $0203                    ; set tile.x pos
+  JSR sprites@renderer
+@done:                         ; 
+  RTS
+
+;;
+
+redrawScreen@splash:           ; 
+  ; remove flag
+  LDA #$00
+  STA reqdraw_splash
+  ; when needs redraw
+  JSR stop@renderer
+  JSR load@splash
+  JSR loadAttributes@splash
+  JSR addScore@splash
+  JSR addNecomedre@splash
+  JSR addPolycat@splash
+  JSR start@renderer
+@done
+  RTS
+
+;;
+
 ;; load background table
 
 load@splash:                   ; 
@@ -72,44 +112,6 @@ loadAttributes@splash:         ;
   INX
   CPX #$40
   BNE @loop
-  RTS
-
-;;
-
-redrawCursor@splash:           ; 
-  ; remove flag
-  LDA #$00
-  STA reqdraw_cursor
-  ; setup
-  LDA #$C8
-  STA $0200                    ; (part1)set tile.y pos
-  LDA #$12
-  STA $0201                    ; (part1)set tile.id
-  LDA #$00
-  STA $0202                    ; (part1)set tile.attribute[off]
-  ; 
-  LDX cursor@splash
-  LDA selections@splash, x
-  STA $0203                    ; set tile.x pos
-  JSR sprites@renderer
-@done:                         ; 
-  RTS
-
-;;
-
-redrawScreen@splash:           ; 
-  ; remove flag
-  LDA #$00
-  STA reqdraw_splash
-  ; when needs redraw
-  JSR stop@renderer
-  JSR load@splash
-  JSR loadAttributes@splash
-  JSR addScore@splash
-  JSR addNecomedre@splash
-  JSR addPolycat@splash
-  JSR start@renderer
-@done
   RTS
 
 ;;
