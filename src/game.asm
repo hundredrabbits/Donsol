@@ -28,12 +28,7 @@ nmi@game:                      ; during nmi
 @checkReqSP:                   ; [skip]
   LDA redraws@game
   AND REQ_SP
-  BEQ @checkReqHP
-  LDA redraws@game
-  EOR REQ_SP
-  STA redraws@game
-  JSR redrawShield@game
-  RTS
+  BNE redrawShield@game
 @checkReqHP:                   ; 
   LDA redraws@game
   AND REQ_HP
@@ -355,6 +350,11 @@ redrawHealth@game:             ;
 ;; shield value
 
 redrawShield@game:             ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_SP
+  STA redraws@game
+  ; 
   LDY spui@game
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
