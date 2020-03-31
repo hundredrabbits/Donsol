@@ -1,28 +1,26 @@
 
-;;
+;; splash
 
 nmi@splash:                    ; during nmi
   LDA view@game
   CMP #$00
-  BEQ @inView
-  RTS
-@inView:                       ; 
+  BNE @done
+  ; when in view
   JSR redrawScreen@splash
   JSR redrawCursor@splash
 @done:                         ; 
   RTS
 
-;; splash | holds the highscore count
-
+;; request redraw flags for the splash
 show@splash:                   ; 
-  LDA #$00                     ; set splash mode
-  STA view@game
+  LDA #$00
+  STA view@game                ; set view
   LDA #$01
   STA reqdraw_splash
   STA reqdraw_cursor
   RTS
 
-;;
+;; load background table
 
 load@splash:                   ; 
   BIT PPUSTATUS
@@ -48,7 +46,7 @@ load@splash:                   ;
   BNE @loop
   RTS
 
-;;
+;; load attribute table
 
 loadAttributes@splash:         ; 
   BIT PPUSTATUS
@@ -63,34 +61,6 @@ loadAttributes@splash:         ;
   INX
   CPX #$40
   BNE @loop
-  RTS
-
-;;
-
-selectNext@splash:             ; 
-  INC cursor@splash
-  LDA cursor@splash
-  CMP #$03
-  BNE @done                    ; wrap around
-  LDA #$00
-  STA cursor@splash
-@done:                         ; 
-  LDA #$01                     ; request draw for cursor
-  STA reqdraw_cursor
-  RTS
-
-;;
-
-selectPrev@splash:             ; 
-  DEC cursor@splash
-  LDA cursor@splash
-  CMP #$FF
-  BNE @done                    ; wrap around
-  LDA #$02
-  STA cursor@splash
-@done:                         ; 
-  LDA #$01                     ; request draw for cursor
-  STA reqdraw_cursor
   RTS
 
 ;;
@@ -116,6 +86,7 @@ redrawCursor@splash:           ;
   LDA reqdraw_cursor
   CMP #$01                     ; check flag
   BNE @done                    ; skip if redraw is not required
+  ; when needs redraw
   LDX cursor@splash
   LDA selections@splash, x
   STA $0203                    ; set tile.x pos
@@ -129,10 +100,41 @@ redrawCursor@splash:           ;
 
 ;;
 
+selectNext@splash:             ; 
+  INC cursor@splash
+  LDA cursor@splash
+  CMP #$03
+  BNE @done
+  ; wrap around
+  LDA #$00
+  STA cursor@splash
+@done:                         ; 
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
+  RTS
+
+;;
+
+selectPrev@splash:             ; 
+  DEC cursor@splash
+  LDA cursor@splash
+  CMP #$FF
+  BNE @done
+  ; wrap around
+  LDA #$02
+  STA cursor@splash
+@done:                         ; 
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
+  RTS
+
+;;
+
 redrawScreen@splash:           ; 
   LDA reqdraw_splash
   CMP #$00
   BEQ @done
+  ; when needs redraw
   JSR stop@renderer
   JSR load@splash
   JSR loadAttributes@splash
@@ -141,7 +143,7 @@ redrawScreen@splash:           ;
   JSR addPolycat@splash
   JSR initCursor@splash        ; setup cursor
   JSR start@renderer
-  LDA #$00
+  LDA #$00                     ; release flag
   STA reqdraw_splash
 @done
   RTS

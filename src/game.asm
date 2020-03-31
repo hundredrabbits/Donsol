@@ -25,7 +25,7 @@ nmi@game:                      ; during nmi
   JSR load@game
   JSR loadAttributes@game
   JSR initCursor@game
-  JSR updateCursor@game
+  JSR redrawCursor@game
   JSR start@renderer
   LDA #$00
   STA reqdraw_game
@@ -42,11 +42,19 @@ nmi@game:                      ; during nmi
 @checkReqHP:                   ; 
   LDA redraws@game
   AND REQ_HP
-  BEQ @checkName
+  BEQ @checkReqCursor
   LDA redraws@game
   EOR REQ_HP
   STA redraws@game
   JSR redrawHealth@game
+  RTS
+@checkReqCursor:               ; 
+  LDA reqdraw_cursor
+  CMP #$00
+  BEQ @checkName
+  JSR redrawCursor@game
+  LDA #$00
+  STA reqdraw_cursor
   RTS
 @checkName
   LDA reqdraw_name
@@ -138,6 +146,7 @@ show@game:                     ;
   LDA #$01
   STA view@game
   STA reqdraw_game
+  STA reqdraw_cursor
   JSR restart@game
   RTS
 
@@ -208,31 +217,33 @@ load@game:                     ;
 ;;
 
 selectNext@game:               ; 
-  LDA cursor@game
-  CMP #$03
-  BEQ @wrap
   INC cursor@game
-  JMP @done
-@wrap:                         ; 
+  LDA cursor@game
+  CMP #$04
+  BNE @done
+  ; wrap around
   LDA #$00
   STA cursor@game
 @done:                         ; 
-  JSR updateCursor@game
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
+  STA reqdraw_name
   RTS
 
 ;;
 
 selectPrev@game:               ; 
-  LDA cursor@game
-  CMP #$00
-  BEQ @wrap
   DEC cursor@game
-  JMP @done
-@wrap:                         ; 
+  LDA cursor@game
+  CMP #$FF
+  BNE @done
+  ; wrap around
   LDA #$03
   STA cursor@game
 @done:                         ; 
-  JSR updateCursor@game
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
+  STA reqdraw_name
   RTS
 
 ;;
@@ -258,7 +269,11 @@ initCursor@game:               ;
 
 ;;
 
-updateCursor@game:             ; 
+redrawCursor@game:             ; 
+  LDA reqdraw_cursor
+  CMP #$01                     ; check flag
+  BNE @done                    ; skip if redraw is not required
+  ; when needs redraw
   LDX cursor@game
   LDA selections@game, x
   STA $0203                    ; set tile.x pos
@@ -267,6 +282,7 @@ updateCursor@game:             ;
   STA $0207                    ; set tile.x pos
   LDA #$01                     ; request redraw
   STA reqdraw_name
+@done:                         ; 
   RTS
 
 ;;
