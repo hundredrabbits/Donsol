@@ -2,11 +2,6 @@
 ;;
 
 nmi@game:                      ; during nmi
-  LDA view@game
-  CMP #$01
-  BEQ @inView
-  RTS
-@inView:                       ; when is on game
   LDA timer@renderer
   CMP #$00
   BEQ @whenRender

@@ -6,14 +6,7 @@
   LDA #$02
   STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
 
-;; input
-
-  JSR nmi@splash
-  JSR nmi@player
-  JSR nmi@game                 ; in client
-  JSR nmi@room
-
-;; nmi
+;; detect joy
 
 readJoy:                       ; [skip]
   LDA #$01
@@ -38,3 +31,19 @@ saveJoy:                       ; [skip]
   BEQ @done
   STA next@input
 @done:                         ; 
+
+;; route screens
+
+sendView:                      ; 
+  LDX view@game
+  CPX #$00
+  BNE @game
+@splash:                       ; 
+  JSR redrawScreen@splash
+  JSR redrawCursor@splash
+  RTI
+@game:                         ; 
+  JSR nmi@player
+  JSR nmi@game                 ; in client
+  JSR nmi@room
+  RTI

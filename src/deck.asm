@@ -363,5 +363,4 @@ return@deck:                   ;
   INX
   CPX #$36
   BNE @loop
-  INC $40
   RTS

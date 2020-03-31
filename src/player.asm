@@ -14,13 +14,7 @@ reset@player:                  ;
   RTS
 
 ;;
-
 nmi@player:                    ; 
-  LDA view@game
-  CMP #$01                     ; 
-  BEQ @inView
-  RTS
-@inView:                       ; 
 ; interpolate shield
   LDA spui@game                ; follower x
   CMP sp@player                ; sprite x

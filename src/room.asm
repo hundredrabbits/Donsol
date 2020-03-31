@@ -2,11 +2,6 @@
 ;; room
 
 nmi@room:                      ; update from the nmi
-  LDA view@game
-  CMP #$01                     ; 
-  BEQ @inView
-  RTS
-@inView:                       ; 
   ; check if player is alive
   LDA hp@player
   CMP #$00
