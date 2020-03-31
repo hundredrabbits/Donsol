@@ -214,6 +214,8 @@ load@game:                     ;
 ;;
 
 initCursor@game:               ; 
+                               ; activate sprites
+  ; 
   LDA #$B0                     ; cursor(left)
   STA $0200                    ; set tile.y pos
   LDA #$10
@@ -230,6 +232,11 @@ initCursor@game:               ;
   STA $0206                    ; set tile.attribute
   LDA #$88
   STA $0207                    ; set tile.x pos
+  ;
+  LDA #$00
+  STA SPRADDR                  ; set the low byte (00) of the RAM address
+  LDA #$02
+  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
   RTS
 
 ;;
@@ -239,6 +246,7 @@ redrawCursor@game:             ;
   CMP #$01                     ; check flag
   BNE @done                    ; skip if redraw is not required
   ; when needs redraw
+  ;
   LDX cursor@game
   LDA selections@game, x
   STA $0203                    ; set tile.x pos
@@ -246,6 +254,12 @@ redrawCursor@game:             ;
   ADC #$08
   STA $0207                    ; set tile.x pos
   LDA #$01                     ; request redraw
+  ;
+                               ; activate sprites
+  LDA #$00
+  STA SPRADDR                  ; set the low byte (00) of the RAM address
+  LDA #$02
+  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
   STA reqdraw_name
 @done:                         ; 
   RTS

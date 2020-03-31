@@ -1,11 +1,6 @@
 
 ;; nmi
 
-  LDA #$00
-  STA SPRADDR                  ; set the low byte (00) of the RAM address
-  LDA #$02
-  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
-
 ;; detect joy
 
 readJoy:                       ; [skip]

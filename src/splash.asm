@@ -67,6 +67,7 @@ loadAttributes@splash:         ;
 ;;
 
 initCursor@splash:             ; 
+  ; 
   LDA #$C8
   STA $0200                    ; (part1)set tile.y pos
   LDA #$12
@@ -79,6 +80,11 @@ initCursor@splash:             ;
   STA $0205                    ; (part2)set tile.id[off]
   STA $0206                    ; (part2)set tile.attribute[off]
   STA $0207                    ; (part2)set tile.x pos[off]
+  ; activate sprites
+  LDA #$00
+  STA SPRADDR                  ; set the low byte (00) of the RAM address
+  LDA #$02
+  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
   RTS
 
 ;;
@@ -87,7 +93,7 @@ redrawCursor@splash:           ;
   LDA reqdraw_cursor
   CMP #$01                     ; check flag
   BNE @done                    ; skip if redraw is not required
-  ; when needs redraw
+  ; active redraw
   LDX cursor@splash
   LDA selections@splash, x
   STA $0203                    ; set tile.x pos
@@ -96,6 +102,11 @@ redrawCursor@splash:           ;
   STA $0207                    ; set tile.x pos
   LDA #$00
   STA reqdraw_cursor           ; release flag
+  ; activate sprites
+  LDA #$00
+  STA SPRADDR                  ; set the low byte (00) of the RAM address
+  LDA #$02
+  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
 @done:                         ; 
   RTS
 
