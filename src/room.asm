@@ -86,15 +86,24 @@ enter@room:                    ;
 
 ;; flip card from the table, used in controls when press
 
-flipCard@room:                 ; (x:card_pos) ->
+tryFlip@room:                  ; 
+  ;
   LDA hp@player
   CMP #$00
   BEQ @skip
   ; when player is alive
+  LDX cursor@game              ; load card at cursor position
   LDA card1@room, x
   CMP #$36
   BEQ @skip
   ; when card is not flipped
+  JSR flipCard@room
+@skip:                         ; 
+  RTS
+
+;;
+
+flipCard@room:                 ; (x:card_pos) ->
   TAY                          ; pick card
   JSR pickCard@deck
   LDA #$36                     ; flip card

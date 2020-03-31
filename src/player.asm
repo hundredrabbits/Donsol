@@ -94,7 +94,7 @@ updateExperience@player:       ; () -> a:xp
 
 ;;
 
-run@player:                    ; 
+tryRun@player:                 ; 
   LDA hp@player                ; check if player is alive
   CMP #$00
   BEQ @onDead                  ; 

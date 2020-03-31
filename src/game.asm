@@ -207,7 +207,7 @@ redrawHealth@game:             ;
   ; sickness icon
   LDA #$3F
   STA PPUDATA
-  JSR @done
+  JMP @done
 @false:                        ; 
   LDA #$00
   STA PPUDATA

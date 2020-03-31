@@ -134,12 +134,11 @@ onSelect@game:                 ;
 ;;
 
 onB@game:                      ; 
-  JSR run@player
+  JSR tryRun@player
   JMP __MAIN
 
 ;;
 
 onA@game:                      ; 
-  LDX cursor@game
-  JSR flipCard@room            ; flip selected card
+  JSR tryFlip@room             ; flip selected card
   JMP __MAIN
