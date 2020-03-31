@@ -2,10 +2,6 @@
 ;; splash
 
 nmi@splash:                    ; during nmi
-  LDA view@game
-  CMP #$00
-  BNE @done
-  ; when in view
 @checkSplash:                  ; 
   LDA reqdraw_splash
   CMP #$01
@@ -192,4 +188,19 @@ addPolycat@splash:             ; $6a,$6b,$6e
   LDA #$84
   STA PPUDATA
 @skip:                         ; 
+  RTS
+
+;;
+
+updateScore@splash:            ; 
+  LDA xp@player                ; load xp
+  CMP highscore@splash
+  BCC @difficulty
+  STA highscore@splash         ; store highscore
+@difficulty:                   ; 
+  LDA difficulty@player        ; load difficulty
+  CMP difficulty@splash
+  BCC @done
+  STA difficulty@splash        ; store difficulty
+@done
   RTS

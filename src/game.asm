@@ -3,15 +3,6 @@
 
 nmi@game:                      ; during nmi
   JSR interpolateStats@game
-  LDA timer@renderer
-  CMP #$00
-  BEQ @whenRender
-  DEC timer@renderer
-  RTS
-@whenRender:                   ; 
-  LDA #$02                     ; reset render timer to 2 frames
-  STA timer@renderer
-@beginDrawing:                 ; 
 @checkReqGame:                 ; 
   LDA reqdraw_game
   CMP #$00
@@ -92,9 +83,9 @@ nmi@game:                      ; during nmi
 show@game:                     ; 
   ; set game mode
   LDA #$01
-  STA view@game
   STA reqdraw_game
   STA reqdraw_cursor
+  STA view@game
   JSR restart@game
   RTS
 
@@ -111,7 +102,6 @@ restart@game:                  ;
   JSR show@dialog              ; dialog:difficulty
   LDA #$30                     ; reset room timer
   STA timer@room
-  ; reset uistats
   RTS
 
 ;;

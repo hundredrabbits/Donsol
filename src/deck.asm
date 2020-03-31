@@ -53,7 +53,7 @@ shift@deck:                    ;
   ; experiment
   TXA
   SBC #$01
-  CMP length@deck              ; TODO only shift cards up to deck length
+  CMP length@deck              ; 
   BNE @loop
 @done:                         ; 
   RTS

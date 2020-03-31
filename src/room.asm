@@ -31,7 +31,7 @@ nmi@room:                      ; update from the nmi
   STA card2@room
   STA card3@room
   STA card4@room
-  JSR updateBuffers@room       ; update buffers
+  JSR updateBuffers@room       ; TODO: Should not do this during NMI?! update buffers
   RTS
 @proceed:                      ; 
   ; check if game is complete
@@ -50,7 +50,7 @@ nmi@room:                      ; update from the nmi
   LDA #$30
   STA timer@room
   ; go on..
-  JSR enter@room
+  JSR enter@room               ; TODO: Should not do this during NMI?!
 @done:                         ; 
   RTS
 
@@ -80,8 +80,7 @@ enter@room:                    ;
   LDA #$01
   STA reqdraw_name
   ; new draws
-  LDA redraws@game
-  ORA #%11111111
+  LDA #%11111111
   STA redraws@game
   RTS
 
@@ -103,29 +102,11 @@ flipCard@room:                 ; (x:card_pos) ->
 @done:                         ; post flipping a card
   JSR updateBuffers@room       ; update card buffers
   JSR updateExperience@player  ; update experience
+  JSR updateScore@splash
   ; need redraws
   LDA #%11111111               ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
   STA redraws@game
-  ; is it the last card?
-  JSR loadCardsLeft@room
-  CPX #$00
-  BEQ onLastCard@room
 @skip
-  RTS
-
-;;
-
-onLastCard@room:               ; 
-  LDA xp@player                ; load xp
-  CMP highscore@splash
-  BCC @difficulty
-  STA highscore@splash         ; store highscore
-@difficulty:                   ; 
-  LDA difficulty@player        ; load difficulty
-  CMP difficulty@splash
-  BCC @done
-  STA difficulty@splash        ; store difficulty
-@done
   RTS
 
 ;; return non-flipped cards back to the end of the deck
