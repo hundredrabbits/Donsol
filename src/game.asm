@@ -21,7 +21,6 @@ nmi@game:                      ; during nmi
   ; display
   JSR load@game
   JSR loadAttributes@game
-  JSR initCursor@game
   JSR start@renderer
   LDA #$00
   STA reqdraw_game
@@ -236,45 +235,27 @@ interpolateStats@game:         ;
 
 ;;
 
-initCursor@game:               ; 
-                               ; activate sprites
-  ; 
-  LDA #$B0                     ; cursor(left)
-  STA $0200                    ; set tile.y pos
-  LDA #$10
-  STA $0201                    ; set tile.id
-  LDA #$00
-  STA $0202                    ; set tile.attribute
-  LDA #$88
-  STA $0203                    ; set tile.x pos
-  LDA #$B0                     ; cursor(right)
-  STA $0204                    ; set tile.y pos
-  LDA #$11
-  STA $0205                    ; set tile.id
-  LDA #$00
-  STA $0206                    ; set tile.attribute
-  LDA #$88
-  STA $0207                    ; set tile.x pos
-  ;
-  JSR sprites@renderer
-  RTS
-
 ;;
 
 redrawCursor@game:             ; 
   ; remove flag
   LDA #$00
   STA reqdraw_cursor
+  ; setup
+  LDA #$B0
+  STA $0200                    ; (part1)set tile.y pos
+  LDA #$13
+  STA $0201                    ; (part1)set tile.id
+  LDA #$00
+  STA $0202                    ; (part1)set tile.attribute[off]
   ;
   LDX cursor@game
   LDA selections@game, x
   STA $0203                    ; set tile.x pos
-  CLC
-  ADC #$08
-  STA $0207                    ; set tile.x pos
+  ;
   LDA #$01                     ; request redraw
-  STA reqdraw_name
   JSR sprites@renderer
+  STA reqdraw_name
 @done:                         ; 
   RTS
 

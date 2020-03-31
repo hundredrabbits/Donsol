@@ -6,6 +6,7 @@ nmi@splash:                    ; during nmi
   CMP #$00
   BNE @done
   ; when in view
+@checkSplash:                  ; 
   LDA reqdraw_splash
   CMP #$01
   BNE @checkCursor
@@ -75,37 +76,21 @@ loadAttributes@splash:         ;
 
 ;;
 
-initCursor@splash:             ; 
-  LDA #$C8
-  STA $0200                    ; (part1)set tile.y pos
-  LDA #$12
-  STA $0201                    ; (part1)set tile.id
-  LDA #$88
-  STA $0203                    ; (part1)set tile.x pos
-  LDA #$00
-  STA $0202                    ; (part1)set tile.attribute[off]
-  STA $0204                    ; (part2)set tile.y pos[off]
-  STA $0205                    ; (part2)set tile.id[off]
-  STA $0206                    ; (part2)set tile.attribute[off]
-  STA $0207                    ; (part2)set tile.x pos[off]
-  JSR sprites@renderer
-  RTS
-
-;;
-
 redrawCursor@splash:           ; 
   ; remove flag
   LDA #$00
   STA reqdraw_cursor
+  ; setup
+  LDA #$C8
+  STA $0200                    ; (part1)set tile.y pos
+  LDA #$12
+  STA $0201                    ; (part1)set tile.id
+  LDA #$00
+  STA $0202                    ; (part1)set tile.attribute[off]
   ; active redraw
   LDX cursor@splash
   LDA selections@splash, x
   STA $0203                    ; set tile.x pos
-  CLC
-  ADC #$08
-  STA $0207                    ; set tile.x pos
-  LDA #$00
-  STA reqdraw_cursor           ; release flag
   JSR sprites@renderer
 @done:                         ; 
   RTS
@@ -123,10 +108,7 @@ redrawScreen@splash:           ;
   JSR addScore@splash
   JSR addNecomedre@splash
   JSR addPolycat@splash
-  JSR initCursor@splash        ; setup cursor
   JSR start@renderer
-  LDA #$00                     ; release flag
-  STA reqdraw_splash
 @done
   RTS
 
