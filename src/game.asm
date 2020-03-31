@@ -233,10 +233,7 @@ initCursor@game:               ;
   LDA #$88
   STA $0207                    ; set tile.x pos
   ;
-  LDA #$00
-  STA SPRADDR                  ; set the low byte (00) of the RAM address
-  LDA #$02
-  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
+  JSR sprites@renderer
   RTS
 
 ;;
@@ -254,13 +251,8 @@ redrawCursor@game:             ;
   ADC #$08
   STA $0207                    ; set tile.x pos
   LDA #$01                     ; request redraw
-  ;
-                               ; activate sprites
-  LDA #$00
-  STA SPRADDR                  ; set the low byte (00) of the RAM address
-  LDA #$02
-  STA SPRDMA                   ; set the high byte (02) of the RAM address, start the transfer
   STA reqdraw_name
+  JSR sprites@renderer
 @done:                         ; 
   RTS
 

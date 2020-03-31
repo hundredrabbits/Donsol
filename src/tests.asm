@@ -14,9 +14,6 @@ run@tests:                     ; [skip]
   JSR testAttackShieldOverflowDeath
   JSR break@tests
   JSR testAttackShieldBreakDeath
-  ; JSR testComplete
-  ; JSR testCanRun
-  ; JSR testCannotRun
   JSR reset@player
   RTS
 
