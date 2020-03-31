@@ -211,6 +211,36 @@ load@game:                     ;
 
 ;;
 
+interpolateStats@game:         ; 
+  LDA spui@game                ; 
+  CMP sp@player                ; sprite x
+  BEQ @skip
+  BCC @incShield
+  DEC spui@game                ; when less
+  JMP @redrawShield
+@incShield:                    ; 
+  INC spui@game
+@redrawShield:                 ; 
+  LDA redraws@game             ; request redraw
+  ORA REQ_SP
+  STA redraws@game
+  RTS
+@skip:                         ; 
+  LDA hpui@game                ; interpolate health
+  CMP hp@player                ; sprite x
+  BEQ @done
+  BCC @incHealth
+  DEC hpui@game
+  JMP @redrawHealth
+@incHealth:                    ; 
+  INC hpui@game
+@redrawHealth:                 ; 
+  LDA redraws@game             ; request redraw
+  ORA REQ_HP
+  STA redraws@game
+@done:                         ; 
+  RTS
+
 ;;
 
 initCursor@game:               ; 

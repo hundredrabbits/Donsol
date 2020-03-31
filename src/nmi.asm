@@ -38,7 +38,7 @@ sendView:                      ;
   JSR redrawCursor@splash
   RTI
 @game:                         ; 
-  JSR nmi@player
+  JSR interpolateStats@game
   JSR nmi@game                 ; in client
   JSR nmi@room
   RTI
