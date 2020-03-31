@@ -3,7 +3,6 @@
 
 nmi@game:                      ; during nmi
   JSR interpolateStats@game
-  JSR nmi@room
   LDA timer@renderer
   CMP #$00
   BEQ @whenRender
@@ -250,10 +249,7 @@ redrawCursor@game:             ;
   LDX cursor@game
   LDA selections@game, x
   STA $0203                    ; set tile.x pos
-  ;
-  LDA #$01                     ; request redraw
   JSR sprites@renderer
-  STA reqdraw_name
 @done:                         ; 
   RTS
 

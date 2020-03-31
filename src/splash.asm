@@ -87,7 +87,7 @@ redrawCursor@splash:           ;
   STA $0201                    ; (part1)set tile.id
   LDA #$00
   STA $0202                    ; (part1)set tile.attribute[off]
-  ; active redraw
+  ; 
   LDX cursor@splash
   LDA selections@splash, x
   STA $0203                    ; set tile.x pos

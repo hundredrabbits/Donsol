@@ -38,4 +38,5 @@ sendView:                      ;
   RTI
 @game:                         ; 
   JSR nmi@game                 ; in client
+  JSR nmi@room
   RTI
