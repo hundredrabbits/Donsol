@@ -98,11 +98,11 @@ card_last               .dsb 1
 card_last_type          .dsb 1
 card_last_value         .dsb 1
 ; TODO | merge remaining flags
-reqdraw_dialog          .dsb 1
-reqdraw_name            .dsb 1
 reqdraw_game            .dsb 1
 reqdraw_splash          .dsb 1
 reqdraw_cursor          .dsb 1
+reqdraw_dialog          .dsb 1
+reqdraw_name            .dsb 1
 
 ;;
 

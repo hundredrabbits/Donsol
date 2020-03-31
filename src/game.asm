@@ -216,36 +216,6 @@ load@game:                     ;
 
 ;;
 
-selectNext@game:               ; 
-  INC cursor@game
-  LDA cursor@game
-  CMP #$04
-  BNE @done
-  ; wrap around
-  LDA #$00
-  STA cursor@game
-@done:                         ; 
-  LDA #$01                     ; request draw for cursor
-  STA reqdraw_cursor
-  STA reqdraw_name
-  RTS
-
-;;
-
-selectPrev@game:               ; 
-  DEC cursor@game
-  LDA cursor@game
-  CMP #$FF
-  BNE @done
-  ; wrap around
-  LDA #$03
-  STA cursor@game
-@done:                         ; 
-  LDA #$01                     ; request draw for cursor
-  STA reqdraw_cursor
-  STA reqdraw_name
-  RTS
-
 ;;
 
 initCursor@game:               ; 

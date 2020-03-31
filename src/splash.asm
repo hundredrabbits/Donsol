@@ -12,6 +12,7 @@ nmi@splash:                    ; during nmi
   RTS
 
 ;; request redraw flags for the splash
+
 show@splash:                   ; 
   LDA #$00
   STA view@game                ; set view
@@ -99,34 +100,6 @@ redrawCursor@splash:           ;
   RTS
 
 ;;
-
-selectNext@splash:             ; 
-  INC cursor@splash
-  LDA cursor@splash
-  CMP #$03
-  BNE @done
-  ; wrap around
-  LDA #$00
-  STA cursor@splash
-@done:                         ; 
-  LDA #$01                     ; request draw for cursor
-  STA reqdraw_cursor
-  RTS
-
-;;
-
-selectPrev@splash:             ; 
-  DEC cursor@splash
-  LDA cursor@splash
-  CMP #$FF
-  BNE @done
-  ; wrap around
-  LDA #$02
-  STA cursor@splash
-@done:                         ; 
-  LDA #$01                     ; request draw for cursor
-  STA reqdraw_cursor
-  RTS
 
 ;;
 

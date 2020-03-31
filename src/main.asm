@@ -21,82 +21,125 @@ releaseJoy:                    ;
 ;;
 
 checkJoy:                      ; 
+  LDX view@game
+  CPX #$00
+  BNE @game
+@splash:                       ; 
   CMP BUTTON_RIGHT
-  BEQ onRight@input            ; skip on #$00
+  BEQ onRight@splash
   CMP BUTTON_LEFT
-  BEQ onLeft@input
-  CMP BUTTON_SELECT
-  BEQ onSelect@input
+  BEQ onLeft@splash
   CMP BUTTON_B
-  BEQ onB@input
+  BEQ onB@splash
   CMP BUTTON_A
-  BEQ onA@input
+  BEQ onA@splash
+  JMP __MAIN
+@game:                         ; 
+  CMP BUTTON_RIGHT
+  BEQ onRight@game
+  CMP BUTTON_LEFT
+  BEQ onLeft@game
+  CMP BUTTON_SELECT
+  BEQ onSelect@game
+  CMP BUTTON_B
+  BEQ onB@game
+  CMP BUTTON_A
+  BEQ onA@game
+  JMP __MAIN
+
+;;
+
+onRight@splash:                ; 
+  INC cursor@splash
+  LDA cursor@splash
+  CMP #$03
+  BNE @done
+  ; wrap around
+  LDA #$00
+  STA cursor@splash
 @done:                         ; 
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
   JMP __MAIN
 
 ;;
 
-onRight@input:                 ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-  JSR selectNext@game
-  JMP __MAIN
-@splash:                       ; 
-  JSR selectNext@splash
-  JMP __MAIN
-
-;;
-
-onLeft@input:                  ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-  JSR selectPrev@game
-  JMP __MAIN
-@splash:                       ; 
-  JSR selectPrev@splash
+onLeft@splash:                 ; 
+  DEC cursor@splash
+  LDA cursor@splash
+  CMP #$FF
+  BNE @done
+  ; wrap around
+  LDA #$02
+  STA cursor@splash
+@done:                         ; 
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
   JMP __MAIN
 
 ;;
 
-onSelect@input:                ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
+onB@splash:                    ; 
+  LDA cursor@splash
+  STA difficulty@player        ; store difficulty
+  JSR show@game
+  JMP __MAIN
+
+;;
+
+onA@splash:                    ; 
+  LDA cursor@splash
+  STA difficulty@player        ; store difficulty
+  JSR show@game
+  JMP __MAIN
+
+;;
+
+onRight@game:                  ; 
+  INC cursor@game
+  LDA cursor@game
+  CMP #$04
+  BNE @done
+  ; wrap around
+  LDA #$00
+  STA cursor@game
+@done:                         ; 
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
+  STA reqdraw_name
+  JMP __MAIN
+
+;;
+
+onLeft@game:                   ; 
+  DEC cursor@game
+  LDA cursor@game
+  CMP #$FF
+  BNE @done
+  ; wrap around
+  LDA #$03
+  STA cursor@game
+@done:                         ; 
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
+  STA reqdraw_name
+  JMP __MAIN
+
+;;
+
+onSelect@game:                 ; 
   JSR show@splash
   JMP __MAIN
-@splash:                       ; 
-  NOP
-  JMP __MAIN
 
 ;;
 
-onB@input:                     ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-@game:                         ; 
+onB@game:                      ; 
   JSR run@player
   JMP __MAIN
-@splash:                       ; 
-  LDA cursor@splash
-  STA difficulty@player        ; store difficulty
-  JSR show@game
-  JMP __MAIN
 
 ;;
 
-onA@input:                     ; 
-  LDA view@game
-  CMP #$00
-  BEQ @splash
-@game:                         ; 
+onA@game:                      ; 
   LDX cursor@game
   JSR flipCard@room            ; flip selected card
-  JMP __MAIN
-@splash:                       ; 
-  LDA cursor@splash
-  STA difficulty@player        ; store difficulty
-  JSR show@game
   JMP __MAIN
