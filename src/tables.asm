@@ -23,7 +23,7 @@ attributes@game:               ;
 ;; Cursor
 
 selections@game:               ; 
-  .db $28,$60,$98,$d0
+  .db $2c,$64,$9c,$d4
 
 ;; Number Positions
 
@@ -56,7 +56,7 @@ healthbaroffset:               ;
   .db $c3,$c4,$c5,$c6,$c7,$c8,$c9
 healthbarpos:                  ; 
   .db $00,$06,$06,$06,$06,$0c,$0c,$0c,$0c,$12,$12
-  .db $12,$12,$18,$18,$18,$18,$1E,$1E,$1E,$1E,$24
+  .db $12,$12,$18,$18,$18,$18,$1E,$1E,$1E,$24,$24
 shieldbaroffset:               ; 
   .db $ca,$cb,$cc,$cd,$ce,$cf,$d0
 shieldbarpos:                  ; 

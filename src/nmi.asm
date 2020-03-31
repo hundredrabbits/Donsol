@@ -34,11 +34,9 @@ sendView:                      ;
   CPX #$00
   BNE @game
 @splash:                       ; 
-  JSR redrawScreen@splash
-  JSR redrawCursor@splash
+  JSR nmi@splash
   RTI
 @game:                         ; 
-  JSR nmi@player
   JSR nmi@game                 ; in client
   JSR nmi@room
   RTI

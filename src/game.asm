@@ -2,6 +2,7 @@
 ;;
 
 nmi@game:                      ; during nmi
+  JSR interpolateStats@game
   LDA timer@renderer
   CMP #$00
   BEQ @whenRender
@@ -15,32 +16,18 @@ nmi@game:                      ; during nmi
   LDA reqdraw_game
   CMP #$00
   BEQ @checkReqSP
-  JSR stop@renderer
-  ; display
-  JSR load@game
-  JSR loadAttributes@game
-  JSR initCursor@game
-  JSR redrawCursor@game
-  JSR start@renderer
-  LDA #$00
-  STA reqdraw_game
+  JSR redrawScreen@game
   RTS
 @checkReqSP:                   ; [skip]
   LDA redraws@game
   AND REQ_SP
   BEQ @checkReqHP
-  LDA redraws@game
-  EOR REQ_SP
-  STA redraws@game
   JSR redrawShield@game
   RTS
 @checkReqHP:                   ; 
   LDA redraws@game
   AND REQ_HP
   BEQ @checkReqCursor
-  LDA redraws@game
-  EOR REQ_HP
-  STA redraws@game
   JSR redrawHealth@game
   RTS
 @checkReqCursor:               ; 
@@ -48,78 +35,47 @@ nmi@game:                      ; during nmi
   CMP #$00
   BEQ @checkName
   JSR redrawCursor@game
-  LDA #$00
-  STA reqdraw_cursor
   RTS
 @checkName
   LDA reqdraw_name
   CMP #$00
   BEQ @checkReqCard1
   JSR redrawName@game
-  JSR fix@renderer
-  LDA #$00
-  STA reqdraw_name
   RTS
 @checkReqCard1:                ; 
   LDA redraws@game
   AND REQ_CARD1
   BEQ @checkReqCard2
-  LDA redraws@game
-  EOR REQ_CARD1
-  STA redraws@game
-  JSR stop@renderer
   JSR redrawCard1@game
-  JSR start@renderer
   RTS
 @checkReqCard2:                ; 
   LDA redraws@game
   AND REQ_CARD2
   BEQ @checkReqCard3
-  LDA redraws@game
-  EOR REQ_CARD2
-  STA redraws@game
-  JSR stop@renderer
   JSR redrawCard2@game
-  JSR start@renderer
   RTS
 @checkReqCard3:                ; 
   LDA redraws@game
   AND REQ_CARD3
   BEQ @checkReqCard4
-  LDA redraws@game
-  EOR REQ_CARD3
-  STA redraws@game
-  JSR stop@renderer
   JSR redrawCard3@game
-  JSR start@renderer
   RTS
 @checkReqCard4:                ; 
   LDA redraws@game
   AND REQ_CARD4
   BEQ @checkReqXP
-  LDA redraws@game
-  EOR REQ_CARD4
-  STA redraws@game
-  JSR stop@renderer
   JSR redrawCard4@game
-  JSR start@renderer
   RTS
 @checkReqXP:                   ; 
   LDA redraws@game
   AND REQ_XP
   BEQ @checkReqRun
-  LDA redraws@game
-  EOR REQ_XP
-  STA redraws@game
   JSR redrawExperience@game
   RTS
 @checkReqRun:                  ; 
   LDA redraws@game
   AND REQ_RUN
   BEQ @checkReqDialog
-  LDA redraws@game
-  EOR REQ_RUN
-  STA redraws@game
   JSR redrawRun@game
   RTS
 @checkReqDialog:               ; 
@@ -127,9 +83,6 @@ nmi@game:                      ; during nmi
   CMP #$00
   BEQ @done
   JSR redraw@dialog
-  JSR fix@renderer
-  LDA #$00
-  STA reqdraw_dialog
   RTS
 @done:                         ; 
   RTS
@@ -163,8 +116,53 @@ restart@game:                  ;
 
 ;;
 
+interpolateStats@game:         ; 
+  LDA spui@game                ; 
+  CMP sp@player                ; sprite x
+  BEQ @skip
+  BCC @incShield
+  DEC spui@game                ; when less
+  JMP @redrawShield
+@incShield:                    ; 
+  INC spui@game
+@redrawShield:                 ; 
+  LDA redraws@game             ; request redraw
+  ORA REQ_SP
+  STA redraws@game
+  RTS
+@skip:                         ; 
+  LDA hpui@game                ; interpolate health
+  CMP hp@player                ; sprite x
+  BEQ @done
+  BCC @incHealth
+  DEC hpui@game
+  JMP @redrawHealth
+@incHealth:                    ; 
+  INC hpui@game
+@redrawHealth:                 ; 
+  LDA redraws@game             ; request redraw
+  ORA REQ_HP
+  STA redraws@game
+@done:                         ; 
+  RTS
+
+;;
+
+redrawScreen@game:             ; 
+; remove flag
+  LDA #$00
+  STA reqdraw_game
+  ;
+  JSR stop@renderer
+  JSR load@game
+  JSR loadInterface@game
+  JSR loadAttributes@game
+  JSR start@renderer
+  RTS
+
+;;
+
 load@game:                     ; 
-  ; clear background
   BIT PPUSTATUS                ; reset latch
   LDA #$20
   STA PPUADDR
@@ -181,7 +179,11 @@ load@game:                     ;
   INX
   CPX #$04
   BNE @loop
-@interface:                    ; 
+  RTS
+
+;;
+
+loadInterface@game:            ; 
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   LDA #$21                     ; HP H
   STA PPUADDR                  ; write the high byte
@@ -211,53 +213,6 @@ load@game:                     ;
 
 ;;
 
-;;
-
-initCursor@game:               ; 
-                               ; activate sprites
-  ; 
-  LDA #$B0                     ; cursor(left)
-  STA $0200                    ; set tile.y pos
-  LDA #$10
-  STA $0201                    ; set tile.id
-  LDA #$00
-  STA $0202                    ; set tile.attribute
-  LDA #$88
-  STA $0203                    ; set tile.x pos
-  LDA #$B0                     ; cursor(right)
-  STA $0204                    ; set tile.y pos
-  LDA #$11
-  STA $0205                    ; set tile.id
-  LDA #$00
-  STA $0206                    ; set tile.attribute
-  LDA #$88
-  STA $0207                    ; set tile.x pos
-  ;
-  JSR sprites@renderer
-  RTS
-
-;;
-
-redrawCursor@game:             ; 
-  LDA reqdraw_cursor
-  CMP #$01                     ; check flag
-  BNE @done                    ; skip if redraw is not required
-  ; when needs redraw
-  ;
-  LDX cursor@game
-  LDA selections@game, x
-  STA $0203                    ; set tile.x pos
-  CLC
-  ADC #$08
-  STA $0207                    ; set tile.x pos
-  LDA #$01                     ; request redraw
-  STA reqdraw_name
-  JSR sprites@renderer
-@done:                         ; 
-  RTS
-
-;;
-
 loadAttributes@game:           ; 
   BIT PPUSTATUS
   LDA #$23
@@ -273,9 +228,35 @@ loadAttributes@game:           ;
   BNE @loop
   RTS
 
+;;
+
+redrawCursor@game:             ; 
+  ; remove flag
+  LDA #$00
+  STA reqdraw_cursor
+  ; setup
+  LDA #$B0
+  STA $0200                    ; (part1)set tile.y pos
+  LDA #$13
+  STA $0201                    ; (part1)set tile.id
+  LDA #$00
+  STA $0202                    ; (part1)set tile.attribute[off]
+  ;
+  LDX cursor@game
+  LDA selections@game, x
+  STA $0203                    ; set tile.x pos
+  JSR sprites@renderer
+@done:                         ; 
+  RTS
+
 ;; redraw
 
 redrawHealth@game:             ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_HP
+  STA redraws@game
+  ;
   LDY hpui@game
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
@@ -325,6 +306,11 @@ redrawHealth@game:             ;
 ;; shield value
 
 redrawShield@game:             ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_SP
+  STA redraws@game
+  ; 
   LDY spui@game
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
@@ -366,6 +352,11 @@ redrawShield@game:             ;
 ;; experience value
 
 redrawExperience@game:         ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_XP
+  STA redraws@game
+  ;
   LDY xp@player
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
@@ -399,6 +390,11 @@ redrawExperience@game:         ;
 ;;
 
 redrawRun@game:                ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_RUN
+  STA redraws@game
+  ;
   JSR stop@renderer
   LDA length@deck              ; don't display the run butto on first hand
   CMP #$31                     ; deck is $36 - 4(first hand)
@@ -445,6 +441,10 @@ redrawRun@game:                ;
 ;;
 
 redrawName@game:               ; 
+  ;remove trigger
+  LDA #$00
+  STA reqdraw_name
+  ;
   BIT PPUSTATUS
   LDA #$21
   STA PPUADDR
@@ -472,11 +472,18 @@ redrawName@game:               ;
   INX
   CPX #$10
   BNE @loop
+  JSR fix@renderer
   RTS
 
 ;; to merge into a single routine
 
 redrawCard1@game:              ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_CARD1
+  STA redraws@game
+  ;
+  JSR stop@renderer
   LDX #$00
 @loop:                         ; 
   LDA card1pos_high, x
@@ -488,11 +495,18 @@ redrawCard1@game:              ;
   INX
   CPX #$36
   BNE @loop
+  JSR start@renderer
   RTS
 
 ;;
 
 redrawCard2@game:              ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_CARD2
+  STA redraws@game
+  ;
+  JSR stop@renderer
   LDX #$00
 @loop:                         ; 
   LDA card1pos_high, x
@@ -504,12 +518,19 @@ redrawCard2@game:              ;
   INX
   CPX #$36
   BNE @loop
+  JSR start@renderer
   RTS
 
 ;;
 
 redrawCard3@game:              ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_CARD3
+  STA redraws@game
+  ;
   LDX #$00
+  JSR stop@renderer
 @loop:                         ; 
   LDA card3pos_high, x
   STA PPUADDR                  ; write the high byte
@@ -520,12 +541,18 @@ redrawCard3@game:              ;
   INX
   CPX #$36
   BNE @loop
+  JSR start@renderer
   RTS
 
 ;;
 
 redrawCard4@game:              ; 
-  LDA #$00
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_CARD4
+  STA redraws@game
+  ;
+  JSR stop@renderer
   LDX #$00
 @loop:                         ; 
   LDA card3pos_high, x
@@ -537,4 +564,5 @@ redrawCard4@game:              ;
   INX
   CPX #$36
   BNE @loop
+  JSR start@renderer
   RTS
