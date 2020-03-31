@@ -250,7 +250,7 @@ mix@deck:                      ;
   ; begin
   LDX #$00
 @send1_loop:                   ; 
-  LDY shuffle0, x              ; store the value
+  LDY shuffle1, x              ; store the value
   LDA $80, y
   STA $C0, x
   INX
@@ -265,7 +265,7 @@ mix@deck:                      ;
   ; begin
   LDX #$00
 @send2_loop:                   ; 
-  LDY shuffle0, x              ; store the value
+  LDY shuffle2, x              ; store the value
   LDA $80, y
   STA $C0, x
   INX
@@ -280,7 +280,7 @@ mix@deck:                      ;
   ; begin
   LDX #$00
 @send3_loop:                   ; 
-  LDY shuffle0, x              ; store the value
+  LDY shuffle3, x              ; store the value
   LDA $80, y
   STA $C0, x
   INX
