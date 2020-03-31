@@ -102,6 +102,7 @@ reqdraw_dialog          .dsb 1
 reqdraw_name            .dsb 1
 reqdraw_game            .dsb 1
 reqdraw_splash          .dsb 1
+reqdraw_cursor          .dsb 1
 
 ;;
 

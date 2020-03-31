@@ -20,7 +20,7 @@ releaseJoy:                    ;
 
 ;;
 
-checkJoy:
+checkJoy:                      ; 
   CMP BUTTON_RIGHT
   BEQ onRight@input            ; skip on #$00
   CMP BUTTON_LEFT

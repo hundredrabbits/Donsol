@@ -7,20 +7,8 @@ nmi@splash:                    ; during nmi
   BEQ @inView
   RTS
 @inView:                       ; 
-  LDA reqdraw_splash
-  CMP #$00
-  BEQ @done
-  JSR stop@renderer
-  JSR load@splash
-  JSR loadAttributes@splash
-  JSR addScore@splash
-  JSR addNecomedre@splash
-  JSR addPolycat@splash
-  JSR initCursor@splash        ; setup cursor
-  JSR updateCursor@splash
-  JSR start@renderer
-  LDA #$00
-  STA reqdraw_splash
+  JSR redrawScreen@splash
+  JSR redrawCursor@splash
 @done:                         ; 
   RTS
 
@@ -31,6 +19,7 @@ show@splash:                   ;
   STA view@game
   LDA #$01
   STA reqdraw_splash
+  STA reqdraw_cursor
   RTS
 
 ;;
@@ -79,31 +68,29 @@ loadAttributes@splash:         ;
 ;;
 
 selectNext@splash:             ; 
-  LDA cursor@splash
-  CMP #$02
-  BEQ @wrap
   INC cursor@splash
-  JMP @done
-@wrap:                         ; 
+  LDA cursor@splash
+  CMP #$03
+  BNE @done                    ; wrap around
   LDA #$00
   STA cursor@splash
 @done:                         ; 
-  JSR updateCursor@splash
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
   RTS
 
 ;;
 
 selectPrev@splash:             ; 
-  LDA cursor@splash
-  CMP #$00
-  BEQ @wrap
   DEC cursor@splash
-  JMP @done
-@wrap:                         ; 
+  LDA cursor@splash
+  CMP #$FF
+  BNE @done                    ; wrap around
   LDA #$02
   STA cursor@splash
 @done:                         ; 
-  JSR updateCursor@splash
+  LDA #$01                     ; request draw for cursor
+  STA reqdraw_cursor
   RTS
 
 ;;
@@ -125,13 +112,38 @@ initCursor@splash:             ;
 
 ;;
 
-updateCursor@splash:           ; 
+redrawCursor@splash:           ; 
+  LDA reqdraw_cursor
+  CMP #$01                     ; check flag
+  BNE @done                    ; skip if redraw is not required
   LDX cursor@splash
   LDA selections@splash, x
   STA $0203                    ; set tile.x pos
   CLC
   ADC #$08
   STA $0207                    ; set tile.x pos
+  LDA #$00
+  STA reqdraw_cursor           ; release flag
+@done:                         ; 
+  RTS
+
+;;
+
+redrawScreen@splash:           ; 
+  LDA reqdraw_splash
+  CMP #$00
+  BEQ @done
+  JSR stop@renderer
+  JSR load@splash
+  JSR loadAttributes@splash
+  JSR addScore@splash
+  JSR addNecomedre@splash
+  JSR addPolycat@splash
+  JSR initCursor@splash        ; setup cursor
+  JSR start@renderer
+  LDA #$00
+  STA reqdraw_splash
+@done
   RTS
 
 ;;
