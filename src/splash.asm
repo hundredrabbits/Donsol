@@ -6,8 +6,17 @@ nmi@splash:                    ; during nmi
   CMP #$00
   BNE @done
   ; when in view
+  LDA reqdraw_splash
+  CMP #$01
+  BNE @checkCursor
   JSR redrawScreen@splash
+  RTS
+@checkCursor:                  ; 
+  LDA reqdraw_cursor
+  CMP #$01
+  BNE @done
   JSR redrawCursor@splash
+  RTS
 @done:                         ; 
   RTS
 
@@ -85,9 +94,9 @@ initCursor@splash:             ;
 ;;
 
 redrawCursor@splash:           ; 
-  LDA reqdraw_cursor
-  CMP #$01                     ; check flag
-  BNE @done                    ; skip if redraw is not required
+  ; remove flag
+  LDA #$00
+  STA reqdraw_cursor
   ; active redraw
   LDX cursor@splash
   LDA selections@splash, x
@@ -104,9 +113,9 @@ redrawCursor@splash:           ;
 ;;
 
 redrawScreen@splash:           ; 
-  LDA reqdraw_splash
-  CMP #$00
-  BEQ @done
+  ; remove flag
+  LDA #$00
+  STA reqdraw_splash
   ; when needs redraw
   JSR stop@renderer
   JSR load@splash

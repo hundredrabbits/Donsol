@@ -2,6 +2,8 @@
 ;;
 
 nmi@game:                      ; during nmi
+  JSR interpolateStats@game
+  JSR nmi@room
   LDA timer@renderer
   CMP #$00
   BEQ @whenRender
@@ -20,7 +22,6 @@ nmi@game:                      ; during nmi
   JSR load@game
   JSR loadAttributes@game
   JSR initCursor@game
-  JSR redrawCursor@game
   JSR start@renderer
   LDA #$00
   STA reqdraw_game
@@ -28,14 +29,13 @@ nmi@game:                      ; during nmi
 @checkReqSP:                   ; [skip]
   LDA redraws@game
   AND REQ_SP
-  BNE redrawShield@game
+  BEQ @checkReqHP
+  JSR redrawShield@game
+  RTS
 @checkReqHP:                   ; 
   LDA redraws@game
   AND REQ_HP
   BEQ @checkReqCursor
-  LDA redraws@game
-  EOR REQ_HP
-  STA redraws@game
   JSR redrawHealth@game
   RTS
 @checkReqCursor:               ; 
@@ -43,8 +43,6 @@ nmi@game:                      ; during nmi
   CMP #$00
   BEQ @checkName
   JSR redrawCursor@game
-  LDA #$00
-  STA reqdraw_cursor
   RTS
 @checkName
   LDA reqdraw_name
@@ -264,10 +262,9 @@ initCursor@game:               ;
 ;;
 
 redrawCursor@game:             ; 
-  LDA reqdraw_cursor
-  CMP #$01                     ; check flag
-  BNE @done                    ; skip if redraw is not required
-  ; when needs redraw
+  ; remove flag
+  LDA #$00
+  STA reqdraw_cursor
   ;
   LDX cursor@game
   LDA selections@game, x
@@ -301,6 +298,11 @@ loadAttributes@game:           ;
 ;; redraw
 
 redrawHealth@game:             ; 
+  ; remove flag
+  LDA redraws@game
+  EOR REQ_HP
+  STA redraws@game
+  ;
   LDY hpui@game
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   ; pos
