@@ -2,7 +2,7 @@ Styleguide
 
 - Routine that writes on a register, should be called `loadName`.
 - Routine that updates the value at a memory address, should be called `updateName`.
-- Routine that triggers a redraw, should be called `redrawName`.
+- Routine that triggers a redraw, should be called `redrawName`, routine should end in RTI(nmi).
 - Routine that are triggered during nmi, should be called `alwaysName`.
 
 TODOs

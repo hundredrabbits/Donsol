@@ -1,24 +1,6 @@
 
 ;; splash
 
-nmi@splash:                    ; during nmi
-@checkSplash:                  ; 
-  LDA reqdraw_splash
-  CMP #$01
-  BNE @checkCursor
-  JSR redrawScreen@splash
-  RTS
-@checkCursor:                  ; 
-  LDA reqdraw_cursor
-  CMP #$01
-  BNE @done
-  JSR redrawCursor@splash
-  RTS
-@done:                         ; 
-  RTS
-
-;; request redraw flags for the splash
-
 show@splash:                   ; 
   LDA #$00
   STA view@game                ; set view
@@ -46,7 +28,7 @@ redrawCursor@splash:           ;
   STA $0203                    ; set tile.x pos
   JSR sprites@renderer
 @done:                         ; 
-  RTS
+  RTI
 
 ;;
 
@@ -63,7 +45,7 @@ redrawScreen@splash:           ;
   JSR addPolycat@splash
   JSR start@renderer
 @done
-  RTS
+  RTI
 
 ;;
 

@@ -84,4 +84,4 @@ redraw@dialog:                 ;
   CPX #$18
   BNE @loop
   JSR fix@renderer
-  RTS
+  RTI

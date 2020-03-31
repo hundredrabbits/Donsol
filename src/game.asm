@@ -1,92 +1,14 @@
 
 ;;
 
-nmi@game:                      ; during nmi
-  JSR interpolateStats@game
-@checkReqGame:                 ; 
-  LDA reqdraw_game
-  CMP #$00
-  BEQ @checkReqSP
-  JSR redrawScreen@game
-  RTS
-@checkReqSP:                   ; [skip]
-  LDA redraws@game
-  AND REQ_SP
-  BEQ @checkReqHP
-  JSR redrawShield@game
-  RTS
-@checkReqHP:                   ; 
-  LDA redraws@game
-  AND REQ_HP
-  BEQ @checkReqCursor
-  JSR redrawHealth@game
-  RTS
-@checkReqCursor:               ; 
-  LDA reqdraw_cursor
-  CMP #$00
-  BEQ @checkName
-  JSR redrawCursor@game
-  RTS
-@checkName
-  LDA reqdraw_name
-  CMP #$00
-  BEQ @checkReqCard1
-  JSR redrawName@game
-  RTS
-@checkReqCard1:                ; 
-  LDA redraws@game
-  AND REQ_CARD1
-  BEQ @checkReqCard2
-  JSR redrawCard1@game
-  RTS
-@checkReqCard2:                ; 
-  LDA redraws@game
-  AND REQ_CARD2
-  BEQ @checkReqCard3
-  JSR redrawCard2@game
-  RTS
-@checkReqCard3:                ; 
-  LDA redraws@game
-  AND REQ_CARD3
-  BEQ @checkReqCard4
-  JSR redrawCard3@game
-  RTS
-@checkReqCard4:                ; 
-  LDA redraws@game
-  AND REQ_CARD4
-  BEQ @checkReqXP
-  JSR redrawCard4@game
-  RTS
-@checkReqXP:                   ; 
-  LDA redraws@game
-  AND REQ_XP
-  BEQ @checkReqRun
-  JSR redrawExperience@game
-  RTS
-@checkReqRun:                  ; 
-  LDA redraws@game
-  AND REQ_RUN
-  BEQ @checkReqDialog
-  JSR redrawRun@game
-  RTS
-@checkReqDialog:               ; 
-  LDA reqdraw_dialog
-  CMP #$00
-  BEQ @done
-  JSR redraw@dialog
-  RTS
-@done:                         ; 
-  RTS
-
 ;;
 
 show@game:                     ; 
-  ; set game mode
   LDA #$01
   STA reqdraw_game
   STA reqdraw_cursor
-  STA view@game
-  JSR restart@game
+  STA view@game                ; set view
+  JSR restart@game             ; restart
   RTS
 
 ;;
@@ -148,7 +70,7 @@ redrawScreen@game:             ;
   JSR loadInterface@game
   JSR loadAttributes@game
   JSR start@renderer
-  RTS
+  RTI
 
 ;;
 
@@ -237,7 +159,7 @@ redrawCursor@game:             ;
   STA $0203                    ; set tile.x pos
   JSR sprites@renderer
 @done:                         ; 
-  RTS
+  RTI
 
 ;; redraw
 
@@ -291,7 +213,7 @@ redrawHealth@game:             ;
   STA PPUDATA
 @done:                         ; 
   JSR fix@renderer
-  RTS
+  RTI
 
 ;; shield value
 
@@ -337,7 +259,7 @@ redrawShield@game:             ;
   LDA card_glyphs, x
   STA PPUDATA
   JSR fix@renderer
-  RTS
+  RTI
 
 ;; experience value
 
@@ -375,7 +297,7 @@ redrawExperience@game:         ;
   CPX #$06
   BNE @loop
   JSR fix@renderer
-  RTS
+  RTI
 
 ;;
 
@@ -412,7 +334,7 @@ redrawRun@game:                ;
   LDA #$18                     ; N
   STA PPUDATA
   JSR start@renderer
-  RTS
+  RTI
 @hide:                         ; 
   BIT PPUSTATUS                ; read PPU status to reset the high/low latch
   LDA #$21
@@ -426,7 +348,7 @@ redrawRun@game:                ;
   STA PPUDATA
   STA PPUDATA
   JSR start@renderer
-  RTS
+  RTI
 
 ;;
 
@@ -463,7 +385,7 @@ redrawName@game:               ;
   CPX #$10
   BNE @loop
   JSR fix@renderer
-  RTS
+  RTI
 
 ;; to merge into a single routine
 
@@ -486,7 +408,7 @@ redrawCard1@game:              ;
   CPX #$36
   BNE @loop
   JSR start@renderer
-  RTS
+  RTI
 
 ;;
 
@@ -509,7 +431,7 @@ redrawCard2@game:              ;
   CPX #$36
   BNE @loop
   JSR start@renderer
-  RTS
+  RTI
 
 ;;
 
@@ -532,7 +454,7 @@ redrawCard3@game:              ;
   CPX #$36
   BNE @loop
   JSR start@renderer
-  RTS
+  RTI
 
 ;;
 
@@ -555,4 +477,4 @@ redrawCard4@game:              ;
   CPX #$36
   BNE @loop
   JSR start@renderer
-  RTS
+  RTI
