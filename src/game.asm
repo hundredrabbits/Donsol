@@ -235,8 +235,6 @@ interpolateStats@game:         ;
 
 ;;
 
-;;
-
 redrawCursor@game:             ; 
   ; remove flag
   LDA #$00

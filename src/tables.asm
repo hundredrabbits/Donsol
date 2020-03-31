@@ -23,7 +23,7 @@ attributes@game:               ;
 ;; Cursor
 
 selections@game:               ; 
-  .db $28,$60,$98,$d0
+  .db $2c,$64,$9c,$d4
 
 ;; Number Positions
 
