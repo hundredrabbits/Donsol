@@ -2,13 +2,12 @@
 ;; deck: Create a deck of 54($36) cards, from zeropage $80
 
 init@deck:                     ; 
-  ; set deck length
-  LDA #$35
+  LDA #$35                     ; set deck length
   STA length@deck
   LDX #$00
 @loop:                         ; 
   TXA
-  STA $80, x
+  STA $80, x                   ; fill the deck with cards(ordered)
   INX
   CPX #$36
   BNE @loop
@@ -26,7 +25,6 @@ pullCard@deck:                 ;
   JSR shift@deck
   RTS
 @finished:                     ; 
-  ; when reached the end
   LDA #$36
   STA hand@deck
   RTS
@@ -36,7 +34,6 @@ pullCard@deck:                 ;
 returnCard@deck:               ; (a:card_id)
   LDX length@deck
   INX
-  ; INX
   STA $80, x
   INC length@deck
   RTS
@@ -215,6 +212,13 @@ shuffle@deck:                  ; shuffle deck by pushing all cards to $C0 on zer
   ; initial shuffle
   LDX #$00
 @send0_loop:                   ; 
+  LDY shuffle0, x              ; store the value
+  LDA $80, y
+  STA $C0, x
+  INX
+  CPX #$36
+  BNE @send0_loop
+  ; 
   JSR mix@deck
   LDA seed2@deck
   STA seed1@deck

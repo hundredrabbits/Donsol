@@ -70,13 +70,13 @@ seed1@deck              .dsb 1 ; The seed for the random shuffle(nmi)
 seed2@deck              .dsb 1 ; The seed for the random shuffle(main)
 count@tests             .dsb 1 ; tests
 timer@room              .dsb 1 ; room
+down@input              .dsb 1
+last@input              .dsb 1
+next@input              .dsb 1
 card1@room              .dsb 1
 card2@room              .dsb 1
 card3@room              .dsb 1
 card4@room              .dsb 1
-down@input              .dsb 1
-last@input              .dsb 1
-next@input              .dsb 1
 id@dialog               .dsb 1 ; dialog
 cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode
