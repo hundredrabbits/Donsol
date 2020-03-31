@@ -57,6 +57,10 @@ show@dialog:                   ; (a:id@dialog)
 ;;
 
 redraw@dialog:                 ; 
+  ; remove flag
+  LDA #$00
+  STA reqdraw_dialog
+  ;
   BIT PPUSTATUS
   LDA #$23
   STA PPUADDR
@@ -79,4 +83,5 @@ redraw@dialog:                 ;
   INX
   CPX #$18
   BNE @loop
+  JSR fix@renderer
   RTS
