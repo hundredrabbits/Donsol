@@ -1,8 +1,6 @@
 
 ;;
 
-;;
-
 show@game:                     ; 
   LDA #$01
   STA reqdraw_game
@@ -476,3 +474,20 @@ redrawCard4@game:              ;
   BNE @loop
   JSR start@renderer
   RTI
+
+;;
+
+animateTimer@game:             ; when timer reaches 0, set auto@room flag to 1
+  LDA timer@room
+  CMP #$00
+  BEQ @skip
+  ; check timer is done
+  CMP #$01
+  BEQ @run
+  DEC timer@room
+  RTS
+@run:                          ; 
+  LDA #$01
+  STA auto@room
+@skip:                         ; 
+  RTS

@@ -43,7 +43,6 @@ tryFlip@room:                  ;
   BEQ @skip
   ; when card is not flipped
   JSR flipCard@room
-  JSR flipPost@room
 @skip:                         ; 
   RTS
 
@@ -61,16 +60,15 @@ flipCard@room:                 ; (x:card_pos) ->
   ; need redraws
   LDA #%11111111               ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
   STA redraws@game
+  ; start timer
+  LDA #$20                     ; timer length before running flipPost@room
+  STA timer@room
 @skip
   RTS
 
 ;;
 
 flipPost@room:                 ; 
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @death
   ; check if player reached end of deck
   LDA xp@player
   CMP #$36
@@ -79,14 +77,6 @@ flipPost@room:                 ;
   JSR loadCardsLeft@room       ; stores in regX
   CPX #$00
   BEQ @proceed
-  RTS
-@death:                        ; 
-  LDA #$36                     ; flip all cards
-  STA card1@room
-  STA card2@room
-  STA card3@room
-  STA card4@room
-  JSR updateBuffers@room       ; 
   RTS
 @proceed:                      ; 
   LDA #$00

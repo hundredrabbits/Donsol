@@ -1,6 +1,16 @@
 
 ;; main
 
+;; timers
+
+handleTimer:                   ; when auto@room is 1, do post flip actions
+  LDA auto@room
+  CMP #$01
+  BNE @skip
+  DEC auto@room
+  JSR flipPost@room
+@skip:                         ; 
+
 ;; skip if no input
 
 handleJoy:                     ; 

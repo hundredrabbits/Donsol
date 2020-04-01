@@ -53,6 +53,7 @@ viewSplash:                    ;
 ;;
 
 viewGame:                      ; 
+  JSR animateTimer@game
   JSR interpolateStats@game
 @checkReqGame:                 ; 
   LDA reqdraw_game

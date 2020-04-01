@@ -76,6 +76,8 @@ card1@room              .dsb 1
 card2@room              .dsb 1
 card3@room              .dsb 1
 card4@room              .dsb 1
+timer@room              .dsb 1
+auto@room               .dsb 1
 id@dialog               .dsb 1 ; dialog
 cursor@game             .dsb 1
 view@game               .dsb 1 ; display which mode
