@@ -22,8 +22,6 @@ restart@game:                  ;
   CLC
   ADC difficulty@player        ; reflect difficulty
   JSR show@dialog              ; dialog:difficulty
-  LDA #$30                     ; reset room timer
-  STA timer@room
   RTS
 
 ;;

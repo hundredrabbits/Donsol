@@ -69,7 +69,6 @@ hand@deck               .dsb 1
 seed1@deck              .dsb 1 ; The seed for the random shuffle(nmi)
 seed2@deck              .dsb 1 ; The seed for the random shuffle(main)
 count@tests             .dsb 1 ; tests
-timer@room              .dsb 1 ; room
 down@input              .dsb 1
 last@input              .dsb 1
 next@input              .dsb 1
@@ -89,7 +88,6 @@ difficulty@splash       .dsb 1 ; keep difficulty in highscore
 lb@temp                 .dsb 1 ; utils
 hb@temp                 .dsb 1
 id@temp                 .dsb 1
-timer@renderer          .dsb 1
 damages@player          .dsb 1 ; TODO: check if necessary?
 
 ;; TODO | cleanup

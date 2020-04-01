@@ -1,61 +1,6 @@
 
 ;; room
 
-nmi@room:                      ; update from the nmi
-  ; check if player is alive
-  LDA hp@player
-  CMP #$00
-  BEQ @death
-  ; look for unflipped cards
-  LDA card1@room
-  CMP #$36
-  BNE @done
-  LDA card2@room
-  CMP #$36
-  BNE @done
-  LDA card3@room
-  CMP #$36
-  BNE @done
-  LDA card4@room
-  CMP #$36
-  BNE @done
-  ; when the room is complete
-  LDA timer@room
-  CMP #$00
-  BEQ @proceed
-  DEC timer@room
-  RTS
-@death:                        ; 
-  LDA #$36                     ; flip all cards
-  STA card1@room
-  STA card2@room
-  STA card3@room
-  STA card4@room
-  JSR updateBuffers@room       ; TODO: Should not do this during NMI?! update buffers
-  RTS
-@proceed:                      ; 
-  ; check if game is complete
-  LDA xp@player
-  CMP #$36
-  BNE @incomplete
-  ; when dungeon is complete
-  LDA #$10                     ; dialog:victory
-  JSR show@dialog
-  RTS
-@incomplete
-  ; reset ran flag
-  LDA #$00
-  STA has_run@player
-  ; reset timer
-  LDA #$30
-  STA timer@room
-  ; go on..
-  JSR enter@room               ; TODO: Should not do this during NMI?!
-@done:                         ; 
-  RTS
-
-;;
-
 enter@room:                    ; 
   JSR pullCard@deck            ; pull card1
   LDY hand@deck
@@ -98,6 +43,7 @@ tryFlip@room:                  ;
   BEQ @skip
   ; when card is not flipped
   JSR flipCard@room
+  JSR flipPost@room
 @skip:                         ; 
   RTS
 
@@ -116,6 +62,40 @@ flipCard@room:                 ; (x:card_pos) ->
   LDA #%11111111               ; TODO | be more selective with the redraw, don't redraw all cards if not needed!
   STA redraws@game
 @skip
+  RTS
+
+;;
+
+flipPost@room:                 ; 
+  ; check if player is alive
+  LDA hp@player
+  CMP #$00
+  BEQ @death
+  ; check if player reached end of deck
+  LDA xp@player
+  CMP #$36
+  BEQ @complete
+  ; check if all cards are flipped
+  JSR loadCardsLeft@room       ; stores in regX
+  CPX #$00
+  BEQ @proceed
+  RTS
+@death:                        ; 
+  LDA #$36                     ; flip all cards
+  STA card1@room
+  STA card2@room
+  STA card3@room
+  STA card4@room
+  JSR updateBuffers@room       ; 
+  RTS
+@proceed:                      ; 
+  LDA #$00
+  STA has_run@player
+  JSR enter@room               ; 
+  RTS
+@complete:                     ; 
+  LDA #$10                     ; dialog:victory
+  JSR show@dialog
   RTS
 
 ;; return non-flipped cards back to the end of the deck
