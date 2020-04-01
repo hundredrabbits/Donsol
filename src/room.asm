@@ -69,6 +69,10 @@ flipCard@room:                 ; (x:card_pos) ->
 ;;
 
 flipPost@room:                 ; 
+  ; check if player is alive
+  LDA hp@player
+  CMP #$00
+  BEQ @death
   ; check if player reached end of deck
   LDA xp@player
   CMP #$36
@@ -77,6 +81,8 @@ flipPost@room:                 ;
   JSR loadCardsLeft@room       ; stores in regX
   CPX #$00
   BEQ @proceed
+  RTS
+@death:                        ; 
   RTS
 @proceed:                      ; 
   LDA #$00

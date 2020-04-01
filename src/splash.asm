@@ -6,7 +6,7 @@ show@splash:                   ;
   STA view@game                ; set view
   LDA #$01
   STA reqdraw_splash
-  ; STA reqdraw_cursor
+  STA reqdraw_cursor
   RTS
 
 ;;
