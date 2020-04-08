@@ -3,11 +3,11 @@
 
   .org $E000
 
-;; $30 -> white | $15 -> red | $3A -> cyan | $2D -> dark grey
+;; $30 -> white | $16 -> red | $3B -> cyan | $2D -> dark grey
 
 palettes:                      ; 
-  .db $0F,$15,$2D,$30, $0F,$3A,$15,$30, $13,$2D,$3A,$30, $0F,$3A,$30,$30; background
-  .db $0F,$15,$2D,$30, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F; sprites
+  .db $0F,$16,$00,$30, $0F,$3B,$16,$30, $0F,$00,$3B,$30, $0F,$3B,$30,$30; background
+  .db $0F,$16,$00,$30, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F, $0F,$0F,$0F,$0F; sprites
 
 ;; Attributes
 attributes@game:               ; 
