@@ -177,9 +177,14 @@ addPolycat@splash:             ; $6a,$6b,$6e
 updateScore@splash:            ; 
   LDA xp@player                ; load xp
   CMP highscore@splash
-  BCC @difficulty
+  BCC @done
   STA highscore@splash         ; store highscore
-@difficulty:                   ; 
+@done
+  RTS
+
+;;
+
+updateDifficulty@splash:       ; 
   LDA difficulty@player        ; load difficulty
   CMP difficulty@splash
   BCC @done

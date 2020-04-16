@@ -92,6 +92,7 @@ flipPost@room:                 ;
 @complete:                     ; 
   LDA #$10                     ; dialog:victory
   JSR show@dialog
+  JSR updateDifficulty@splash
   RTS
 
 ;; return non-flipped cards back to the end of the deck
